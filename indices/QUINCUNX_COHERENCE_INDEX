@@ -1,0 +1,77 @@
+Krok 5 QUINCUNX_COHERENCE_INDEX Współmierność pięciomianu.
+
+Piątym krokiem algorytmu badania cywilizacji według Feliksa Konecznego jest określenie **QUINCUNX_COHERENCE_INDEX** (Wskaźnika Współmierności Pięciomianu Bytu) [1, 2]. Quincunx (Dobro, Prawda, Zdrowie, Dobrobyt, Piękno) stanowi formułę obejmującą wszelkie przejawy życia ludzkiego [3, 4]. Wskaźnik ten pozwala zdiagnozować, czy dana metoda życia zbiorowego jest pełna, czy defektowna oraz czy jej poszczególne dziedziny nie pozostają w niszczącym konflikcie [4-7].
+
+Oto wyczerpująca lista pytań diagnostycznych oraz zasady obliczania indeksu:
+
+### Kwestionariusz diagnostyczny QUINCUNX_COHERENCE_INDEX
+
+#### Kategoria I: Dobro (Moralność) – Hegemonia Etyki
+
+_Kryterium: Czy moralność jest „przodowniczką” życia zbiorowego, czy jego służebnicą? [8-10]_
+
+1.  **Czy uznaje się etykę totalną?** Czy ta sama moralność obowiązuje w życiu prywatnym, jak i publicznym (polityce, urzędzie, wojnie), wykluczając koncepcję „dwóch sumień”? [11-14].
+2.  **Czy Dobro stoi nad prawem i siłą?** Czy uznaje się, że prawo sprzeczne z etyką jest bezprawiem, a „utylitaryzm winien być etyczny”? [9, 10, 15, 16].
+3.  **Czy istnieje instytucja osobistej odpowiedzialności moralnej?** Czy jednostka odpowiada za czyny, myśli i mowy przed własnym sumieniem i Bogiem, czy jedynie przed paragrafem? [17-20].
+
+#### Kategoria II: Prawda (Nauka) – Autonomia Dociekań
+
+_Kryterium: Czy Prawda jest szukana dla niej samej, czy ograniczona do pożytku praktycznego? [21-24]_
+
+4.  **Czy zrzeszenie uznaje Prawdę przyrodzoną?** Czy uprawia się naukę jako bezinteresowne dociekanie Prawdy, czy jedynie jako zbiór przepisów lub wynalazków technicznych? [21, 23-25].
+5.  **Czy nauka cieszy się swobodą?** Czy badania naukowe i ich popularyzacja (oświata) są wolne od cenzury ideologicznej, religijnej lub państwowej? [26, 27].
+
+#### Kategoria III: Zdrowie – Status Higieny
+
+_Kryterium: Czy zdrowie jest sprawą publiczną i etyczną, czy jedynie biologiczną koniecznością? [28-30]_
+
+6.  **Czy piecza o zdrowie jest obowiązkiem publicznym?** Czy państwo i społeczeństwo uznają ochronę zdrowia za swój cel, stosując naukowe metody medyczne, a nie rytualne? [28, 31, 32].
+7.  **Czy medycyna współpracuje z etyką?** Czy uznaje się zasadę _res sacra miser_ (cierpiący jest świętością) i czy lekarz jest traktowany jako „współpracownik spowiednika”? [33-36].
+
+#### Kategoria IV: Dobrobyt – Gospodarka a Etyka
+
+_Kryterium: Czy dążenie do zamożności służy rozwojowi osoby, czy jest celem samym w sobie? [37-40]_
+
+8.  **Czy własność indywidualna jest fundamentem bytu?** Czy gospodarka opiera się na własności osobistej i dziedzicznej, czy na formach kolektywnych lub despocji? [41-44].
+9.  **Czy zamożność jest traktowana jako obowiązek moralny?** Czy społeczeństwo uznaje, że dążenie do uczciwego dobrobytu ułatwia praktykowanie cnót i wspiera oświatę? [37, 38, 40, 45].
+
+#### Kategoria V: Piękno – Estetyka jako Łącznik
+
+_Kryterium: Czy piękno wspiera Dobro i Prawdę, czy służy jedynie zmysłom? [46-49]_
+
+10. **Czy Piękno jest alegorią Dobra?** Czy sztuka dąży do wyrażania ideałów moralnych i uduchowienia życia, czy ogranicza się do „strojności” i utylitarnej racjonalności? [46, 48-50].
+11. **Czy uprawiane są wszystkie dziedziny sztuki?** Czy zrzeszenie dopuszcza pełną swobodę twórczą w plastyce, muzyce i poezji bez zakazów sakralnych? [48, 51-53].
+
+---
+
+### Warunki brzegowe (Test Współmierności)
+
+#### 1. Bez czego nie ma wysokiego indeksu (Fundamenty)?
+
+- **Hegemonia Dobra:** Jeśli Moraliść nie ma pierwszeństwa nad pozostałymi kategoriami (np. nad Dobrobytem lub Państwem), quincunx jest zwichnięty [54-56].
+- **Wszechstronność:** Rozwój musi odbywać się równocześnie we wszystkich pięciu kategoriach. Brak choćby jednej czyni cywilizację defektowną [4, 6, 57, 58].
+- **Personalizm:** Uznanie podmiotowości osoby w każdej kategorii (własność w Dobrobycie, sumienie w Dobru, ciekawość w Prawdzie) [20, 59-61].
+
+#### 2. Gdzie indeks zawsze jest niski (Czerwone flagi)?
+
+- **Dwoistość etyki:** Wyłączenie życia publicznego (państwa) spod norm moralnych [11, 13, 62, 63].
+- **Utylitaryzm totalny:** Sprowadzenie nauki i sztuki wyłącznie do pożytku materialnego [23, 64, 65].
+- **Sakralizm mechaniczny:** Zastąpienie medycyny rytuałem, a nauki objawionym prawem (co uniemożliwia badanie Prawdy przyrodzonej) [21, 66-69].
+- **Mieszanki cywilizacyjne:** Próba łączenia sprzecznych metod quincunxa (np. monogamia przy braku własności indywidualnej) – prowadzi to do rozkładu i stanu acywilizacyjnego [70-75].
+
+---
+
+### Kalkulacja Kategorii (Wyliczenie Indeksu)
+
+Zgodnie z metodą Konecznego, pomyślność zrzeszenia mierzymy za pomocą **iloczynu społecznego** ($I_s$) [76-78].
+
+$$QUINCUNX\_COHERENCE\_INDEX = \frac{D \times P \times Z \times Db \times Pi}{Consistency\_Factor}$$
+
+Gdzie:
+
+- **D, P, Z, Db, Pi** – wartości jakościowe (oceniane w skali 0.0 – 1.0) dla każdej kategorii quincunxa.
+- **Consistency Factor** (Współczynnik Spójności):
+  - **Wynik bliski 1.0 (Harmonia):** Wszystkie kategorie wywodzą się z tej samej metody (szeregu personalistycznego lub gromadnościowego). Powoduje to **mnożenie sił społecznych** [77, 79].
+  - **Wynik bliski 0.0 (Mieszanka):** Występują sprzeczności między kategoriami (np. wysokie Piękno i Dobrobyt, ale brak Prawdy i Dobra w życiu publicznym). Każdy czynnik niewspółmierny działa jak **minus**, który drastycznie obniża iloczyn, prowadząc do „zatoru cywilizacyjnego” [70, 80-83].
+
+**Wniosek:** Wysoki indeks (Pełnia Cywilizacji) charakteryzuje wyłącznie **cywilizację łacińską**, gdzie wszystkie kategorie współdziałają w uduchowieniu życia [13, 48, 84]. Niski indeks (Defektowność lub Mieszanka) oznacza systemy, w których np. dbałość o Zdrowie i Dobrobyt niszczy Moralność (bolszewizm) lub Prawda nadprzyrodzona niszczy kategorię Zdrowia (sakralizm) [43, 67, 68, 85, 86].
