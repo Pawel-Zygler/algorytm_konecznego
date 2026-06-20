@@ -1,0 +1,52 @@
+#### 1. `isSacral`
+
+#### 2. `isSpiritSupremacy()`
+*   **Wartość:** Wynik w skali 0.0 – 1.0 (gdzie > 0.5 oznacza supremację ducha).
+*   **Kalkulacja:** Średnia z 13 indeksów (każdy oceniany binarnie: 1 – szereg personalistyczny/duchowy, 0 – szereg gromadnościowy/fizyczny).
+*   **Lista 13 indeksów:**
+    1.  **PERSONALISM_INDEX:** Personalizm (1) vs Gromadność (0) [2-4].
+    2.  **METHOD_INDEX:** Aposterjoryzm (1) vs Aprioryzm (0) [5-7].
+    3.  **STRUCTURE_INDEX:** Organizm (1) vs Mechanizm (0) [8-10].
+    4.  **LEGAL_DUALISM_INDEX:** Dualizm prawny (1) vs Monizm (0) [11-13].
+    5.  **FAMILY_EMANCIPATION_INDEX:** Emancypacja rodziny (1) vs Ustrój rodowy (0) [14-16].
+    6.  **HISTORICISM_INDEX:** Historyzm (1) vs Wegetacja/Brak (0) [17-19].
+    7.  **MARRIAGE_INDEX:** Monogamia dożywotnia (1) vs Poligamia (0) [16, 20, 21].
+    8.  **ETHICS_TOTALITY_INDEX:** Etyka totalna (1) vs Dwoistość etyki (0) [22-24].
+    9.  **PROPERTY_INDEX:** Własność indywidualna (1) vs Kolektywna (0) [25-27].
+    10. **TRUTH_IDEAL_INDEX:** Prawda przyrodzona (1) vs Utylitaryzm (0) [28-30].
+    11. **RESPONSIBILITY_INDEX:** Odpowiedzialność osobista (1) vs Zbiorowa (0) [22, 31, 32].
+    12. **RELIGIOUS_INDEPENDENCE_INDEX:** Niezawisłość religii (1) vs Cezaropapizm/Sakralizm (0) [33-35].
+    13. **JUSTICE_INDEX:** Zniesienie msty/Sąd publiczny (1) vs Sąd prywatny (0) [27, 33, 36].
+*   **SPIRIT_SUPREMACY_SCORE:** Suma / 13. Cywilizacja łacińska dąży do 1.0 [37].
+
+#### 3. `isPersonalisticRow()`
+*   **Wyniki dla 7 generaliów etyki [38, 39]:**
+    *   `Obowiązek`: Wewnętrzny (1) / Zewnętrzny (0).
+    *   `Bezinteresowność`: Ideał (1) / Utylitaryzm (0).
+    *   `Odpowiedzialność`: Osobista (1) / Zbiorowa (0).
+    *   `Sprawiedliwość`: Słuszność (1) / Legalizm (0).
+    *   `Sumienie`: Autonomiczne (1) / Heteronomiczne (0).
+    *   `Czas`: Historyzm (1) / Wegetacja (0).
+    *   `Praca`: Uświęcenie (1) / Przymus (0).
+*   **Diagnoza SZEREG_GENERALIÓW_PERSONALISTYCZNY:**
+    *   **Wynik 6-7:** Dominacja szeregu personalistycznego (Cywilizacja Łacińska) [12, 40].
+    *   **Wynik 0-1:** Dominacja szeregu gromadnościowego (Pozostałe 6 cywilizacji) [37].
+    *   **Wynik 3-4:** **MIESZANKA TRUJĄCA (Stan acywilizacyjny)** – brak spójności metody, paraliż kultury czynu [41-44].
+
+#### 4. `isTimeMasteryHigh()`
+*   **TIME_MASTERY_INDEX_v2:** Suma punktów za: Chronologię (0.2), Erę (0.2), Nazwiska dziedziczne (0.3) i Tradycję krytyczną (0.3) [17-19, 45-47].
+*   **Wydajność cywilizacyjna (Chyżość historyczna):** Mierzona jako zdolność do „kapitalizowania czasu” [48, 49].
+*   **Pomiar szybkości emancypacji:**
+    *   $\Delta T = t_{emancypacja\_rodziny} - t_{nazwiska\_dziedziczne}$.
+    *   Im mniejsza wartość $\Delta T$, tym wyższa **wydajność cywilizacyjna**.
+    *   W cywilizacji łacińskiej emancypacja rodziny przyśpiesza rozwój prawa i historyzmu, co pozwala kolejnym pokoleniom zaczynać tam, gdzie poprzednie skończyły [50, 51].
+
+#### 5. `isQuincunxDefective()`
+*   **Funkcja:** `QUINCUNX_COHERENCE_INDEX` [52-54].
+*   **Wyliczenie:** $I_c = \frac{D \times P \times Z \times Db \times Pi}{Consistency\_Factor}$.
+*   **Diagnoza:**
+    *   `True (Defektowna)`: Jeśli którakolwiek kategoria (Dobro, Prawda, Zdrowie, Dobrobyt, Piękno) wynosi 0 lub jest drastycznie zaniedbana [55, 56].
+    *   **Przykłady:** Żydowska (brak eschatologii [1], brak nauk przyrodniczych [29]), Bramińska (brak etyki/Dobra [57]), Chińska (areligijność/brak abstraktów [37, 58]).
+    *   `False (Pełna)`: Tylko przy harmonii i rozwoju wszystkich pięciu kategorii (Cywilizacja Łacińska) [59].
+
+Ten blueprint pozwala na matematyczne uchwycenie "zatoru cywilizacyjnego" lub "żywotności" zrzeszenia zgodnie z Twoim zapytaniem.
