@@ -17,7 +17,8 @@ INDEX_DEV_FLAGS = {
     "family": False,
     "church": False,
     "property": False,
-    "inheritance": True
+    "inheritance": False,
+    "morality": True
 }
 
 indicator_item = {
@@ -138,6 +139,7 @@ def calculate_koneczny_metrics(llm_data: Dict[str, Any]) -> Dict[str, Any]:
         "church_independence_score": _calc_avg("church_independence_scores"),
         "property_rights_stability_score": _calc_avg("property_rights_stability_scores"),
         "inheritance_continuity_score": _calc_avg("inheritance_continuity_scores"),
+        "morality_supremacy_score": _calc_avg("morality_supremacy_scores"),
         "raw_ratings": llm_data
     }
 
@@ -728,6 +730,81 @@ TEKST DO ANALIZY:
 {trimmed_text}
 Zwróć JSON."""
 
+    # --- CALL 10: Morality Supremacy ---
+    sys_inst_10 = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w 1 wymiarze (0.0-1.0):
+1. INDEKS SUPREMACJI MORALNOŚCI (15 wskaźników)
+
+BARDZO WAŻNE ZASADY:
+- WSZYSTKIE ODPOWIEDZI MUSZĄ BYĆ W JĘZYKU POLSKIM (wyjaśnienia, tytuły newsów, uzasadnienia).
+- UZASADNIENIA MUSZĄ BYĆ BARDZO KRÓTKIE (max 1 zdanie).
+- BRAK DANYCH: Oceniaj wskaźniki (0.0-1.0) nawet na podstawie poszlak. Tylko gdy tekst CAŁKOWICIE pomija zagadnienie, ustaw score: -1.0.
+- NAGŁÓWKI NEWSOWE muszą być ZWIĘZŁE (max 5-8 słów).
+- Nagłówki newsowe oraz uzasadnienie MUSZĄ odnosić się BEZPOŚREDNIO do kraju i kontekstu analizowanego tekstu."""
+    schema_10 = {
+        "type": "object",
+        "properties": {
+            "morality_supremacy_scores": {
+                "type": "object",
+                "properties": {
+                    "ethics_over_law_primacy": indicator_item,
+                    "total_ethics": indicator_item,
+                    "politics_bound_by_ethics": indicator_item,
+                    "ethics_over_wealth_primacy": indicator_item,
+                    "moral_utilitarianism": indicator_item,
+                    "ethics_over_science_primacy": indicator_item,
+                    "immoral_science_rejection": indicator_item,
+                    "ethics_over_art_primacy": indicator_item,
+                    "immoral_art_rejection": indicator_item,
+                    "voluntarism_over_coercion": indicator_item,
+                    "duty_over_obedience": indicator_item,
+                    "conscience_as_highest_instance": indicator_item,
+                    "personal_responsibility": indicator_item,
+                    "legalism_absence": indicator_item,
+                    "state_amoralism_absence": indicator_item
+                },
+                "required": [
+                    "ethics_over_law_primacy",
+                    "total_ethics",
+                    "politics_bound_by_ethics",
+                    "ethics_over_wealth_primacy",
+                    "moral_utilitarianism",
+                    "ethics_over_science_primacy",
+                    "immoral_science_rejection",
+                    "ethics_over_art_primacy",
+                    "immoral_art_rejection",
+                    "voluntarism_over_coercion",
+                    "duty_over_obedience",
+                    "conscience_as_highest_instance",
+                    "personal_responsibility",
+                    "legalism_absence",
+                    "state_amoralism_absence"
+                ]
+            },
+            "morality_news_1": {"type": "string"},
+            "morality_news_2": {"type": "string"},
+            "morality_news_3": {"type": "string"},
+            "morality_justification": {"type": "string"}
+        },
+        "required": [
+            "morality_supremacy_scores",
+            "morality_news_1",
+            "morality_news_2",
+            "morality_news_3",
+            "morality_justification"
+        ]
+    }
+
+    prompt_10 = f"""Kontekst metodologiczny Konecznego (Supremacja Moralności):
+{indices_context[:3000]}
+{rag_context}
+
+BARDZO WAŻNE INSTRUKCJE:
+Przeprowadź analizę WSZYSTKICH 15 wskaźników SUPREMACJI MORALNOŚCI (morality_supremacy_scores) dla wybranego poniższego tekstu. 
+
+TEKST DO ANALIZY:
+{trimmed_text}
+Zwróć JSON."""
+
     # Execute calls conditionally based on target_indices
     if target_indices is None:
         # Default for development if not specified
@@ -758,8 +835,12 @@ Zwróć JSON."""
     if "inheritance" in target_indices and INDEX_DEV_FLAGS.get("inheritance", False):
         res_9 = run_query(prompt_9, sys_inst_9, schema_9)
 
+    res_10 = {}
+    if "morality" in target_indices and INDEX_DEV_FLAGS.get("morality", False):
+        res_10 = run_query(prompt_10, sys_inst_10, schema_10)
+
     # Merge results
-    llm_data = {**res_1, **res_1b, **res_2, **res_3, **res_4, **res_5, **res_5b, **res_6, **res_7, **res_8, **res_9}
+    llm_data = {**res_1, **res_1b, **res_2, **res_3, **res_4, **res_5, **res_5b, **res_6, **res_7, **res_8, **res_9, **res_10}
 
     # Run math calculations and return unified structure
     result = calculate_koneczny_metrics(llm_data)
