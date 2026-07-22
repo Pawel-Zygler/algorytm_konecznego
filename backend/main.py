@@ -54,6 +54,7 @@ class AnalysisResponse(BaseModel):
     inheritance_continuity_score: float = 0.0
     morality_supremacy_score: float = 0.0
     public_morality_totality_score: float = 0.0
+    administrative_responsibility_score: float = 0.0
     raw_ratings: Dict[str, Any] = {}
 
 @app.post("/api/analyze", response_model=AnalysisResponse)

@@ -686,6 +686,24 @@
     const churchScores = data.raw_ratings?.church_independence_scores || {};
     const moralityScores = data.raw_ratings?.morality_supremacy_scores || {};
     const publicMoralityScores = data.raw_ratings?.public_morality_totality_scores || {};
+    const adminRespScores = data.raw_ratings?.administrative_responsibility_scores || {};
+
+    let calcAdminRespScore = data.administrative_responsibility_score || 0;
+    if (calcAdminRespScore === 0 && Object.keys(adminRespScores).length > 0) {
+      let validCount = 0;
+      let validSum = 0;
+      for (const val of Object.values(adminRespScores)) {
+        let s = typeof val === 'number' ? val : (val && val.score !== undefined ? val.score : -1.0);
+        if (s >= 0) {
+          validSum += s;
+          validCount++;
+        }
+      }
+      if (validCount > 0) {
+        calcAdminRespScore = validSum / validCount;
+      }
+    }
+    const adminRespScore = Math.round(calcAdminRespScore * 100);
 
     let calcPublicMoralityScore = data.public_morality_totality_score || 0;
     if (calcPublicMoralityScore === 0 && Object.keys(publicMoralityScores).length > 0) {
@@ -986,6 +1004,25 @@
       caesaropapism_absence: { name: 'Brak cezaropapizmu', question: 'Czy odrzuca się cezaropapizm (władza świecka nie rządzi sumieniami)?' }
     };
 
+    const ADMIN_RESP_META = {
+      personal_liability_for_damages: { name: 'Odpowiedzialność osobista', question: 'Czy urzędnik odpowiada osobiście za szkody wyrządzone obywatelowi?' },
+      material_guarantee_for_reliability: { name: 'Gwarancje materialne', question: 'Czy rzetelność urzędnika jest zabezpieczona materialnie (kaucje)?' },
+      single_conscience_in_public: { name: 'Jedno sumienie', question: 'Czy urzędnik podlega dekalogowi w służbie tak samo jak w życiu prywatnym?' },
+      obedience_to_ethics_over_orders: { name: 'Prymat etyki nad rozkazem', question: 'Czy najwyższą instancją jest słuszność etyczna, a nie rozkaz przełożonego?' },
+      official_as_legal_entity: { name: 'Urzędnik jako podmiot', question: 'Czy urzędnik posiada autonomię decyzji i ryzyko, zamiast bycia trybikiem?' },
+      independent_administrative_judiciary: { name: 'Niezawisłe sądownictwo', question: 'Czy spory z urzędem rozstrzyga niezależny od administracji sąd?' },
+      office_as_civic_service: { name: 'Urząd jako służba obywatelska', question: 'Czy urząd jest służbą niezależnych obywateli, a nie płatnym zawodem aparatczyków?' },
+      legal_dualism_presence_admin: { name: 'Dualizm prawny', question: 'Czy prawo prywatne jest oddzielone od publicznego?' },
+      personalism_in_administration: { name: 'Personalizm urzędniczy', question: 'Czy odpowiedzialność spoczywa na osobie, a nie na bezosobowym urzędzie?' },
+      ethics_over_law_primacy_admin: { name: 'Prymat etyki nad prawem', question: 'Czy urzędnik nie może zasłaniać się niemoralnym przepisem?' },
+      decentralization_and_self_gov: { name: 'Decentralizacja i samorząd', question: 'Czy istnieje szeroki samorząd pod bezpośrednią kontrolą społeczną?' },
+      totalitarian_state_absence: { name: 'Brak państwa totalnego', question: 'Czy państwo nie jest omnipotentne (nie pożera społeczeństwa)?' },
+      monism_of_public_law_absence: { name: 'Brak monizmu prawa publicznego', question: 'Czy unika się sytuacji, gdzie prawo prywatne zanika?' },
+      dual_ethics_absence_admin: { name: 'Brak dwoistości etyki', question: 'Czy odrzuca się makiawelizm i wyjęcie polityki spod etyki?' },
+      camp_system_absence: { name: 'Brak ustroju obozowego', question: 'Czy odrzuca się turański ustrój obozowy (wola wodza jedynym prawem)?' },
+      kormlenie_system_absence: { name: 'Brak systemu kormilenia', question: 'Czy odrzuca się bizantyński system traktowania urzędu jako prywatnego łupu?' }
+    };
+
     function buildCardsGroup(scoresObj, metaDict) {
       let html = '';
       for (const [key, val] of Object.entries(scoresObj)) {
@@ -1127,7 +1164,8 @@
       property: false,
       inheritance: false,
       morality: false,
-      public_morality: true
+      public_morality: false,
+      administrative_responsibility: true
     };
 
 
@@ -1267,6 +1305,19 @@
         </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony (isUnderDev = false)</div>`}
       </div>`;
 
+    const adminRespHero = buildDarkHero(
+      'ODPOWIEDZIALNOŚĆ URZĘDNICZA',
+      adminRespScore,
+      adminRespScore >= 65 ? 'Urzędnik jako sługa prawa' : adminRespScore >= 35 ? 'Mieszanka' : 'Biurokrata / Narzędzie gwałtu'
+    );
+
+    const adminRespCards = Object.keys(adminRespScores).length > 0 ? buildCardsGroup(adminRespScores, ADMIN_RESP_META) : `
+      <div id="loader-administrative_responsibility" style="padding:20px; text-align:center;">
+        ${INDEX_DEV_FLAGS.administrative_responsibility ? `<button class="tab-btn active zapytaj-btn" data-target="administrative_responsibility" data-loader="loader-administrative_responsibility" data-name="Odpowiedzialność Urzędnicza" style="margin:0 auto; padding:10px 20px;">
+          Zapytaj (Pobierz dane)
+        </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony (isUnderDev = false)</div>`}
+      </div>`;
+
     content.innerHTML = `
       <div class="tab-bar">
         <button class="tab-btn active" id="tab-sacrality">Indeks Sakralności</button>
@@ -1282,6 +1333,7 @@
         <button class="tab-btn" id="tab-inheritance">Ciągłość Dziedziczenia</button>
         <button class="tab-btn" id="tab-morality">Supremacja Moralności</button>
         <button class="tab-btn" id="tab-public_morality">Moralność Publiczna</button>
+        <button class="tab-btn" id="tab-admin_resp">Odpowiedzialność Urzędnicza</button>
       </div>
 
       <div id="view-sacrality">
@@ -1349,6 +1401,11 @@
         <div class="section-title">16 Wskaźników Moralności Publicznej</div>
         ${publicMoralityCards}
       </div>
+      <div id="view-admin_resp" style="display:none">
+        ${adminRespHero}
+        <div class="section-title">16 Wskaźników Odpowiedzialności Urzędniczej</div>
+        ${adminRespCards}
+      </div>
     `;
 
     const tabSacrality = content.querySelector('#tab-sacrality');
@@ -1364,6 +1421,7 @@
     const tabInheritance = content.querySelector('#tab-inheritance');
     const tabMorality = content.querySelector('#tab-morality');
     const tabPublicMorality = content.querySelector('#tab-public_morality');
+    const tabAdminResp = content.querySelector('#tab-admin_resp');
     const viewSacrality = content.querySelector('#view-sacrality');
     const viewSpirit    = content.querySelector('#view-spirit');
     const viewDualism   = content.querySelector('#view-dualism');
@@ -1377,10 +1435,11 @@
     const viewInheritance = content.querySelector('#view-inheritance');
     const viewMorality = content.querySelector('#view-morality');
     const viewPublicMorality = content.querySelector('#view-public_morality');
+    const viewAdminResp = content.querySelector('#view-admin_resp');
 
     function switchTab(tabBtn, viewDiv) {
-      [tabSacrality, tabSpirit, tabDualism, tabPluralism, tabAposteriori, tabOrganism, tabPersonalism, tabFamily, tabChurch, tabProperty, tabInheritance, tabMorality, tabPublicMorality].forEach(t => t.classList.remove('active'));
-      [viewSacrality, viewSpirit, viewDualism, viewPluralism, viewAposteriori, viewOrganism, viewPersonalism, viewFamily, viewChurch, viewProperty, viewInheritance, viewMorality, viewPublicMorality].forEach(v => v.style.display = 'none');
+      [tabSacrality, tabSpirit, tabDualism, tabPluralism, tabAposteriori, tabOrganism, tabPersonalism, tabFamily, tabChurch, tabProperty, tabInheritance, tabMorality, tabPublicMorality, tabAdminResp].forEach(t => t.classList.remove('active'));
+      [viewSacrality, viewSpirit, viewDualism, viewPluralism, viewAposteriori, viewOrganism, viewPersonalism, viewFamily, viewChurch, viewProperty, viewInheritance, viewMorality, viewPublicMorality, viewAdminResp].forEach(v => v.style.display = 'none');
       tabBtn.classList.add('active');
       viewDiv.style.display = 'block';
     }
@@ -1398,6 +1457,7 @@
     tabInheritance.addEventListener('click', () => switchTab(tabInheritance, viewInheritance));
     tabMorality.addEventListener('click', () => switchTab(tabMorality, viewMorality));
     tabPublicMorality.addEventListener('click', () => switchTab(tabPublicMorality, viewPublicMorality));
+    tabAdminResp.addEventListener('click', () => switchTab(tabAdminResp, viewAdminResp));
 
     // Bind Zapytaj buttons
     content.querySelectorAll('.zapytaj-btn').forEach(btn => {

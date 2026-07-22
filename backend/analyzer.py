@@ -19,7 +19,8 @@ INDEX_DEV_FLAGS = {
     "property": False,
     "inheritance": False,
     "morality": False,
-    "public_morality": True
+    "public_morality": False,
+    "administrative_responsibility": True
 }
 
 indicator_item = {
@@ -142,6 +143,7 @@ def calculate_koneczny_metrics(llm_data: Dict[str, Any]) -> Dict[str, Any]:
         "inheritance_continuity_score": _calc_avg("inheritance_continuity_scores"),
         "morality_supremacy_score": _calc_avg("morality_supremacy_scores"),
         "public_morality_totality_score": _calc_avg("public_morality_totality_scores"),
+        "administrative_responsibility_score": _calc_avg("administrative_responsibility_scores"),
         "raw_ratings": llm_data
     }
 
@@ -885,13 +887,91 @@ TEKST DO ANALIZY:
 {trimmed_text}
 Zwróć JSON."""
 
+    # --- CALL 12: Administrative Responsibility ---
+    sys_inst_12 = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w 1 wymiarze (0.0-1.0):
+1. INDEKS ODPOWIEDZIALNOŚCI URZĘDNICZEJ (16 wskaźników)
+
+BARDZO WAŻNE ZASADY:
+- WSZYSTKIE ODPOWIEDZI MUSZĄ BYĆ W JĘZYKU POLSKIM (wyjaśnienia, tytuły newsów, uzasadnienia).
+- UZASADNIENIA MUSZĄ BYĆ BARDZO KRÓTKIE (max 1 zdanie).
+- BRAK DANYCH: Oceniaj wskaźniki (0.0-1.0) nawet na podstawie poszlak. Tylko gdy tekst CAŁKOWICIE pomija zagadnienie, ustaw score: -1.0.
+- NAGŁÓWKI NEWSOWE muszą być ZWIĘZŁE (max 5-8 słów).
+- Nagłówki newsowe oraz uzasadnienie MUSZĄ odnosić się BEZPOŚREDNIO do kraju i kontekstu analizowanego tekstu."""
+
+    schema_12 = {
+        "type": "object",
+        "properties": {
+            "administrative_responsibility_scores": {
+                "type": "object",
+                "properties": {
+                    "personal_liability_for_damages": indicator_item,
+                    "material_guarantee_for_reliability": indicator_item,
+                    "single_conscience_in_public": indicator_item,
+                    "obedience_to_ethics_over_orders": indicator_item,
+                    "official_as_legal_entity": indicator_item,
+                    "independent_administrative_judiciary": indicator_item,
+                    "office_as_civic_service": indicator_item,
+                    "legal_dualism_presence_admin": indicator_item,
+                    "personalism_in_administration": indicator_item,
+                    "ethics_over_law_primacy_admin": indicator_item,
+                    "decentralization_and_self_gov": indicator_item,
+                    "totalitarian_state_absence": indicator_item,
+                    "monism_of_public_law_absence": indicator_item,
+                    "dual_ethics_absence_admin": indicator_item,
+                    "camp_system_absence": indicator_item,
+                    "kormlenie_system_absence": indicator_item
+                },
+                "required": [
+                    "personal_liability_for_damages",
+                    "material_guarantee_for_reliability",
+                    "single_conscience_in_public",
+                    "obedience_to_ethics_over_orders",
+                    "official_as_legal_entity",
+                    "independent_administrative_judiciary",
+                    "office_as_civic_service",
+                    "legal_dualism_presence_admin",
+                    "personalism_in_administration",
+                    "ethics_over_law_primacy_admin",
+                    "decentralization_and_self_gov",
+                    "totalitarian_state_absence",
+                    "monism_of_public_law_absence",
+                    "dual_ethics_absence_admin",
+                    "camp_system_absence",
+                    "kormlenie_system_absence"
+                ]
+            },
+            "administrative_responsibility_news_1": {"type": "string"},
+            "administrative_responsibility_news_2": {"type": "string"},
+            "administrative_responsibility_news_3": {"type": "string"},
+            "administrative_responsibility_justification": {"type": "string"}
+        },
+        "required": [
+            "administrative_responsibility_scores",
+            "administrative_responsibility_news_1",
+            "administrative_responsibility_news_2",
+            "administrative_responsibility_news_3",
+            "administrative_responsibility_justification"
+        ]
+    }
+
+    prompt_12 = f"""Kontekst metodologiczny Konecznego (Odpowiedzialność Urzędnicza):
+{indices_context[:3000]}
+{rag_context}
+
+BARDZO WAŻNE INSTRUKCJE:
+Przeprowadź analizę WSZYSTKICH 16 wskaźników ODPOWIEDZIALNOŚCI URZĘDNICZEJ (administrative_responsibility_scores) dla wybranego poniższego tekstu. 
+
+TEKST DO ANALIZY:
+{trimmed_text}
+Zwróć JSON."""
+
     # Execute calls conditionally based on target_indices
     if target_indices is None:
         # Default for development if not specified
         target_indices = [k for k, v in INDEX_DEV_FLAGS.items() if v]
 
     res_1, res_1b, res_2, res_3, res_4, res_5, res_5b, res_6, res_7, res_8, res_9 = {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}
-    res_10, res_11 = {}, {}
+    res_10, res_11, res_12 = {}, {}, {}
 
     if "sacrality" in target_indices and INDEX_DEV_FLAGS.get("sacrality", False):
         res_1 = run_query(prompt_1, sys_inst_1, schema_1)
@@ -922,8 +1002,11 @@ Zwróć JSON."""
     if "public_morality" in target_indices and INDEX_DEV_FLAGS.get("public_morality", False):
         res_11 = run_query(prompt_11, sys_inst_11, schema_11)
 
+    if "administrative_responsibility" in target_indices and INDEX_DEV_FLAGS.get("administrative_responsibility", False):
+        res_12 = run_query(prompt_12, sys_inst_12, schema_12)
+
     # Merge results
-    llm_data = {**res_1, **res_1b, **res_2, **res_3, **res_4, **res_5, **res_5b, **res_6, **res_7, **res_8, **res_9, **res_10, **res_11}
+    llm_data = {**res_1, **res_1b, **res_2, **res_3, **res_4, **res_5, **res_5b, **res_6, **res_7, **res_8, **res_9, **res_10, **res_11, **res_12}
 
     # Run math calculations and return unified structure
     result = calculate_koneczny_metrics(llm_data)
