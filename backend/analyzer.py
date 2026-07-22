@@ -985,38 +985,35 @@ Zwróć JSON."""
             if idx not in target_indices:
                 target_indices.append(idx)
 
-    res_1, res_2, res_3, res_4, res_5, res_5b, res_6, res_7, res_8, res_9 = {}, {}, {}, {}, {}, {}, {}, {}, {}, {}
-    res_10, res_11, res_12 = {}, {}, {}
+    import concurrent.futures
 
-    if "sacrality" in target_indices:
-        res_1 = run_query(prompt_1, sys_inst_1, schema_1)
-    if "dualism" in target_indices:
-        res_2 = run_query(prompt_2, sys_inst_2, schema_2)
-    if "pluralism" in target_indices:
-        res_3 = run_query(prompt_3, sys_inst_3, schema_3)
-    if "aposteriori" in target_indices:
-        res_4 = run_query(prompt_4, sys_inst_4, schema_4)
-    if "organism" in target_indices:
-        res_5 = run_query(prompt_5, sys_inst_5, schema_5)
-    if "personalism" in target_indices:
-        res_5b = run_query(prompt_5b, sys_inst_5b, schema_5_pers)
-    if "family" in target_indices:
-        res_6 = run_query(prompt_6, sys_inst_6, schema_6)
-    if "church" in target_indices:
-        res_7 = run_query(prompt_7, sys_inst_7, schema_7)
-    if "property" in target_indices:
-        res_8 = run_query(prompt_8, sys_inst_8, schema_8)
-    if "inheritance" in target_indices:
-        res_9 = run_query(prompt_9, sys_inst_9, schema_9)
-    if "morality" in target_indices:
-        res_10 = run_query(prompt_10, sys_inst_10, schema_10)
-    if "public_morality" in target_indices:
-        res_11 = run_query(prompt_11, sys_inst_11, schema_11)
-    if "administrative_responsibility" in target_indices:
-        res_12 = run_query(prompt_12, sys_inst_12, schema_12)
+    tasks = []
+    if "sacrality" in target_indices: tasks.append((prompt_1, sys_inst_1, schema_1))
+    if "dualism" in target_indices: tasks.append((prompt_2, sys_inst_2, schema_2))
+    if "pluralism" in target_indices: tasks.append((prompt_3, sys_inst_3, schema_3))
+    if "aposteriori" in target_indices: tasks.append((prompt_4, sys_inst_4, schema_4))
+    if "organism" in target_indices: tasks.append((prompt_5, sys_inst_5, schema_5))
+    if "personalism" in target_indices: tasks.append((prompt_5b, sys_inst_5b, schema_5_pers))
+    if "family" in target_indices: tasks.append((prompt_6, sys_inst_6, schema_6))
+    if "church" in target_indices: tasks.append((prompt_7, sys_inst_7, schema_7))
+    if "property" in target_indices: tasks.append((prompt_8, sys_inst_8, schema_8))
+    if "inheritance" in target_indices: tasks.append((prompt_9, sys_inst_9, schema_9))
+    if "morality" in target_indices: tasks.append((prompt_10, sys_inst_10, schema_10))
+    if "public_morality" in target_indices: tasks.append((prompt_11, sys_inst_11, schema_11))
+    if "administrative_responsibility" in target_indices: tasks.append((prompt_12, sys_inst_12, schema_12))
 
-    # Merge results
-    llm_data = {**res_1, **res_2, **res_3, **res_4, **res_5, **res_5b, **res_6, **res_7, **res_8, **res_9, **res_10, **res_11, **res_12}
+    llm_data = {}
+    
+    if tasks:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
+            future_to_task = {executor.submit(run_query, t[0], t[1], t[2]): t for t in tasks}
+            for future in concurrent.futures.as_completed(future_to_task):
+                try:
+                    res = future.result()
+                    if res:
+                        llm_data.update(res)
+                except Exception as exc:
+                    print(f"Task generated an exception: {exc}")
 
     # Run math calculations and return unified structure
     result = calculate_koneczny_metrics(llm_data)
