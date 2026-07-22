@@ -131,7 +131,6 @@ def calculate_koneczny_metrics(llm_data: Dict[str, Any]) -> Dict[str, Any]:
 
     return {
         "sacrality_score": _calc_avg("sacrality_scores"),
-        "spirit_supremacy_score": _calc_avg("spirit_supremacy_scores"),
         "legal_dualism_score": _calc_avg("legal_dualism_scores"),
         "law_source_pluralism_score": _calc_avg("law_source_pluralism_scores"),
         "aposteriori_apriori_score": _calc_avg("aposteriori_apriori_scores"),
@@ -144,8 +143,18 @@ def calculate_koneczny_metrics(llm_data: Dict[str, Any]) -> Dict[str, Any]:
         "morality_supremacy_score": _calc_avg("morality_supremacy_scores"),
         "public_morality_totality_score": _calc_avg("public_morality_totality_scores"),
         "administrative_responsibility_score": _calc_avg("administrative_responsibility_scores"),
-        "raw_ratings": llm_data
-    }
+    # Calculate global spirit supremacy score from 12 indices
+    spirit_scores = [
+        result["legal_dualism_score"], result["law_source_pluralism_score"], result["aposteriori_apriori_score"],
+        result["organism_mechanism_score"], result["personalism_score"], result["family_law_autonomy_score"],
+        result["church_independence_score"], result["property_rights_stability_score"], result["inheritance_continuity_score"],
+        result["morality_supremacy_score"], result["public_morality_totality_score"], result["administrative_responsibility_score"]
+    ]
+    valid_spirit = [s for s in spirit_scores if s >= 0]
+    result["spirit_supremacy_score"] = sum(valid_spirit) / len(valid_spirit) if valid_spirit else -1.0
+
+    result["raw_ratings"] = llm_data
+    return result
 
 
 schema_6 = {
@@ -970,43 +979,44 @@ Zwróć JSON."""
         # Default for development if not specified
         target_indices = [k for k, v in INDEX_DEV_FLAGS.items() if v]
 
-    res_1, res_1b, res_2, res_3, res_4, res_5, res_5b, res_6, res_7, res_8, res_9 = {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}
+    # Map "spirit" to its 12 component indices
+    if "spirit" in target_indices:
+        for idx in ["dualism", "pluralism", "aposteriori", "organism", "personalism", "family", "church", "property", "inheritance", "morality", "public_morality", "administrative_responsibility"]:
+            if idx not in target_indices:
+                target_indices.append(idx)
+
+    res_1, res_2, res_3, res_4, res_5, res_5b, res_6, res_7, res_8, res_9 = {}, {}, {}, {}, {}, {}, {}, {}, {}, {}
     res_10, res_11, res_12 = {}, {}, {}
 
-    if "sacrality" in target_indices and INDEX_DEV_FLAGS.get("sacrality", False):
+    if "sacrality" in target_indices:
         res_1 = run_query(prompt_1, sys_inst_1, schema_1)
-    if "spirit" in target_indices and INDEX_DEV_FLAGS.get("spirit", False):
-        res_1b = run_query(prompt_1b, sys_inst_1b, schema_1_spirit)
-    if "dualism" in target_indices and INDEX_DEV_FLAGS.get("dualism", False):
+    if "dualism" in target_indices:
         res_2 = run_query(prompt_2, sys_inst_2, schema_2)
-    if "pluralism" in target_indices and INDEX_DEV_FLAGS.get("pluralism", False):
+    if "pluralism" in target_indices:
         res_3 = run_query(prompt_3, sys_inst_3, schema_3)
-    if "aposteriori" in target_indices and INDEX_DEV_FLAGS.get("aposteriori", False):
+    if "aposteriori" in target_indices:
         res_4 = run_query(prompt_4, sys_inst_4, schema_4)
-    if "organism" in target_indices and INDEX_DEV_FLAGS.get("organism", False):
+    if "organism" in target_indices:
         res_5 = run_query(prompt_5, sys_inst_5, schema_5)
-    if "personalism" in target_indices and INDEX_DEV_FLAGS.get("personalism", False):
+    if "personalism" in target_indices:
         res_5b = run_query(prompt_5b, sys_inst_5b, schema_5_pers)
-    if "family" in target_indices and INDEX_DEV_FLAGS.get("family", False):
+    if "family" in target_indices:
         res_6 = run_query(prompt_6, sys_inst_6, schema_6)
-    if "church" in target_indices and INDEX_DEV_FLAGS.get("church", False):
+    if "church" in target_indices:
         res_7 = run_query(prompt_7, sys_inst_7, schema_7)
-    if "property" in target_indices and INDEX_DEV_FLAGS.get("property", False):
+    if "property" in target_indices:
         res_8 = run_query(prompt_8, sys_inst_8, schema_8)
-    if "inheritance" in target_indices and INDEX_DEV_FLAGS.get("inheritance", False):
+    if "inheritance" in target_indices:
         res_9 = run_query(prompt_9, sys_inst_9, schema_9)
-
-    if "morality" in target_indices and INDEX_DEV_FLAGS.get("morality", False):
+    if "morality" in target_indices:
         res_10 = run_query(prompt_10, sys_inst_10, schema_10)
-    
-    if "public_morality" in target_indices and INDEX_DEV_FLAGS.get("public_morality", False):
+    if "public_morality" in target_indices:
         res_11 = run_query(prompt_11, sys_inst_11, schema_11)
-
-    if "administrative_responsibility" in target_indices and INDEX_DEV_FLAGS.get("administrative_responsibility", False):
+    if "administrative_responsibility" in target_indices:
         res_12 = run_query(prompt_12, sys_inst_12, schema_12)
 
     # Merge results
-    llm_data = {**res_1, **res_1b, **res_2, **res_3, **res_4, **res_5, **res_5b, **res_6, **res_7, **res_8, **res_9, **res_10, **res_11, **res_12}
+    llm_data = {**res_1, **res_2, **res_3, **res_4, **res_5, **res_5b, **res_6, **res_7, **res_8, **res_9, **res_10, **res_11, **res_12}
 
     # Run math calculations and return unified structure
     result = calculate_koneczny_metrics(llm_data)

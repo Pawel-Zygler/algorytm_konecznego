@@ -1153,7 +1153,7 @@
 
     const INDEX_DEV_FLAGS = {
       sacrality: false,
-      spirit: false,
+      spirit: true,
       dualism: false,
       pluralism: false,
       aposteriori: false,
@@ -1165,7 +1165,7 @@
       inheritance: false,
       morality: false,
       public_morality: false,
-      administrative_responsibility: true
+      administrative_responsibility: false
     };
 
 
@@ -1176,11 +1176,49 @@
         </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony (isUnderDev = false)</div>`}
       </div>`;
       
-    const spiritCards = Object.keys(spiritScores).length > 0 ? buildCardsGroup(spiritScores, SPIRIT_META) : `
+    const spiritCards = `
       <div id="loader-spirit" style="padding:20px; text-align:center;">
-        ${INDEX_DEV_FLAGS.spirit ? `<button class="tab-btn active zapytaj-btn" data-target="spirit" data-loader="loader-spirit" data-name="Supremacja Ducha" style="margin:0 auto; padding:10px 20px;">
-          Zapytaj (Pobierz dane)
+        ${INDEX_DEV_FLAGS.spirit ? `<button class="tab-btn active zapytaj-btn" data-target="spirit" data-loader="loader-spirit" data-name="Supremacja Ducha (12 indeksów)" style="margin:0 auto; padding:10px 20px;">
+          Wylicz Supremację Ducha (~60-90s)
         </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony (isUnderDev = false)</div>`}
+      </div>
+      <div class="sub-indices" style="margin-top: 30px;">
+        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+          ${dualismHero} <div class="section-title" style="margin-top:10px">Wskaźniki Dualizmu Prawnego</div> ${dualismCards}
+        </div>
+        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+          ${pluralismHero} <div class="section-title" style="margin-top:10px">Wskaźniki Pluralizmu Źródeł Prawa</div> ${pluralismCards}
+        </div>
+        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+          ${aposterioriHero} <div class="section-title" style="margin-top:10px">Wskaźniki Aposterioryzmu</div> ${aposterioriCards}
+        </div>
+        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+          ${organismHero} <div class="section-title" style="margin-top:10px">Wskaźniki Organizmu</div> ${organismCards}
+        </div>
+        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+          ${personalismHero} <div class="section-title" style="margin-top:10px">Wskaźniki Personalizmu</div> ${personalismCards}
+        </div>
+        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+          ${familyHero} <div class="section-title" style="margin-top:10px">Wskaźniki Autonomii Rodziny</div> ${familyCards}
+        </div>
+        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+          ${churchHero} <div class="section-title" style="margin-top:10px">Wskaźniki Niezależności Kościoła</div> ${churchCards}
+        </div>
+        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+          ${propertyHero} <div class="section-title" style="margin-top:10px">Wskaźniki Stabilności Własności</div> ${propertyCards}
+        </div>
+        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+          ${inheritanceHero} <div class="section-title" style="margin-top:10px">Wskaźniki Ciągłości Dziedziczenia</div> ${inheritanceCards}
+        </div>
+        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+          ${moralityHero} <div class="section-title" style="margin-top:10px">Wskaźniki Supremacji Moralności</div> ${moralityCards}
+        </div>
+        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+          ${publicMoralityHero} <div class="section-title" style="margin-top:10px">Wskaźniki Moralności Publicznej</div> ${publicMoralityCards}
+        </div>
+        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+          ${adminRespHero} <div class="section-title" style="margin-top:10px">Wskaźniki Odpowiedzialności Urzędniczej</div> ${adminRespCards}
+        </div>
       </div>`;
       
     const dualismCards = Object.keys(legalDualismScores).length > 0 ? buildCardsGroup(legalDualismScores, LEGAL_DUALISM_META) : `
@@ -1320,144 +1358,39 @@
 
     content.innerHTML = `
       <div class="tab-bar">
-        <button class="tab-btn active" id="tab-sacrality">Indeks Sakralności</button>
-        <button class="tab-btn" id="tab-spirit">Supremacja Ducha</button>
-        <button class="tab-btn" id="tab-dualism">Dualizm Prawny</button>
-        <button class="tab-btn" id="tab-pluralism">Pluralizm Źródeł Prawa</button>
-        <button class="tab-btn" id="tab-aposteriori">Aposteriori vs Apriori</button>
-        <button class="tab-btn" id="tab-organism">Organizm vs Mechanizm</button>
-        <button class="tab-btn" id="tab-personalism">Personalizm</button>
-        <button class="tab-btn" id="tab-family">Autonomia Rodziny</button>
-        <button class="tab-btn" id="tab-church">Niezależność Kościoła</button>
-        <button class="tab-btn" id="tab-property">Stabilność Własności</button>
-        <button class="tab-btn" id="tab-inheritance">Ciągłość Dziedziczenia</button>
-        <button class="tab-btn" id="tab-morality">Supremacja Moralności</button>
-        <button class="tab-btn" id="tab-public_morality">Moralność Publiczna</button>
-        <button class="tab-btn" id="tab-admin_resp">Odpowiedzialność Urzędnicza</button>
+        <button class="tab-btn" id="tab-sacrality">Indeks Sakralności</button>
+        <button class="tab-btn active" id="tab-spirit">Supremacja Ducha</button>
       </div>
 
-      <div id="view-sacrality">
+      <div id="view-sacrality" style="display:none">
         ${sacralityHero}
         <div class="section-title">13 Wskaźników Sakralności</div>
         ${sacralityCards}
       </div>
-      <div id="view-spirit" style="display:none">
+      <div id="view-spirit">
         ${spiritHero}
-        <div class="section-title">12 Wskaźników Cywilizacyjnych</div>
+        <div style="font-size: 13px; color: #9ca3af; padding: 0 20px; margin-bottom: 15px; line-height: 1.5; text-align: center;">
+           Supremacja Ducha to agregacja 12 podstawowych indeksów: od dualizmu prawnego po odpowiedzialność urzędniczą.
+           Określa dominację sił duchowych w kształtowaniu życia zbiorowego.
+        </div>
         ${spiritCards}
-      </div>
-      <div id="view-dualism" style="display:none">
-        ${dualismHero}
-        <div class="section-title">25 Wskaźników Dualizmu Prawnego</div>
-        ${dualismCards}
-      </div>
-      <div id="view-pluralism" style="display:none">
-        ${pluralismHero}
-        <div class="section-title">20 Wskaźników Pluralizmu</div>
-        ${pluralismCards}
-      </div>
-      <div id="view-aposteriori" style="display:none">
-        ${aposterioriHero}
-        <div class="section-title">15 Wskaźników Aposterioryzmu</div>
-        ${aposterioriCards}
-      </div>
-      <div id="view-organism" style="display:none">
-        ${organismHero}
-        <div class="section-title">12 Wskaźników Organizmu</div>
-        ${organismCards}
-      </div>
-      <div id="view-personalism" style="display:none">
-        ${personalismHero}
-        <div class="section-title">16 Wskaźników Personalizmu</div>
-        ${personalismCards}
-      </div>
-      <div id="view-family" style="display:none">
-        ${familyHero}
-        <div class="section-title">14 Wskaźników Autonomii Rodziny</div>
-        ${familyCards}
-      </div>
-      <div id="view-church" style="display:none">
-        ${churchHero}
-        <div class="section-title">15 Wskaźników Niezawisłości Kościoła</div>
-        ${churchCards}
-      </div>
-      <div id="view-property" style="display:none">
-        ${propertyHero}
-        <div class="section-title">13 Wskaźników Stabilności Własności</div>
-        ${propertyCards}
-      </div>
-      <div id="view-inheritance" style="display:none">
-        ${inheritanceHero}
-        <div class="section-title">15 Wskaźników Ciągłości Dziedziczenia</div>
-        ${inheritanceCards}
-      </div>
-      <div id="view-morality" style="display:none">
-        ${moralityHero}
-        <div class="section-title">15 Wskaźników Supremacji Moralności</div>
-        ${moralityCards}
-      </div>
-      <div id="view-public_morality" style="display:none">
-        ${publicMoralityHero}
-        <div class="section-title">16 Wskaźników Moralności Publicznej</div>
-        ${publicMoralityCards}
-      </div>
-      <div id="view-admin_resp" style="display:none">
-        ${adminRespHero}
-        <div class="section-title">16 Wskaźników Odpowiedzialności Urzędniczej</div>
-        ${adminRespCards}
       </div>
     `;
 
     const tabSacrality = content.querySelector('#tab-sacrality');
     const tabSpirit    = content.querySelector('#tab-spirit');
-    const tabDualism   = content.querySelector('#tab-dualism');
-    const tabPluralism = content.querySelector('#tab-pluralism');
-    const tabAposteriori = content.querySelector('#tab-aposteriori');
-    const tabOrganism = content.querySelector('#tab-organism');
-    const tabPersonalism = content.querySelector('#tab-personalism');
-    const tabFamily = content.querySelector('#tab-family');
-    const tabChurch = content.querySelector('#tab-church');
-    const tabProperty = content.querySelector('#tab-property');
-    const tabInheritance = content.querySelector('#tab-inheritance');
-    const tabMorality = content.querySelector('#tab-morality');
-    const tabPublicMorality = content.querySelector('#tab-public_morality');
-    const tabAdminResp = content.querySelector('#tab-admin_resp');
     const viewSacrality = content.querySelector('#view-sacrality');
     const viewSpirit    = content.querySelector('#view-spirit');
-    const viewDualism   = content.querySelector('#view-dualism');
-    const viewPluralism = content.querySelector('#view-pluralism');
-    const viewAposteriori = content.querySelector('#view-aposteriori');
-    const viewOrganism = content.querySelector('#view-organism');
-    const viewPersonalism = content.querySelector('#view-personalism');
-    const viewFamily = content.querySelector('#view-family');
-    const viewChurch = content.querySelector('#view-church');
-    const viewProperty = content.querySelector('#view-property');
-    const viewInheritance = content.querySelector('#view-inheritance');
-    const viewMorality = content.querySelector('#view-morality');
-    const viewPublicMorality = content.querySelector('#view-public_morality');
-    const viewAdminResp = content.querySelector('#view-admin_resp');
 
     function switchTab(tabBtn, viewDiv) {
-      [tabSacrality, tabSpirit, tabDualism, tabPluralism, tabAposteriori, tabOrganism, tabPersonalism, tabFamily, tabChurch, tabProperty, tabInheritance, tabMorality, tabPublicMorality, tabAdminResp].forEach(t => t.classList.remove('active'));
-      [viewSacrality, viewSpirit, viewDualism, viewPluralism, viewAposteriori, viewOrganism, viewPersonalism, viewFamily, viewChurch, viewProperty, viewInheritance, viewMorality, viewPublicMorality, viewAdminResp].forEach(v => v.style.display = 'none');
+      [tabSacrality, tabSpirit].forEach(t => t.classList.remove('active'));
+      [viewSacrality, viewSpirit].forEach(v => v.style.display = 'none');
       tabBtn.classList.add('active');
       viewDiv.style.display = 'block';
     }
 
     tabSacrality.addEventListener('click', () => switchTab(tabSacrality, viewSacrality));
     tabSpirit.addEventListener('click', () => switchTab(tabSpirit, viewSpirit));
-    tabDualism.addEventListener('click', () => switchTab(tabDualism, viewDualism));
-    tabPluralism.addEventListener('click', () => switchTab(tabPluralism, viewPluralism));
-    tabAposteriori.addEventListener('click', () => switchTab(tabAposteriori, viewAposteriori));
-    tabOrganism.addEventListener('click', () => switchTab(tabOrganism, viewOrganism));
-    tabPersonalism.addEventListener('click', () => switchTab(tabPersonalism, viewPersonalism));
-    tabFamily.addEventListener('click', () => switchTab(tabFamily, viewFamily));
-    tabChurch.addEventListener('click', () => switchTab(tabChurch, viewChurch));
-    tabProperty.addEventListener('click', () => switchTab(tabProperty, viewProperty));
-    tabInheritance.addEventListener('click', () => switchTab(tabInheritance, viewInheritance));
-    tabMorality.addEventListener('click', () => switchTab(tabMorality, viewMorality));
-    tabPublicMorality.addEventListener('click', () => switchTab(tabPublicMorality, viewPublicMorality));
-    tabAdminResp.addEventListener('click', () => switchTab(tabAdminResp, viewAdminResp));
 
     // Bind Zapytaj buttons
     content.querySelectorAll('.zapytaj-btn').forEach(btn => {
