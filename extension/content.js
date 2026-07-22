@@ -684,6 +684,42 @@
     const personalismScores = data.raw_ratings?.personalism_scores || {};
     const familyScores = data.raw_ratings?.family_law_autonomy_scores || {};
     const churchScores = data.raw_ratings?.church_independence_scores || {};
+    const moralityScores = data.raw_ratings?.morality_supremacy_scores || {};
+    const publicMoralityScores = data.raw_ratings?.public_morality_totality_scores || {};
+
+    let calcPublicMoralityScore = data.public_morality_totality_score || 0;
+    if (calcPublicMoralityScore === 0 && Object.keys(publicMoralityScores).length > 0) {
+      let validCount = 0;
+      let validSum = 0;
+      for (const val of Object.values(publicMoralityScores)) {
+        let s = typeof val === 'number' ? val : (val && val.score !== undefined ? val.score : -1.0);
+        if (s >= 0) {
+          validSum += s;
+          validCount++;
+        }
+      }
+      if (validCount > 0) {
+        calcPublicMoralityScore = validSum / validCount;
+      }
+    }
+    const publicMoralityScore = Math.round(calcPublicMoralityScore * 100);
+
+    let calcMoralityScore = data.morality_supremacy_score || 0;
+    if (calcMoralityScore === 0 && Object.keys(moralityScores).length > 0) {
+      let validCount = 0;
+      let validSum = 0;
+      for (const val of Object.values(moralityScores)) {
+        let s = typeof val === 'number' ? val : (val && val.score !== undefined ? val.score : -1.0);
+        if (s >= 0) {
+          validSum += s;
+          validCount++;
+        }
+      }
+      if (validCount > 0) {
+        calcMoralityScore = validSum / validCount;
+      }
+    }
+    const moralityScore = Math.round(calcMoralityScore * 100);
 
     let calcInheritanceScore = data.inheritance_continuity_score || 0;
     if (calcInheritanceScore === 0 && Object.keys(inheritanceScores).length > 0) {
@@ -913,6 +949,43 @@
       collectivism_socialism_absence: { name: 'Brak Kolektywizmu', question: 'Czy brakuje socjalizmu dążącego do zniesienia dziedziczenia?', positive: 'Brak kolektywizmu (1.0)', negative: 'Socjalizm (0.0)' }
     };
 
+    const MORALITY_META = {
+      ethics_over_law_primacy: { name: 'Prymat etyki nad prawem', question: 'Czy prawo jest jedynie sankcją dla postulatów etycznych?' },
+      total_ethics: { name: 'Etyka Totalna', question: 'Czy etyka obowiązuje w równym stopniu w życiu prywatnym i publicznym?' },
+      politics_bound_by_ethics: { name: 'Polityka podlegająca moralności', question: 'Czy polityka i działania państwa muszą przestrzegać dekalogu?' },
+      ethics_over_wealth_primacy: { name: 'Prymat etyki nad dobrobytem', question: 'Czy etyka ma pierwszeństwo przed interesem materialnym i gospodarką?' },
+      moral_utilitarianism: { name: 'Utylitaryzm zdominowany przez moralność', question: 'Czy utylitaryzm musi być moralny, a nie moralność utylitarna?' },
+      ethics_over_science_primacy: { name: 'Prymat etyki nad nauką', question: 'Czy etyka stoi ponad poszukiwaniem Prawdy (nauki) w przypadku kolizji?' },
+      immoral_science_rejection: { name: 'Odrzucenie amoralnej nauki', question: 'Czy zakazuje się eksperymentów naruszających godność, jak eugenika?' },
+      ethics_over_art_primacy: { name: 'Prymat etyki nad sztuką', question: 'Czy etyka stoi ponad sztuką i artyzmem?' },
+      immoral_art_rejection: { name: 'Odrzucenie amoralnej sztuki', question: 'Czy nie dopuszcza się usprawiedliwiania moralnej szpetoty artyzmem?' },
+      voluntarism_over_coercion: { name: 'Dobrowolność vs Przymus', question: 'Czy rozwój opiera się na dobrowolności zamiast przymusu państwowego?' },
+      duty_over_obedience: { name: 'Poczucie wewnętrznego obowiązku', question: 'Czy rozwój moralny wynika z wewnętrznego obowiązku, a nie wymuszonego posłuszeństwa?' },
+      conscience_as_highest_instance: { name: 'Sumienie jako najwyższa instancja', question: 'Czy najwyższą instancją dla jednostki jest jej sumienie?' },
+      personal_responsibility: { name: 'Osobista odpowiedzialność', question: 'Czy dominuje odpowiedzialność osobista, a nie gromadna/zbiorowa?' },
+      legalism_absence: { name: 'Brak legalizmu', question: 'Czy odrzuca się zasadę co nie jest zakazane paragrafem, jest moralnie obojętne?' },
+      state_amoralism_absence: { name: 'Brak amoralizmu państwowego', question: 'Czy odrzuca się dobro państwa jako usprawiedliwienie dla łamania etyki?' }
+    };
+
+    const PUBLIC_MORALITY_META = {
+      two_consciences_rejection: { name: 'Odrzucenie „dwóch sumień”', question: 'Czy uznaje się, że urzędnik, żołnierz czy poseł nie może mieć odrębnego sumienia dla spraw publicznych?' },
+      state_bound_by_decalogue: { name: 'Państwo podlega dekalogowi', question: 'Czy przyrodzone prawo moralne obowiązuje państwo w tej samej mierze co jednostkę?' },
+      politics_as_ethical_domain: { name: 'Polityka dziedziną etyczną', question: 'Czy panuje przekonanie, że polityka winna być oparta na etyce?' },
+      unethical_law_is_lawless: { name: 'Prawo nieetyczne to bezprawie', question: 'Czy prawo sprzeczne z etyką jest uznawane za bezprawie?' },
+      evil_in_name_of_state_remains_evil: { name: 'Zło państwowe to zło', question: 'Czy zło popełnione „w imieniu państwa” pozostaje złem?' },
+      stricter_ethics_for_public_figures: { name: 'Surowsza etyka osób publicznych', question: 'Czy od osób publicznych wymaga się surowszej etyki niż w prywatnych sprawach?' },
+      duty_to_fight_public_evil: { name: 'Obowiązek walki ze złem', question: 'Czy etyka nakłada na obywatela obowiązek czynnego przeciwstawiania się niemoralności w życiu publicznym?' },
+      ethics_over_law_primacy_public: { name: 'Prymat etyki nad prawem', question: 'Czy w sprawach publicznych etyka ma wyższość nad prawem stanowionym?' },
+      personal_responsibility_in_public: { name: 'Odpowiedzialność osobista', question: 'Czy w działaniach publicznych obowiązuje pełna odpowiedzialność osobista?' },
+      legal_dualism_presence: { name: 'Dualizm prawny', question: 'Czy występuje dualizm prawny (prawo prywatne wyznacza granice państwowemu)?' },
+      good_as_dominant_category: { name: 'Dobro jako kategoria panująca', question: 'Czy Dobro jest uznane za kategorię panującą w życiu publicznym?' },
+      dual_ethics_absence: { name: 'Brak dwoistości etyki', question: 'Czy odrzuca się bizantyjską dwoistość etyki (prywatna vs państwowa)?' },
+      physical_force_supremacy_absence: { name: 'Brak supremacji siły', question: 'Czy odrzuca się supremację siły fizycznej i wolę wodza jako jedyne źródło prawa?' },
+      statolatry_absence: { name: 'Brak statolatrii', question: 'Czy odrzuca się deifikację państwa i statolatrię?' },
+      legalism_replacing_conscience_absence: { name: 'Brak legalizmu zamiast sumienia', question: 'Czy odrzuca się sytuację, gdzie legalizm zastepuje sumienie?' },
+      caesaropapism_absence: { name: 'Brak cezaropapizmu', question: 'Czy odrzuca się cezaropapizm (władza świecka nie rządzi sumieniami)?' }
+    };
+
     function buildCardsGroup(scoresObj, metaDict) {
       let html = '';
       for (const [key, val] of Object.entries(scoresObj)) {
@@ -1052,7 +1125,9 @@
       family: false,
       church: false,
       property: false,
-      inheritance: true
+      inheritance: false,
+      morality: false,
+      public_morality: true
     };
 
 
@@ -1166,6 +1241,32 @@
         </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony (isUnderDev = false)</div>`}
       </div>`;
 
+    const moralityHero = buildDarkHero(
+      'SUPREMACJA MORALNOŚCI',
+      moralityScore,
+      moralityScore >= 65 ? 'Etyka totalna (Cyw. Łacińska)' : moralityScore >= 35 ? 'Mieszanka' : 'Amoralizm / Legalizm'
+    );
+
+    const moralityCards = Object.keys(moralityScores).length > 0 ? buildCardsGroup(moralityScores, MORALITY_META) : `
+      <div id="loader-morality" style="padding:20px; text-align:center;">
+        ${INDEX_DEV_FLAGS.morality ? `<button class="tab-btn active zapytaj-btn" data-target="morality" data-loader="loader-morality" data-name="Supremacja Moralności" style="margin:0 auto; padding:10px 20px;">
+          Zapytaj (Pobierz dane)
+        </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony (isUnderDev = false)</div>`}
+      </div>`;
+
+    const publicMoralityHero = buildDarkHero(
+      'TOTALNOŚĆ MORALNOŚCI PUBLICZNEJ',
+      publicMoralityScore,
+      publicMoralityScore >= 65 ? 'Państwo narzędziem etyki' : publicMoralityScore >= 35 ? 'Mieszanka' : 'Państwo zwolnione z etyki / Dwa sumienia'
+    );
+
+    const publicMoralityCards = Object.keys(publicMoralityScores).length > 0 ? buildCardsGroup(publicMoralityScores, PUBLIC_MORALITY_META) : `
+      <div id="loader-public_morality" style="padding:20px; text-align:center;">
+        ${INDEX_DEV_FLAGS.public_morality ? `<button class="tab-btn active zapytaj-btn" data-target="public_morality" data-loader="loader-public_morality" data-name="Totalność Moralności Publicznej" style="margin:0 auto; padding:10px 20px;">
+          Zapytaj (Pobierz dane)
+        </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony (isUnderDev = false)</div>`}
+      </div>`;
+
     content.innerHTML = `
       <div class="tab-bar">
         <button class="tab-btn active" id="tab-sacrality">Indeks Sakralności</button>
@@ -1179,6 +1280,8 @@
         <button class="tab-btn" id="tab-church">Niezależność Kościoła</button>
         <button class="tab-btn" id="tab-property">Stabilność Własności</button>
         <button class="tab-btn" id="tab-inheritance">Ciągłość Dziedziczenia</button>
+        <button class="tab-btn" id="tab-morality">Supremacja Moralności</button>
+        <button class="tab-btn" id="tab-public_morality">Moralność Publiczna</button>
       </div>
 
       <div id="view-sacrality">
@@ -1236,6 +1339,16 @@
         <div class="section-title">15 Wskaźników Ciągłości Dziedziczenia</div>
         ${inheritanceCards}
       </div>
+      <div id="view-morality" style="display:none">
+        ${moralityHero}
+        <div class="section-title">15 Wskaźników Supremacji Moralności</div>
+        ${moralityCards}
+      </div>
+      <div id="view-public_morality" style="display:none">
+        ${publicMoralityHero}
+        <div class="section-title">16 Wskaźników Moralności Publicznej</div>
+        ${publicMoralityCards}
+      </div>
     `;
 
     const tabSacrality = content.querySelector('#tab-sacrality');
@@ -1249,6 +1362,8 @@
     const tabChurch = content.querySelector('#tab-church');
     const tabProperty = content.querySelector('#tab-property');
     const tabInheritance = content.querySelector('#tab-inheritance');
+    const tabMorality = content.querySelector('#tab-morality');
+    const tabPublicMorality = content.querySelector('#tab-public_morality');
     const viewSacrality = content.querySelector('#view-sacrality');
     const viewSpirit    = content.querySelector('#view-spirit');
     const viewDualism   = content.querySelector('#view-dualism');
@@ -1260,10 +1375,12 @@
     const viewChurch = content.querySelector('#view-church');
     const viewProperty = content.querySelector('#view-property');
     const viewInheritance = content.querySelector('#view-inheritance');
+    const viewMorality = content.querySelector('#view-morality');
+    const viewPublicMorality = content.querySelector('#view-public_morality');
 
     function switchTab(tabBtn, viewDiv) {
-      [tabSacrality, tabSpirit, tabDualism, tabPluralism, tabAposteriori, tabOrganism, tabPersonalism, tabFamily, tabChurch, tabProperty, tabInheritance].forEach(t => t.classList.remove('active'));
-      [viewSacrality, viewSpirit, viewDualism, viewPluralism, viewAposteriori, viewOrganism, viewPersonalism, viewFamily, viewChurch, viewProperty, viewInheritance].forEach(v => v.style.display = 'none');
+      [tabSacrality, tabSpirit, tabDualism, tabPluralism, tabAposteriori, tabOrganism, tabPersonalism, tabFamily, tabChurch, tabProperty, tabInheritance, tabMorality, tabPublicMorality].forEach(t => t.classList.remove('active'));
+      [viewSacrality, viewSpirit, viewDualism, viewPluralism, viewAposteriori, viewOrganism, viewPersonalism, viewFamily, viewChurch, viewProperty, viewInheritance, viewMorality, viewPublicMorality].forEach(v => v.style.display = 'none');
       tabBtn.classList.add('active');
       viewDiv.style.display = 'block';
     }
@@ -1279,6 +1396,8 @@
     tabChurch.addEventListener('click', () => switchTab(tabChurch, viewChurch));
     tabProperty.addEventListener('click', () => switchTab(tabProperty, viewProperty));
     tabInheritance.addEventListener('click', () => switchTab(tabInheritance, viewInheritance));
+    tabMorality.addEventListener('click', () => switchTab(tabMorality, viewMorality));
+    tabPublicMorality.addEventListener('click', () => switchTab(tabPublicMorality, viewPublicMorality));
 
     // Bind Zapytaj buttons
     content.querySelectorAll('.zapytaj-btn').forEach(btn => {

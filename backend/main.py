@@ -52,7 +52,9 @@ class AnalysisResponse(BaseModel):
     church_independence_score: float = 0.0
     property_rights_stability_score: float = 0.0
     inheritance_continuity_score: float = 0.0
-    raw_ratings: Dict[str, Any]
+    morality_supremacy_score: float = 0.0
+    public_morality_totality_score: float = 0.0
+    raw_ratings: Dict[str, Any] = {}
 
 @app.post("/api/analyze", response_model=AnalysisResponse)
 async def analyze_text(request: AnalysisRequest, x_gemini_api_key: Optional[str] = Header(None)):

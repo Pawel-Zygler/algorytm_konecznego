@@ -18,7 +18,8 @@ INDEX_DEV_FLAGS = {
     "church": False,
     "property": False,
     "inheritance": False,
-    "morality": True
+    "morality": False,
+    "public_morality": True
 }
 
 indicator_item = {
@@ -140,6 +141,7 @@ def calculate_koneczny_metrics(llm_data: Dict[str, Any]) -> Dict[str, Any]:
         "property_rights_stability_score": _calc_avg("property_rights_stability_scores"),
         "inheritance_continuity_score": _calc_avg("inheritance_continuity_scores"),
         "morality_supremacy_score": _calc_avg("morality_supremacy_scores"),
+        "public_morality_totality_score": _calc_avg("public_morality_totality_scores"),
         "raw_ratings": llm_data
     }
 
@@ -805,12 +807,91 @@ TEKST DO ANALIZY:
 {trimmed_text}
 Zwróć JSON."""
 
+    # --- CALL 11: Public Morality Totality ---
+    sys_inst_11 = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w 1 wymiarze (0.0-1.0):
+1. INDEKS TOTALNOŚCI MORALNOŚCI PUBLICZNEJ (16 wskaźników)
+
+BARDZO WAŻNE ZASADY:
+- WSZYSTKIE ODPOWIEDZI MUSZĄ BYĆ W JĘZYKU POLSKIM (wyjaśnienia, tytuły newsów, uzasadnienia).
+- UZASADNIENIA MUSZĄ BYĆ BARDZO KRÓTKIE (max 1 zdanie).
+- BRAK DANYCH: Oceniaj wskaźniki (0.0-1.0) nawet na podstawie poszlak. Tylko gdy tekst CAŁKOWICIE pomija zagadnienie, ustaw score: -1.0.
+- NAGŁÓWKI NEWSOWE muszą być ZWIĘZŁE (max 5-8 słów).
+- Nagłówki newsowe oraz uzasadnienie MUSZĄ odnosić się BEZPOŚREDNIO do kraju i kontekstu analizowanego tekstu."""
+
+    schema_11 = {
+        "type": "object",
+        "properties": {
+            "public_morality_totality_scores": {
+                "type": "object",
+                "properties": {
+                    "two_consciences_rejection": indicator_item,
+                    "state_bound_by_decalogue": indicator_item,
+                    "politics_as_ethical_domain": indicator_item,
+                    "unethical_law_is_lawless": indicator_item,
+                    "evil_in_name_of_state_remains_evil": indicator_item,
+                    "stricter_ethics_for_public_figures": indicator_item,
+                    "duty_to_fight_public_evil": indicator_item,
+                    "ethics_over_law_primacy_public": indicator_item,
+                    "personal_responsibility_in_public": indicator_item,
+                    "legal_dualism_presence": indicator_item,
+                    "good_as_dominant_category": indicator_item,
+                    "dual_ethics_absence": indicator_item,
+                    "physical_force_supremacy_absence": indicator_item,
+                    "statolatry_absence": indicator_item,
+                    "legalism_replacing_conscience_absence": indicator_item,
+                    "caesaropapism_absence": indicator_item
+                },
+                "required": [
+                    "two_consciences_rejection",
+                    "state_bound_by_decalogue",
+                    "politics_as_ethical_domain",
+                    "unethical_law_is_lawless",
+                    "evil_in_name_of_state_remains_evil",
+                    "stricter_ethics_for_public_figures",
+                    "duty_to_fight_public_evil",
+                    "ethics_over_law_primacy_public",
+                    "personal_responsibility_in_public",
+                    "legal_dualism_presence",
+                    "good_as_dominant_category",
+                    "dual_ethics_absence",
+                    "physical_force_supremacy_absence",
+                    "statolatry_absence",
+                    "legalism_replacing_conscience_absence",
+                    "caesaropapism_absence"
+                ]
+            },
+            "public_morality_news_1": {"type": "string"},
+            "public_morality_news_2": {"type": "string"},
+            "public_morality_news_3": {"type": "string"},
+            "public_morality_justification": {"type": "string"}
+        },
+        "required": [
+            "public_morality_totality_scores",
+            "public_morality_news_1",
+            "public_morality_news_2",
+            "public_morality_news_3",
+            "public_morality_justification"
+        ]
+    }
+
+    prompt_11 = f"""Kontekst metodologiczny Konecznego (Totalność Moralności Publicznej):
+{indices_context[:3000]}
+{rag_context}
+
+BARDZO WAŻNE INSTRUKCJE:
+Przeprowadź analizę WSZYSTKICH 16 wskaźników TOTALNOŚCI MORALNOŚCI PUBLICZNEJ (public_morality_totality_scores) dla wybranego poniższego tekstu. 
+
+TEKST DO ANALIZY:
+{trimmed_text}
+Zwróć JSON."""
+
     # Execute calls conditionally based on target_indices
     if target_indices is None:
         # Default for development if not specified
         target_indices = [k for k, v in INDEX_DEV_FLAGS.items() if v]
 
     res_1, res_1b, res_2, res_3, res_4, res_5, res_5b, res_6, res_7, res_8, res_9 = {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}
+    res_10, res_11 = {}, {}
 
     if "sacrality" in target_indices and INDEX_DEV_FLAGS.get("sacrality", False):
         res_1 = run_query(prompt_1, sys_inst_1, schema_1)
@@ -835,12 +916,14 @@ Zwróć JSON."""
     if "inheritance" in target_indices and INDEX_DEV_FLAGS.get("inheritance", False):
         res_9 = run_query(prompt_9, sys_inst_9, schema_9)
 
-    res_10 = {}
     if "morality" in target_indices and INDEX_DEV_FLAGS.get("morality", False):
         res_10 = run_query(prompt_10, sys_inst_10, schema_10)
+    
+    if "public_morality" in target_indices and INDEX_DEV_FLAGS.get("public_morality", False):
+        res_11 = run_query(prompt_11, sys_inst_11, schema_11)
 
     # Merge results
-    llm_data = {**res_1, **res_1b, **res_2, **res_3, **res_4, **res_5, **res_5b, **res_6, **res_7, **res_8, **res_9, **res_10}
+    llm_data = {**res_1, **res_1b, **res_2, **res_3, **res_4, **res_5, **res_5b, **res_6, **res_7, **res_8, **res_9, **res_10, **res_11}
 
     # Run math calculations and return unified structure
     result = calculate_koneczny_metrics(llm_data)
