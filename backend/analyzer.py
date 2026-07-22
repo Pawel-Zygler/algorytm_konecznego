@@ -129,7 +129,7 @@ def calculate_koneczny_metrics(llm_data: Dict[str, Any]) -> Dict[str, Any]:
         
         return sum(valid_vals) / len(valid_vals) if valid_vals else -1.0
 
-    return {
+    result = {
         "sacrality_score": _calc_avg("sacrality_scores"),
         "legal_dualism_score": _calc_avg("legal_dualism_scores"),
         "law_source_pluralism_score": _calc_avg("law_source_pluralism_scores"),
@@ -143,6 +143,7 @@ def calculate_koneczny_metrics(llm_data: Dict[str, Any]) -> Dict[str, Any]:
         "morality_supremacy_score": _calc_avg("morality_supremacy_scores"),
         "public_morality_totality_score": _calc_avg("public_morality_totality_scores"),
         "administrative_responsibility_score": _calc_avg("administrative_responsibility_scores"),
+    }
     # Calculate global spirit supremacy score from 12 indices
     spirit_scores = [
         result["legal_dualism_score"], result["law_source_pluralism_score"], result["aposteriori_apriori_score"],
@@ -1005,7 +1006,7 @@ Zwróć JSON."""
     llm_data = {}
     
     if tasks:
-        with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
             future_to_task = {executor.submit(run_query, t[0], t[1], t[2]): t for t in tasks}
             for future in concurrent.futures.as_completed(future_to_task):
                 try:
