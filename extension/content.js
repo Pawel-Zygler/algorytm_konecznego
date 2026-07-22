@@ -1175,51 +1175,7 @@
           Zapytaj (Pobierz dane)
         </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony (isUnderDev = false)</div>`}
       </div>`;
-      
-    const spiritCards = `
-      <div id="loader-spirit" style="padding:20px; text-align:center;">
-        ${INDEX_DEV_FLAGS.spirit ? `<button class="tab-btn active zapytaj-btn" data-target="spirit" data-loader="loader-spirit" data-name="Supremacja Ducha (12 indeksów)" style="margin:0 auto; padding:10px 20px;">
-          Wylicz Supremację Ducha (~60-90s)
-        </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony (isUnderDev = false)</div>`}
-      </div>
-      <div class="sub-indices" style="margin-top: 30px;">
-        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-          ${dualismHero} <div class="section-title" style="margin-top:10px">Wskaźniki Dualizmu Prawnego</div> ${dualismCards}
-        </div>
-        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-          ${pluralismHero} <div class="section-title" style="margin-top:10px">Wskaźniki Pluralizmu Źródeł Prawa</div> ${pluralismCards}
-        </div>
-        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-          ${aposterioriHero} <div class="section-title" style="margin-top:10px">Wskaźniki Aposterioryzmu</div> ${aposterioriCards}
-        </div>
-        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-          ${organismHero} <div class="section-title" style="margin-top:10px">Wskaźniki Organizmu</div> ${organismCards}
-        </div>
-        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-          ${personalismHero} <div class="section-title" style="margin-top:10px">Wskaźniki Personalizmu</div> ${personalismCards}
-        </div>
-        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-          ${familyHero} <div class="section-title" style="margin-top:10px">Wskaźniki Autonomii Rodziny</div> ${familyCards}
-        </div>
-        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-          ${churchHero} <div class="section-title" style="margin-top:10px">Wskaźniki Niezależności Kościoła</div> ${churchCards}
-        </div>
-        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-          ${propertyHero} <div class="section-title" style="margin-top:10px">Wskaźniki Stabilności Własności</div> ${propertyCards}
-        </div>
-        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-          ${inheritanceHero} <div class="section-title" style="margin-top:10px">Wskaźniki Ciągłości Dziedziczenia</div> ${inheritanceCards}
-        </div>
-        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-          ${moralityHero} <div class="section-title" style="margin-top:10px">Wskaźniki Supremacji Moralności</div> ${moralityCards}
-        </div>
-        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-          ${publicMoralityHero} <div class="section-title" style="margin-top:10px">Wskaźniki Moralności Publicznej</div> ${publicMoralityCards}
-        </div>
-        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-          ${adminRespHero} <div class="section-title" style="margin-top:10px">Wskaźniki Odpowiedzialności Urzędniczej</div> ${adminRespCards}
-        </div>
-      </div>`;
+
       
     const dualismCards = Object.keys(legalDualismScores).length > 0 ? buildCardsGroup(legalDualismScores, LEGAL_DUALISM_META) : `
       <div id="loader-dualism" style="padding:20px; text-align:center;">
@@ -1354,6 +1310,51 @@
         ${INDEX_DEV_FLAGS.administrative_responsibility ? `<button class="tab-btn active zapytaj-btn" data-target="administrative_responsibility" data-loader="loader-administrative_responsibility" data-name="Odpowiedzialność Urzędnicza" style="margin:0 auto; padding:10px 20px;">
           Zapytaj (Pobierz dane)
         </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony (isUnderDev = false)</div>`}
+      </div>`;
+
+    const spiritCards = `
+      <div id="loader-spirit" style="padding:20px; text-align:center;">
+        ${INDEX_DEV_FLAGS.spirit ? `<button class="tab-btn active zapytaj-btn" data-target="spirit" data-loader="loader-spirit" data-name="Supremacja Ducha (12 indeksów)" style="margin:0 auto; padding:10px 20px;">
+          Wylicz Supremację Ducha (~60-90s)
+        </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony (isUnderDev = false)</div>`}
+      </div>
+      <div class="sub-indices" style="margin-top: 30px;">
+        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+          ${dualismHero} <div class="section-title" style="margin-top:10px">Wskaźniki Dualizmu Prawnego</div> ${dualismCards}
+        </div>
+        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+          ${pluralismHero} <div class="section-title" style="margin-top:10px">Wskaźniki Pluralizmu Źródeł Prawa</div> ${pluralismCards}
+        </div>
+        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+          ${aposterioriHero} <div class="section-title" style="margin-top:10px">Wskaźniki Aposterioryzmu</div> ${aposterioriCards}
+        </div>
+        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+          ${organismHero} <div class="section-title" style="margin-top:10px">Wskaźniki Organizmu</div> ${organismCards}
+        </div>
+        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+          ${personalismHero} <div class="section-title" style="margin-top:10px">Wskaźniki Personalizmu</div> ${personalismCards}
+        </div>
+        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+          ${familyHero} <div class="section-title" style="margin-top:10px">Wskaźniki Autonomii Rodziny</div> ${familyCards}
+        </div>
+        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+          ${churchHero} <div class="section-title" style="margin-top:10px">Wskaźniki Niezależności Kościoła</div> ${churchCards}
+        </div>
+        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+          ${propertyHero} <div class="section-title" style="margin-top:10px">Wskaźniki Stabilności Własności</div> ${propertyCards}
+        </div>
+        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+          ${inheritanceHero} <div class="section-title" style="margin-top:10px">Wskaźniki Ciągłości Dziedziczenia</div> ${inheritanceCards}
+        </div>
+        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+          ${moralityHero} <div class="section-title" style="margin-top:10px">Wskaźniki Supremacji Moralności</div> ${moralityCards}
+        </div>
+        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+          ${publicMoralityHero} <div class="section-title" style="margin-top:10px">Wskaźniki Moralności Publicznej</div> ${publicMoralityCards}
+        </div>
+        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+          ${adminRespHero} <div class="section-title" style="margin-top:10px">Wskaźniki Odpowiedzialności Urzędniczej</div> ${adminRespCards}
+        </div>
       </div>`;
 
     content.innerHTML = `
