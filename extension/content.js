@@ -890,7 +890,11 @@
 
     try {
       const config = await getStorageData();
-      const backendUrl = config.backendUrl || 'http://localhost:8000';
+      let backendUrl = config.backendUrl || 'http://localhost:8005';
+      if (backendUrl.includes(':8000')) {
+        backendUrl = backendUrl.replace(':8000', ':8005');
+        chrome.storage.local.set({ backendUrl });
+      }
       const apiKey = config.apiKey || '';
 
       const pageData = extractCleanText();
@@ -1906,7 +1910,14 @@
 
   function getStorageData() {
     return new Promise(resolve => {
-      chrome.storage.local.get(['backendUrl','apiKey'], resolve);
+      chrome.storage.local.get(['backendUrl','apiKey'], data => {
+        let backendUrl = data ? data.backendUrl || 'http://localhost:8005' : 'http://localhost:8005';
+        if (backendUrl.includes(':8000')) {
+          backendUrl = backendUrl.replace(':8000', ':8005');
+          chrome.storage.local.set({ backendUrl });
+        }
+        resolve({ ...data, backendUrl });
+      });
     });
   }
 
