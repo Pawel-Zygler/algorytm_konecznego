@@ -703,6 +703,7 @@
 
   // ── Analysis ──────────────────────────────────────────
   async function runAnalysis(targetIndexStr = null) {
+    window.konecznyIsFetching = true;
     if (trigger) trigger.classList.add('spinning');
 
     content.innerHTML = `
@@ -931,9 +932,11 @@
           ...(newData.raw_ratings || {})
         }
       };
+      window.konecznyIsFetching = false;
       renderResults();
 
     } catch (err) {
+      window.konecznyIsFetching = false;
       if (trigger) trigger.classList.remove('spinning');
       clearInterval(window.konecznyLoadingInterval);
       content.innerHTML = `
@@ -1608,16 +1611,12 @@
 
     const dutySourceCards = Object.keys(dutySourceScores).length > 0 ? buildCardsGroup(dutySourceScores, DUTY_SOURCE_META) : `
       <div id="loader-duty-source" style="padding:20px; text-align:center;">
-        ${INDEX_DEV_FLAGS.duty_source ? `<button class="tab-btn active zapytaj-btn" data-target="duty_source" data-loader="loader-duty-source" data-name="Personalistyczne Źródło Obowiązku" style="margin:0 auto; padding:10px 20px;">
-          Zapytaj (Pobierz dane)
-        </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony</div>`}
+        ${INDEX_DEV_FLAGS.duty_source ? `<div style="color:#a1a1aa; font-size:13px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">⚡ Trwa automatyczna analiza i pobieranie danych...</div>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony</div>`}
       </div>`;
 
     const motivationCards = Object.keys(motivationScores).length > 0 ? buildCardsGroup(motivationScores, MOTIVATION_META) : `
       <div id="loader-motivation" style="padding:20px; text-align:center;">
-        ${INDEX_DEV_FLAGS.motivation ? `<button class="tab-btn active zapytaj-btn" data-target="motivation" data-loader="loader-motivation" data-name="Motywacja (Bezinteresowność)" style="margin:0 auto; padding:10px 20px;">
-          Zapytaj (Pobierz dane)
-        </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony</div>`}
+        ${INDEX_DEV_FLAGS.motivation ? `<div style="color:#a1a1aa; font-size:13px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">⚡ Trwa automatyczna analiza i pobieranie danych...</div>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony</div>`}
       </div>`;
 
     const generaliaCards = Object.keys(generaliaScores).length > 0 ? buildCardsGroup(generaliaScores, GENERALIA_META) : `
@@ -1919,6 +1918,36 @@
         });
       }
     });
+
+    // Auto-trigger analysis for active dev test index if no scores loaded yet
+    const autoFetchDevFlag = Object.keys(INDEX_DEV_FLAGS).find(k => INDEX_DEV_FLAGS[k]);
+    if (autoFetchDevFlag && !window.konecznyIsFetching) {
+      const scoresMap = {
+        sacrality: sacralityScores,
+        generalia: generaliaScores,
+        duty_source: dutySourceScores,
+        motivation: motivationScores,
+        dualism: legalDualismScores,
+        pluralism: pluralismScores,
+        aposteriori: aposterioriScores,
+        organism: organismScores,
+        personalism: personalismScores,
+        family: familyScores,
+        church: churchScores,
+        property: propertyScores,
+        inheritance: inheritanceScores,
+        morality: moralityScores,
+        public_morality: publicMoralityScores,
+        administrative_responsibility: adminScores
+      };
+      const targetScores = scoresMap[autoFetchDevFlag] || {};
+      if (Object.keys(targetScores).length === 0) {
+        window.konecznyIsFetching = true;
+        setTimeout(() => {
+          runAnalysis(autoFetchDevFlag);
+        }, 50);
+      }
+    }
   }
 
   // ── Helpers ────────────────────────────────────────────
