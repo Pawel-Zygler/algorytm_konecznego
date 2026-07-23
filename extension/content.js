@@ -1938,7 +1938,7 @@
         inheritance: inheritanceScores,
         morality: moralityScores,
         public_morality: publicMoralityScores,
-        administrative_responsibility: adminScores
+        administrative_responsibility: adminRespScores
       };
       const targetScores = scoresMap[autoFetchDevFlag] || {};
       if (Object.keys(targetScores).length === 0) {
