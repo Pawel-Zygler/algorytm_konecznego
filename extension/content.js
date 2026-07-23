@@ -138,25 +138,152 @@
     .content::-webkit-scrollbar-track { background: transparent; }
     .content::-webkit-scrollbar-thumb { background: #e4e4e7; border-radius: 2px; }
 
-    /* ── Loading ── */
+    .fab.spinning img {
+      animation: fab-rotate 2s linear infinite;
+    }
+    @keyframes fab-rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* ── Loading Tank Arena ── */
     .loader {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 48px 0;
+      padding: 10px 0;
       gap: 14px;
     }
-    .spinner-photo {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      object-fit: cover;
-      animation: spin 3s linear infinite;
-      box-shadow: 0 0 0 3px #18181b, 0 0 0 5px #e4e4e7;
+    .tank-arena {
+      position: relative;
+      width: 100%;
+      height: 220px;
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      overflow: hidden;
+      border-radius: 12px;
+      background: radial-gradient(circle at 20% 50%, rgba(16, 185, 129, 0.05) 0%, rgba(24, 24, 27, 0.06) 100%);
+      border: 1px dashed rgba(0, 0, 0, 0.12);
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .loader-label { font-size:13px; color:#71717a; font-weight:500; }
+    .koneczny-tank {
+      position: absolute;
+      left: 20px;
+      top: 75px;
+      width: 80px;
+      height: 70px;
+      z-index: 5;
+      animation: tank-drive 1.2s ease-in-out infinite alternate;
+    }
+    @keyframes tank-drive {
+      0% { transform: translateY(0px); }
+      100% { transform: translateY(5px); }
+    }
+    .tank-body {
+      position: absolute;
+      bottom: 6px;
+      left: 0;
+      width: 65px;
+      height: 26px;
+      background: #18181b;
+      border: 2px solid #10b981;
+      border-radius: 6px 12px 6px 6px;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+    }
+    .tank-treads {
+      position: absolute;
+      bottom: 0;
+      left: -2px;
+      width: 69px;
+      height: 12px;
+      background: #27272a;
+      border: 2px solid #52525b;
+      border-radius: 6px;
+    }
+    .tank-hatch {
+      position: absolute;
+      top: 10px;
+      left: 14px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 2px solid #10b981;
+      overflow: hidden;
+      background: #18181b;
+      box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+    }
+    .tank-hatch img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .tank-barrel {
+      position: absolute;
+      top: 24px;
+      right: -16px;
+      width: 24px;
+      height: 5px;
+      background: #10b981;
+      border-radius: 2px;
+      box-shadow: 0 0 8px rgba(16, 185, 129, 0.8);
+      transform-origin: left center;
+      transition: transform 0.2s ease;
+    }
+    .cannon-shell {
+      position: absolute;
+      width: 14px;
+      height: 4px;
+      background: #ef4444;
+      border-radius: 2px;
+      box-shadow: 0 0 10px #ef4444;
+      z-index: 4;
+      transition: left 0.35s linear, top 0.35s linear, opacity 0.35s ease;
+    }
+    .badge-negative {
+      position: absolute;
+      padding: 4px 8px;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #dc2626;
+      font-size: 10px;
+      font-weight: 700;
+      font-family: monospace;
+      border-radius: 6px;
+      white-space: nowrap;
+      transition: all 0.3s ease;
+      z-index: 4;
+    }
+    .badge-positive {
+      position: absolute;
+      padding: 4px 8px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #059669;
+      font-size: 10px;
+      font-weight: 700;
+      font-family: monospace;
+      border-radius: 6px;
+      white-space: nowrap;
+      transition: left 1.8s cubic-bezier(0.4, 0, 0.2, 1), top 1.8s cubic-bezier(0.4, 0, 0.2, 1), transform 1.8s ease, opacity 1.8s ease;
+      z-index: 4;
+    }
+    .laser-beam {
+      position: absolute;
+      height: 2px;
+      background: linear-gradient(90deg, #ef4444, #f87171);
+      box-shadow: 0 0 8px #ef4444;
+      transform-origin: 0 50%;
+      pointer-events: none;
+      z-index: 3;
+      animation: laser-flash 0.3s linear forwards;
+    }
+    @keyframes laser-flash {
+      0% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    .loader-label { font-size:13px; color:#71717a; font-weight:500; text-align:center; }
 
     /* ── Score Hero ── */
     .score-hero {
@@ -480,14 +607,126 @@
     }
   });
 
+    function initKonecznyTankDom(arena, konecznyImgSrc) {
+      const negativeWords = ["GROMADNOŚĆ", "MECHANIZM", "STATOLATRIA", "APRIORYZM", "CEZAROPAPIZM", "KOLEKTYWIZM", "TURAŃSZCZYZNA", "BIZANTYNIZM", "FISKALIZM", "MAKIAWELIZM"];
+      const positiveWords = ["PERSONALIZM", "DUALIZM PRAWNY", "ETYKA", "WOLNOŚĆ", "APOSTERIORYZM", "AUTONOMIA RODZINY", "PRAWDA OBIEKTYWNA", "HISTORYZM"];
+
+      const svg = arena.querySelector('.tank-laser-svg');
+
+      function spawnNegative() {
+        if (!document.body.contains(arena)) return;
+        const word = negativeWords[Math.floor(Math.random() * negativeWords.length)];
+
+        const leftPx = 200 + Math.random() * 140;
+        const topPx = 20 + Math.random() * 150;
+
+        const badge = document.createElement('div');
+        badge.className = 'badge-negative';
+        badge.textContent = '💥 ' + word;
+        badge.style.left = leftPx + 'px';
+        badge.style.top = topPx + 'px';
+        arena.appendChild(badge);
+
+        setTimeout(() => {
+          if (!document.body.contains(badge)) return;
+
+          const tank = arena.querySelector('.koneczny-tank');
+          const barrel = arena.querySelector('.tank-barrel');
+
+          const tankX = 95;
+          const tankY = tank ? tank.offsetTop + 26 : 100;
+          const targetX = leftPx + 35;
+          const targetY = topPx + 10;
+
+          const dx = targetX - tankX;
+          const dy = targetY - tankY;
+          const angleDeg = Math.atan2(dy, dx) * (180 / Math.PI);
+
+          if (barrel) barrel.style.transform = `rotate(${angleDeg}deg)`;
+
+          const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          line.setAttribute('x1', tankX);
+          line.setAttribute('y1', tankY);
+          line.setAttribute('x2', targetX);
+          line.setAttribute('y2', targetY);
+          line.setAttribute('stroke', '#ef4444');
+          line.setAttribute('stroke-width', '3');
+          line.setAttribute('stroke-linecap', 'round');
+          line.setAttribute('style', 'filter: drop-shadow(0 0 6px #ef4444); opacity: 1; transition: opacity 0.2s ease;');
+          if (svg) svg.appendChild(line);
+
+          setTimeout(() => {
+            if (line) line.style.opacity = '0';
+            setTimeout(() => { if (line) line.remove(); }, 200);
+
+            badge.style.transform = 'scale(1.4)';
+            badge.style.opacity = '0';
+            setTimeout(() => {
+              if (document.body.contains(badge)) badge.remove();
+              if (document.body.contains(arena)) spawnNegative();
+            }, 200);
+          }, 150);
+        }, 400 + Math.random() * 500);
+      }
+
+      function spawnPositive() {
+        if (!document.body.contains(arena)) return;
+        const word = positiveWords[Math.floor(Math.random() * positiveWords.length)];
+
+        const startX = 240 + Math.random() * 100;
+        const startY = 10 + Math.random() * 40;
+
+        const badge = document.createElement('div');
+        badge.className = 'badge-positive';
+        badge.textContent = '⚡ ' + word;
+        badge.style.left = startX + 'px';
+        badge.style.top = startY + 'px';
+        arena.appendChild(badge);
+
+        setTimeout(() => {
+          if (!document.body.contains(badge)) return;
+          badge.style.left = '45px';
+          badge.style.top = '90px';
+          badge.style.transform = 'scale(0.2)';
+          badge.style.opacity = '0';
+
+          setTimeout(() => {
+            if (document.body.contains(badge)) badge.remove();
+            if (document.body.contains(arena)) spawnPositive();
+          }, 1600);
+        }, 100);
+      }
+
+      for (let i = 0; i < 3; i++) setTimeout(spawnNegative, i * 350);
+      for (let i = 0; i < 2; i++) setTimeout(spawnPositive, i * 650);
+    }
+
   // ── Analysis ──────────────────────────────────────────
   async function runAnalysis(targetIndexStr = null) {
+    if (trigger) trigger.classList.add('spinning');
+
     content.innerHTML = `
       <div class="loader">
-        <img class="spinner-photo" src="${konecznyImg}" alt="Analizuję...">
+        <div class="tank-arena" id="tank-arena">
+          <svg class="tank-laser-svg" style="position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:4;"></svg>
+          <div class="koneczny-tank">
+            <div class="tank-body">
+              <div class="tank-barrel"></div>
+            </div>
+            <div class="tank-treads"></div>
+            <div class="tank-hatch">
+              <img src="${konecznyImg}" alt="Feliks Koneczny">
+            </div>
+          </div>
+        </div>
         <div class="loader-label" id="loader-label-text">Profesor analizuje tekst…</div>
       </div>
     `;
+
+    const arena = content.querySelector('#tank-arena');
+    if (arena) {
+      initKonecznyTankDom(arena, konecznyImg);
+    }
 
     const statements = [
       "Szereguję dwoistości...",
@@ -634,6 +873,7 @@
       renderResults();
 
     } catch (err) {
+      if (trigger) trigger.classList.remove('spinning');
       clearInterval(window.konecznyLoadingInterval);
       content.innerHTML = `
         <div class="error-box">
@@ -650,6 +890,7 @@
   window.konecznyResults = window.konecznyResults || { raw_ratings: {} };
   // ── Render ─────────────────────────────────────────────
   function renderResults() {
+    if (trigger) trigger.classList.remove('spinning');
     const data = window.konecznyResults;
 
     // Remember active tab
@@ -796,14 +1037,14 @@
 
     const LEGAL_DUALISM_META = {
       PRIVATE_RIGHTS_SPHERE: { name: 'Sfera Praw Prywatnych', question: 'Czy państwo uznaje niezależną od siebie sferę praw prywatnych jednostki?' },
-      FAMILY_AUTONOMY: { name: 'Autonomia Rodziny', question: 'Czy autonomia rodziny jest, ograniczona, czy jej nie ma?' },
-      PROPERTY_PROTECTION: { name: 'Ochrona Własności', question: 'Czy własność prywatna jest chroniona, warunkowo chroniona czy nie ma?' },
-      NATURAL_INHERITANCE: { name: 'Dziedziczenie Naturalne', question: 'Czy dziedziczenie jest naturalnie regulowane czy kontrolowane?' },
-      POWER_LIMITS: { name: 'Granice Władzy', question: 'Czy istnieją granice władzy realne, formalne czy brak?' },
-      OPPOSITION_RIGHT: { name: 'Prawo Sprzeciwu', question: 'Czy jest możliwość sprzeciwu, jest ograniczona, nie ma?' },
-      STATE_MORALITY_SUBORDINATION: { name: 'Podporządkowanie Państwa Moralności', question: 'Czy państwo jest podporządkowane moralności całe, częściowo czy wcale?' },
-      DIVINE_VS_CAESAR: { name: 'Boskie i Cesarskie', question: 'Czy jest podział na to co boskie i cesarskie?' },
-      RULER_ETHICS_EQUALITY: { name: 'Zrównanie Etyczne Władcy', question: 'Czy państwo i król podlegają tym samym normom etycznym?' },
+      FAMILY_AUTONOMY: { name: 'Pełna Autonomia Rodziny', question: 'Czy rodzina posiada pełną autonomię niezależną od państwa?' },
+      PROPERTY_PROTECTION: { name: 'Ochrona Własności', question: 'Czy własność prywatna jest bezwzględnie chroniona i wolna od konfiskat?' },
+      NATURAL_INHERITANCE: { name: 'Dziedziczenie Naturalne', question: 'Czy dziedziczenie podlega prawu naturalnemu i zależy wyłącznie od woli rodziny?' },
+      POWER_LIMITS: { name: 'Granice Władzy', question: 'Czy istnieją obiektywne i realne granice władzy państwowej?' },
+      OPPOSITION_RIGHT: { name: 'Prawo Sprzeciwu', question: 'Czy istnieje nieskrępowane prawo sprzeciwu (opozycji) wobec władzy?' },
+      STATE_MORALITY_SUBORDINATION: { name: 'Podporządkowanie Państwa Moralności', question: 'Czy państwo jest w pełni podporządkowane uniwersalnej moralności?' },
+      DIVINE_VS_CAESAR: { name: 'Boskie i Cesarskie', question: 'Czy zachowany jest podział na to co boskie (duchowe) i cesarskie (świeckie)?' },
+      RULER_ETHICS_EQUALITY: { name: 'Zrównanie Etyczne Władcy', question: 'Czy król/państwo podlegają dokładnie tym samym normom etycznym co obywatele?' },
       INDEPENDENT_JUDICIARY: { name: 'Niezależność Sędziów', question: 'Czy sędziowie są odrębnym organem czy funkcjonariuszem administracji?' },
       OFFICIAL_RESPONSIBILITY: { name: 'Odpowiedzialność Urzędnika', question: 'Czy istnieje odpowiedzialność urzędnika przed obywatelem za wyrządzone szkody?' },
       APOSTERIORI_LAW: { name: 'Prawo Aposterioryczne', question: 'Czy prawo wywodzi się z aposteriorycznego doświadczenia etycznego czy z biurokracji?' },
@@ -815,17 +1056,17 @@
       SOCIETY_PRIMACY: { name: 'Prymat Społeczeństwa', question: 'Czy istnieje prymat społeczeństwa nad państwem?' },
       SOCIETY_AS_GOAL: { name: 'Społeczeństwo Jako Cel', question: 'Czy państwo jest środkiem a społeczeństwo celem?' },
       CHURCH_INDEPENDENCE: { name: 'Niezależność Kościoła', question: 'Czy Kościół jest niezależny od państwa?' },
-      STATOLATRY_PUBLIC_MONISM: { name: 'Statolatria (Monizm Publ.)', question: 'Czy jest zjawisko statolatrii jako monizm prawa publicznego?' },
-      PRIVATE_LAW_MONISM: { name: 'Monizm Prawa Prywatnego', question: 'Czy jest monizm prawa prywatnego jak w turańszczyźnie?' },
-      CITIZENS_AS_HOSTAGES: { name: 'Obywatele jako Zakładnicy', question: 'Czy mieszkańcy są niewolnikami albo zakładnikami władcy?' },
-      SACRAL_LAW_MONOPOLY: { name: 'Monopol Prawa Sakralnego', question: 'Czy drobiazgowe prawo rytualne wyklucza autonomiczne prawo świeckie?' },
-      EXCESS_REGULATION: { name: 'Nadmiar Przepisów', question: 'Czy jest nadmiar przepisów pożerających prawo prywatne?' }
+      NO_STATOLATRY_PUBLIC_MONISM: { name: 'Odrzucenie Statolatrii', question: 'Czy odrzuca się zjawisko statolatrii i monizmu prawa publicznego?' },
+      NO_PRIVATE_LAW_MONISM: { name: 'Brak Monizmu Prywatnego', question: 'Czy unika się monizmu prawa prywatnego (np. na wzór turański)?' },
+      CITIZENS_ARE_FREE: { name: 'Wolność Obywateli', question: 'Czy mieszkańcy są wolni (a nie niewolnikami lub zakładnikami władcy)?' },
+      NO_SACRAL_LAW_MONOPOLY: { name: 'Brak Monopolu Sakralnego', question: 'Czy istnieje autonomiczne prawo świeckie (brak wyłączności prawa rytualnego)?' },
+      NO_EXCESS_REGULATION: { name: 'Brak Nadmiaru Przepisów', question: 'Czy unika się nadmiaru przepisów pochłaniających prawo prywatne?' }
     };
 
     const PLURALISM_META = {
       MULTIPLE_LAW_SOURCES: { name: 'Wielosc Zrodel Prawa', question: 'Czy prawo ma wiele współistniejących źródeł (prawo naturalne, etyka, zwyczaj)?' },
-      SINGLE_LAW_SOURCE: { name: 'Jedno Zrodlo Prawa', question: 'Czy prawo ma jedno źródło takie jak państwo, doktryna, albo wola władcy?' },
-      LAW_DISCOVERY_VS_CREATION: { name: 'Odkrywanie czy Narzucanie', question: 'Czy prawo jest odkrywane i porządkowane, czy wytwarzane i narzucane?' },
+      SINGLE_LAW_SOURCE: { name: 'Odrzucenie Monopolu Źródeł', question: 'Czy odrzuca się monopol jednego wyłącznego źródła prawa (np. państwa lub dyktatora)?' },
+      LAW_DISCOVERY_VS_CREATION: { name: 'Odkrywanie Prawa', question: 'Czy prawo traktuje się jako odkrywane z życia i zwyczaju (a nie odgórnie narzucane)?' },
       UNJUST_LAW_CHALLENGE: { name: 'Prawo do Podwazenia', question: 'Czy istnieje coś co może zakwestionować obowiązujące prawo jako niesprawiedliwe?' },
       LAW_JUDGEABILITY: { name: 'Ocenialnosc Prawa', question: 'Czy prawo może być osądzane czy tylko wykonywane?' },
       CAN_LAW_BE_BAD: { name: 'Zle Prawo', question: 'Czy prawo może być złe?' },
@@ -839,43 +1080,43 @@
       INDEPENDENT_CORPORATIONS: { name: 'Niezalezne Korporacje', question: 'Czy istnieją niezależne korporacje i samorządy?' },
       PRIVATE_PUBLIC_LAW_SPLIT: { name: 'Podzial Prawa', question: 'Czy istnieje ścisły podział na sferę prywatną i publiczną?' },
       SOCIETY_PRIMACY_OVER_STATE: { name: 'Prymat Spoleczenstwa', question: 'Czy istnieje prymat społeczeństwa nad państwem?' },
-      SINGLE_IMMUTABLE_SOURCE: { name: 'Niezmienne Zrodlo', question: 'Czy źródło prawa jest jedno i niezmienne (jak w Żydowskiej)?' },
-      WODZ_WILL_VS_MULTIPLE: { name: 'Wola Wodza', question: 'Czy źródłem prawa jest wyłącznie wola wodza?' },
-      STATE_ONLY_LAW_SOURCE: { name: 'Panstwo Jedyne Zrodlo', question: 'Czy tylko państwo jest źródłem prawa?' },
-      SOCIALIST_DOCTRINE_COERCION: { name: 'Doktryna Socjalistyczna', question: 'Czy socjalizm i garstka doktrynerów wymyśla formuły by naginać narody?' }
+      SINGLE_IMMUTABLE_SOURCE: { name: 'Brak Sztywnego Źródła', question: 'Czy odrzuca się istnienie jednego, sztywnego i niezmiennego źródła prawa?' },
+      WODZ_WILL_VS_MULTIPLE: { name: 'Odrzucenie Woli Wodza', question: 'Czy odrzuca się samowolę i wyłączność woli wodza jako jedynego źródła prawa?' },
+      STATE_ONLY_LAW_SOURCE: { name: 'Brak Monopolu Państwa', question: 'Czy odrzuca się monopol państwa w stanowieniu prawa (uznając prawo zwyczajowe/społeczne)?' },
+      SOCIALIST_DOCTRINE_COERCION: { name: 'Brak Doktrynerstwa', question: 'Czy prawodawstwo jest wolne od apriorycznej doktryny socjalistycznej niszczącej tradycję?' }
     };
 
     const APOSTERIORI_META = {
-      LAW_SANCTIONING_FACTS_VS_IDEAS: { name: 'Fakty czy Pomysly', question: 'Czy prawo sankcjonuje istniejące fakty z doświadczenia (aposteriori) czy zmyślone pomysły (apriori)?' },
-      STATE_AS_EDUCATOR: { name: 'Panstwo Wychowawca', question: 'Czy państwo przypisuje sobie rolę wychowawcy społeczeństwa przez ustawy?' },
-      INDUCTION_VS_DEDUCTION: { name: 'Indukcja czy Dedukcja', question: 'Czy system prawny opiera się na indukcji z faktów czy na dedukcji z formuły?' },
-      UNITY_BY_DIVERSITY_VS_UNIFORMITY: { name: 'Rozmaitosc czy Jednostajnosc', question: 'Czy jedność zrzeszenia buduje się przez rozmaitość czy przez narzuconą jednostajność?' },
-      SOCIAL_ENGINEERING_CULT: { name: 'Inzynieria Spoleczna', question: 'Czy istnieje kult biur planowania i inżynierii społecznej?' },
+      LAW_SANCTIONING_FACTS_VS_IDEAS: { name: 'Sankcjonowanie Faktów', question: 'Czy prawo sankcjonuje realne fakty wynikające ze społecznego doświadczenia (aposteriori)?' },
+      STATE_AS_EDUCATOR: { name: 'Brak Państwa-Wychowawcy', question: 'Czy unika się traktowania państwa jako apriorycznego wychowawcy społeczeństwa?' },
+      INDUCTION_VS_DEDUCTION: { name: 'Indukcja z Doświadczenia', question: 'Czy system prawny opiera się na indukcji z doświadczenia i faktów?' },
+      UNITY_BY_DIVERSITY_VS_UNIFORMITY: { name: 'Jedność przez Rozmaitość', question: 'Czy jedność budowana jest organicznie przez różnorodność, a nie narzuconą jednostajność?' },
+      SOCIAL_ENGINEERING_CULT: { name: 'Brak Inżynierii Społecznej', question: 'Czy odrzuca się inżynierię społeczną i odgórny kult biur planowania?' },
       ETHICS_PRECEDES_LAW: { name: 'Etyka Wyprzedza Prawo', question: 'Czy etyka wyprzedza prawo, czy prawo wyprzedza etykę?' },
       HISTORICISM_AS_BASE: { name: 'Historyzm jako Podstawa', question: 'Czy istnieje historyzm jako podstawa aposteriorycznego prawodawstwa?' },
       HISTORICISM_FOUNDATION: { name: 'Fundament Historyzmu', question: 'Czy istnieje historyzm jako fundament aposterioryzmu?' },
       HUMAN_PERSONALISM_PRESENCE: { name: 'Obecnosc Personalizmu', question: 'Czy istnieje personalizm osoby ludzkiej z wolną wolą utrudniającą ujęcie w sztywne ramy aprioryzmu?' },
       LEGAL_DUALISM_PRESENCE: { name: 'Obecnosc Dualizmu', question: 'Czy istnieje dualizm prawny (brak narzucanej woli obozowej)?' },
       FAMILY_EMANCIPATION_FOR_EXPERIENCE: { name: 'Emancypacja Rodziny dla Doswiadczenia', question: 'Czy rodzina jest wyemancypowana by prawo mogło oprzeć się na doświadczeniu?' },
-      NORMS_IMMUTABLE_VS_EVOLVING: { name: 'Normy Niezmienne czy Ewoluujace', question: 'Czy normy życia są podane z góry i nie podlegają ewolucji, czy ewoluują z doświadczenia?' },
-      MECHANICAL_SOCIETY_METHOD: { name: 'Metoda Mechaniczna', question: 'Czy metoda zrzeszenia jest mechaniczna?' },
-      ENDLESS_UTOPIAN_PLANNING: { name: 'Planowanie Utopii', question: 'Czy planuje się bez końca utopie i urojone prawa?' },
-      EXCESSIVE_LEGISLATION_APRIORI: { name: 'Nadmiar Ustaw', question: 'Czy jest nadmiar ustaw próbujących przewidzieć każdy krok człowieka?' }
+      NORMS_IMMUTABLE_VS_EVOLVING: { name: 'Ewolucja Norm z Doświadczenia', question: 'Czy normy życiowe ewoluują z doświadczenia (a nie są podane odgórnie raz na zawsze)?' },
+      MECHANICAL_SOCIETY_METHOD: { name: 'Brak Metody Mechanicznej', question: 'Czy unika się mechanicznych i sztucznych metod regulowania społeczeństwa?' },
+      ENDLESS_UTOPIAN_PLANNING: { name: 'Brak Planowania Utopii', question: 'Czy prawodawstwo jest wolne od utopijnego planowania urojonych praw apriorycznych?' },
+      EXCESSIVE_LEGISLATION_APRIORI: { name: 'Brak Nadmiaru Ustaw', question: 'Czy unika się nadmiaru ustaw próbujących odgórnie uregulować każdy krok obywatela?' }
     };
 
     const ORGANISM_META = {
-      SELF_HEALING_CAPACITY: { name: 'Zdolnosc Samoleczenia', question: 'Czy zrzeszenie posiada zdolność do samoleczenia (organizm), czy wymaga naprawy z zewnątrz (mechanizm)?' },
-      UNITY_IN_DIVERSITY: { name: 'Jednosc w Rozmaitosci', question: 'Czy jedność budowana jest przez różnorodność, czy przez jednostajność?' },
-      ENGINEERING_GOVERNMENT: { name: 'Rzady Inzynierskie', question: 'Czy władza traktuje społeczeństwo jak maszynę (aprioryzm)?' },
+      SELF_HEALING_CAPACITY: { name: 'Zdolność Samoleczenia', question: 'Czy zrzeszenie posiada wewnętrzną zdolność do samoleczenia i organicznego rozwoju?' },
+      UNITY_IN_DIVERSITY: { name: 'Jedność w Różnorodności', question: 'Czy jedność budowana jest poprzez rozwój różnorodności stanowej i lokalnej?' },
+      ENGINEERING_GOVERNMENT: { name: 'Brak Rządów Inżynierskich', question: 'Czy odrzuca się traktowanie społeczeństwa jak bezdusznej maszyny/mechanizmu?' },
       ACTION_CULTURE_VS_PASSIVITY: { name: 'Kultura Czynu', question: 'Czy motorem działania jest kultura czynu (organizm), czy bierność i ślepe posłuszeństwo (mechanizm)?' },
-      BUREAUCRACY_ELEPHANTIASIS: { name: 'Przerost Biurokracji', question: 'Czy istnieje elephantiasis biurokracji i ustawodawstwa?' },
+      BUREAUCRACY_ELEPHANTIASIS: { name: 'Brak Przerostu Biurokracji', question: 'Czy zrzeszenie jest wolne od patologicznego przerostu biurokracji (elephantiasis)?' },
       ABSTRACTS_RECOGNITION: { name: 'Rola Abstraktow', question: 'Czy zrzeszenie uznaje rolę abstraktów (idei) wykraczających poza walkę o byt?' },
-      STATE_AS_TOOL_VS_GOAL: { name: 'Panstwo jako Cel/Srodek', question: 'Czy państwo jest celem samym w sobie, czy narzędziem (środkiem) dla społeczeństwa?' },
+      STATE_AS_TOOL_VS_GOAL: { name: 'Państwo jako Środek', question: 'Czy państwo jest narzędziem (środkiem) służącym społeczeństwu, a nie celem samym w sobie?' },
       PERSONALISM_FREE_WILL: { name: 'Personalizm i Wolna Wola', question: 'Czy panuje personalizm i szacunek dla wolnej woli człowieka?' },
       LEGAL_DUALISM_NECESSITY: { name: 'Koniecznosc Dualizmu', question: 'Czy jest dualizm prawny jako oparcie dla społeczeństwa?' },
       HISTORICISM_TRADITION: { name: 'Historyzm i Tradycja', question: 'Czy organizm wyrasta z doświadczeń pokoleń (historyzm i aposterioryzm)?' },
-      APRIORISM_PLANNING: { name: 'Aprioryzm i Planowanie', question: 'Czy dominuje aprioryzm i odgórne planowanie zmyślonej rzeczywistości?' },
-      COERCION_AS_MAIN_BOND: { name: 'Przymus jako Wiez', question: 'Czy przymus jest główną więzią zrzeszenia?' }
+      APRIORISM_PLANNING: { name: 'Brak Aprioryzmu', question: 'Czy odrzuca się aprioryzm i odgórne planowanie sztucznych relacji społecznych?' },
+      COERCION_AS_MAIN_BOND: { name: 'Więzi Dobrowolne', question: 'Czy zrzeszenie opiera się na dobrowolnych więziach społecznych zamiast na przymusie państwowym?' }
     };
 
   
@@ -897,20 +1138,20 @@
   };
 
   const PERSONALISM_META = {
-      GOD_RELATION_PERSONAL_VS_COLLECTIVE: { name: 'Relacja z Bogiem', question: 'Czy relacja z Bogiem jest osobista czy zbiorowa (z przynależności do narodu/kasty)?' },
-      RESPONSIBILITY_PERSONAL_VS_COLLECTIVE: { name: 'Odpowiedzialnosc Osobista', question: 'Czy odpowiedzialność jest osobista czy zbiorowa?' },
-      CONFESSION_PERSONAL_VS_COLLECTIVE: { name: 'Spowiedz', question: 'Czy spowiedź jest osobista czy gromadna?' },
+      GOD_RELATION_PERSONAL_VS_COLLECTIVE: { name: 'Osobista Relacja z Bogiem', question: 'Czy relacja z Bogiem/etyką ma charakter indywidualny i osobisty?' },
+      RESPONSIBILITY_PERSONAL_VS_COLLECTIVE: { name: 'Odpowiedzialność Osobista', question: 'Czy odpowiedzialność prawna i moralna jest wyłącznie osobista (a nie zbiorowa)?' },
+      CONFESSION_PERSONAL_VS_COLLECTIVE: { name: 'Osobiste Wyznanie', question: 'Czy spowiedź/wyznanie jest osobiste, a nie narzucone gromadnie?' },
       FAMILY_EMANCIPATION_FROM_CLAN: { name: 'Emancypacja z Rodu', question: 'Czy syn zostaje usamodzielniony (emancypacja rodziny) czy należy do seniora rodu?' },
-      WOMAN_PERSONAL_FREEDOM: { name: 'Wolnosc Kobiety', question: 'Czy kobieta jest wolna osobiście czy jest własnością rodu, kasty, ojca, męża?' },
+      WOMAN_PERSONAL_FREEDOM: { name: 'Wolność Osobista Kobiety', question: 'Czy kobieta posiada pełną wolność osobistą (nie będąc własnością rodu ani klanu)?' },
       PRIVATE_PROPERTY_INDEPENDENCE: { name: 'Niezaleznosc przez Wlasnosc', question: 'Czy istnieje własność prywatna dająca niezależność od władzy?' },
-      NEIGHBOR_DUTY_UNIVERSAL_VS_TRIBAL: { name: 'Obowiazek Blizniego', question: 'Czy obowiązek bliźniego dotyczy wszystkich, czy tylko "swoich"?' },
-      WORK_AS_SANCTIFICATION_VS_COERCION: { name: 'Stosunek do Pracy', question: 'Czy praca to uświęcenie i droga osobista, czy ciężar przymusu?' },
+      NEIGHBOR_DUTY_UNIVERSAL_VS_TRIBAL: { name: 'Uniwersalny Obowiązek Bliźniego', question: 'Czy obowiązek moralny wobec bliźniego ma charakter uniwersalny (dotyczy każdego człowieka)?' },
+      WORK_AS_SANCTIFICATION_VS_COERCION: { name: 'Praca jako Uświęcenie', question: 'Czy pracę traktuje się jako uświęcenie i wolny wybór (a nie przymusowy ciężar)?' },
       PERSONAL_RESPONSIBILITY_PRESENCE: { name: 'Obecnosc Odpowiedzialnosci', question: 'Czy istnieje wykształcona odpowiedzialność osobista?' },
       FAMILY_EMANCIPATION_GENERAL: { name: 'Emancypacja Rodziny', question: 'Czy jest emancypacja rodziny z systemu rodowego?' },
-      STATUS_BY_BIRTH_PRIVILEGE: { name: 'Status z Urodzenia', question: 'Czy status zależy od przywileju urodzenia?' },
-      STATUS_BY_CASTE_MEMBERSHIP: { name: 'Status z Kasty', question: 'Czy status zależy od przynależności do kasty?' },
-      LEGAL_MONISM_PRESENCE: { name: 'Monizm Prawny (Trybik)', question: 'Czy jest monizm prawny (statolatria), robiący z jednostki trybik?' },
-      UNIFORMITY_MECHANICISM_PRESENCE: { name: 'Jednostajnosc (Anarchizm)', question: 'Czy jest mechanicyzm traktujący personalizm jako wymysł i anarchię?' },
+      STATUS_BY_BIRTH_PRIVILEGE: { name: 'Brak Przywileju Urodzenia', question: 'Czy odrzuca się sztywny status społeczny wynikający wyłącznie z przywileju urodzenia?' },
+      STATUS_BY_CASTE_MEMBERSHIP: { name: 'Brak Ustoju Kastowego', question: 'Czy odrzuca się ustrój kastowy uniemożliwiający osobisty rozwój jednostki?' },
+      LEGAL_MONISM_PRESENCE: { name: 'Brak Monizmu (Ochrona Osoby)', question: 'Czy unika się monizmu prawnego sprowadzającego wolną osobę do roli trybiku?' },
+      UNIFORMITY_MECHANICISM_PRESENCE: { name: 'Brak Mechanicyzmu Masa', question: 'Czy odrzuca się mechanicyzm traktujący personalizm i wolność jako anarchię?' },
       HISTORICISM_PRESENCE: { name: 'Historyzm', question: 'Czy jest historyzm (widzenie przodków, a nie tylko bezosobowej masy)?' },
       HEREDITARY_SURNAMES_PRESENCE: { name: 'Nazwiska Dziedziczne', question: 'Czy funkcjonują nazwiska dziedziczne?' }
     };
@@ -1329,7 +1570,11 @@
       </div>
       <div class="sub-indices" style="margin-top: 30px;">
         <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-          ${dualismHero} <div class="section-title" style="margin-top:10px">Wskaźniki Dualizmu Prawnego</div> ${dualismCards}
+          ${dualismHero} 
+          <div style="font-size: 13px; color: #9ca3af; padding: 10px 20px; margin-bottom: 5px; line-height: 1.5; text-align: center;">
+             Mierzy, czy istnieje niezależne prawo prywatne obok publicznego, podlegające ocenie moralnej, a nie monizm ustalany arbitralnie przez jedną władzę.
+          </div>
+          <div class="section-title" style="margin-top:10px">Wskaźniki Dualizmu Prawnego</div> ${dualismCards}
         </div>
         <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
           ${pluralismHero} <div class="section-title" style="margin-top:10px">Wskaźniki Pluralizmu Źródeł Prawa</div> ${pluralismCards}
@@ -1374,6 +1619,9 @@
 
       <div id="view-sacrality" style="display:none">
         ${sacralityHero}
+        <div style="font-size: 13px; color: #9ca3af; padding: 0 20px; margin-bottom: 15px; line-height: 1.5; text-align: center;">
+           Mierzy, czy porządek życia zbiorowego (prawo, państwo, instytucje) posiada charakter sakralny, tzn. czy jest uznawany za święty, nietykalny i wyjęty spod krytyki moralnej i rozumowej.
+        </div>
         <div class="section-title">13 Wskaźników Sakralności</div>
         ${sacralityCards}
       </div>
