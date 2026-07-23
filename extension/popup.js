@@ -7,14 +7,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Load configuration
   chrome.storage.local.get(['backendUrl', 'apiKey'], (res) => {
-    backendUrlInput.value = res.backendUrl || 'http://localhost:8000';
+    backendUrlInput.value = res.backendUrl || 'http://localhost:8005';
     apiKeyInput.value = res.apiKey || '';
     checkServerHealth(backendUrlInput.value);
   });
 
   // Save button event handler
   saveBtn.addEventListener('click', () => {
-    const url = backendUrlInput.value.trim() || 'http://localhost:8000';
+    const url = backendUrlInput.value.trim() || 'http://localhost:8005';
     const key = apiKeyInput.value.trim();
 
     chrome.storage.local.set({

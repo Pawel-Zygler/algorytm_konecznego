@@ -890,7 +890,7 @@
 
     try {
       const config = await getStorageData();
-      const backendUrl = config.backendUrl || 'http://localhost:8000';
+      const backendUrl = config.backendUrl || 'http://localhost:8005';
       const apiKey = config.apiKey || '';
 
       const pageData = extractCleanText();
