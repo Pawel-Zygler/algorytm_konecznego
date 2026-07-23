@@ -934,13 +934,34 @@
     } catch (err) {
       if (trigger) trigger.classList.remove('spinning');
       clearInterval(window.konecznyLoadingInterval);
+
+      const errText = err.message || '';
+      const isQuotaError = errText.includes('429') || errText.includes('Quota') || errText.includes('RESOURCE_EXHAUSTED') || errText.includes('limit');
+
       content.innerHTML = `
-        <div class="error-box">
-          <strong>Błąd analizy</strong>
-          ${err.message}
-          <div class="error-hint">Upewnij się, że backend FastAPI działa i klucz API Gemini jest ustawiony.</div>
+        <div style="padding: 16px; background: rgba(239, 68, 68, 0.12); border: 1px solid #ef4444; border-radius: 10px; margin: 15px; text-align: left; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);">
+          <div style="font-weight: 700; color: #f87171; font-size: 15px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+            ⚠️ ${isQuotaError ? 'Przekroczono limit API Gemini (Quota 429)' : 'Błąd analizy danych'}
+          </div>
+          <div style="font-size: 13px; color: #fee2e2; line-height: 1.5; margin-bottom: 12px; font-family: monospace; white-space: pre-wrap; word-break: break-word; max-height: 140px; overflow-y: auto; background: rgba(0,0,0,0.2); padding: 8px 10px; border-radius: 6px;">
+            ${errText}
+          </div>
+          <div style="font-size: 12px; color: #fca5a5; border-top: 1px dashed rgba(239,68,68,0.3); padding-top: 10px; line-height: 1.4;">
+            💡 <strong>Powód braku danych:</strong> ${isQuotaError ? 'Klucz Gemini API osiągnął darmowy limit zapytań (RPM/RPD). Poczekaj około 30–60 sekund na odnowienie puli i spróbuj ponownie.' : 'Sprawdź połączenie z backendem (port 8005) oraz poprawność klucza Gemini API.'}
+          </div>
+          <button id="retry-analysis-btn" style="margin-top: 14px; width: 100%; padding: 10px; background: #ef4444; color: #fff; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='#dc2626'" onmouseout="this.style.background='#ef4444'">
+            🔄 Spróbuj ponownie
+          </button>
         </div>
       `;
+
+      const retryBtn = content.querySelector('#retry-analysis-btn');
+      if (retryBtn) {
+        retryBtn.addEventListener('click', () => {
+          content.innerHTML = '<div style="padding:20px; text-align:center; color:#a1a1aa;">Ponowne uruchamianie analizy...</div>';
+          runAnalysis(targetIndexStr);
+        });
+      }
     }
   }
 

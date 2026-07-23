@@ -94,7 +94,13 @@ async def analyze_text(request: AnalysisRequest, x_gemini_api_key: Optional[str]
     except Exception as e:
         import traceback
         traceback.print_exc()
-        raise HTTPException(status_code=500, detail=f"Błąd analizy: {str(e)}")
+        err_msg = str(e)
+        if any(keyword in err_msg for keyword in ["429", "RESOURCE_EXHAUSTED", "Quota exceeded", "rate limit", "QuotaExceeded"]):
+            raise HTTPException(
+                status_code=429,
+                detail="⚠️ Przekroczono limit zapytań Gemini API (Quota Exceeded / 429). Darmowy limit został tymczasowo wyczerpany. Poczekaj około 30–60 sekund i spróbuj ponownie."
+            )
+        raise HTTPException(status_code=500, detail=f"Błąd analizy: {err_msg}")
 
 @app.get("/api/health")
 async def health_check():
