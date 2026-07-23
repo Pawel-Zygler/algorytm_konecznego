@@ -920,15 +920,14 @@
 
       clearInterval(window.konecznyLoadingInterval);
       const newData = await response.json();
-      window.konecznyResults.sacrality_score = newData.sacrality_score || window.konecznyResults.sacrality_score;
-      window.konecznyResults.spirit_supremacy_score = newData.spirit_supremacy_score || window.konecznyResults.spirit_supremacy_score;
-      window.konecznyResults.legal_dualism_score = newData.legal_dualism_score || window.konecznyResults.legal_dualism_score;
-      window.konecznyResults.law_source_pluralism_score = newData.law_source_pluralism_score || window.konecznyResults.law_source_pluralism_score;
-      window.konecznyResults.aposteriori_apriori_score = newData.aposteriori_apriori_score || window.konecznyResults.aposteriori_apriori_score;
-      window.konecznyResults.organism_mechanism_score = newData.organism_mechanism_score || window.konecznyResults.organism_mechanism_score;
-      window.konecznyResults.personalism_score = newData.personalism_score || window.konecznyResults.personalism_score;
-      window.konecznyResults.family_law_autonomy_score = newData.family_law_autonomy_score || window.konecznyResults.family_law_autonomy_score;
-      window.konecznyResults.raw_ratings = { ...window.konecznyResults.raw_ratings, ...(newData.raw_ratings || {}) };
+      window.konecznyResults = {
+        ...window.konecznyResults,
+        ...newData,
+        raw_ratings: {
+          ...(window.konecznyResults.raw_ratings || {}),
+          ...(newData.raw_ratings || {})
+        }
+      };
       renderResults();
 
     } catch (err) {
