@@ -763,7 +763,41 @@
       "Analizuję prymat społeczeństwa nad państwem...",
       "Tropię ewolucję prawa z doświadczeń...",
       "Szukam narzucania zmyślonych praw apriorycznych...",
-      "Oceniam podejście do dziedziczenia własności..."
+      "Oceniam podejście do dziedziczenia własności...",
+      "Tropię makiawelizm w decyzjach urzędniczych...",
+      "Weryfikuję niezależność sądownictwa od biurokracji...",
+      "Badam poziom suwerenności rodziny w wychowaniu...",
+      "Kwalifikuję zjawisko turańskiego obozownictwa...",
+      "Mierzę skażenie prawa monizmem państwowym...",
+      "Sprawdzam wolność stanowienia prawa prywatnego...",
+      "Analizuję podział na sacrum i profanum w prawie...",
+      "Szukam śladów kazuistyki żydowskiej...",
+      "Kwalifikuję stan acywilizacyjnego kołobłędu...",
+      "Ocenię proporcję bezinteresowności do utylitaryzmu...",
+      "Sprawdzam suwerenność autokrytyki sumienia...",
+      "Badam stopień uświęcenia pracy fizycznej i umysłowej...",
+      "Liczę wskaźniki emancypacji synów spod władzy rodu...",
+      "Tropię fiskalizm nieuzasadniony potrzebami społecznymi...",
+      "Ocenię surowość kar za naruszenie wolności osoby...",
+      "Weryfikuję ciągłość er historycznych i tradycji...",
+      "Sprawdzam, czy prawo traktowane jest jako odkrywane czy wymyślane...",
+      "Tropię zanik odpowiedzialności indywidualnej na rzecz kasty...",
+      "Mierzę spójność siedmiu generaliów etyki...",
+      "Skanuję tekst pod kątem cezaropapizmu...",
+      "Ocenię stopień ujednostajnienia mas pod przymusem...",
+      "Odkrywam relikty prawniczości szariatu...",
+      "Mierzę poczucie godności osobistej w tekście...",
+      "Weryfikuję poszanowanie dla umów prywatnych...",
+      "Tropię aprioryzm socjalistyczny i planistyczny...",
+      "Analizuję rolę zwyczaju w stanowieniu prawa...",
+      "Kwalifikuję obecność monizmu publicznego...",
+      "Prześwietlam przyczyny paraliżu kultury czynu...",
+      "Sprawdzam równość władcy i obywatela wobec etyki...",
+      "Rozpoznaję wpływy cywilizacji bramińskiej...",
+      "Weryfikuję stopień komercjalizacji etyki i sądów...",
+      "Mierzę kapitalizację czasu w dorobku pokoleń...",
+      "Tropię aprioryczne inżynierie ustrojowe...",
+      "Ocenię nienaruszalność prawa własności prywatnej..."
     ];
 
     const questions = [
@@ -790,7 +824,32 @@
       "Czy Feliks Koneczny założyłby Patronite na rzecz badań cywilizacji?",
       "Czy smart city to ostateczny tryumf inżynierii społecznej?",
       "Czy asystenci głosowi niszczą naszą kulturę czynu?",
-      "Czy praca dla korporacji to powrót cywilizacji chińskiej?"
+      "Czy praca dla korporacji to powrót cywilizacji chińskiej?",
+      "Czy open-source to współczesny pluralizm prawny?",
+      "Ciekawe czy mikropłatności to forma sakralnej ekonomii?",
+      "Czy AI agent zastąpi poczucie odpowiedzialności osobistej?",
+      "Czy Cloud Computing to powrót do ustroju obozowego?",
+      "Czy pojęcie 'User Experience' szanuje personalizm?",
+      "Czy zalew powiadomień niszczy naszą autokrytykę sumienia?",
+      "Czy praca w Agile wywodzi się z łacińskiego aposterioryzmu?",
+      "Czy inteligentne kontenery na śmieci to statolatria?",
+      "Czy w grach RPG panuje prymat etyki nad prawem?",
+      "Czy Algorytm Konecznego otrzyma odznaczenie cywilizacyjne?",
+      "Czy w VR da się wybudować autonomię rodziny?",
+      "Czy moderacja Reddita to forma gromadności żydowskiej?",
+      "Czy hackathony to uświęcenie pracy wolnej?",
+      "Czy tokeny NFT wspierają trwałość prawa własności?",
+      "Czy czat GPT jest odporny na acywilizacyjny kołobłęd?",
+      "Czy powiadomienia push wymuszają na nas wegetację?",
+      "Czy elektryczne hulajnogi to objaw bezdusznego mechanicyzmu?",
+      "Czy autouzupełnianie tekstu odbiera nam kontrolę nad słowem?",
+      "Czy decentralizacja DAO to czysta cywilizacja łacińska?",
+      "Czy płatności zbliżeniowe przyspieszają emancypację rodziny?",
+      "Czy cyfrowe nomadztwo to powrót do turańskiego koczownictwa?",
+      "Czy kody QR w restauracjach niszczą tradycję uświęcenia pracy?",
+      "Czy inteligentne umowy (smart contracts) eliminują sędziowską słuszność?",
+      "Czy domotyka (smart home) chroni autonomię prywatnego ogniska?",
+      "Czy media strumieniowe zniosły pojęcie ery historycznej?"
     ];
 
     function shuffle(array) {
@@ -827,7 +886,7 @@
         }
         label.textContent = text;
       }
-    }, 2800);
+    }, 3000);
 
     try {
       const config = await getStorageData();
