@@ -1130,6 +1130,23 @@
       no_collectivism: { name: 'Brak Kolektywizmu', question: 'Czy odrzuca się kolektywizm i uszczęśliwianie ludzi pod przymusem?', isDev: true }
     };
 
+    const MOTIVATION_META = {
+      truth_for_truth_sake: { name: 'Prawda dla Prawdy', question: 'Czy Prawda i nauka są szukane bezinteresownie (dla nich samych)?', isDev: true },
+      altruistic_faith: { name: 'Wiara Bezinteresowna', question: 'Czy wiara opiera się na bezinteresownej miłości (zamiast paktu "coś za coś")?', isDev: true },
+      res_sacra_miser: { name: 'Zasada Res Sacra Miser', question: 'Czy uznaje się zasadę bezinteresownego wsparcia dla cierpiących?', isDev: true },
+      ethical_utilitarianism: { name: 'Utylitaryzm Etyczny', question: 'Czy dążenie do zysku jest podporządkowane normie moralnej?', isDev: true },
+      idealistic_public_service: { name: 'Służba dla Ideału', question: 'Czy służba publiczna pełniona jest dla Dobra wspólnego (nie dla łupu)?', isDev: true },
+      art_for_beauty: { name: 'Sztuka dla Piękna', question: 'Czy twórczość artystyczna wynika z bezinteresownego pędu ku Pięknu?', isDev: true },
+      voluntary_sacrifice: { name: 'Dobrowolne Poświęcenie', question: 'Czy w systemie etycznym kładzie się nacisk na wartość poświęcenia?', isDev: true },
+      morality_leadership: { name: 'Etyka jako Przodowniczka', question: 'Czy etyka stoi wyżej w hierarchii niż polityka i prawo?', isDev: true },
+      person_as_end: { name: 'Człowiek jako Cel', question: 'Czy człowiek traktowany jest jako podmiot i cel sam w sobie?', isDev: true },
+      sanctification_of_intent: { name: 'Uświęcenie Intencji', question: 'Czy o wartości czynu decyduje wewnętrzna intencja?', isDev: true },
+      no_transactional_utilitarianism: { name: 'Brak Utylitaryzmu Transakcyjnego', question: 'Czy odrzuca się kupczenie etyką dla zysku?', isDev: true },
+      no_contractual_religion: { name: 'Brak Religii Kontraktowej', question: 'Czy odrzuca się traktowanie relacji z bóstwem jako prawniczego paktu?', isDev: true },
+      no_totalitarian_utilitarianism: { name: 'Brak Utylitaryzmu Totalnego', question: 'Czy odrzuca się utylitaryzm zabijający wolną naukę?', isDev: true },
+      no_biologism_force: { name: 'Brak Biologizmu i Etyki Siły', question: 'Czy odrzuca się elimnowanie słabych i etykę siły?', isDev: true }
+    };
+
     const SPIRIT_META = {
       LEGAL_DUALISM_INDEX:           { name: 'Indeks Dualizmu Prawnego',        question: 'Czy państwo uznaje niezależną sferę praw prywatnych jednostki?' },
       LAW_SOURCE_PLURALISM_INDEX:    { name: 'Pluralizm Źródeł Prawa',           question: 'Czy istnieje wolność stanowienia prawa zwyczajowego i lokalnego?' },
@@ -1564,12 +1581,36 @@
       dutySourceScore >= 65 ? 'Autonomiczne etyczne' : dutySourceScore >= 35 ? 'Mieszanka' : 'Zewnętrzne (przymus państwowy)'
     );
 
+    const motivationScores = data.raw_ratings?.motivation_scores || {};
+    let calcMotivationScore = data.motivation_altruism_score || 0;
+    if (calcMotivationScore === 0 && Object.keys(motivationScores).length > 0) {
+      let validCount = 0;
+      let validSum = 0;
+      for (const val of Object.values(motivationScores)) {
+        let s = typeof val === 'number' ? val : (val && val.score !== undefined ? val.score : -1.0);
+        if (s >= 0) {
+          validSum += s;
+          validCount++;
+        }
+      }
+      if (validCount > 0) {
+        calcMotivationScore = validSum / validCount;
+      }
+    }
+    const motivationScore = Math.round(calcMotivationScore * 100);
+
+    const motivationHero = buildDarkHero(
+      'MOTYWACJA I BEZINTERESOWNOŚĆ',
+      motivationScore,
+      motivationScore >= 65 ? 'Bezinteresowność (świętość Logosu)' : motivationScore >= 35 ? 'Mieszanka' : 'Utylitaryzm transakcyjny'
+    );
+
     const INDEX_DEV_FLAGS = {
       sacrality: false,
       spirit: false,
       generalia: false,
-      duty_source: true,
-      motivation: false,
+      duty_source: false,
+      motivation: true,
       responsibility_type: false,
       justice_nature: false,
       conscience_status: false,
@@ -1588,6 +1629,13 @@
       public_morality: false,
       administrative_responsibility: false
     };
+
+    const motivationCards = Object.keys(motivationScores).length > 0 ? buildCardsGroup(motivationScores, MOTIVATION_META) : `
+      <div id="loader-motivation" style="padding:20px; text-align:center;">
+        ${INDEX_DEV_FLAGS.motivation ? `<button class="tab-btn active zapytaj-btn" data-target="motivation" data-loader="loader-motivation" data-name="Motywacja i Bezinteresowność" style="margin:0 auto; padding:10px 20px;">
+          Zapytaj (Pobierz dane)
+        </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony</div>`}
+      </div>`;
 
     const dutySourceCards = Object.keys(dutySourceScores).length > 0 ? buildCardsGroup(dutySourceScores, DUTY_SOURCE_META) : `
       <div id="loader-duty-source" style="padding:20px; text-align:center;">
@@ -1609,6 +1657,13 @@
              Mierzy, czy poczucie obowiązku etycznego wyprzedza prawo (szereg personalistyczny), czy wynika z przymusu zewnętrznego i okólnika (gromadnościowy).
           </div>
           <div class="section-title" style="margin-top:10px">13 Wskaźników Personalistycznego Źródła Obowiązku</div> ${dutySourceCards}
+        </div>
+        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+          ${motivationHero}
+          <div style="font-size: 13px; color: #9ca3af; padding: 10px 20px; margin-bottom: 5px; line-height: 1.5; text-align: center;">
+             Mierzy, czy motywacją działania jest bezinteresowna miłość Prawdy i Dobra dla nich samych (szereg personalistyczny), czy transakcyjny utylitaryzm "coś za coś" (gromadnościowy).
+          </div>
+          <div class="section-title" style="margin-top:10px">14 Wskaźników Motywacji i Bezinteresowności</div> ${motivationCards}
         </div>
       </div>`;
 

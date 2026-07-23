@@ -11,8 +11,8 @@ INDEX_DEV_FLAGS = {
     "sacrality": False,
     "spirit": False,
     "generalia": False,
-    "duty_source": True,
-    "motivation": False,
+    "duty_source": False,
+    "motivation": True,
     "responsibility_type": False,
     "justice_nature": False,
     "conscience_status": False,
@@ -155,6 +155,7 @@ def calculate_koneczny_metrics(llm_data: Dict[str, Any]) -> Dict[str, Any]:
         "public_morality_totality_score": _calc_avg("public_morality_totality_scores"),
         "administrative_responsibility_score": _calc_avg("administrative_responsibility_scores"),
         "duty_source_personalistic_score": _calc_avg("duty_source_scores"),
+        "motivation_altruism_score": _calc_avg("motivation_scores"),
     }
     # Calculate global spirit supremacy score from 12 indices
     spirit_scores = [
@@ -1139,6 +1140,73 @@ TEKST DO ANALIZY:
 {trimmed_text}
 Zwróć JSON."""
 
+    schema_motivation = {
+        "type": "object",
+        "properties": {
+            "motivation_scores": {
+                "type": "object",
+                "properties": {
+                    "truth_for_truth_sake": indicator_item,
+                    "altruistic_faith": indicator_item,
+                    "res_sacra_miser": indicator_item,
+                    "ethical_utilitarianism": indicator_item,
+                    "idealistic_public_service": indicator_item,
+                    "art_for_beauty": indicator_item,
+                    "voluntary_sacrifice": indicator_item,
+                    "morality_leadership": indicator_item,
+                    "person_as_end": indicator_item,
+                    "sanctification_of_intent": indicator_item,
+                    "no_transactional_utilitarianism": indicator_item,
+                    "no_contractual_religion": indicator_item,
+                    "no_totalitarian_utilitarianism": indicator_item,
+                    "no_biologism_force": indicator_item
+                },
+                "required": [
+                    "truth_for_truth_sake", "altruistic_faith", "res_sacra_miser", "ethical_utilitarianism",
+                    "idealistic_public_service", "art_for_beauty", "voluntary_sacrifice", "morality_leadership",
+                    "person_as_end", "sanctification_of_intent", "no_transactional_utilitarianism",
+                    "no_contractual_religion", "no_totalitarian_utilitarianism", "no_biologism_force"
+                ]
+            },
+            "motivation_news_1": {"type": "string"},
+            "motivation_news_2": {"type": "string"},
+            "motivation_news_3": {"type": "string"},
+            "motivation_justification": {"type": "string"}
+        },
+        "required": [
+            "motivation_scores", "motivation_news_1", "motivation_news_2", "motivation_news_3", "motivation_justification"
+        ]
+    }
+
+    sys_inst_motivation = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w wymiarze 14 WSKAŹNIKÓW MOTYWACJI I BEZINTERESOWNOŚCI (motivation_scores):
+1. truth_for_truth_sake: Prawda i nauka szukana dla niej samej (czysta ciekawość)
+2. altruistic_faith: Wiara i religia oparta na bezinteresownej miłości
+3. res_sacra_miser: Zasada res sacra miser (bezinteresowna pomoc cierpiącym)
+4. ethical_utilitarianism: Prymat etyki nad zyskiem (utylitaryzm musi być etyczny)
+5. idealistic_public_service: Służba publiczna dla ideału Dobra wspólnego
+6. art_for_beauty: Sztuka i twórczość służąca bezinteresownemu Pięknu
+7. voluntary_sacrifice: Wartość dobrowolnego poświęcenia i wyrzeczenia
+8. morality_leadership: Etyka jako przodowniczka i hegemon życia publicznego
+9. person_as_end: Personalizm (człowiek jako cel sam w sobie, nie narzędzie)
+10. sanctification_of_intent: Uświęcenie intencji (wewnętrzna motywacja)
+11. no_transactional_utilitarianism: Odrzucenie utylitaryzmu transakcyjnego
+12. no_contractual_religion: Odrzucenie religijności kontraktowej
+13. no_totalitarian_utilitarianism: Odrzucenie utylitaryzmu totalnego
+14. no_biologism_force: Odrzucenie biologizmu, siły i eliminowania słabych
+
+Wszystkie wskaźniki podawaj w skali 0.0 - 1.0 (gdzie 1.0 oznacza pełne urzeczywistnienie szeregu personalistycznego / łacińskiego). Jeśli brak danych: -1.0. Zwróć JSON."""
+
+    prompt_motivation = f"""Kontekst metodologiczny Konecznego (Motywacja - Bezinteresowność):
+{indices_context[:3000]}
+{rag_context}
+
+BARDZO WAŻNE INSTRUKCJE:
+Przeprowadź analizę WSZYSTKICH 14 wskaźników MOTYWACJI I BEZINTERESOWNOŚCI (motivation_scores) dla poniższego tekstu.
+
+TEKST DO ANALIZY:
+{trimmed_text}
+Zwróć JSON."""
+
     # Execute calls conditionally based on target_indices
     if target_indices is None:
         # Default for development if not specified
@@ -1156,6 +1224,7 @@ Zwróć JSON."""
     if "sacrality" in target_indices: tasks.append((prompt_1, sys_inst_1, schema_1))
     if "generalia" in target_indices: tasks.append((prompt_generalia, sys_inst_generalia, schema_generalia))
     if "duty_source" in target_indices: tasks.append((prompt_duty_source, sys_inst_duty_source, schema_duty_source))
+    if "motivation" in target_indices: tasks.append((prompt_motivation, sys_inst_motivation, schema_motivation))
     if "dualism" in target_indices: tasks.append((prompt_2, sys_inst_2, schema_2))
     if "pluralism" in target_indices: tasks.append((prompt_3, sys_inst_3, schema_3))
     if "aposteriori" in target_indices: tasks.append((prompt_4, sys_inst_4, schema_4))
