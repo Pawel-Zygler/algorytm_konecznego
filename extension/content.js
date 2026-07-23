@@ -1020,6 +1020,16 @@
       APOSTASY_PUNISHMENT:          { name: 'Karanie Apostazji',                 question: 'Czy odejście od wiary jest czynem karalnym cywilnie lub karnie?' }
     };
 
+    const GENERALIA_META = {
+      duty_source_personalistic: { name: '1. Źródło Obowiązku', question: 'Wartość 1: Dobrowolny nakaz etyczny przed prawem | Wartość 0: Zewnętrzny przymus/okólnik' },
+      motivation_altruism: { name: '2. Motywacja (Bezinteresowność)', question: 'Wartość 1: Dobro i Prawda jako cel sam w sobie | Wartość 0: Utylitaryzm / kontrakt "coś za coś"' },
+      responsibility_personal: { name: '3. Rodzaj Odpowiedzialności', question: 'Wartość 1: Odpowiedzialność osobista za własne czyny | Wartość 0: Odpowiedzialność zbiorowa rodu/kasty' },
+      justice_equity: { name: '4. Natura Sprawiedliwości', question: 'Wartość 1: Etyczne poczucie słuszności ponad przepisem | Wartość 0: Bezduszny legalizm / strictum ius' },
+      conscience_autonomous: { name: '5. Status Sumienia', question: 'Wartość 1: Autonomia sumienia i autokrytyka moralna | Wartość 0: Heteronomia / bezduszna litera prawa' },
+      time_mastery_historicism: { name: '6. Opanowanie Czasu', question: 'Wartość 1: Historyzm, era i kapitalizacja czasu | Wartość 0: Wegetacja teraźniejszością' },
+      work_ethos_sanctification: { name: '7. Ethos Pracy', question: 'Wartość 1: Uświęcenie i godność człowieka wolnego | Wartość 0: Przymus i jarzmo niewolnicze' }
+    };
+
     const SPIRIT_META = {
       LEGAL_DUALISM_INDEX:           { name: 'Indeks Dualizmu Prawnego',        question: 'Czy państwo uznaje niezależną sferę praw prywatnych jednostki?' },
       LAW_SOURCE_PLURALISM_INDEX:    { name: 'Pluralizm Źródeł Prawa',           question: 'Czy istnieje wolność stanowienia prawa zwyczajowego i lokalnego?' },
@@ -1401,9 +1411,21 @@
       legalDualismScore >= 65 ? 'Silny dualizm (państwo ograniczone)' : legalDualismScore >= 35 ? 'Umiarkowany dualizm' : 'Monizm prawny (absolutyzm państwa)'
     );
 
+    const generaliaScores = data.raw_ratings?.generalia_scores || {};
+    const ethicalCoherenceScore = data.ethical_coherence_score !== undefined ? data.ethical_coherence_score : -1;
+    const generaliaDiagnosis = data.generalia_diagnosis || 'Brak danych';
+    const mixtureAlert = data.mixture_alert || false;
+
+    const generaliaHero = buildDarkHero(
+      'SPÓJNOŚĆ GENERALIÓW ETYKI',
+      ethicalCoherenceScore >= 0 ? Math.round((ethicalCoherenceScore / 7) * 100) : -1,
+      generaliaDiagnosis
+    );
+
     const INDEX_DEV_FLAGS = {
       sacrality: false,
-      spirit: true,
+      spirit: false,
+      generalia: true,
       dualism: false,
       pluralism: false,
       aposteriori: false,
@@ -1417,6 +1439,13 @@
       public_morality: false,
       administrative_responsibility: false
     };
+
+    const generaliaCards = Object.keys(generaliaScores).length > 0 ? buildCardsGroup(generaliaScores, GENERALIA_META) : `
+      <div id="loader-generalia" style="padding:20px; text-align:center;">
+        ${INDEX_DEV_FLAGS.generalia ? `<button class="tab-btn active zapytaj-btn" data-target="generalia" data-loader="loader-generalia" data-name="7 Generaliów Etyki" style="margin:0 auto; padding:10px 20px;">
+          Zapytaj (Pobierz dane)
+        </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony</div>`}
+      </div>`;
 
 
     const sacralityCards = Object.keys(sacralityScores).length > 0 ? buildCardsGroup(sacralityScores, SACRALITY_META) : `
@@ -1614,7 +1643,8 @@
     content.innerHTML = `
       <div class="tab-bar">
         <button class="tab-btn" id="tab-sacrality">Indeks Sakralności</button>
-        <button class="tab-btn active" id="tab-spirit">Supremacja Ducha</button>
+        <button class="tab-btn" id="tab-spirit">Supremacja Ducha</button>
+        <button class="tab-btn active" id="tab-generalia">Szereg Personalistyczny</button>
       </div>
 
       <div id="view-sacrality" style="display:none">
@@ -1625,7 +1655,7 @@
         <div class="section-title">13 Wskaźników Sakralności</div>
         ${sacralityCards}
       </div>
-      <div id="view-spirit">
+      <div id="view-spirit" style="display:none">
         ${spiritHero}
         <div style="font-size: 13px; color: #9ca3af; padding: 0 20px; margin-bottom: 15px; line-height: 1.5; text-align: center;">
            Supremacja Ducha to agregacja 12 podstawowych indeksów: od dualizmu prawnego po odpowiedzialność urzędniczą.
@@ -1633,22 +1663,42 @@
         </div>
         ${spiritCards}
       </div>
+      <div id="view-generalia">
+        ${generaliaHero}
+        ${mixtureAlert ? `
+        <div style="background: rgba(239, 68, 68, 0.15); border: 2px solid #ef4444; border-radius: 10px; padding: 14px; margin: 15px 20px; text-align: center;">
+          <div style="color: #ef4444; font-weight: 800; font-size: 15px; margin-bottom: 6px;">⚠️ ALERT MIESZANKI TRUJĄCEJ (ACYWILIZACYJNY KOŁOBŁĘD)</div>
+          <div style="color: #f87171; font-size: 12px; line-height: 1.5;">
+            Według metody Konecznego zrzeszenie połączyło sprzeczne generalia etyczne (${ethicalCoherenceScore} / 7.0). 
+            Synkretyzm etyczny paraliżuje kulturę czynu – norma prawna pozostaje w sprzeczności z normą moralną.
+          </div>
+        </div>` : ''}
+        <div style="font-size: 13px; color: #9ca3af; padding: 0 20px; margin-bottom: 15px; line-height: 1.5; text-align: center;">
+           Siedem Niewiadomych Etyki: Obowiązek, Bezinteresowność, Odpowiedzialność, Sprawiedliwość, Sumienie, Czas i Praca.
+           Ocena spójności etycznej określa czy społeczeństwo opiera się na wolności osoby (Łacińska) czy przymusie gromadnościowym.
+        </div>
+        <div class="section-title">7 Generaliów Etycznych (Siedem Niewiadomych)</div>
+        ${generaliaCards}
+      </div>
     `;
 
     const tabSacrality = content.querySelector('#tab-sacrality');
     const tabSpirit    = content.querySelector('#tab-spirit');
+    const tabGeneralia = content.querySelector('#tab-generalia');
     const viewSacrality = content.querySelector('#view-sacrality');
     const viewSpirit    = content.querySelector('#view-spirit');
+    const viewGeneralia = content.querySelector('#view-generalia');
 
     function switchTab(tabBtn, viewDiv) {
-      [tabSacrality, tabSpirit].forEach(t => t.classList.remove('active'));
-      [viewSacrality, viewSpirit].forEach(v => v.style.display = 'none');
+      [tabSacrality, tabSpirit, tabGeneralia].forEach(t => t.classList.remove('active'));
+      [viewSacrality, viewSpirit, viewGeneralia].forEach(v => v.style.display = 'none');
       tabBtn.classList.add('active');
       viewDiv.style.display = 'block';
     }
 
     tabSacrality.addEventListener('click', () => switchTab(tabSacrality, viewSacrality));
     tabSpirit.addEventListener('click', () => switchTab(tabSpirit, viewSpirit));
+    tabGeneralia.addEventListener('click', () => switchTab(tabGeneralia, viewGeneralia));
 
     // Bind Zapytaj buttons
     content.querySelectorAll('.zapytaj-btn').forEach(btn => {
