@@ -41,7 +41,7 @@ class AnalysisRequest(BaseModel):
     target_indices: Optional[list[str]] = None
 
 class AnalysisResponse(BaseModel):
-    sacrality_score: float = -1.0
+    sacrality_score: float
     spirit_supremacy_score: float = 0.0
     legal_dualism_score: float = 0.0
     law_source_pluralism_score: float = 0.0
@@ -55,11 +55,6 @@ class AnalysisResponse(BaseModel):
     morality_supremacy_score: float = 0.0
     public_morality_totality_score: float = 0.0
     administrative_responsibility_score: float = 0.0
-    duty_source_personalistic_score: float = -1.0
-    motivation_altruism_score: float = -1.0
-    ethical_coherence_score: float = -1.0
-    generalia_diagnosis: str = ""
-    mixture_alert: bool = False
     raw_ratings: Dict[str, Any] = {}
 
 @app.post("/api/analyze", response_model=AnalysisResponse)
@@ -132,4 +127,4 @@ async def rag_status():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("backend.main:app", host="127.0.0.1", port=8005, reload=True)
+    uvicorn.run("backend.main:app", host="127.0.0.1", port=8000, reload=True)

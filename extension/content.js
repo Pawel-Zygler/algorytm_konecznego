@@ -703,7 +703,6 @@
 
   // ── Analysis ──────────────────────────────────────────
   async function runAnalysis(targetIndexStr = null) {
-    window.konecznyIsFetching = true;
     if (trigger) trigger.classList.add('spinning');
 
     content.innerHTML = `
@@ -891,10 +890,7 @@
 
     try {
       const config = await getStorageData();
-      let backendUrl = config.backendUrl || 'http://localhost:8005';
-      if (backendUrl.includes(':8000')) {
-        backendUrl = backendUrl.replace(':8000', ':8005');
-      }
+      const backendUrl = config.backendUrl || 'http://localhost:8000';
       const apiKey = config.apiKey || '';
 
       const pageData = extractCleanText();
@@ -924,19 +920,18 @@
 
       clearInterval(window.konecznyLoadingInterval);
       const newData = await response.json();
-      window.konecznyResults = {
-        ...window.konecznyResults,
-        ...newData,
-        raw_ratings: {
-          ...(window.konecznyResults.raw_ratings || {}),
-          ...(newData.raw_ratings || {})
-        }
-      };
-      window.konecznyIsFetching = false;
+      window.konecznyResults.sacrality_score = newData.sacrality_score || window.konecznyResults.sacrality_score;
+      window.konecznyResults.spirit_supremacy_score = newData.spirit_supremacy_score || window.konecznyResults.spirit_supremacy_score;
+      window.konecznyResults.legal_dualism_score = newData.legal_dualism_score || window.konecznyResults.legal_dualism_score;
+      window.konecznyResults.law_source_pluralism_score = newData.law_source_pluralism_score || window.konecznyResults.law_source_pluralism_score;
+      window.konecznyResults.aposteriori_apriori_score = newData.aposteriori_apriori_score || window.konecznyResults.aposteriori_apriori_score;
+      window.konecznyResults.organism_mechanism_score = newData.organism_mechanism_score || window.konecznyResults.organism_mechanism_score;
+      window.konecznyResults.personalism_score = newData.personalism_score || window.konecznyResults.personalism_score;
+      window.konecznyResults.family_law_autonomy_score = newData.family_law_autonomy_score || window.konecznyResults.family_law_autonomy_score;
+      window.konecznyResults.raw_ratings = { ...window.konecznyResults.raw_ratings, ...(newData.raw_ratings || {}) };
       renderResults();
 
     } catch (err) {
-      window.konecznyIsFetching = false;
       if (trigger) trigger.classList.remove('spinning');
       clearInterval(window.konecznyLoadingInterval);
       content.innerHTML = `
@@ -1108,22 +1103,6 @@
       no_camp_system: { name: 'Brak Ustroju Obozowego', question: 'Czy odrzuca się turański ustrój obozowy i rozkaz wodza jako obowiązek?', isDev: true },
       no_sacral_casuistry: { name: 'Brak Sakralnej Kazuistyki', question: 'Czy odrzuca się drobiazgową kazuistykę przepisów zastępującą sumienie?', isDev: true },
       no_collectivism: { name: 'Brak Kolektywizmu', question: 'Czy odrzuca się kolektywizm i uszczęśliwianie ludzi pod przymusem?', isDev: true }
-    };
-
-    const MOTIVATION_META = {
-      truth_for_itself: { name: 'Prawda dla Niej Samej', question: 'Czy Prawda i nauka są szukane dla nich samych (czysta ciekawość naukowa)?', isDev: true },
-      unselfish_bounty: { name: 'Bezinteresowność Intencji', question: 'Czy relacja z Siłą Wyższą opiera się na miłości i uświęceniu intencji?', isDev: true },
-      sacred_suffering_help: { name: 'Pomoc Cierpiącym (Res Sacra Miser)', question: 'Czy pomoc cierpiącym opiera się na zasadzie "cierpiący jest rzeczą świętą"?', isDev: true },
-      ethical_utilitarianism: { name: 'Etyczny Utylitaryzm', question: 'Czy uznaje się, że utylitaryzm winien być etyczny i ograniczony moralnością?', isDev: true },
-      idealistic_public_service: { name: 'Idealistyczna Służba Publiczna', question: 'Czy służba publiczna jest bezinteresownym działaniem dla ideału i dobra ogółu?', isDev: true },
-      art_for_beauty: { name: 'Sztuka dla Piękna', question: 'Czy twórczość artystyczna służy pędowi ku Pięknu jako celowi samemu w sobie?', isDev: true },
-      sacrificial_devotion: { name: 'Dobrowolna Ofiara', question: 'Czy w etyce uznaje się wartość dobrowolnego poświęcenia bez korzyści materialnej?', isDev: true },
-      ethics_supremacy: { name: 'Supremacja Etyki nad Dobrobytem', question: 'Czy etyka stoi ponad Dobrobytem i zyskiem materialnym?', isDev: true },
-      sanctified_intention: { name: 'Uświęcenie Intencji', question: 'Czy uświęcenie intencji i czystość motywacji stoją wyżej niż zewnętrzny efekt?', isDev: true },
-      no_total_utilitarianism: { name: 'Brak Totalnego Utylitaryzmu', question: 'Czy odrzuca się utylitaryzm sprowadzający naukę i sztukę tylko do zysku?', isDev: true },
-      no_contractual_religion: { name: 'Brak Religii Kontraktowej', question: 'Czy odrzuca się traktowanie religii jako kontraktu "coś za coś"?', isDev: true },
-      no_politicized_ethics: { name: 'Brak Polityzacji Etyki', question: 'Czy odrzuca się sprowadzanie etyki do interesu politycznego lub socjalistycznego?', isDev: true },
-      no_biological_elimination: { name: 'Brak Biologistycznej Eliminacji', question: 'Czy odrzuca się biologiczny utylitaryzm nakazujący eliminację słabych?', isDev: true }
     };
 
     const SPIRIT_META = {
@@ -1560,36 +1539,12 @@
       dutySourceScore >= 65 ? 'Autonomiczne etyczne' : dutySourceScore >= 35 ? 'Mieszanka' : 'Zewnętrzne (przymus państwowy)'
     );
 
-    const motivationScores = data.raw_ratings?.motivation_scores || {};
-    let calcMotivationScore = data.motivation_altruism_score || 0;
-    if (calcMotivationScore === 0 && Object.keys(motivationScores).length > 0) {
-      let validCount = 0;
-      let validSum = 0;
-      for (const val of Object.values(motivationScores)) {
-        let s = typeof val === 'number' ? val : (val && val.score !== undefined ? val.score : -1.0);
-        if (s >= 0) {
-          validSum += s;
-          validCount++;
-        }
-      }
-      if (validCount > 0) {
-        calcMotivationScore = validSum / validCount;
-      }
-    }
-    const motivationScore = Math.round(calcMotivationScore * 100);
-
-    const motivationHero = buildDarkHero(
-      'MOTYWACJA (BEZINTERESOWNOŚĆ)',
-      motivationScore,
-      motivationScore >= 65 ? 'Bezinteresowność (Dobro i Prawda)' : motivationScore >= 35 ? 'Mieszanka' : 'Utylitaryzm (interesowność)'
-    );
-
     const INDEX_DEV_FLAGS = {
       sacrality: false,
       spirit: false,
       generalia: false,
-      duty_source: false,
-      motivation: true,
+      duty_source: true,
+      motivation: false,
       responsibility_type: false,
       justice_nature: false,
       conscience_status: false,
@@ -1611,12 +1566,9 @@
 
     const dutySourceCards = Object.keys(dutySourceScores).length > 0 ? buildCardsGroup(dutySourceScores, DUTY_SOURCE_META) : `
       <div id="loader-duty-source" style="padding:20px; text-align:center;">
-        ${INDEX_DEV_FLAGS.duty_source ? `<div style="color:#a1a1aa; font-size:13px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">⚡ Trwa automatyczna analiza i pobieranie danych...</div>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony</div>`}
-      </div>`;
-
-    const motivationCards = Object.keys(motivationScores).length > 0 ? buildCardsGroup(motivationScores, MOTIVATION_META) : `
-      <div id="loader-motivation" style="padding:20px; text-align:center;">
-        ${INDEX_DEV_FLAGS.motivation ? `<div style="color:#a1a1aa; font-size:13px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">⚡ Trwa automatyczna analiza i pobieranie danych...</div>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony</div>`}
+        ${INDEX_DEV_FLAGS.duty_source ? `<button class="tab-btn active zapytaj-btn" data-target="duty_source" data-loader="loader-duty-source" data-name="Personalistyczne Źródło Obowiązku" style="margin:0 auto; padding:10px 20px;">
+          Zapytaj (Pobierz dane)
+        </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony</div>`}
       </div>`;
 
     const generaliaCards = Object.keys(generaliaScores).length > 0 ? buildCardsGroup(generaliaScores, GENERALIA_META) : `
@@ -1632,13 +1584,6 @@
              Mierzy, czy poczucie obowiązku etycznego wyprzedza prawo (szereg personalistyczny), czy wynika z przymusu zewnętrznego i okólnika (gromadnościowy).
           </div>
           <div class="section-title" style="margin-top:10px">13 Wskaźników Personalistycznego Źródła Obowiązku</div> ${dutySourceCards}
-        </div>
-        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-          ${motivationHero}
-          <div style="font-size: 13px; color: #9ca3af; padding: 10px 20px; margin-bottom: 5px; line-height: 1.5; text-align: center;">
-             Mierzy, czy motywacją działania jest bezinteresowna dążność do Dobra i Prawdy, czy kontraktowy utylitaryzm "coś za coś".
-          </div>
-          <div class="section-title" style="margin-top:10px">13 Wskaźników Motywacji (Bezinteresowności)</div> ${motivationCards}
         </div>
       </div>`;
 
@@ -1918,36 +1863,6 @@
         });
       }
     });
-
-    // Auto-trigger analysis for active dev test index if no scores loaded yet
-    const autoFetchDevFlag = Object.keys(INDEX_DEV_FLAGS).find(k => INDEX_DEV_FLAGS[k]);
-    if (autoFetchDevFlag && !window.konecznyIsFetching) {
-      const scoresMap = {
-        sacrality: sacralityScores,
-        generalia: generaliaScores,
-        duty_source: dutySourceScores,
-        motivation: motivationScores,
-        dualism: legalDualismScores,
-        pluralism: pluralismScores,
-        aposteriori: aposterioriScores,
-        organism: organismScores,
-        personalism: personalismScores,
-        family: familyScores,
-        church: churchScores,
-        property: propertyScores,
-        inheritance: inheritanceScores,
-        morality: moralityScores,
-        public_morality: publicMoralityScores,
-        administrative_responsibility: adminRespScores
-      };
-      const targetScores = scoresMap[autoFetchDevFlag] || {};
-      if (Object.keys(targetScores).length === 0) {
-        window.konecznyIsFetching = true;
-        setTimeout(() => {
-          runAnalysis(autoFetchDevFlag);
-        }, 50);
-      }
-    }
   }
 
   // ── Helpers ────────────────────────────────────────────

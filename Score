@@ -16,26 +16,64 @@ PUBLIC_MORALITY_TOTALITY_INDEX_v2
 ADMINISTRATIVE_RESPONSIBILITY_INDEX_v2 
 
 #### 3. `isPersonalisticRow()`
-*   **Wyniki dla 7 generaliów etyki [38, 39]:**
-    *   `Obowiązek`: Wewnętrzny (1) / Zewnętrzny (0).
-    *   `Bezinteresowność`: Ideał (1) / Utylitaryzm (0).
-    *   `Odpowiedzialność`: Osobista (1) / Zbiorowa (0).
-    *   `Sprawiedliwość`: Słuszność (1) / Legalizm (0).
-    *   `Sumienie`: Autonomiczne (1) / Heteronomiczne (0).
-    *   `Czas`: Historyzm (1) / Wegetacja (0).
-    *   `Praca`: Uświęcenie (1) / Przymus (0).
+Krok 3 - Generalia binarne - czy generalia są personalistyczne? Gromadnościowe czy mieszanka z kołobłędem?
+
+Obowiązek, bezinteresowność, odpowiedzialność, sprawiedliwość, sumienie, czas, praca
+
+Zgodnie z metodą Konecznego, generalia te stanowią „siedem niewiadomych”, które w zdrowym organizmie społecznym zawsze przyjmują wartości z tego samego szeregu (personalistycznego lub gromadnościowego). 
+
+Oto generalia. 
+
+1. DUTY_SOURCE_INDEX (Źródło Obowiązku)
+*   **Wartość 1 (Wewnętrzny):** Obowiązek wypływa z dobrowolnego nakazu etycznego, który wyprzedza prawo (cecha łacińska). 
+*   **Wartość 0 (Zewnętrzny):** Obowiązek wynika z przymusu fizycznego, państwowego lub drobiazgowego przepisu sakralnego (metoda „mechaniczna”). 
+
+2. MOTIVATION_INDEX (Motywacja - Bezinteresowność)
+*   **Wartość 1 (Bezinteresowność):** Działanie dla Dobra i Prawdy jako celów samych w sobie; „utylitaryzm winien być etyczny”. 
+*   **Wartość 0 (Utylitaryzm):** Działanie oparte na kontrakcie „coś za coś”, zysku materialnym lub lęku przed stratą (np. w socjalizmie lub braminizmie). 
+
+3. RESPONSIBILITY_TYPE_INDEX (Rodzaj Odpowiedzialności)
+*   **Wartość 1 (Osobista):** Jednostka odpowiada wyłącznie za własne czyny, myśli i mowy (fundament personalizmu). 
+*   **Wartość 0 (Zbiorowa):** Odpowiedzialność solidarna rodu, kasty lub gromady (np. w cywilizacji żydowskiej lub turańskiej). 
+
+4. JUSTICE_NATURE_INDEX (Natura Sprawiedliwości)
+*   **Wartość 1 (Słuszność):** Sprawiedliwość oparta na etycznym poczuciu słuszności, która stoi ponad martwą literą przepisu. 
+*   **Wartość 0 (Legalizm):** „Sprawiedliwym jest to, co zgodne z aktualnym przepisem”, nawet jeśli razi sumienie (bizantynizm, prawniczość żydowska). 
+
+5. CONSCIENCE_STATUS_INDEX (Status Sumienia)
+*   **Wartość 1 (Autonomia):** Sumienie jako suwerenna „autokrytyka moralna” i najwyższa instancja sędziowska nad prawem. 
+*   **Wartość 0 (Heteronomia):** Sumienie zastąpione przez okólnik, przepis lub wolę władcy; człowiek jest „w porządku”, dopóki nie łamie paragrafu. 
+
+6. TIME_MASTERY_INDEX (Opanowanie Czasu)
+*   **Wartość 1 (Historyzm):** Kapitalizacja czasu, planowanie pokoleniowe, era historyczna i ciągłość tradycji. 
+*   **Wartość 0 (Wegetacja):** Brak oszczędzania czasu, życie bezwymiarową teraźniejszością, brak chronologii i historyzmu. 
+
+7. WORK_ETHOS_INDEX (Ethos Pracy)
+*   **Wartość 1 (Uświęcenie):** Praca jako droga do godności osobistej i etyczny obowiązek człowieka wolnego. 
+*   **Wartość 0 (Przymus):** Praca traktowana jako ciężar, jarzmo niewolnicze lub przedmiot pogardy dla „warstw wyższych”. 
+
+Zastosowanie w Algorytmie (Test Współmierności)
+
+Dla każdej cywilizacji sumujesz wartości tych siedmiu indeksów, tworząc ETHICAL_COHERENCE_SCORE (Wynik Spójności Etycznej) generaliów.
+1. Szereg Personalistyczny (Łaciński): Powinien dążyć do wyniku 7.0. Każde odstępstwo (pojawienie się 0) sygnalizuje wpływ obcej cywilizacji
+2. Szeregi Gromadnościowe (Pozostałe): Powinny oscylować wokół 0.0. Pojawienie się 1 (np. odpowiedzialności osobistej w systemie bizantyńskim) tworzy niewspółmierność.
+3. ALERTY MIESZANKI (MIXTURE_ALERT): Jeśli wynik wynosi np. 3.5 lub 4.0, algorytm musi zakwalifikować dany stan jako acywilizacyjny kołobłęd￼￼. Według Konecznego mieszanka taka paraliżuje „kulturę czynu”, ponieważ społeczeństwo nie wie, według której etyki ma postępować w sytuacjach spornych.￼￼
+
+
+Tutaj równania wyników:
+
 *   **Diagnoza SZEREG_GENERALIÓW_PERSONALISTYCZNY:**
     *   **Wynik 6-7:** Dominacja szeregu personalistycznego (Cywilizacja Łacińska).
     *   **Wynik 0-1:** Dominacja szeregu gromadnościowego (Pozostałe 6 cywilizacji).
     *   **Wynik 3-4:** **MIESZANKA TRUJĄCA (Stan acywilizacyjny)** – brak spójności metody, paraliż kultury czynu.
 
 #### 4. `isTimeMasteryHigh()`
-*   **TIME_MASTERY_INDEX_v2:** Suma punktów za: Chronologię (0.2), Erę (0.2), Nazwiska dziedziczne (0.3) i Tradycję krytyczną (0.3) [17-19, 45-47].
-*   **Wydajność cywilizacyjna (Chyżość historyczna):** Mierzona jako zdolność do „kapitalizowania czasu” [48, 49].
+*   **TIME_MASTERY_INDEX_v2:** Suma punktów za: Chronologię (0.2), Erę (0.2), Nazwiska dziedziczne (0.3) i Tradycję krytyczną (0.3).
+*   **Wydajność cywilizacyjna (Chyżość historyczna):** Mierzona jako zdolność do „kapitalizowania czasu”.
 *   **Pomiar szybkości emancypacji:**
     *   $\Delta T = t_{emancypacja\_rodziny} - t_{nazwiska\_dziedziczne}$.
     *   Im mniejsza wartość $\Delta T$, tym wyższa **wydajność cywilizacyjna**.
-    *   W cywilizacji łacińskiej emancypacja rodziny przyśpiesza rozwój prawa i historyzmu, co pozwala kolejnym pokoleniom zaczynać tam, gdzie poprzednie skończyły [50, 51].
+    *   W cywilizacji łacińskiej emancypacja rodziny przyśpiesza rozwój prawa i historyzmu, co pozwala kolejnym pokoleniom zaczynać tam, gdzie poprzednie skończyły.
 
 #### 5. `isQuincunxDefective()`
 *   **Funkcja:** `QUINCUNX_COHERENCE_INDEX`.
