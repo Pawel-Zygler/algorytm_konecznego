@@ -890,7 +890,10 @@
 
     try {
       const config = await getStorageData();
-      const backendUrl = config.backendUrl || 'http://localhost:8005';
+      let backendUrl = config.backendUrl || 'http://localhost:8005';
+      if (backendUrl.includes(':8000')) {
+        backendUrl = backendUrl.replace(':8000', ':8005');
+      }
       const apiKey = config.apiKey || '';
 
       const pageData = extractCleanText();

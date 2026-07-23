@@ -7,7 +7,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Load configuration
   chrome.storage.local.get(['backendUrl', 'apiKey'], (res) => {
-    backendUrlInput.value = res.backendUrl || 'http://localhost:8005';
+    let url = res.backendUrl || 'http://localhost:8005';
+    if (url.includes(':8000')) {
+      url = url.replace(':8000', ':8005');
+    }
+    backendUrlInput.value = url;
     apiKeyInput.value = res.apiKey || '';
     checkServerHealth(backendUrlInput.value);
   });
