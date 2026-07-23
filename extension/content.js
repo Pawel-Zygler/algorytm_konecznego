@@ -1034,6 +1034,12 @@
         const label = meta.name;
         const question = meta.question;
         const pct = score < 0 ? 'Brak danych' : Math.round(score * 100) + '%';
+        let polarityMarker = '';
+        if (score >= 0) {
+            if (score > 0.5) polarityMarker = '<span style="color: #10b981; font-weight: bold; font-size: 0.65em; margin-left: 6px; vertical-align: middle;">[+ Podwyższa]</span>';
+            else if (score < 0.5) polarityMarker = '<span style="color: #ef4444; font-weight: bold; font-size: 0.65em; margin-left: 6px; vertical-align: middle;">[- Obniża]</span>';
+            else polarityMarker = '<span style="color: #9ca3af; font-size: 0.65em; margin-left: 6px; vertical-align: middle;">[Neutralne]</span>';
+        }
         const barColor = score < 0 ? '#52525b' : `hsl(${Math.round(score * 120)}, 78%, 46%)`;
         const barWidth = score < 0 ? 0 : Math.round(score * 100);
 
@@ -1057,7 +1063,10 @@
                   <div class="answer-name">${label}</div>
                   ${question ? `<div class="answer-question">${question}</div>` : ''}
                 </div>
-                <span class="answer-pct" style="color:${barColor}">${pct}</span>
+                <div style="display: flex; align-items: center; justify-content: flex-end;">
+                  <span class="answer-pct" style="color:${barColor}">${pct}</span>
+                  ${polarityMarker}
+                </div>
                 <svg class="chevron-icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
               </div>
               <div class="progress-track">

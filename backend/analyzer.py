@@ -7,7 +7,7 @@ from backend import config
 from backend import rag
 
 INDEX_DEV_FLAGS = {
-    "sacrality": False,
+    "sacrality": True,
     "spirit": False,
     "dualism": False,
     "pluralism": False,
@@ -20,7 +20,7 @@ INDEX_DEV_FLAGS = {
     "inheritance": False,
     "morality": False,
     "public_morality": False,
-    "administrative_responsibility": True
+    "administrative_responsibility": False
 }
 
 indicator_item = {
