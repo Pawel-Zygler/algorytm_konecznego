@@ -1080,13 +1080,13 @@
     };
 
     const GENERALIA_META = {
-      duty_source_personalistic: { name: '1. Źródło Obowiązku', question: 'Wartość 1: Dobrowolny nakaz etyczny przed prawem | Wartość 0: Zewnętrzny przymus/okólnik' },
-      motivation_altruism: { name: '2. Motywacja (Bezinteresowność)', question: 'Wartość 1: Dobro i Prawda jako cel sam w sobie | Wartość 0: Utylitaryzm / kontrakt "coś za coś"' },
-      responsibility_personal: { name: '3. Rodzaj Odpowiedzialności', question: 'Wartość 1: Odpowiedzialność osobista za własne czyny | Wartość 0: Odpowiedzialność zbiorowa rodu/kasty' },
-      justice_equity: { name: '4. Natura Sprawiedliwości', question: 'Wartość 1: Etyczne poczucie słuszności ponad przepisem | Wartość 0: Bezduszny legalizm / strictum ius' },
-      conscience_autonomous: { name: '5. Status Sumienia', question: 'Wartość 1: Autonomia sumienia i autokrytyka moralna | Wartość 0: Heteronomia / bezduszna litera prawa' },
-      time_mastery_historicism: { name: '6. Opanowanie Czasu', question: 'Wartość 1: Historyzm, era i kapitalizacja czasu | Wartość 0: Wegetacja teraźniejszością' },
-      work_ethos_sanctification: { name: '7. Ethos Pracy', question: 'Wartość 1: Uświęcenie i godność człowieka wolnego | Wartość 0: Przymus i jarzmo niewolnicze' }
+      duty_source_personalistic: { name: '1. Źródło Obowiązku', question: 'Mierzy, czy obowiązek wypływa z autonomicznego nakazu etycznego wyprzedzającego prawo (szereg personalistyczny), czy z zewnętrznego przymusu państwowego lub okólnika (gromadnościowy).' },
+      motivation_altruism: { name: '2. Motywacja (Bezinteresowność)', question: 'Mierzy, czy motywacją działania jest bezinteresowna dążność do Dobra i Prawdy jako celów samych w sobie, czy kontraktowy utylitaryzm "coś za coś".' },
+      responsibility_personal: { name: '3. Rodzaj Odpowiedzialności', question: 'Mierzy, czy człowiek odpowiada osobiście i indywidualnie za własne czyny i mowę (personalizm), czy ponosi odpowiedzialność zbiorową rodu, kasty lub gromady.' },
+      justice_equity: { name: '4. Natura Sprawiedliwości', question: 'Mierzy, czy sprawiedliwość opiera się na etycznym poczuciu słuszności stojącym ponad przepisem, czy na bezdusznym legalizmie i ślepym posłuszeństwie literze prawa.' },
+      conscience_autonomous: { name: '5. Status Sumienia', question: 'Mierzy, czy najwyższą instancją jest autonomia sumienia i autokrytyka moralna, czy heteronomia zastępująca sumienie okólnikiem władzy.' },
+      time_mastery_historicism: { name: '6. Opanowanie Czasu', question: 'Mierzy, czy społeczeństwo wykazuje historyzm, erę i międzypokoleniową kapitalizację czasu, czy wegetuje ahistorycznie w bezwymiarowej teraźniejszości.' },
+      work_ethos_sanctification: { name: '7. Ethos Pracy', question: 'Mierzy, czy praca uznawana jest za uświęcenie i godność człowieka wolnego, czy traktowana jako przymus, jarzmo niewolnicze lub przedmiot pogardy.' }
     };
 
     const SPIRIT_META = {
@@ -1396,9 +1396,10 @@
       return html;
     }
 
-    function buildDarkHero(title, pct, statusText) {
+    function buildDarkHero(title, pct, statusText, customValDisplay = null) {
       const isMissing = pct < 0;
-      const displayPct = isMissing ? 'N/A' : `${pct}%`;
+      const displayVal = isMissing ? 'N/A' : (customValDisplay !== null ? customValDisplay : `${pct}%`);
+      const ringPctDisplay = isMissing ? 'N/A' : `${pct}%`;
       const displayStatus = isMissing ? 'Brak danych w tekście' : statusText;
       const C = 2 * Math.PI * 28;
       const dashOffset = isMissing ? C : C - (pct / 100) * C;
@@ -1408,7 +1409,7 @@
         <div class="dark-hero-card">
           <div>
             <div class="dark-hero-label">${title}</div>
-            <div class="dark-hero-val" style="color: ${isMissing ? '#a1a1aa' : '#fff'}">${displayPct}</div>
+            <div class="dark-hero-val" style="color: ${isMissing ? '#a1a1aa' : '#fff'}; ${customValDisplay ? 'font-size: 26px;' : ''}">${displayVal}</div>
             <div class="dark-hero-status" style="color: ${isMissing ? '#71717a' : '#a1a1aa'}">${isMissing ? '✕' : '✓'} ${displayStatus}</div>
           </div>
           <div class="dark-ring-wrap">
@@ -1419,7 +1420,7 @@
                 stroke-dasharray="${C}"
                 stroke-dashoffset="${dashOffset}"/>
             </svg>
-            <div class="dark-ring-pct" style="color: ${isMissing ? '#71717a' : '#fff'}">${displayPct}</div>
+            <div class="dark-ring-pct" style="color: ${isMissing ? '#71717a' : '#fff'}">${ringPctDisplay}</div>
           </div>
         </div>
       `;
@@ -1471,14 +1472,31 @@
     );
 
     const generaliaScores = data.raw_ratings?.generalia_scores || {};
-    const ethicalCoherenceScore = data.ethical_coherence_score !== undefined ? data.ethical_coherence_score : -1;
-    const generaliaDiagnosis = data.generalia_diagnosis || 'Brak danych';
-    const mixtureAlert = data.mixture_alert || false;
+
+    let ethicalCoherenceScore = data.ethical_coherence_score !== undefined ? data.ethical_coherence_score : -1;
+    if (ethicalCoherenceScore < 0 && Object.keys(generaliaScores).length > 0) {
+      let sum = 0;
+      let count = 0;
+      for (const val of Object.values(generaliaScores)) {
+        let s = typeof val === 'number' ? val : (val && val.score !== undefined ? val.score : -1.0);
+        if (s >= 0) {
+          sum += s;
+          count++;
+        }
+      }
+      if (count > 0) {
+        ethicalCoherenceScore = sum;
+      }
+    }
+
+    const generaliaDiagnosis = data.generalia_diagnosis || (ethicalCoherenceScore >= 6.0 ? 'Dominacja Szeregu Personalistycznego (Cywilizacja Łacińska)' : (ethicalCoherenceScore >= 0 && ethicalCoherenceScore <= 2.0) ? 'Dominacja Szeregu Gromadnościowego' : (ethicalCoherenceScore > 2.0) ? '⚠️ MIESZANKA TRUJĄCA (Stan acywilizacyjny / Kołobłęd etyczny)' : 'Brak danych');
+    const mixtureAlert = data.mixture_alert !== undefined ? data.mixture_alert : (ethicalCoherenceScore >= 2.5 && ethicalCoherenceScore <= 5.5);
 
     const generaliaHero = buildDarkHero(
       'SPÓJNOŚĆ GENERALIÓW ETYKI',
       ethicalCoherenceScore >= 0 ? Math.round((ethicalCoherenceScore / 7) * 100) : -1,
-      generaliaDiagnosis
+      generaliaDiagnosis,
+      ethicalCoherenceScore >= 0 ? `${ethicalCoherenceScore.toFixed(1)} / 7.0` : null
     );
 
     const INDEX_DEV_FLAGS = {
