@@ -7,12 +7,12 @@ from backend import config
 from backend import rag
 
 INDEX_DEV_FLAGS = {
-    "sacrality": True,
+    "sacrality": False,
     "spirit": False,
     "dualism": False,
     "pluralism": False,
     "aposteriori": False,
-    "organism": False,
+    "organism": True,
     "personalism": False,
     "family": False,
     "church": False,
@@ -357,17 +357,17 @@ def analyze_sample(text: str, api_key: str = None, target_indices: list = None) 
                     "INDEPENDENT_JUDICIARY": indicator_item, "OFFICIAL_RESPONSIBILITY": indicator_item, "APOSTERIORI_LAW": indicator_item,
                     "ASSOCIATION_AUTONOMY": indicator_item, "LAND_OWNERSHIP_FULL": indicator_item, "LOCAL_LAW_TOLERANCE": indicator_item,
                     "LAW_CONSCIENCE_EQUALITY": indicator_item, "FAMILY_EMANCIPATION": indicator_item, "SOCIETY_PRIMACY": indicator_item,
-                    "SOCIETY_AS_GOAL": indicator_item, "CHURCH_INDEPENDENCE": indicator_item, "STATOLATRY_PUBLIC_MONISM": indicator_item,
-                    "PRIVATE_LAW_MONISM": indicator_item, "CITIZENS_AS_HOSTAGES": indicator_item, "SACRAL_LAW_MONOPOLY": indicator_item,
-                    "EXCESS_REGULATION": indicator_item
+                    "SOCIETY_AS_GOAL": indicator_item, "CHURCH_INDEPENDENCE": indicator_item, "NO_STATOLATRY_PUBLIC_MONISM": indicator_item,
+                    "NO_PRIVATE_LAW_MONISM": indicator_item, "CITIZENS_ARE_FREE": indicator_item, "NO_SACRAL_LAW_MONOPOLY": indicator_item,
+                    "NO_EXCESS_REGULATION": indicator_item
                 },
                 "required": [
                     "PRIVATE_RIGHTS_SPHERE", "FAMILY_AUTONOMY", "PROPERTY_PROTECTION", "NATURAL_INHERITANCE", "POWER_LIMITS", 
                     "OPPOSITION_RIGHT", "STATE_MORALITY_SUBORDINATION", "DIVINE_VS_CAESAR", "RULER_ETHICS_EQUALITY", 
                     "INDEPENDENT_JUDICIARY", "OFFICIAL_RESPONSIBILITY", "APOSTERIORI_LAW", "ASSOCIATION_AUTONOMY", 
                     "LAND_OWNERSHIP_FULL", "LOCAL_LAW_TOLERANCE", "LAW_CONSCIENCE_EQUALITY", "FAMILY_EMANCIPATION", 
-                    "SOCIETY_PRIMACY", "SOCIETY_AS_GOAL", "CHURCH_INDEPENDENCE", "STATOLATRY_PUBLIC_MONISM", 
-                    "PRIVATE_LAW_MONISM", "CITIZENS_AS_HOSTAGES", "SACRAL_LAW_MONOPOLY", "EXCESS_REGULATION"
+                    "SOCIETY_PRIMACY", "SOCIETY_AS_GOAL", "CHURCH_INDEPENDENCE", "NO_STATOLATRY_PUBLIC_MONISM", 
+                    "NO_PRIVATE_LAW_MONISM", "CITIZENS_ARE_FREE", "NO_SACRAL_LAW_MONOPOLY", "NO_EXCESS_REGULATION"
                 ]
             }
         },

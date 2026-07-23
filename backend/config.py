@@ -17,14 +17,10 @@ GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 
 # Fallback list of models (tries latest pro, then older pros, then flashes)
 GEMINI_MODELS = [
-    "gemini-3.5-flash",
-    "gemini-3.6-flash",
-    "gemini-3.1-pro-preview",
-    "gemini-3-pro-preview",
-    "gemini-pro-latest",
-    "gemini-2.5-pro",
-    "gemini-3.1-flash-lite",
-    "gemini-2.5-flash",
     "gemini-2.0-flash",
-    "gemini-flash-latest"
+    "gemini-1.5-flash-latest",
+    "gemini-1.5-pro-latest",
+    "gemini-2.0-flash-exp",
+    "gemini-flash-latest",
+    "gemini-pro-latest"
 ]
