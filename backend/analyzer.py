@@ -96,26 +96,31 @@ def call_gemini_api(prompt: str, system_instruction: str, api_key: str, schema: 
     last_error = None
     for model_name in config.GEMINI_MODELS:
         url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={api_key}"
-        try:
-            response = requests.post(url, headers=headers, json=data, timeout=120)
-            if response.status_code == 200:
-                res_json = response.json()
-                content_text = res_json['candidates'][0]['content']['parts'][0]['text']
-                return content_text
-            elif response.status_code in [404, 429, 500, 503]:
-                # 404 = Model not found, 429 = Quota exceeded, 500/503 = Server errors / High demand
-                last_error = f"Model {model_name} failed ({response.status_code}): {response.text}"
-                print(last_error + " Trying next model...")
+        for attempt in range(3):
+            try:
+                response = requests.post(url, headers=headers, json=data, timeout=120)
+                if response.status_code == 200:
+                    res_json = response.json()
+                    content_text = res_json['candidates'][0]['content']['parts'][0]['text']
+                    return content_text
+                elif response.status_code in [429, 500, 503]:
+                    last_error = f"Model {model_name} failed ({response.status_code}): {response.text[:200]}"
+                    print(f"{last_error}. Próba {attempt + 1}/3. Czekam {2 * (attempt + 1)}s...")
+                    time.sleep(2 * (attempt + 1))
+                    continue
+                elif response.status_code == 404:
+                    last_error = f"Model {model_name} nie znaleziony (404)"
+                    print(last_error + " Próbuję następny model...")
+                    break
+                else:
+                    raise Exception(f"Gemini API request failed ({response.status_code}) on model {model_name}: {response.text}")
+            except requests.exceptions.RequestException as e:
+                last_error = f"Błąd sieci na {model_name}: {str(e)}"
+                print(last_error + " Ponawiam...")
+                time.sleep(2)
                 continue
-            else:
-                # Other errors (e.g. 400 Bad Request) usually indicate a syntax/schema error, not worth retrying models
-                raise Exception(f"Gemini API request failed ({response.status_code}) on model {model_name}: {response.text}")
-        except requests.exceptions.RequestException as e:
-            last_error = f"Network error on {model_name}: {str(e)}"
-            print(last_error + " Trying next model...")
-            continue
             
-    raise Exception(f"All models failed. Last error: {last_error}")
+    raise Exception(f"Wszystkie modele zawiodły. Ostatni błąd: {last_error}")
 
 def calculate_koneczny_metrics(llm_data: Dict[str, Any]) -> Dict[str, Any]:
     """
