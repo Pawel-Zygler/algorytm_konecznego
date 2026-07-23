@@ -9,10 +9,18 @@ from backend import rag
 INDEX_DEV_FLAGS = {
     "sacrality": False,
     "spirit": False,
+    "generalia": False,
+    "duty_source": True,
+    "motivation": False,
+    "responsibility_type": False,
+    "justice_nature": False,
+    "conscience_status": False,
+    "time_mastery": False,
+    "work_ethos": False,
     "dualism": False,
     "pluralism": False,
     "aposteriori": False,
-    "organism": True,
+    "organism": False,
     "personalism": False,
     "family": False,
     "church": False,
@@ -143,6 +151,7 @@ def calculate_koneczny_metrics(llm_data: Dict[str, Any]) -> Dict[str, Any]:
         "morality_supremacy_score": _calc_avg("morality_supremacy_scores"),
         "public_morality_totality_score": _calc_avg("public_morality_totality_scores"),
         "administrative_responsibility_score": _calc_avg("administrative_responsibility_scores"),
+        "duty_source_personalistic_score": _calc_avg("duty_source_scores"),
     }
     # Calculate global spirit supremacy score from 12 indices
     spirit_scores = [
@@ -152,7 +161,34 @@ def calculate_koneczny_metrics(llm_data: Dict[str, Any]) -> Dict[str, Any]:
         result["morality_supremacy_score"], result["public_morality_totality_score"], result["administrative_responsibility_score"]
     ]
     valid_spirit = [s for s in spirit_scores if s >= 0]
-    result["spirit_supremacy_score"] = sum(valid_spirit) / len(valid_spirit) if valid_spirit else -1.0
+    # Calculate Generalia (Step 3) ethical coherence score
+    generalia_data = llm_data.get("generalia_scores", {})
+    gen_vals = []
+    for gen_info in generalia_data.values():
+        val = -1.0
+        if isinstance(gen_info, (int, float)):
+            val = float(gen_info)
+        elif isinstance(gen_info, dict):
+            val = float(gen_info.get("score", -1.0))
+        if val >= 0:
+            gen_vals.append(val)
+
+    if gen_vals:
+        coherence_sum = sum(gen_vals)
+        result["ethical_coherence_score"] = round(coherence_sum, 1)
+        if coherence_sum >= 6.0:
+            result["generalia_diagnosis"] = "Dominacja Szeregu Personalistycznego (Cywilizacja Łacińska)"
+            result["mixture_alert"] = False
+        elif coherence_sum <= 2.0:
+            result["generalia_diagnosis"] = "Dominacja Szeregu Gromadnościowego (Pozostałe cywilizacje)"
+            result["mixture_alert"] = False
+        else:
+            result["generalia_diagnosis"] = "⚠️ MIESZANKA TRUJĄCA (Stan acywilizacyjny / Kołobłęd etyczny)"
+            result["mixture_alert"] = True
+    else:
+        result["ethical_coherence_score"] = -1.0
+        result["generalia_diagnosis"] = "Brak danych generaliów"
+        result["mixture_alert"] = False
 
     result["raw_ratings"] = llm_data
     return result
@@ -975,6 +1011,131 @@ TEKST DO ANALIZY:
 {trimmed_text}
 Zwróć JSON."""
 
+    schema_generalia = {
+        "type": "object",
+        "properties": {
+            "generalia_scores": {
+                "type": "object",
+                "properties": {
+                    "duty_source_personalistic": indicator_item,
+                    "motivation_altruism": indicator_item,
+                    "responsibility_personal": indicator_item,
+                    "justice_equity": indicator_item,
+                    "conscience_autonomous": indicator_item,
+                    "time_mastery_historicism": indicator_item,
+                    "work_ethos_sanctification": indicator_item
+                },
+                "required": [
+                    "duty_source_personalistic",
+                    "motivation_altruism",
+                    "responsibility_personal",
+                    "justice_equity",
+                    "conscience_autonomous",
+                    "time_mastery_historicism",
+                    "work_ethos_sanctification"
+                ]
+            },
+            "generalia_news_1": {"type": "string"},
+            "generalia_news_2": {"type": "string"},
+            "generalia_news_3": {"type": "string"},
+            "generalia_justification": {"type": "string"}
+        },
+        "required": [
+            "generalia_scores",
+            "generalia_news_1",
+            "generalia_news_2",
+            "generalia_news_3",
+            "generalia_justification"
+        ]
+    }
+
+    sys_inst_generalia = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w wymiarze Kroku 3 algorytmu (7 GENERALIÓW ETYKI - Siedem Niewiadomych Etyki):
+1. duty_source_personalistic: Źródło Obowiązku (1.0 = Wewnętrzne/Etyka przed prawem, 0.0 = Zewnętrzne/Przymus/Okólnik)
+2. motivation_altruism: Motywacja i Bezinteresowność (1.0 = Bezinteresowne Dobro i Prawda, 0.0 = Utylitaryzm/Transakcyjność)
+3. responsibility_personal: Rodzaj Odpowiedzialności (1.0 = Osobista/Indywidualna za własne czyny, 0.0 = Zbiorowa/Rodu/Kasty/Gromady)
+4. justice_equity: Natura Sprawiedliwości (1.0 = Słuszność Etyczna ponad ustawą, 0.0 = Bezbronny Legalizm/Strictum Ius/Shylock)
+5. conscience_autonomous: Status Sumienia (1.0 = Autonomia Sumienia i autokrytyka moralna, 0.0 = Heteronomia/Litera prawa)
+6. time_mastery_historicism: Opanowanie Czasu (1.0 = Historyzm/Kapitalizacja Czasu/Era, 0.0 = Wegetacja bezwymiarowa)
+7. work_ethos_sanctification: Ethos Pracy (1.0 = Uświęcenie i godność człowieka wolnego, 0.0 = Przymus/Jarzmo)
+
+Wszystkie wskaźniki przyjmują wartości binarne 1.0 (Szereg Personalistyczny / Łaciński) lub 0.0 (Szereg Gromadnościowy). Jeśli absolutnie brak danych, podaj score: -1.0.
+Zwróć zwięzłe przykłady i uzasadnienie w JSON."""
+
+    prompt_generalia = f"""Kontekst metodologiczny Konecznego (7 Generaliów Etyki):
+{indices_context[:3500]}
+{rag_context}
+
+BARDZO WAŻNE INSTRUKCJE:
+Przeprowadź analizę 7 GENERALIÓW ETYKI (generalia_scores) dla poniższego tekstu.
+
+TEKST DO ANALIZY:
+{trimmed_text}
+Zwróć JSON."""
+
+    schema_duty_source = {
+        "type": "object",
+        "properties": {
+            "duty_source_scores": {
+                "type": "object",
+                "properties": {
+                    "ethics_over_law": indicator_item,
+                    "voluntary_action": indicator_item,
+                    "direct_god_relation": indicator_item,
+                    "autonomous_conscience": indicator_item,
+                    "unwavering_commitment": indicator_item,
+                    "universal_ethics": indicator_item,
+                    "personal_creativity": indicator_item,
+                    "ethics_primacy": indicator_item,
+                    "personal_confession": indicator_item,
+                    "no_statolatry": indicator_item,
+                    "no_camp_system": indicator_item,
+                    "no_sacral_casuistry": indicator_item,
+                    "no_collectivism": indicator_item
+                },
+                "required": [
+                    "ethics_over_law", "voluntary_action", "direct_god_relation", "autonomous_conscience",
+                    "unwavering_commitment", "universal_ethics", "personal_creativity", "ethics_primacy",
+                    "personal_confession", "no_statolatry", "no_camp_system", "no_sacral_casuistry", "no_collectivism"
+                ]
+            },
+            "duty_source_news_1": {"type": "string"},
+            "duty_source_news_2": {"type": "string"},
+            "duty_source_news_3": {"type": "string"},
+            "duty_source_justification": {"type": "string"}
+        },
+        "required": [
+            "duty_source_scores", "duty_source_news_1", "duty_source_news_2", "duty_source_news_3", "duty_source_justification"
+        ]
+    }
+
+    sys_inst_duty_source = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w wymiarze 13 WSKAŹNIKÓW PERSONALISTYCZNEGO ŹRÓDŁA OBOWIĄZKU (duty_source_scores):
+1. ethics_over_law: Poczucie obowiązku wyprzedza prawo stanowione
+2. voluntary_action: Dobrowolność spełniania obowiązków (zamiast lęku przed przymusem)
+3. direct_god_relation: Bezpośrednia relacja z Siłą Wyższą i sumieniem
+4. autonomous_conscience: Autonomia sumienia jako autokrytyka moralna
+5. unwavering_commitment: Niezależność obowiązku od sakralnego zrzucenia zobowiązań
+6. universal_ethics: Uniwersalizm obowiązku wobec każdego człowieka (bliźniego)
+7. personal_creativity: Obowiązek pobudza do twórczości i osobistej inicjatywy
+8. ethics_primacy: Prymat etyki nad prawem
+9. personal_confession: Spowiedź osobista jako szkoła odpowiedzialności indywidualnej
+10. no_statolatry: Odrzucenie statolatrii i wszechwładzy państwa zwalniającej z etyki
+11. no_camp_system: Odrzucenie turańskiego ustroju obozowego
+12. no_sacral_casuistry: Odrzucenie sakralnej kazuistyki prawnej zastępującej sumienie
+13. no_collectivism: Odrzucenie kolektywizmu uszczęśliwiającego pod przymusem
+
+Wszystkie wskaźniki podawaj w skali 0.0 - 1.0 (gdzie 1.0 oznacza pełne urzeczywistnienie szeregu personalistycznego / łacińskiego). Jeśli brak danych: -1.0. Zwróć JSON."""
+
+    prompt_duty_source = f"""Kontekst metodologiczny Konecznego (Źródło Obowiązku):
+{indices_context[:3000]}
+{rag_context}
+
+BARDZO WAŻNE INSTRUKCJE:
+Przeprowadź analizę WSZYSTKICH 13 wskaźników PERSONALISTYCZNEGO ŹRÓDŁA OBOWIĄZKU (duty_source_scores) dla poniższego tekstu.
+
+TEKST DO ANALIZY:
+{trimmed_text}
+Zwróć JSON."""
+
     # Execute calls conditionally based on target_indices
     if target_indices is None:
         # Default for development if not specified
@@ -990,6 +1151,8 @@ Zwróć JSON."""
 
     tasks = []
     if "sacrality" in target_indices: tasks.append((prompt_1, sys_inst_1, schema_1))
+    if "generalia" in target_indices: tasks.append((prompt_generalia, sys_inst_generalia, schema_generalia))
+    if "duty_source" in target_indices: tasks.append((prompt_duty_source, sys_inst_duty_source, schema_duty_source))
     if "dualism" in target_indices: tasks.append((prompt_2, sys_inst_2, schema_2))
     if "pluralism" in target_indices: tasks.append((prompt_3, sys_inst_3, schema_3))
     if "aposteriori" in target_indices: tasks.append((prompt_4, sys_inst_4, schema_4))

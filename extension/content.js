@@ -1089,6 +1089,22 @@
       work_ethos_sanctification: { name: '7. Ethos Pracy', question: 'Mierzy, czy praca uznawana jest za uświęcenie i godność człowieka wolnego, czy traktowana jako przymus, jarzmo niewolnicze lub przedmiot pogardy.' }
     };
 
+    const DUTY_SOURCE_META = {
+      ethics_over_law: { name: 'Poczucie Obowiązku vs Prawo', question: 'Czy poczucie obowiązku etycznego wyprzedza prawo stanowione?', isDev: true },
+      voluntary_action: { name: 'Dobrowolność Czynu', question: 'Czy jednostka spełnia obowiązki z własnej woli (zamiast lęku przed przymusem)?', isDev: true },
+      direct_god_relation: { name: 'Bezpośredniość Relacji z Bogiem', question: 'Czy relacja z Siłą Wyższą i sumieniem jest bezpośrednia i osobista?', isDev: true },
+      autonomous_conscience: { name: 'Autonomia Sumienia', question: 'Czy najwyższą instancją jest osobiste sumienie (autokrytyka moralna)?', isDev: true },
+      unwavering_commitment: { name: 'Niezmienność Obowiązku', question: 'Czy obowiązek etyczny trwa niezależnie od sakralnego zrzucenia zobowiązania?', isDev: true },
+      universal_ethics: { name: 'Uniwersalizm Obowiązku', question: 'Czy obowiązek odnosi się uniwersalnie do każdego człowieka (bliźniego)?', isDev: true },
+      personal_creativity: { name: 'Twórczość i Inicjatywa', question: 'Czy poczucie obowiązku pobudza do twórczości i osobistej inicjatywy?', isDev: true },
+      ethics_primacy: { name: 'Prymat Etyki nad Prawem', question: 'Czy uznaje się bezwzględny prymat etyki nad stanowionym prawem?', isDev: true },
+      personal_confession: { name: 'Spowiedź Indywidualna', question: 'Czy istnieje spowiedź i osobista samoocena myśli, mowy i uczynków?', isDev: true },
+      no_statolatry: { name: 'Brak Statolatrii', question: 'Czy odrzuca się statolatrię i nieomylność państwa?', isDev: true },
+      no_camp_system: { name: 'Brak Ustroju Obozowego', question: 'Czy odrzuca się turański ustrój obozowy i rozkaz wodza jako obowiązek?', isDev: true },
+      no_sacral_casuistry: { name: 'Brak Sakralnej Kazuistyki', question: 'Czy odrzuca się drobiazgową kazuistykę przepisów zastępującą sumienie?', isDev: true },
+      no_collectivism: { name: 'Brak Kolektywizmu', question: 'Czy odrzuca się kolektywizm i uszczęśliwianie ludzi pod przymusem?', isDev: true }
+    };
+
     const SPIRIT_META = {
       LEGAL_DUALISM_INDEX:           { name: 'Indeks Dualizmu Prawnego',        question: 'Czy państwo uznaje niezależną sferę praw prywatnych jednostki?' },
       LAW_SOURCE_PLURALISM_INDEX:    { name: 'Pluralizm Źródeł Prawa',           question: 'Czy istnieje wolność stanowienia prawa zwyczajowego i lokalnego?' },
@@ -1499,10 +1515,41 @@
       ethicalCoherenceScore >= 0 ? `${ethicalCoherenceScore.toFixed(1)} / 7.0` : null
     );
 
+    const dutySourceScores = data.raw_ratings?.duty_source_scores || {};
+    let calcDutySourceScore = data.duty_source_personalistic_score || 0;
+    if (calcDutySourceScore === 0 && Object.keys(dutySourceScores).length > 0) {
+      let validCount = 0;
+      let validSum = 0;
+      for (const val of Object.values(dutySourceScores)) {
+        let s = typeof val === 'number' ? val : (val && val.score !== undefined ? val.score : -1.0);
+        if (s >= 0) {
+          validSum += s;
+          validCount++;
+        }
+      }
+      if (validCount > 0) {
+        calcDutySourceScore = validSum / validCount;
+      }
+    }
+    const dutySourceScore = Math.round(calcDutySourceScore * 100);
+
+    const dutySourceHero = buildDarkHero(
+      'ŹRÓDŁO OBOWIĄZKU',
+      dutySourceScore,
+      dutySourceScore >= 65 ? 'Autonomiczne etyczne' : dutySourceScore >= 35 ? 'Mieszanka' : 'Zewnętrzne (przymus państwowy)'
+    );
+
     const INDEX_DEV_FLAGS = {
       sacrality: false,
       spirit: false,
-      generalia: true,
+      generalia: false,
+      duty_source: true,
+      motivation: false,
+      responsibility_type: false,
+      justice_nature: false,
+      conscience_status: false,
+      time_mastery: false,
+      work_ethos: false,
       dualism: false,
       pluralism: false,
       aposteriori: false,
@@ -1517,11 +1564,27 @@
       administrative_responsibility: false
     };
 
+    const dutySourceCards = Object.keys(dutySourceScores).length > 0 ? buildCardsGroup(dutySourceScores, DUTY_SOURCE_META) : `
+      <div id="loader-duty-source" style="padding:20px; text-align:center;">
+        ${INDEX_DEV_FLAGS.duty_source ? `<button class="tab-btn active zapytaj-btn" data-target="duty_source" data-loader="loader-duty-source" data-name="Personalistyczne Źródło Obowiązku" style="margin:0 auto; padding:10px 20px;">
+          Zapytaj (Pobierz dane)
+        </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony</div>`}
+      </div>`;
+
     const generaliaCards = Object.keys(generaliaScores).length > 0 ? buildCardsGroup(generaliaScores, GENERALIA_META) : `
       <div id="loader-generalia" style="padding:20px; text-align:center;">
         ${INDEX_DEV_FLAGS.generalia ? `<button class="tab-btn active zapytaj-btn" data-target="generalia" data-loader="loader-generalia" data-name="7 Generaliów Etyki" style="margin:0 auto; padding:10px 20px;">
           Zapytaj (Pobierz dane)
-        </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony</div>`}
+        </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Wyliczanie ogólne wyłączone. Testujesz poszczególne indeksy generaliów poniżej.</div>`}
+      </div>
+      <div class="sub-indices" style="margin-top: 30px;">
+        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+          ${dutySourceHero}
+          <div style="font-size: 13px; color: #9ca3af; padding: 10px 20px; margin-bottom: 5px; line-height: 1.5; text-align: center;">
+             Mierzy, czy poczucie obowiązku etycznego wyprzedza prawo (szereg personalistyczny), czy wynika z przymusu zewnętrznego i okólnika (gromadnościowy).
+          </div>
+          <div class="section-title" style="margin-top:10px">13 Wskaźników Personalistycznego Źródła Obowiązku</div> ${dutySourceCards}
+        </div>
       </div>`;
 
 
