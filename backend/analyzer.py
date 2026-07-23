@@ -1,5 +1,6 @@
 import os
 import json
+import time
 import requests
 import json_repair
 from typing import Dict, Any
@@ -106,6 +107,8 @@ def call_gemini_api(prompt: str, system_instruction: str, api_key: str, schema: 
                 # 404 = Model not found, 429 = Quota exceeded, 500/503 = Server errors / High demand
                 last_error = f"Model {model_name} failed ({response.status_code}): {response.text}"
                 print(last_error + " Trying next model...")
+                if response.status_code in [429, 503]:
+                    time.sleep(2)
                 continue
             else:
                 # Other errors (e.g. 400 Bad Request) usually indicate a syntax/schema error, not worth retrying models
