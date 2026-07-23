@@ -1105,6 +1105,22 @@
       no_collectivism: { name: 'Brak Kolektywizmu', question: 'Czy odrzuca się kolektywizm i uszczęśliwianie ludzi pod przymusem?', isDev: true }
     };
 
+    const MOTIVATION_META = {
+      truth_for_itself: { name: 'Prawda dla Niej Samej', question: 'Czy Prawda i nauka są szukane dla nich samych (czysta ciekawość naukowa)?', isDev: true },
+      unselfish_bounty: { name: 'Bezinteresowność Intencji', question: 'Czy relacja z Siłą Wyższą opiera się na miłości i uświęceniu intencji?', isDev: true },
+      sacred_suffering_help: { name: 'Pomoc Cierpiącym (Res Sacra Miser)', question: 'Czy pomoc cierpiącym opiera się na zasadzie "cierpiący jest rzeczą świętą"?', isDev: true },
+      ethical_utilitarianism: { name: 'Etyczny Utylitaryzm', question: 'Czy uznaje się, że utylitaryzm winien być etyczny i ograniczony moralnością?', isDev: true },
+      idealistic_public_service: { name: 'Idealistyczna Służba Publiczna', question: 'Czy służba publiczna jest bezinteresownym działaniem dla ideału i dobra ogółu?', isDev: true },
+      art_for_beauty: { name: 'Sztuka dla Piękna', question: 'Czy twórczość artystyczna służy pędowi ku Pięknu jako celowi samemu w sobie?', isDev: true },
+      sacrificial_devotion: { name: 'Dobrowolna Ofiara', question: 'Czy w etyce uznaje się wartość dobrowolnego poświęcenia bez korzyści materialnej?', isDev: true },
+      ethics_supremacy: { name: 'Supremacja Etyki nad Dobrobytem', question: 'Czy etyka stoi ponad Dobrobytem i zyskiem materialnym?', isDev: true },
+      sanctified_intention: { name: 'Uświęcenie Intencji', question: 'Czy uświęcenie intencji i czystość motywacji stoją wyżej niż zewnętrzny efekt?', isDev: true },
+      no_total_utilitarianism: { name: 'Brak Totalnego Utylitaryzmu', question: 'Czy odrzuca się utylitaryzm sprowadzający naukę i sztukę tylko do zysku?', isDev: true },
+      no_contractual_religion: { name: 'Brak Religii Kontraktowej', question: 'Czy odrzuca się traktowanie religii jako kontraktu "coś za coś"?', isDev: true },
+      no_politicized_ethics: { name: 'Brak Polityzacji Etyki', question: 'Czy odrzuca się sprowadzanie etyki do interesu politycznego lub socjalistycznego?', isDev: true },
+      no_biological_elimination: { name: 'Brak Biologistycznej Eliminacji', question: 'Czy odrzuca się biologiczny utylitaryzm nakazujący eliminację słabych?', isDev: true }
+    };
+
     const SPIRIT_META = {
       LEGAL_DUALISM_INDEX:           { name: 'Indeks Dualizmu Prawnego',        question: 'Czy państwo uznaje niezależną sferę praw prywatnych jednostki?' },
       LAW_SOURCE_PLURALISM_INDEX:    { name: 'Pluralizm Źródeł Prawa',           question: 'Czy istnieje wolność stanowienia prawa zwyczajowego i lokalnego?' },
@@ -1539,12 +1555,36 @@
       dutySourceScore >= 65 ? 'Autonomiczne etyczne' : dutySourceScore >= 35 ? 'Mieszanka' : 'Zewnętrzne (przymus państwowy)'
     );
 
+    const motivationScores = data.raw_ratings?.motivation_scores || {};
+    let calcMotivationScore = data.motivation_altruism_score || 0;
+    if (calcMotivationScore === 0 && Object.keys(motivationScores).length > 0) {
+      let validCount = 0;
+      let validSum = 0;
+      for (const val of Object.values(motivationScores)) {
+        let s = typeof val === 'number' ? val : (val && val.score !== undefined ? val.score : -1.0);
+        if (s >= 0) {
+          validSum += s;
+          validCount++;
+        }
+      }
+      if (validCount > 0) {
+        calcMotivationScore = validSum / validCount;
+      }
+    }
+    const motivationScore = Math.round(calcMotivationScore * 100);
+
+    const motivationHero = buildDarkHero(
+      'MOTYWACJA (BEZINTERESOWNOŚĆ)',
+      motivationScore,
+      motivationScore >= 65 ? 'Bezinteresowność (Dobro i Prawda)' : motivationScore >= 35 ? 'Mieszanka' : 'Utylitaryzm (interesowność)'
+    );
+
     const INDEX_DEV_FLAGS = {
       sacrality: false,
       spirit: false,
       generalia: false,
       duty_source: true,
-      motivation: false,
+      motivation: true,
       responsibility_type: false,
       justice_nature: false,
       conscience_status: false,
@@ -1571,6 +1611,13 @@
         </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony</div>`}
       </div>`;
 
+    const motivationCards = Object.keys(motivationScores).length > 0 ? buildCardsGroup(motivationScores, MOTIVATION_META) : `
+      <div id="loader-motivation" style="padding:20px; text-align:center;">
+        ${INDEX_DEV_FLAGS.motivation ? `<button class="tab-btn active zapytaj-btn" data-target="motivation" data-loader="loader-motivation" data-name="Motywacja (Bezinteresowność)" style="margin:0 auto; padding:10px 20px;">
+          Zapytaj (Pobierz dane)
+        </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony</div>`}
+      </div>`;
+
     const generaliaCards = Object.keys(generaliaScores).length > 0 ? buildCardsGroup(generaliaScores, GENERALIA_META) : `
       <div id="loader-generalia" style="padding:20px; text-align:center;">
         ${INDEX_DEV_FLAGS.generalia ? `<button class="tab-btn active zapytaj-btn" data-target="generalia" data-loader="loader-generalia" data-name="7 Generaliów Etyki" style="margin:0 auto; padding:10px 20px;">
@@ -1584,6 +1631,13 @@
              Mierzy, czy poczucie obowiązku etycznego wyprzedza prawo (szereg personalistyczny), czy wynika z przymusu zewnętrznego i okólnika (gromadnościowy).
           </div>
           <div class="section-title" style="margin-top:10px">13 Wskaźników Personalistycznego Źródła Obowiązku</div> ${dutySourceCards}
+        </div>
+        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+          ${motivationHero}
+          <div style="font-size: 13px; color: #9ca3af; padding: 10px 20px; margin-bottom: 5px; line-height: 1.5; text-align: center;">
+             Mierzy, czy motywacją działania jest bezinteresowna dążność do Dobra i Prawdy, czy kontraktowy utylitaryzm "coś za coś".
+          </div>
+          <div class="section-title" style="margin-top:10px">13 Wskaźników Motywacji (Bezinteresowności)</div> ${motivationCards}
         </div>
       </div>`;
 
