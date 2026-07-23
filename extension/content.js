@@ -1583,7 +1583,7 @@
       sacrality: false,
       spirit: false,
       generalia: false,
-      duty_source: true,
+      duty_source: false,
       motivation: true,
       responsibility_type: false,
       justice_nature: false,

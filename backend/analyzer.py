@@ -10,7 +10,7 @@ INDEX_DEV_FLAGS = {
     "sacrality": False,
     "spirit": False,
     "generalia": False,
-    "duty_source": True,
+    "duty_source": False,
     "motivation": True,
     "responsibility_type": False,
     "justice_nature": False,
