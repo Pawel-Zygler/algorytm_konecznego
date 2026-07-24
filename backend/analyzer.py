@@ -136,12 +136,12 @@ def call_gemini_api(prompt: str, system_instruction: str, api_key: str, schema: 
                             print(f"⚠️ Quota 429 on {model_name}. Rotating key/model...")
                             break  # Move to next model or key
 
-                    elif response.status_code in [404, 500, 503]:
-                        last_error = f"Model {model_name} error ({response.status_code}): {response.text}"
-                        print(f"⚠️ {last_error}. Trying next model...")
+                    elif response.status_code in [400, 403, 404, 500, 503]:
+                        last_error = f"Model {model_name} key/model error ({response.status_code}): {response.text}"
+                        print(f"⚠️ {last_error}. Trying next key/model...")
                         if response.status_code in [500, 503]:
                             time.sleep(2)
-                        break  # Move to next model
+                        break  # Move to next key or model
 
                     else:
                         raise Exception(f"Gemini API request failed ({response.status_code}) on {model_name}: {response.text}")
