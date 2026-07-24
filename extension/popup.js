@@ -7,6 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const saveBtn = document.getElementById('saveBtn');
   const statusDot = document.getElementById('statusDot');
   const statusText = document.getElementById('statusText');
+  const versionTag = document.getElementById('versionTag');
+
+  if (versionTag && typeof chrome !== 'undefined' && chrome.runtime?.getManifest) {
+    const ver = chrome.runtime.getManifest()?.version;
+    if (ver) versionTag.textContent = `v${ver}`;
+  }
 
   // Load configuration from Chrome local storage
   chrome.storage.local.get(['backendUrl', 'apiKey', 'selectedIndices'], (res) => {

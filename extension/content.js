@@ -578,7 +578,10 @@
             <img src="${konecznyImg}" alt="Feliks Koneczny">
           </div>
           <div>
-            <div class="header-title">Analiza Konecznego</div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div class="header-title">Analiza Konecznego</div>
+              <span style="font-size: 11px; background: rgba(255,255,255,0.1); color: #9ca3af; padding: 2px 6px; border-radius: 4px; font-family: monospace;">v1.2.0</span>
+            </div>
             <div class="header-subtitle">Metoda Historiozoficzna</div>
           </div>
         </div>

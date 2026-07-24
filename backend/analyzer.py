@@ -68,24 +68,28 @@ def get_indices_context() -> str:
     return _INDICES_CONTEXT_CACHE
 
 def call_gemini_api(prompt: str, system_instruction: str, api_key: str, schema: dict) -> str:
-    """Calls Gemini API via raw HTTP requests with model fallback."""
-    headers = {
-        "Content-Type": "application/json"
-    }
+    """Calls Gemini API with multi-key rotation, 429 rate limit retry parsing, and model fallback."""
+    headers = {"Content-Type": "application/json"}
+
+    # Build key pool (supports comma-separated keys from request or config .env)
+    candidate_keys = []
+    if api_key:
+        candidate_keys.extend([k.strip() for k in api_key.split(",") if k.strip()])
+    if config.GEMINI_API_KEY:
+        candidate_keys.extend([k.strip() for k in config.GEMINI_API_KEY.split(",") if k.strip()])
+    
+    # Deduplicate keys while preserving order
+    key_pool = []
+    for k in candidate_keys:
+        if k not in key_pool:
+            key_pool.append(k)
+
+    if not key_pool:
+        raise Exception("No Gemini API Key provided. Set GEMINI_API_KEY in .env or popup settings.")
 
     data = {
-        "contents": [
-            {
-                "parts": [
-                    {"text": prompt}
-                ]
-            }
-        ],
-        "systemInstruction": {
-            "parts": [
-                {"text": system_instruction}
-            ]
-        },
+        "contents": [{"parts": [{"text": prompt}]}],
+        "systemInstruction": {"parts": [{"text": system_instruction}]},
         "generationConfig": {
             "responseMimeType": "application/json",
             "temperature": 0.1,
@@ -93,32 +97,60 @@ def call_gemini_api(prompt: str, system_instruction: str, api_key: str, schema: 
             "responseSchema": schema
         }
     }
-    
+
     last_error = None
-    for model_name in config.GEMINI_MODELS:
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={api_key}"
-        try:
-            response = requests.post(url, headers=headers, json=data, timeout=120)
-            if response.status_code == 200:
-                res_json = response.json()
-                content_text = res_json['candidates'][0]['content']['parts'][0]['text']
-                return content_text
-            elif response.status_code in [404, 429, 500, 503]:
-                # 404 = Model not found, 429 = Quota exceeded, 500/503 = Server errors / High demand
-                last_error = f"Model {model_name} failed ({response.status_code}): {response.text}"
-                print(last_error + " Trying next model...")
-                if response.status_code in [429, 503]:
-                    time.sleep(2)
-                continue
-            else:
-                # Other errors (e.g. 400 Bad Request) usually indicate a syntax/schema error, not worth retrying models
-                raise Exception(f"Gemini API request failed ({response.status_code}) on model {model_name}: {response.text}")
-        except requests.exceptions.RequestException as e:
-            last_error = f"Network error on {model_name}: {str(e)}"
-            print(last_error + " Trying next model...")
-            continue
+
+    for current_key in key_pool:
+        for model_name in config.GEMINI_MODELS:
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={current_key}"
             
-    raise Exception(f"All models failed. Last error: {last_error}")
+            # Allow up to 2 retry attempts per (key, model) if 429 retryDelay is reasonable
+            for attempt in range(2):
+                try:
+                    response = requests.post(url, headers=headers, json=data, timeout=120)
+                    if response.status_code == 200:
+                        res_json = response.json()
+                        content_text = res_json['candidates'][0]['content']['parts'][0]['text']
+                        return content_text
+                    
+                    elif response.status_code == 429:
+                        last_error = f"Model {model_name} quota exceeded (429): {response.text}"
+                        
+                        # Parse retry delay from error text
+                        match = re.search(r'retry in (\d+(?:\.\d+)?)s', response.text, re.IGNORECASE)
+                        delay_match = re.search(r'"retryDelay":\s*"(\d+)s"', response.text)
+                        
+                        retry_secs = 5.0
+                        if match:
+                            retry_secs = float(match.group(1))
+                        elif delay_match:
+                            retry_secs = float(delay_match.group(1))
+                            
+                        if retry_secs <= 25 and attempt == 0:
+                            wait_time = min(retry_secs + 0.5, 25)
+                            print(f"⚠️ Quota 429 hit on {model_name} (Key: ...{current_key[-4:]}). Waiting {wait_time:.1f}s before retry...")
+                            time.sleep(wait_time)
+                            continue  # Retry attempt 1
+                        else:
+                            print(f"⚠️ Quota 429 on {model_name}. Rotating key/model...")
+                            break  # Move to next model or key
+
+                    elif response.status_code in [404, 500, 503]:
+                        last_error = f"Model {model_name} error ({response.status_code}): {response.text}"
+                        print(f"⚠️ {last_error}. Trying next model...")
+                        if response.status_code in [500, 503]:
+                            time.sleep(2)
+                        break  # Move to next model
+
+                    else:
+                        raise Exception(f"Gemini API request failed ({response.status_code}) on {model_name}: {response.text}")
+
+                except requests.exceptions.RequestException as e:
+                    last_error = f"Network error on {model_name}: {str(e)}"
+                    print(f"⚠️ {last_error}. Trying next model...")
+                    break
+
+    raise Exception(f"All Gemini models & API keys failed. Last error: {last_error}")
 
 def calculate_koneczny_metrics(llm_data: Dict[str, Any]) -> Dict[str, Any]:
     """

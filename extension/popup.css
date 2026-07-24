@@ -193,3 +193,11 @@ footer.status-container {
   background-color: var(--status-error);
   box-shadow: 0 0 8px rgba(248, 113, 113, 0.5);
 }
+
+.version-tag {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  opacity: 0.6;
+  font-family: monospace;
+  font-weight: 600;
+}

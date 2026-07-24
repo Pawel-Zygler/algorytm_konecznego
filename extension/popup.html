@@ -120,12 +120,15 @@
     </form>
   </main>
 
-  <footer class="status-container">
-    <span>Status serwera:</span>
-    <div class="status-badge" aria-live="polite">
-      <span class="status-dot" id="statusDot" aria-hidden="true"></span>
-      <span id="statusText">Sprawdzanie...</span>
+  <footer class="status-container" style="position: relative;">
+    <div style="display: flex; align-items: center; gap: 6px;">
+      <span>Status serwera:</span>
+      <div class="status-badge" aria-live="polite">
+        <span class="status-dot" id="statusDot" aria-hidden="true"></span>
+        <span id="statusText">Sprawdzanie...</span>
+      </div>
     </div>
+    <span id="versionTag" class="version-tag">v1.2.0</span>
   </footer>
 
   <script src="popup.js"></script>

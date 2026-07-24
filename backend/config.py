@@ -15,22 +15,13 @@ PERSONALISTIC_ROW_FILE = os.path.join(BASE_DIR, "isPersonalisticRow")
 # Gemini API configuration
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 
-# Fallback list of models (prioritizes 3.5-flash, 3.5-flash-lite, 3-flash, 2.5-flash variants, etc.)
+# Fallback list of valid Gemini models supported by Google REST API v1beta
 GEMINI_MODELS = [
-    "gemini-3.5-flash",
-    "gemini-3.5-flash-lite",
-    "gemini-3-flash",
-    "gemini-3.0-flash",
     "gemini-2.5-flash",
-    "gemini-2.5-flash-lite",
-    "gemini-2.5-flash-tts",
-    "gemini-3.1-flash-tts",
     "gemini-2.0-flash",
     "gemini-1.5-flash",
     "gemini-1.5-flash-8b",
-    "gemini-3.5-pro",
     "gemini-2.5-pro",
-    "gemini-3.1-pro",
     "gemini-1.5-pro",
     "gemini-2.0-flash-exp",
     "gemini-flash-latest",
