@@ -134,22 +134,28 @@ def call_gemini_api(prompt: str, system_instruction: str, api_key: str, schema: 
                             continue  # Retry attempt 1
                         else:
                             print(f"⚠️ Quota 429 on {model_name}. Rotating key/model...")
-                            break  # Move to next model or key
+                            break  # Move to next model
+                    elif response.status_code in [400, 403]:
+                        last_error = f"Key ...{current_key[-4:]} invalid for Gemini ({response.status_code}): {response.text}"
+                        print(f"⚠️ {last_error}. Skipping key...")
+                        key_invalid = True
+                        break  # Break out of model attempts, move to next key
 
-                    elif response.status_code in [400, 403, 404, 500, 503]:
-                        last_error = f"Model {model_name} key/model error ({response.status_code}): {response.text}"
-                        print(f"⚠️ {last_error}. Trying next key/model...")
+                    elif response.status_code in [404, 500, 503]:
+                        last_error = f"Model {model_name} error ({response.status_code}): {response.text}"
+                        print(f"⚠️ {last_error}. Trying next model...")
                         if response.status_code in [500, 503]:
                             time.sleep(2)
-                        break  # Move to next key or model
-
-                    else:
-                        raise Exception(f"Gemini API request failed ({response.status_code}) on {model_name}: {response.text}")
+                        break  # Move to next model
 
                 except requests.exceptions.RequestException as e:
                     last_error = f"Network error on {model_name}: {str(e)}"
                     print(f"⚠️ {last_error}. Trying next model...")
                     break
+            
+            if 'key_invalid' in locals() and key_invalid:
+                del key_invalid
+                break  # Skip remaining models for this invalid key
 
     raise Exception(f"All Gemini models & API keys failed. Last error: {last_error}")
 
