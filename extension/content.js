@@ -1491,7 +1491,7 @@
       return html;
     }
 
-    function buildDarkHero(title, pct, statusText, customValDisplay = null) {
+    function buildDarkHero(title, pct, statusText, customValDisplay = null, description = null) {
       const isMissing = pct < 0;
       const displayVal = isMissing ? 'N/A' : (customValDisplay !== null ? customValDisplay : `${pct}%`);
       const ringPctDisplay = isMissing ? 'N/A' : `${pct}%`;
@@ -1502,8 +1502,9 @@
 
       return `
         <div class="dark-hero-card">
-          <div>
+          <div style="flex: 1; padding-right: 12px;">
             <div class="dark-hero-label">${title}</div>
+            ${description ? `<div class="dark-hero-desc" style="font-size: 11px; color: #94a3b8; margin-top: 3px; margin-bottom: 8px; line-height: 1.35; max-width: 250px;">${description}</div>` : ''}
             <div class="dark-hero-val" style="color: ${isMissing ? '#a1a1aa' : '#fff'}; ${customValDisplay ? 'font-size: 26px;' : ''}">${displayVal}</div>
             <div class="dark-hero-status" style="color: ${isMissing ? '#71717a' : '#a1a1aa'}">${isMissing ? '✕' : '✓'} ${displayStatus}</div>
           </div>
@@ -1534,36 +1535,48 @@
     const familyHero = buildDarkHero(
       'EMANCYPACJA RODZINY',
       familyScore,
-      familyScore >= 70 ? 'Wyemancypowana / Łacińska' : familyScore >= 40 ? 'Częściowo zależna' : 'Wchłonięta (ród/państwo/sakralizm)'
+      familyScore >= 70 ? 'Wyemancypowana / Łacińska' : familyScore >= 40 ? 'Częściowo zależna' : 'Wchłonięta (ród/państwo/sakralizm)',
+      null,
+      'Mierzy autonomię i wolność rodziny od bezpośredniej ingerencji i wszechwładzy państwa lub rodu.'
     );
     const personalismHero = buildDarkHero(
       'INDEKS PERSONALIZMU',
       personalismScore,
-      personalismScore >= 65 ? 'Dominacja personalizmu (cyw. łacińska)' : personalismScore >= 35 ? 'Mieszanka' : 'Dominacja gromadnościowa'
+      personalismScore >= 65 ? 'Dominacja personalizmu (cyw. łacińska)' : personalismScore >= 35 ? 'Mieszanka' : 'Dominacja gromadnościowa',
+      null,
+      'Mierzy podmiotowość i uznanie niepowtarzalnej wartości każdej osoby ludzkiej ponad gromadą.'
     );
 
     const organismHero = buildDarkHero(
       'ORGANIZM VS MECHANIZM',
       organismScore,
-      organismScore >= 65 ? 'Organizm (żywy i samoistny)' : organismScore >= 35 ? 'Mieszanka' : 'Mechanizm (martwy i sterowany)'
+      organismScore >= 65 ? 'Organizm (żywy i samoistny)' : organismScore >= 35 ? 'Mieszanka' : 'Mechanizm (martwy i sterowany)',
+      null,
+      'Mierzy, czy społeczeństwo traktowane jest jako żywy organizm z wolną inicjatywą, czy sterowany mechanizm.'
     );
 
     const aposterioriHero = buildDarkHero(
       'APOSTERIORI VS APRIORI',
       aposterioriScore,
-      aposterioriScore >= 65 ? 'Organizm (doświadczenie z faktów)' : aposterioriScore >= 35 ? 'Mieszanka' : 'Aprioryzm (zmyślanie i inżynieria)'
+      aposterioriScore >= 65 ? 'Organizm (doświadczenie z faktów)' : aposterioriScore >= 35 ? 'Mieszanka' : 'Aprioryzm (zmyślanie i inżynieria)',
+      null,
+      'Mierzy, czy prawo wyrasta z doświadczenia i faktów (aposteriori), czy z apriorycznych schematów.'
     );
 
     const pluralismHero = buildDarkHero(
       'PLURALIZM ŹRÓDEŁ PRAWA',
       pluralismScore,
-      pluralismScore >= 65 ? 'Silny pluralizm' : pluralismScore >= 35 ? 'Umiarkowany pluralizm' : 'Monizm źródeł (narzucane z góry)'
+      pluralismScore >= 65 ? 'Silny pluralizm' : pluralismScore >= 35 ? 'Umiarkowany pluralizm' : 'Monizm źródeł (narzucane z góry)',
+      null,
+      'Mierzy wolność stanowienia prawa zwyczajowego, lokalnego i samorządowego.'
     );
 
     const dualismHero = buildDarkHero(
       'DUALIZM PRAWNY',
       legalDualismScore,
-      legalDualismScore >= 65 ? 'Silny dualizm (państwo ograniczone)' : legalDualismScore >= 35 ? 'Umiarkowany dualizm' : 'Monizm prawny (absolutyzm państwa)'
+      legalDualismScore >= 65 ? 'Silny dualizm (państwo ograniczone)' : legalDualismScore >= 35 ? 'Umiarkowany dualizm' : 'Monizm prawny (absolutyzm państwa)',
+      null,
+      'Mierzy niezależną sferę praw prywatnych jednostki stojącą obok prawa publicznego.'
     );
 
     const generaliaScores = data.raw_ratings?.generalia_scores || {};
@@ -1849,7 +1862,9 @@
     const churchHero = buildDarkHero(
       'NIEZAWISŁOŚĆ KOŚCIOŁA',
       churchScore,
-      churchScore >= 65 ? 'Pełna supremacja ducha' : churchScore >= 35 ? 'Częściowa niezawisłość' : 'Cezaropapizm / Statolatria'
+      churchScore >= 65 ? 'Pełna supremacja ducha' : churchScore >= 35 ? 'Częściowa niezawisłość' : 'Cezaropapizm / Statolatria',
+      null,
+      'Mierzy wolność instytucji i sfery duchowej od kontroli państwowej (odrzucenie cezaropapizmu).'
     );
 
     const churchCards = Object.keys(churchScores).length > 0 ? buildCardsGroup(churchScores, CHURCH_META) : `
@@ -1862,7 +1877,9 @@
     const propertyHero = buildDarkHero(
       'STABILNOŚĆ WŁASNOŚCI',
       propertyScore,
-      propertyScore >= 65 ? 'Stabilna własność prywatna' : propertyScore >= 35 ? 'Mieszanka / Ograniczenia' : 'Brak własności / Kolektywizm'
+      propertyScore >= 65 ? 'Stabilna własność prywatna' : propertyScore >= 35 ? 'Mieszanka / Ograniczenia' : 'Brak własności / Kolektywizm',
+      null,
+      'Mierzy bezwzględną ochronę trwałości własności prywatnej i środków produkcji przed konfiskatą.'
     );
 
     const propertyCards = Object.keys(propertyScores).length > 0 ? buildCardsGroup(propertyScores, PROPERTY_META) : `
@@ -1875,7 +1892,9 @@
     const inheritanceHero = buildDarkHero(
       'CIĄGŁOŚĆ DZIEDZICZENIA',
       inheritanceScore,
-      inheritanceScore >= 65 ? 'Silna ciągłość' : inheritanceScore >= 35 ? 'Mieszanka' : 'Brak ciągłości'
+      inheritanceScore >= 65 ? 'Silna ciągłość' : inheritanceScore >= 35 ? 'Mieszanka' : 'Brak ciągłości',
+      null,
+      'Mierzy wolność swobodnego przekazywania majątku i ciągłość dorobku międzypokoleniowego w rodzinie.'
     );
 
     const inheritanceCards = Object.keys(inheritanceScores).length > 0 ? buildCardsGroup(inheritanceScores, INHERITANCE_META) : `
@@ -1888,7 +1907,9 @@
     const moralityHero = buildDarkHero(
       'SUPREMACJA MORALNOŚCI',
       moralityScore,
-      moralityScore >= 65 ? 'Etyka totalna (Cyw. Łacińska)' : moralityScore >= 35 ? 'Mieszanka' : 'Amoralizm / Legalizm'
+      moralityScore >= 65 ? 'Etyka totalna (Cyw. Łacińska)' : moralityScore >= 35 ? 'Mieszanka' : 'Amoralizm / Legalizm',
+      null,
+      'Mierzy bezwzględny prymat uniwersalnej etyki nad stanowionym prawem i interesem politycznym.'
     );
 
     const moralityCards = Object.keys(moralityScores).length > 0 ? buildCardsGroup(moralityScores, MORALITY_META) : `
@@ -1901,7 +1922,9 @@
     const publicMoralityHero = buildDarkHero(
       'TOTALNOŚĆ MORALNOŚCI PUBLICZNEJ',
       publicMoralityScore,
-      publicMoralityScore >= 65 ? 'Państwo narzędziem etyki' : publicMoralityScore >= 35 ? 'Mieszanka' : 'Państwo zwolnione z etyki / Dwa sumienia'
+      publicMoralityScore >= 65 ? 'Państwo narzędziem etyki' : publicMoralityScore >= 35 ? 'Mieszanka' : 'Państwo zwolnione z etyki / Dwa sumienia',
+      null,
+      'Mierzy, czy państwo i polityka podlegają tej samej normie etycznej co życie prywatne.'
     );
 
     const publicMoralityCards = Object.keys(publicMoralityScores).length > 0 ? buildCardsGroup(publicMoralityScores, PUBLIC_MORALITY_META) : `
@@ -1914,7 +1937,9 @@
     const adminRespHero = buildDarkHero(
       'ODPOWIEDZIALNOŚĆ URZĘDNICZA',
       adminRespScore,
-      adminRespScore >= 65 ? 'Urzędnik jako sługa prawa' : adminRespScore >= 35 ? 'Mieszanka' : 'Biurokrata / Narzędzie gwałtu'
+      adminRespScore >= 65 ? 'Urzędnik jako sługa prawa' : adminRespScore >= 35 ? 'Mieszanka' : 'Biurokrata / Narzędzie gwałtu',
+      null,
+      'Mierzy osobistą i cywilną odpowiedzialność urzędnika przed obywatelem za wyrządzone szkody.'
     );
 
     const adminRespCards = Object.keys(adminRespScores).length > 0 ? buildCardsGroup(adminRespScores, ADMIN_RESP_META) : `
@@ -1933,9 +1958,6 @@
       <div class="sub-indices" style="margin-top: 30px;">
         <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
           ${dualismHero} 
-          <div style="font-size: 13px; color: #9ca3af; padding: 10px 20px; margin-bottom: 5px; line-height: 1.5; text-align: center;">
-             Mierzy, czy istnieje niezależne prawo prywatne obok publicznego, podlegające ocenie moralnej, a nie monizm ustalany arbitralnie przez jedną władzę.
-          </div>
           <div class="section-title" style="margin-top:10px">Wskaźniki Dualizmu Prawnego</div> ${dualismCards}
         </div>
         <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
