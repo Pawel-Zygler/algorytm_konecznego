@@ -34,5 +34,7 @@ jobs:
           node -c extension/content.js
 
       - name: Run Fast Unit Tests
+        env:
+          PYTHONPATH: .
         run: |
-          pytest tests/unit/
+          python -m pytest tests/unit/
