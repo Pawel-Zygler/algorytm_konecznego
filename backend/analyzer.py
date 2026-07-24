@@ -1273,7 +1273,25 @@ Wszystkie wskaźniki podawaj w skali 0.0 - 1.0 (gdzie 1.0 oznacza pełne urzeczy
 {rag_context}
 
 BARDZO WAŻNE INSTRUKCJE:
-Przeprowadź analizę WSZYSTKICH 16 wskaźników NATURY SPRAWIEDLIWOŚCI (justice_nature_scores) dla poniższego tekstu.
+Musisz przeanalizować i zwrócić DOKŁADNIE WSZYSTKIE 16 WSKAŹNIKÓW NATURY SPRAWIEDLIWOŚCI (justice_nature_scores):
+1. equity_over_letter
+2. judge_conscience_role
+3. law_from_ethics
+4. no_shylock_formalism
+5. state_under_decalogue
+6. justice_needs_mercy
+7. no_legislative_elephantiasis
+8. good_hegemony_over_law
+9. aposteriori_law
+10. legal_dualism
+11. judicial_independence
+12. ethics_above_law
+13. no_jewish_casuistry
+14. no_byzantine_statolatry
+15. no_camp_turanian_law
+16. no_socialist_collectivism
+
+Dla każdego z 16 wskaźników podaj wycenę (score 0.0-1.0 lub -1.0), zwięzłe wyjaśnienie (explanation) oraz przykłady (news_examples).
 
 TEKST DO ANALIZY:
 {trimmed_text}
