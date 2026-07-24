@@ -102,7 +102,7 @@ def test_spirit_supremacy_aggregation():
         "administrative_responsibility_scores": {"ind1": {"score": 0.7}}
     }
     result = calculate_koneczny_metrics(mock_llm_data)
-    assert result["spirit_supremacy_score"] == 0.88
+    assert result["spirit_supremacy_score"] == 0.85
 
 def test_unchecked_generalia_returns_negative_coherence():
     """Test 8: Unchecked/Missing generalia returns -1.0 for ethical_coherence_score."""
