@@ -1614,6 +1614,8 @@
       'Siedem Niewiadomych Etyki (Krok 3). Wymaga pełnego wyliczenia generaliów.'
     );
 
+    const mixtureAlert = data.mixture_alert !== undefined ? data.mixture_alert : (ethicalCoherenceScore >= 2.5 && ethicalCoherenceScore <= 5.5);
+
     const dutySourceScores = data.raw_ratings?.duty_source_scores || {};
     let calcDutySourceScore = data.duty_source_personalistic_score || 0;
     if (calcDutySourceScore === 0 && Object.keys(dutySourceScores).length > 0) {
