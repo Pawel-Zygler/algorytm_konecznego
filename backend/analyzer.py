@@ -17,8 +17,8 @@ INDEX_DEV_FLAGS = {
     "responsibility_type": False,
     "justice_nature": True,
     "conscience_status": True,
-    "time_mastery": False,
-    "work_ethos": False,
+    "time_mastery": True,
+    "work_ethos": True,
     "dualism": True,
     "pluralism": True,
     "aposteriori": True,
@@ -197,6 +197,8 @@ def calculate_koneczny_metrics(llm_data: Dict[str, Any]) -> Dict[str, Any]:
         "motivation_altruism_score": _calc_avg("motivation_scores"),
         "justice_equity_score": _calc_avg("justice_nature_scores"),
         "conscience_autonomous_score": _calc_avg("conscience_status_scores"),
+        "time_mastery_history_score": _calc_avg("time_mastery_scores"),
+        "work_ethos_sanctification_score": _calc_avg("work_ethos_scores"),
     }
     # Calculate global spirit supremacy score from 12 indices
     spirit_scores = [
@@ -1437,6 +1439,145 @@ TEKST DO ANALIZY:
 {trimmed_text}
 Zwróć JSON."""
 
+    schema_time_mastery = {
+        "type": "object",
+        "properties": {
+            "time_mastery_scores": {
+                "type": "object",
+                "properties": {
+                    "scientific_chronology": indicator_item,
+                    "active_critical_tradition": indicator_item,
+                    "hereditary_surnames": indicator_item,
+                    "term_discipline": indicator_item,
+                    "capitalization_of_time": indicator_item,
+                    "sub_specie_aeternitatis": indicator_item,
+                    "time_rich_language": indicator_item,
+                    "historicism_national_consciousness": indicator_item,
+                    "dated_documentation": indicator_item,
+                    "latin_historicism_unique": indicator_item,
+                    "generational_voluntary_synthesis": indicator_item,
+                    "family_emancipation_workshop": indicator_item,
+                    "truth_and_goodness_cult": indicator_item,
+                    "no_sacral_passive_stagnation": indicator_item,
+                    "no_turanian_camp_presentism": indicator_item
+                },
+                "required": [
+                    "scientific_chronology", "active_critical_tradition", "hereditary_surnames", "term_discipline",
+                    "capitalization_of_time", "sub_specie_aeternitatis", "time_rich_language", "historicism_national_consciousness",
+                    "dated_documentation", "latin_historicism_unique", "generational_voluntary_synthesis", "family_emancipation_workshop",
+                    "truth_and_goodness_cult", "no_sacral_passive_stagnation", "no_turanian_camp_presentism"
+                ]
+            },
+            "time_mastery_news_1": {"type": "string"},
+            "time_mastery_news_2": {"type": "string"},
+            "time_mastery_news_3": {"type": "string"},
+            "time_mastery_justification": {"type": "string"}
+        },
+        "required": [
+            "time_mastery_scores", "time_mastery_news_1", "time_mastery_news_2", "time_mastery_news_3", "time_mastery_justification"
+        ]
+    }
+
+    sys_inst_time_mastery = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w wymiarze 15 WSKAŹNIKÓW OPANOWANIA CZASU I HISTORYZMU (time_mastery_scores):
+1. scientific_chronology: Naukowa chronologia i własna era (precyzyjna rachuba lat)
+2. active_critical_tradition: Tradycja czynna i krytyczna (przesiewanie spuścizny przodków)
+3. hereditary_surnames: Nazwiska dziedziczne i historyzm prywatny (pasmo pokoleń)
+4. term_discipline: Pojęcie terminu, punktualności i opanowywania losu
+5. capitalization_of_time: Kapitalizowanie czasu dla potomnych (przekazywanie dorobku vs ab ovo)
+6. sub_specie_aeternitatis: Myślenie i wysiłek poza własny zgon (sub specie aeternitatis)
+7. time_rich_language: Bogactwo pojęć i spójników czasowych w języku
+8. historicism_national_consciousness: Poczucie narodowe oparte na historyzmie (synteza Logosu i Ethosu)
+9. dated_documentation: Datowane dokumenty i wrażliwość na chronologię
+10. latin_historicism_unique: Unikalny historyzm cywilizacji łacińskiej (kultura czynu)
+11. generational_voluntary_synthesis: Synteza personalizmu z poczuciem zrzeszeniowym
+12. family_emancipation_workshop: Wyodrębniona rodzina jako warsztat historyzmu
+13. truth_and_goodness_cult: Kult prawdy i krytyka błędów przodków dla postępu
+14. no_sacral_passive_stagnation: Odrzucenie biernej tradycji sakralnej i zastoju
+15. no_turanian_camp_presentism: Odrzucenie uwięzienia w mechanicznej teraźniejszości (turańszczyzna / bizantynizm / rewolucjonizm)
+
+Wszystkie wskaźniki podawaj w skali 0.0 - 1.0 (gdzie 1.0 oznacza pełne opanowanie czasu / historyzm). Jeśli brak danych: -1.0. Zwróć JSON."""
+
+    prompt_time_mastery = f"""Kontekst metodologiczny Konecznego (Opanowanie Czasu i Historyzm):
+{indices_context[:3000]}
+{rag_context}
+
+BARDZO WAŻNE INSTRUKCJE:
+Musisz przeanalizować i zwrócić DOKŁADNIE WSZYSTKIE 15 WSKAŹNIKÓW OPANOWANIA CZASU (time_mastery_scores).
+BARDZO WAŻNA ZASADA DLA NEWS_EXAMPLES: Każdy z 3 nagłówków w news_examples MUSI bezwzględnie zawierać nazwę kraju / państwa / podmiotu opisanego w analizowanym tekście.
+
+TEKST DO ANALIZY:
+{trimmed_text}
+Zwróć JSON."""
+
+    schema_work_ethos = {
+        "type": "object",
+        "properties": {
+            "work_ethos_scores": {
+                "type": "object",
+                "properties": {
+                    "manual_work_dignity": indicator_item,
+                    "ethical_duty_of_work": indicator_item,
+                    "work_as_sanctification": indicator_item,
+                    "no_status_laziness": indicator_item,
+                    "voluntary_work_for_common_good": indicator_item,
+                    "craft_creativity_innovation": indicator_item,
+                    "moral_duty_of_prosperity": indicator_item,
+                    "work_sub_specie_aeternitatis": indicator_item,
+                    "no_bureaucratic_exploitation": indicator_item,
+                    "christian_postulate_of_work": indicator_item,
+                    "person_dignity_in_work": indicator_item,
+                    "harmony_logos_ethos_in_work": indicator_item,
+                    "no_contempt_for_physical_work": indicator_item,
+                    "no_totalitarian_forced_labor": indicator_item
+                },
+                "required": [
+                    "manual_work_dignity", "ethical_duty_of_work", "work_as_sanctification", "no_status_laziness",
+                    "voluntary_work_for_common_good", "craft_creativity_innovation", "moral_duty_of_prosperity",
+                    "work_sub_specie_aeternitatis", "no_bureaucratic_exploitation", "christian_postulate_of_work",
+                    "person_dignity_in_work", "harmony_logos_ethos_in_work", "no_contempt_for_physical_work",
+                    "no_totalitarian_forced_labor"
+                ]
+            },
+            "work_ethos_news_1": {"type": "string"},
+            "work_ethos_news_2": {"type": "string"},
+            "work_ethos_news_3": {"type": "string"},
+            "work_ethos_justification": {"type": "string"}
+        },
+        "required": [
+            "work_ethos_scores", "work_ethos_news_1", "work_ethos_news_2", "work_ethos_news_3", "work_ethos_justification"
+        ]
+    }
+
+    sys_inst_work_ethos = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w wymiarze 14 WSKAŹNIKÓW ETOSU PRACY (work_ethos_scores):
+1. manual_work_dignity: Szacunek dla pracy fizycznej człowieka wolnego (brak odium hańby)
+2. ethical_duty_of_work: Etyczny obowiązek pracy ("Kto nie pracuje, niech nie je")
+3. work_as_sanctification: Praca jako uświęcenie, kultura czynu i droga do godności
+4. no_status_laziness: Potępienie próżniactwa reprezentacyjnego i niepracowania
+5. voluntary_work_for_common_good: Dobrowolna praca dla dobra wspólnego (vs przymus państwowy)
+6. craft_creativity_innovation: Innowacyjność, wynalazczość i Logos w rzemiośle
+7. moral_duty_of_prosperity: Zamożność zdobyta pracą jako obowiązek moralny dla miłosierdzia
+8. work_sub_specie_aeternitatis: Praca sub specie aeternitatis dla przyszłych pokoleń
+9. no_bureaucratic_exploitation: Budowanie materialnej podmiotowości (vs wyzysk fiskalny)
+10. christian_postulate_of_work: Chrześcijański postulat pracy (doskonalenie duszy vs klątwa)
+11. person_dignity_in_work: Personalistyczna godność pracownika (zniesienie poddaństwa)
+12. harmony_logos_ethos_in_work: Harmonia Logosu i Ethosu w gospodarki
+13. no_contempt_for_physical_work: Odrzucenie pogardy dla pracy fizycznej
+14. no_totalitarian_forced_labor: Odrzucenie pracy przymusowej (turańszczyzna/bizantynizm/marksizm)
+
+Wszystkie wskaźniki podawaj w skali 0.0 - 1.0 (gdzie 1.0 oznacza pełny etos pracy wolnej / uświęconej). Jeśli brak danych: -1.0. Zwróć JSON."""
+
+    prompt_work_ethos = f"""Kontekst metodologiczny Konecznego (Ethos Pracy):
+{indices_context[:3000]}
+{rag_context}
+
+BARDZO WAŻNE INSTRUKCJE:
+Musisz przeanalizować i zwrócić DOKŁADNIE WSZYSTKIE 14 WSKAŹNIKÓW ETOSU PRACY (work_ethos_scores).
+BARDZO WAŻNA ZASADA DLA NEWS_EXAMPLES: Każdy z 3 nagłówków w news_examples MUSI bezwzględnie zawierać nazwę kraju / państwa / podmiotu opisanego w analizowanym tekście.
+
+TEKST DO ANALIZY:
+{trimmed_text}
+Zwróć JSON."""
+
     # Execute calls conditionally based on target_indices
     if target_indices is None:
         # Default for development if not specified
@@ -1457,6 +1598,8 @@ Zwróć JSON."""
     if "motivation" in target_indices: tasks.append((prompt_motivation, sys_inst_motivation, schema_motivation))
     if "justice_nature" in target_indices: tasks.append((prompt_justice_nature, sys_inst_justice_nature, schema_justice_nature))
     if "conscience_status" in target_indices: tasks.append((prompt_conscience_status, sys_inst_conscience_status, schema_conscience_status))
+    if "time_mastery" in target_indices: tasks.append((prompt_time_mastery, sys_inst_time_mastery, schema_time_mastery))
+    if "work_ethos" in target_indices: tasks.append((prompt_work_ethos, sys_inst_work_ethos, schema_work_ethos))
     if "dualism" in target_indices: tasks.append((prompt_2, sys_inst_2, schema_2))
     if "pluralism" in target_indices: tasks.append((prompt_3, sys_inst_3, schema_3))
     if "aposteriori" in target_indices: tasks.append((prompt_4, sys_inst_4, schema_4))

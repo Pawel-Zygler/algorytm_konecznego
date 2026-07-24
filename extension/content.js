@@ -1189,6 +1189,41 @@
       no_camp_turanian_coercion: { name: 'Brak Turańskiego Przymusu', question: 'Czy odrzuca się wolę wodza i przymus znoszący odpowiedzialność?', isDev: true }
     };
 
+    const TIME_MASTERY_META = {
+      scientific_chronology: { name: 'Naukowa Chronologia i Era', question: 'Czy liczenie lat jest precyzyjne, naukowe i powszechne?', isDev: true },
+      active_critical_tradition: { name: 'Tradycja Czynna i Krytyczna', question: 'Czy społeczeństwo potrafi przesiewać spuściznę przodków dla postępu?', isDev: true },
+      hereditary_surnames: { name: 'Nazwiska Dziedziczne', question: 'Czy jednostka uznaje się za ogniwo w paśmie pokoleń (historyzm prywatny)?', isDev: true },
+      term_discipline: { name: 'Pojęcie Terminu i Punktualności', question: 'Czy wyznaczanie i dotrzymywanie terminów służy opanowywaniu losu?', isDev: true },
+      capitalization_of_time: { name: 'Kapitalizowanie Czasu', question: 'Czy przekazuje się dorobek pokoleń zamiast zaczynania od zera (ab ovo)?', isDev: true },
+      sub_specie_aeternitatis: { name: 'Działanie Sub Specie Aeternitatis', question: 'Czy podejmuje się wysiłki wykraczające poza własny zgon?', isDev: true },
+      time_rich_language: { name: 'Bogactwo Pojęć Czasowych', question: 'Czy język pozwala na precyzyjne planowanie i wyznaczanie relacji czasowych?', isDev: true },
+      historicism_national_consciousness: { name: 'Poczucie Narodowe na Historyzmie', question: 'Czy jedność zrzeszenia wynika ze świadomości historycznej?', isDev: true },
+      dated_documentation: { name: 'Datowana Dokumentacja', question: 'Czy dokumenty są systematycznie datowane z wrażliwością na chronologię?', isDev: true },
+      latin_historicism_unique: { name: 'Historyzm Cywilizacji Łacińskiej', question: 'Czy obecna jest unikalna dla Łaciny kultura czynu i oszczędność czasu?', isDev: true },
+      generational_voluntary_synthesis: { name: 'Dobrowolna Synteza Pokoleń', question: 'Czy pokolenia łączą się dobrowolnie wokół wspólnego celu duchowego?', isDev: true },
+      family_emancipation_workshop: { name: 'Rodzina Warsztatem Historyzmu', question: 'Czy wyodrębniona rodzina stanowi warsztat trwałego historyzmu prywatnego?', isDev: true },
+      truth_and_goodness_cult: { name: 'Kult Prawdy i Dobra', question: 'Czy przeszłość bada się krytycznie nie bojąc się wytykać błędów przodków?', isDev: true },
+      no_sacral_passive_stagnation: { name: 'Brak Sakralnego Zastoju', question: 'Czy odrzuca się bierną tradycję sakralną w której nic się nie zmienia?', isDev: true },
+      no_turanian_camp_presentism: { name: 'Brak Uwięzienia w Teraźniejszości', question: 'Czy odrzuca się obozową teraźniejszość i niszczenie ciągłości moralnej?', isDev: true }
+    };
+
+    const WORK_ETHOS_META = {
+      manual_work_dignity: { name: 'Godność Pracy Fizycznej', question: 'Czy praca fizyczna jest uznawana za godną człowieka wolnego?', isDev: true },
+      ethical_duty_of_work: { name: 'Etyczny Obowiązek Pracy', question: 'Czy próżniactwo jest potępiane ("Kto nie pracuje, niech nie je")?', isDev: true },
+      work_as_sanctification: { name: 'Praca jako Uświęcenie', question: 'Czy rzetelny wysiłek podnosi wartość osoby w oczach Boga i ludzi?', isDev: true },
+      no_status_laziness: { name: 'Brak Próżniactwa Reprezentacyjnego', question: 'Czy potępia się kult zewnętrznych oznak niepracowania?', isDev: true },
+      voluntary_work_for_common_good: { name: 'Dobrowolność Pracy dla Dobra', question: 'Czy wysiłek podejmuje się z własnej woli dla dobra wspólnego?', isDev: true },
+      craft_creativity_innovation: { name: 'Kreatywność i Innowacyjność Rzemiosła', question: 'Czy szacunek dla pracownika umożliwia rozwój techniki i Logosu?', isDev: true },
+      moral_duty_of_prosperity: { name: 'Zamożność Obowiązkiem Moralnym', question: 'Czy zdobywanie dobrobytu pracą służy miłosierdziu i cnocie?', isDev: true },
+      work_sub_specie_aeternitatis: { name: 'Praca Sub Specie Aeternitatis', question: 'Czy praca przekazuje dorobek i plony przyszłym pokoleniom?', isDev: true },
+      no_bureaucratic_exploitation: { name: 'Brak Wyzysku Biurokratycznego', question: 'Czy praca buduje materialną niezależność osoby?', isDev: true },
+      christian_postulate_of_work: { name: 'Chrześcijański Postulat Pracy', question: 'Czy praca traktowana jest jako narzędzie doskonalenia duszy?', isDev: true },
+      person_dignity_in_work: { name: 'Personalistyczna Godność Pracownika', question: 'Czy godność pracownika prowadzi do zniesienia poddaństwa?', isDev: true },
+      harmony_logos_ethos_in_work: { name: 'Harmonia Logosu i Ethosu', question: 'Czy wysiłek fizyczny podporządkowano rozumnemu planowaniu?', isDev: true },
+      no_contempt_for_physical_work: { name: 'Brak Pogardy dla Pracy', question: 'Czy odrzuca się jawną pogardę dla pracy fizycznej?', isDev: true },
+      no_totalitarian_forced_labor: { name: 'Brak Pracy Przymusowej', question: 'Czy odrzuca się turańsko-bizantyński przymus kastowy oraz marksizm?', isDev: true }
+    };
+
     const SPIRIT_META = {
       LEGAL_DUALISM_INDEX:           { name: 'Indeks Dualizmu Prawnego',        question: 'Czy państwo uznaje niezależną sferę praw prywatnych jednostki?' },
       LAW_SOURCE_PLURALISM_INDEX:    { name: 'Pluralizm Źródeł Prawa',           question: 'Czy istnieje wolność stanowienia prawa zwyczajowego i lokalnego?' },
@@ -1712,13 +1747,61 @@
       conscienceStatusScore >= 65 ? 'Autonomia (suwerenny sędzia)' : conscienceStatusScore >= 35 ? 'Mieszanka' : 'Heteronomia (okólnik / przepis)'
     );
 
+    const timeMasteryScores = data.raw_ratings?.time_mastery_scores || {};
+    let calcTimeMasteryScore = data.time_mastery_history_score || 0;
+    if (calcTimeMasteryScore === 0 && Object.keys(timeMasteryScores).length > 0) {
+      let validCount = 0;
+      let validSum = 0;
+      for (const val of Object.values(timeMasteryScores)) {
+        let s = typeof val === 'number' ? val : (val && val.score !== undefined ? val.score : -1.0);
+        if (s >= 0) {
+          validSum += s;
+          validCount++;
+        }
+      }
+      if (validCount > 0) {
+        calcTimeMasteryScore = validSum / validCount;
+      }
+    }
+    const timeMasteryScore = Math.round(calcTimeMasteryScore * 100);
+
+    const timeMasteryHero = buildDarkHero(
+      'OPANOWANIE CZASU I HISTORYZM',
+      timeMasteryScore,
+      timeMasteryScore >= 65 ? 'Czynne Opanowanie Czasu (Historyzm / Łacina)' : timeMasteryScore >= 35 ? 'Mieszanka' : 'Bierne Czasomiernictwo / Wegetacja'
+    );
+
+    const workEthosScores = data.raw_ratings?.work_ethos_scores || {};
+    let calcWorkEthosScore = data.work_ethos_sanctification_score || 0;
+    if (calcWorkEthosScore === 0 && Object.keys(workEthosScores).length > 0) {
+      let validCount = 0;
+      let validSum = 0;
+      for (const val of Object.values(workEthosScores)) {
+        let s = typeof val === 'number' ? val : (val && val.score !== undefined ? val.score : -1.0);
+        if (s >= 0) {
+          validSum += s;
+          validCount++;
+        }
+      }
+      if (validCount > 0) {
+        calcWorkEthosScore = validSum / validCount;
+      }
+    }
+    const workEthosScore = Math.round(calcWorkEthosScore * 100);
+
+    const workEthosHero = buildDarkHero(
+      'ETHOS PRACY',
+      workEthosScore,
+      workEthosScore >= 65 ? 'Uświęcenie Pracy (Kultura Czynu / Łacina)' : workEthosScore >= 35 ? 'Mieszanka' : 'Jarzmo Niewolnicze / Pogarda dla Pracy'
+    );
+
     const userSelected = (window.konecznyConfig && window.konecznyConfig.selectedIndices) || [];
     const hasUserSelected = Array.isArray(userSelected) && userSelected.length > 0;
 
     const isIdxEnabled = (key) => {
       if (!hasUserSelected) return true;
       if (userSelected.includes(key)) return true;
-      if (userSelected.includes('generalia') && ['duty_source', 'motivation', 'justice_nature', 'conscience_status'].includes(key)) return true;
+      if (userSelected.includes('generalia') && ['duty_source', 'motivation', 'justice_nature', 'conscience_status', 'time_mastery', 'work_ethos'].includes(key)) return true;
       if (userSelected.includes('spirit') && ['dualism', 'pluralism', 'aposteriori', 'organism', 'personalism', 'family', 'church', 'property', 'inheritance', 'morality', 'public_morality', 'administrative_responsibility'].includes(key)) return true;
       return false;
     };
@@ -1731,6 +1814,8 @@
       motivation: isIdxEnabled('motivation'),
       justice_nature: isIdxEnabled('justice_nature'),
       conscience_status: isIdxEnabled('conscience_status'),
+      time_mastery: isIdxEnabled('time_mastery'),
+      work_ethos: isIdxEnabled('work_ethos'),
       dualism: isIdxEnabled('dualism'),
       pluralism: isIdxEnabled('pluralism'),
       aposteriori: isIdxEnabled('aposteriori'),
@@ -1748,6 +1833,20 @@
     const conscienceStatusCards = Object.keys(conscienceStatusScores).length > 0 ? buildCardsGroup(conscienceStatusScores, CONSCIENCE_STATUS_META) : `
       <div id="loader-conscience-status" style="padding:20px; text-align:center;">
         ${INDEX_DEV_FLAGS.conscience_status ? `<button class="tab-btn active zapytaj-btn" data-target="conscience_status" data-loader="loader-conscience-status" data-name="Status Sumienia" style="margin:0 auto; padding:10px 20px;">
+          Zapytaj (Pobierz dane)
+        </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony</div>`}
+      </div>`;
+
+    const timeMasteryCards = Object.keys(timeMasteryScores).length > 0 ? buildCardsGroup(timeMasteryScores, TIME_MASTERY_META) : `
+      <div id="loader-time-mastery" style="padding:20px; text-align:center;">
+        ${INDEX_DEV_FLAGS.time_mastery ? `<button class="tab-btn active zapytaj-btn" data-target="time_mastery" data-loader="loader-time-mastery" data-name="Opanowanie Czasu i Historyzm" style="margin:0 auto; padding:10px 20px;">
+          Zapytaj (Pobierz dane)
+        </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony</div>`}
+      </div>`;
+
+    const workEthosCards = Object.keys(workEthosScores).length > 0 ? buildCardsGroup(workEthosScores, WORK_ETHOS_META) : `
+      <div id="loader-work-ethos" style="padding:20px; text-align:center;">
+        ${INDEX_DEV_FLAGS.work_ethos ? `<button class="tab-btn active zapytaj-btn" data-target="work_ethos" data-loader="loader-work-ethos" data-name="Ethos Pracy" style="margin:0 auto; padding:10px 20px;">
           Zapytaj (Pobierz dane)
         </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony</div>`}
       </div>`;
@@ -1807,6 +1906,20 @@
              Mierzy, czy najwyższą instancją jest autonomia sumienia i autokrytyka moralna (szereg personalistyczny), czy heteronomia zastępująca sumienie okólnikiem władzy (gromadnościowy).
           </div>
           <div class="section-title" style="margin-top:10px">15 Wskaźników Statusu Sumienia</div> ${conscienceStatusCards}
+        </div>
+        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+          ${timeMasteryHero}
+          <div style="font-size: 13px; color: #9ca3af; padding: 10px 20px; margin-bottom: 5px; line-height: 1.5; text-align: center;">
+             Mierzy, czy zrzeszenie opanowuje czas i tworzy trwały historyzm prywatny oraz narodowy (szereg personalistyczny), czy podlega biernemu czasomiernictwu i teraźniejszości (gromadnościowy).
+          </div>
+          <div class="section-title" style="margin-top:10px">15 Wskaźników Opanowania Czasu i Historyzmu</div> ${timeMasteryCards}
+        </div>
+        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+          ${workEthosHero}
+          <div style="font-size: 13px; color: #9ca3af; padding: 10px 20px; margin-bottom: 5px; line-height: 1.5; text-align: center;">
+             Mierzy, czy praca jest uświęceniem, drogą do godności wolnego człowieka i kultu czynu (szereg personalistyczny), czy traktowana jako jarzmo niewolnicze i przykry przymus (gromadnościowy).
+          </div>
+          <div class="section-title" style="margin-top:10px">14 Wskaźników Etosu Pracy</div> ${workEthosCards}
         </div>
       </div>`;
 
