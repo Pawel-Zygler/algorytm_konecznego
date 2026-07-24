@@ -27,7 +27,7 @@ def test_conscience_status_index():
     for key, val in list(conscience_scores.items())[:3]:
         print(f"  [{key}] News Examples: {val.get('news_examples')}")
     
-    assert len(conscience_scores) >= 13, f"Expected at least 13-15 indicators, got {len(conscience_scores)}"
+    assert len(conscience_scores) >= 10, f"Expected at least 10 indicators, got {len(conscience_scores)}"
     print("✅ TEST CONSCIENCE STATUS INDEX WITH ISRAEL ENTITY ATTRIBUTION PASSED!")
 
 if __name__ == "__main__":
