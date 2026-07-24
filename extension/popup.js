@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const statusText = document.getElementById('statusText');
 
   // Load configuration from Chrome local storage
-  chrome.storage.local.get(['backendUrl', 'apiKey'], (res) => {
+  chrome.storage.local.get(['backendUrl', 'apiKey', 'selectedIndices'], (res) => {
     let url = res?.backendUrl || DEFAULT_BACKEND_URL;
     if (url.includes(':8000')) {
       url = url.replace(':8000', ':8005');
@@ -17,6 +17,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     backendUrlInput.value = url;
     apiKeyInput.value = res?.apiKey || '';
+
+    // Default indices if not previously saved
+    const savedIndices = res?.selectedIndices || ['duty_source', 'motivation', 'justice_nature', 'conscience_status'];
+    const checkboxes = document.querySelectorAll('input[name="selectedIndices"]');
+    checkboxes.forEach(cb => {
+      cb.checked = savedIndices.includes(cb.value);
+    });
+
     checkServerHealth(url);
   });
 
@@ -26,7 +34,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const url = backendUrlInput.value.trim() || DEFAULT_BACKEND_URL;
     const key = apiKeyInput.value.trim();
 
-    chrome.storage.local.set({ backendUrl: url, apiKey: key }, () => {
+    const checkedBoxes = document.querySelectorAll('input[name="selectedIndices"]:checked');
+    const selectedIndices = Array.from(checkedBoxes).map(cb => cb.value);
+
+    chrome.storage.local.set({ backendUrl: url, apiKey: key, selectedIndices: selectedIndices }, () => {
       saveBtn.textContent = 'Zapisano!';
       saveBtn.classList.add('btn-saved');
 

@@ -900,15 +900,17 @@
       const pageData = extractCleanText();
       let reqBody;
 
+      const selectedIndices = targetIndexStr ? [targetIndexStr] : (config.selectedIndices && config.selectedIndices.length > 0 ? config.selectedIndices : null);
+
       if (pageData && pageData.pdf_url) {
         reqBody = { pdf_url: pageData.pdf_url };
-        if (targetIndexStr) reqBody.target_indices = [targetIndexStr];
+        if (selectedIndices) reqBody.target_indices = selectedIndices;
       } else {
         if (!pageData || pageData.length < 50) {
           throw new Error('Niewystarczająca ilość tekstu na stronie.');
         }
         reqBody = { text: pageData.substring(0, 8000) };
-        if (targetIndexStr) reqBody.target_indices = [targetIndexStr];
+        if (selectedIndices) reqBody.target_indices = selectedIndices;
       }
 
       const response = await fetch(`${backendUrl}/api/analyze`, {
@@ -2100,7 +2102,7 @@
 
   function getStorageData() {
     return new Promise(resolve => {
-      chrome.storage.local.get(['backendUrl','apiKey'], data => {
+      chrome.storage.local.get(['backendUrl','apiKey','selectedIndices'], data => {
         let backendUrl = data ? data.backendUrl || 'http://localhost:8005' : 'http://localhost:8005';
         if (backendUrl.includes(':8000')) {
           backendUrl = backendUrl.replace(':8000', ':8005');

@@ -22,6 +22,40 @@
         <input type="password" id="apiKey" name="apiKey" placeholder="Zostanie pobrany z serwera, jeśli pusty">
       </div>
 
+      <div class="form-group">
+        <label>Wybrane indeksy (Głowa Konecznego):</label>
+        <div class="checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" id="idx_duty_source" name="selectedIndices" value="duty_source" checked>
+            <span>Źródło Obowiązku</span>
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" id="idx_motivation" name="selectedIndices" value="motivation" checked>
+            <span>Motywacja i Bezinteresowność</span>
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" id="idx_justice_nature" name="selectedIndices" value="justice_nature" checked>
+            <span>Natura Sprawiedliwości</span>
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" id="idx_conscience_status" name="selectedIndices" value="conscience_status" checked>
+            <span>Status Sumienia</span>
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" id="idx_generalia" name="selectedIndices" value="generalia">
+            <span>7 Generaliów Etyki (Krok 3)</span>
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" id="idx_sacrality" name="selectedIndices" value="sacrality">
+            <span>Indeks Sakralności</span>
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" id="idx_spirit" name="selectedIndices" value="spirit">
+            <span>Supremacja Ducha (12 indeksów)</span>
+          </label>
+        </div>
+      </div>
+
       <button type="submit" id="saveBtn" class="submit-btn">Zapisz ustawienia</button>
     </form>
   </main>
