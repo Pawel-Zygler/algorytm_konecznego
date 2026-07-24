@@ -12,9 +12,9 @@ INDEX_DEV_FLAGS = {
     "spirit": False,
     "generalia": False,
     "duty_source": False,
-    "motivation": True,
+    "motivation": False,
     "responsibility_type": False,
-    "justice_nature": False,
+    "justice_nature": True,
     "conscience_status": False,
     "time_mastery": False,
     "work_ethos": False,
@@ -156,6 +156,7 @@ def calculate_koneczny_metrics(llm_data: Dict[str, Any]) -> Dict[str, Any]:
         "administrative_responsibility_score": _calc_avg("administrative_responsibility_scores"),
         "duty_source_personalistic_score": _calc_avg("duty_source_scores"),
         "motivation_altruism_score": _calc_avg("motivation_scores"),
+        "justice_equity_score": _calc_avg("justice_nature_scores"),
     }
     # Calculate global spirit supremacy score from 12 indices
     spirit_scores = [
@@ -1207,6 +1208,77 @@ TEKST DO ANALIZY:
 {trimmed_text}
 Zwróć JSON."""
 
+    schema_justice_nature = {
+        "type": "object",
+        "properties": {
+            "justice_nature_scores": {
+                "type": "object",
+                "properties": {
+                    "equity_over_letter": indicator_item,
+                    "judge_conscience_role": indicator_item,
+                    "law_from_ethics": indicator_item,
+                    "no_shylock_formalism": indicator_item,
+                    "state_under_decalogue": indicator_item,
+                    "justice_needs_mercy": indicator_item,
+                    "no_legislative_elephantiasis": indicator_item,
+                    "good_hegemony_over_law": indicator_item,
+                    "aposteriori_law": indicator_item,
+                    "legal_dualism": indicator_item,
+                    "judicial_independence": indicator_item,
+                    "ethics_above_law": indicator_item,
+                    "no_jewish_casuistry": indicator_item,
+                    "no_byzantine_statolatry": indicator_item,
+                    "no_camp_turanian_law": indicator_item,
+                    "no_socialist_collectivism": indicator_item
+                },
+                "required": [
+                    "equity_over_letter", "judge_conscience_role", "law_from_ethics", "no_shylock_formalism",
+                    "state_under_decalogue", "justice_needs_mercy", "no_legislative_elephantiasis", "good_hegemony_over_law",
+                    "aposteriori_law", "legal_dualism", "judicial_independence", "ethics_above_law",
+                    "no_jewish_casuistry", "no_byzantine_statolatry", "no_camp_turanian_law", "no_socialist_collectivism"
+                ]
+            },
+            "justice_nature_news_1": {"type": "string"},
+            "justice_nature_news_2": {"type": "string"},
+            "justice_nature_news_3": {"type": "string"},
+            "justice_nature_justification": {"type": "string"}
+        },
+        "required": [
+            "justice_nature_scores", "justice_nature_news_1", "justice_nature_news_2", "justice_nature_news_3", "justice_nature_justification"
+        ]
+    }
+
+    sys_inst_justice_nature = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w wymiarze 16 WSKAŹNIKÓW NATURY SPRAWIEDLIWOŚCI (justice_nature_scores):
+1. equity_over_letter: Etyczne poczucie słuszności stoi ponad literą prawa
+2. judge_conscience_role: Sędzia orzeka według sumienia (nie maszynka do paragrafów)
+3. law_from_ethics: Prawo wywodzi się z etyki (jest jej pieczęcią)
+4. no_shylock_formalism: Odrzucenie metody Shylocka i ślepego formalizmu
+5. state_under_decalogue: Państwo i jego ustawy podlegają normom moralnym
+6. justice_needs_mercy: Miłosierdzie jako niezbędna korekta prawa (res sacra miser)
+7. no_legislative_elephantiasis: Odrzucenie elephantiasis ustawodawczej
+8. good_hegemony_over_law: Hegemonia Dobra nad prawem (bezprawiem jest co razi etykę)
+9. aposteriori_law: Prawo aposterioryczne wyrastające z doświadczenia
+10. legal_dualism: Ścisły rozdział prawa prywatnego od publicznego
+11. judicial_independence: Niezawisłość sądowa w ocenie zgodności ze słusznością
+12. ethics_above_law: Odrzucenie stanu, w którym litera prawa pożera sumienie
+13. no_jewish_casuistry: Odrzucenie kazuistyki i troski o litery zamiast myśli
+14. no_byzantine_statolatry: Odrzucenie bizantynizmu i statolatrii
+15. no_camp_turanian_law: Odrzucenie turańskiego prawa obozowego i woli wodza
+16. no_socialist_collectivism: Odrzucenie socjalistycznego posłuszeństwa gromadzie
+
+Wszystkie wskaźniki podawaj w skali 0.0 - 1.0 (gdzie 1.0 oznacza pełne urzeczywistnienie szeregu personalistycznego / łacińskiego). Jeśli brak danych: -1.0. Zwróć JSON."""
+
+    prompt_justice_nature = f"""Kontekst metodologiczny Konecznego (Natura Sprawiedliwości):
+{indices_context[:3000]}
+{rag_context}
+
+BARDZO WAŻNE INSTRUKCJE:
+Przeprowadź analizę WSZYSTKICH 16 wskaźników NATURY SPRAWIEDLIWOŚCI (justice_nature_scores) dla poniższego tekstu.
+
+TEKST DO ANALIZY:
+{trimmed_text}
+Zwróć JSON."""
+
     # Execute calls conditionally based on target_indices
     if target_indices is None:
         # Default for development if not specified
@@ -1225,6 +1297,7 @@ Zwróć JSON."""
     if "generalia" in target_indices: tasks.append((prompt_generalia, sys_inst_generalia, schema_generalia))
     if "duty_source" in target_indices: tasks.append((prompt_duty_source, sys_inst_duty_source, schema_duty_source))
     if "motivation" in target_indices: tasks.append((prompt_motivation, sys_inst_motivation, schema_motivation))
+    if "justice_nature" in target_indices: tasks.append((prompt_justice_nature, sys_inst_justice_nature, schema_justice_nature))
     if "dualism" in target_indices: tasks.append((prompt_2, sys_inst_2, schema_2))
     if "pluralism" in target_indices: tasks.append((prompt_3, sys_inst_3, schema_3))
     if "aposteriori" in target_indices: tasks.append((prompt_4, sys_inst_4, schema_4))

@@ -1147,6 +1147,25 @@
       no_biologism_force: { name: 'Brak Biologizmu i Etyki Siły', question: 'Czy odrzuca się elimnowanie słabych i etykę siły?', isDev: true }
     };
 
+    const JUSTICE_NATURE_META = {
+      equity_over_letter: { name: 'Słuszność Etyczna vs Litera', question: 'Czy etyczne poczucie słuszności stoi ponad martwą literą prawa?', isDev: true },
+      judge_conscience_role: { name: 'Rola Sędziego i Sumienia', question: 'Czy sędzia orzeka według sumienia i poczucia słuszności?', isDev: true },
+      law_from_ethics: { name: 'Wyznaczenie Prawa z Etyki', question: 'Czy prawo wywodzi się z etyki jako jej pieczęć?', isDev: true },
+      no_shylock_formalism: { name: 'Brak Formalizmu Shylocka', question: 'Czy odrzuca się formalizm prawny używany do krzywdzenia?', isDev: true },
+      state_under_decalogue: { name: 'Podległość Państwa Etyce', question: 'Czy ustawy państwa podlegają bezwzględnie Dekalogowi i normom moralnym?', isDev: true },
+      justice_needs_mercy: { name: 'Miłosierdzie jako Korekta', question: 'Czy miłosierdzie uznaje się za niezbędną korektę sprawiedliwości?', isDev: true },
+      no_legislative_elephantiasis: { name: 'Brak Elephantiasis Ustawodawczej', question: 'Czy odrzuca się skodyfikowanie wszystkiego pożerające sumienie?', isDev: true },
+      good_hegemony_over_law: { name: 'Hegemonia Dobra nad Prawem', question: 'Czy uznaje się, że bezprawiem jest wszystko, co razi etykę?', isDev: true },
+      aposteriori_law: { name: 'Prawo Aposterioryczne', question: 'Czy prawo wyrasta z doświadczenia historycznego społeczeństwa?', isDev: true },
+      legal_dualism: { name: 'Ścisły Dualizm Prawny', question: 'Czy istnieje ścisły rozdział prawa prywatnego od publicznego?', isDev: true },
+      judicial_independence: { name: 'Niezawisłość Sędziowska', question: 'Czy sądy mają prawo oceny zgodności ustawy ze słusznością?', isDev: true },
+      ethics_above_law: { name: 'Prymat Etyki nad Litera Prawa', question: 'Czy odrzuca się sytuację pożerania sumienia przez przepis?', isDev: true },
+      no_jewish_casuistry: { name: 'Brak Kazuistyki Żydowskiej', question: 'Czy odrzuca się sakralną kazuistykę zamiast sprawiedliwej myśli?', isDev: true },
+      no_byzantine_statolatry: { name: 'Brak Bizantynizmu i Statolatrii', question: 'Czy odrzuca się przedkładanie "dobra państwa" nad etykę?', isDev: true },
+      no_camp_turanian_law: { name: 'Brak Prawa Obozowego', question: 'Czy odrzuca się turański kaprys i siłę fizyczną jako prawo?', isDev: true },
+      no_socialist_collectivism: { name: 'Brak Socjalistycznego Kolektywizmu', question: 'Czy odrzuca się zastępowanie sumienia wolą gromady?', isDev: true }
+    };
+
     const SPIRIT_META = {
       LEGAL_DUALISM_INDEX:           { name: 'Indeks Dualizmu Prawnego',        question: 'Czy państwo uznaje niezależną sferę praw prywatnych jednostki?' },
       LAW_SOURCE_PLURALISM_INDEX:    { name: 'Pluralizm Źródeł Prawa',           question: 'Czy istnieje wolność stanowienia prawa zwyczajowego i lokalnego?' },
@@ -1605,14 +1624,38 @@
       motivationScore >= 65 ? 'Bezinteresowność (świętość Logosu)' : motivationScore >= 35 ? 'Mieszanka' : 'Utylitaryzm transakcyjny'
     );
 
+    const justiceNatureScores = data.raw_ratings?.justice_nature_scores || {};
+    let calcJusticeNatureScore = data.justice_equity_score || 0;
+    if (calcJusticeNatureScore === 0 && Object.keys(justiceNatureScores).length > 0) {
+      let validCount = 0;
+      let validSum = 0;
+      for (const val of Object.values(justiceNatureScores)) {
+        let s = typeof val === 'number' ? val : (val && val.score !== undefined ? val.score : -1.0);
+        if (s >= 0) {
+          validSum += s;
+          validCount++;
+        }
+      }
+      if (validCount > 0) {
+        calcJusticeNatureScore = validSum / validCount;
+      }
+    }
+    const justiceNatureScore = Math.round(calcJusticeNatureScore * 100);
+
+    const justiceNatureHero = buildDarkHero(
+      'NATURA SPRAWIEDLIWOŚCI',
+      justiceNatureScore,
+      justiceNatureScore >= 65 ? 'Etyczne Poczucie Słuszności' : justiceNatureScore >= 35 ? 'Mieszanka' : 'Bezduszny Legalizm / Przepis'
+    );
+
     const INDEX_DEV_FLAGS = {
       sacrality: false,
       spirit: false,
       generalia: false,
       duty_source: false,
-      motivation: true,
+      motivation: false,
       responsibility_type: false,
-      justice_nature: false,
+      justice_nature: true,
       conscience_status: false,
       time_mastery: false,
       work_ethos: false,
@@ -1629,6 +1672,13 @@
       public_morality: false,
       administrative_responsibility: false
     };
+
+    const justiceNatureCards = Object.keys(justiceNatureScores).length > 0 ? buildCardsGroup(justiceNatureScores, JUSTICE_NATURE_META) : `
+      <div id="loader-justice-nature" style="padding:20px; text-align:center;">
+        ${INDEX_DEV_FLAGS.justice_nature ? `<button class="tab-btn active zapytaj-btn" data-target="justice_nature" data-loader="loader-justice-nature" data-name="Natura Sprawiedliwości" style="margin:0 auto; padding:10px 20px;">
+          Zapytaj (Pobierz dane)
+        </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony</div>`}
+      </div>`;
 
     const motivationCards = Object.keys(motivationScores).length > 0 ? buildCardsGroup(motivationScores, MOTIVATION_META) : `
       <div id="loader-motivation" style="padding:20px; text-align:center;">
@@ -1664,6 +1714,13 @@
              Mierzy, czy motywacją działania jest bezinteresowna miłość Prawdy i Dobra dla nich samych (szereg personalistyczny), czy transakcyjny utylitaryzm "coś za coś" (gromadnościowy).
           </div>
           <div class="section-title" style="margin-top:10px">14 Wskaźników Motywacji i Bezinteresowności</div> ${motivationCards}
+        </div>
+        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+          ${justiceNatureHero}
+          <div style="font-size: 13px; color: #9ca3af; padding: 10px 20px; margin-bottom: 5px; line-height: 1.5; text-align: center;">
+             Mierzy, czy sprawiedliwość opiera się na etycznym poczuciu słuszności stojącym ponad przepisem (szereg personalistyczny), czy na bezdusznym legalizmie i ślepym posłuszeństwie literze prawa (gromadnościowy).
+          </div>
+          <div class="section-title" style="margin-top:10px">16 Wskaźników Natury Sprawiedliwości</div> ${justiceNatureCards}
         </div>
       </div>`;
 
