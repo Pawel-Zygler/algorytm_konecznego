@@ -1705,29 +1705,37 @@
       conscienceStatusScore >= 65 ? 'Autonomia (suwerenny sędzia)' : conscienceStatusScore >= 35 ? 'Mieszanka' : 'Heteronomia (okólnik / przepis)'
     );
 
+    const userSelected = config.selectedIndices || [];
+    const hasUserSelected = Array.isArray(userSelected) && userSelected.length > 0;
+
+    const isIdxEnabled = (key) => {
+      if (!hasUserSelected) return true;
+      if (userSelected.includes(key)) return true;
+      if (userSelected.includes('generalia') && ['duty_source', 'motivation', 'justice_nature', 'conscience_status'].includes(key)) return true;
+      if (userSelected.includes('spirit') && ['dualism', 'pluralism', 'aposteriori', 'organism', 'personalism', 'family', 'church', 'property', 'inheritance', 'morality', 'public_morality', 'administrative_responsibility'].includes(key)) return true;
+      return false;
+    };
+
     const INDEX_DEV_FLAGS = {
-      sacrality: false,
-      spirit: false,
-      generalia: false,
-      duty_source: false,
-      motivation: false,
-      responsibility_type: false,
-      justice_nature: false,
-      conscience_status: true,
-      time_mastery: false,
-      work_ethos: false,
-      dualism: false,
-      pluralism: false,
-      aposteriori: false,
-      organism: false,
-      personalism: false,
-      family: false,
-      church: false,
-      property: false,
-      inheritance: false,
-      morality: false,
-      public_morality: false,
-      administrative_responsibility: false
+      sacrality: isIdxEnabled('sacrality'),
+      spirit: isIdxEnabled('spirit'),
+      generalia: isIdxEnabled('generalia'),
+      duty_source: isIdxEnabled('duty_source'),
+      motivation: isIdxEnabled('motivation'),
+      justice_nature: isIdxEnabled('justice_nature'),
+      conscience_status: isIdxEnabled('conscience_status'),
+      dualism: isIdxEnabled('dualism'),
+      pluralism: isIdxEnabled('pluralism'),
+      aposteriori: isIdxEnabled('aposteriori'),
+      organism: isIdxEnabled('organism'),
+      personalism: isIdxEnabled('personalism'),
+      family: isIdxEnabled('family'),
+      church: isIdxEnabled('church'),
+      property: isIdxEnabled('property'),
+      inheritance: isIdxEnabled('inheritance'),
+      morality: isIdxEnabled('morality'),
+      public_morality: isIdxEnabled('public_morality'),
+      administrative_responsibility: isIdxEnabled('administrative_responsibility')
     };
 
     const conscienceStatusCards = Object.keys(conscienceStatusScores).length > 0 ? buildCardsGroup(conscienceStatusScores, CONSCIENCE_STATUS_META) : `

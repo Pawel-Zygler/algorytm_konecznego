@@ -8,28 +8,28 @@ from backend import config
 from backend import rag
 
 INDEX_DEV_FLAGS = {
-    "sacrality": False,
-    "spirit": False,
-    "generalia": False,
-    "duty_source": False,
-    "motivation": False,
+    "sacrality": True,
+    "spirit": True,
+    "generalia": True,
+    "duty_source": True,
+    "motivation": True,
     "responsibility_type": False,
-    "justice_nature": False,
+    "justice_nature": True,
     "conscience_status": True,
     "time_mastery": False,
     "work_ethos": False,
-    "dualism": False,
-    "pluralism": False,
-    "aposteriori": False,
-    "organism": False,
-    "personalism": False,
-    "family": False,
-    "church": False,
-    "property": False,
-    "inheritance": False,
-    "morality": False,
-    "public_morality": False,
-    "administrative_responsibility": False
+    "dualism": True,
+    "pluralism": True,
+    "aposteriori": True,
+    "organism": True,
+    "personalism": True,
+    "family": True,
+    "church": True,
+    "property": True,
+    "inheritance": True,
+    "morality": True,
+    "public_morality": True,
+    "administrative_responsibility": True
 }
 
 indicator_item = {

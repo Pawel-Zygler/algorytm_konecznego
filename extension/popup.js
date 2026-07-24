@@ -28,6 +28,21 @@ document.addEventListener('DOMContentLoaded', () => {
     checkServerHealth(url);
   });
 
+  const selectAllBtn = document.getElementById('selectAllBtn');
+  const deselectAllBtn = document.getElementById('deselectAllBtn');
+
+  if (selectAllBtn) {
+    selectAllBtn.addEventListener('click', () => {
+      document.querySelectorAll('input[name="selectedIndices"]').forEach(cb => cb.checked = true);
+    });
+  }
+
+  if (deselectAllBtn) {
+    deselectAllBtn.addEventListener('click', () => {
+      document.querySelectorAll('input[name="selectedIndices"]').forEach(cb => cb.checked = false);
+    });
+  }
+
   // Handle form submission with state class modifiers
   settingsForm.addEventListener('submit', (e) => {
     e.preventDefault();
