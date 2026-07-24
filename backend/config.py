@@ -15,12 +15,18 @@ PERSONALISTIC_ROW_FILE = os.path.join(BASE_DIR, "isPersonalisticRow")
 # Gemini API configuration
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 
-# Fallback list of models (tries latest flash models, then pros, then exp)
+# Fallback list of models (prioritizes 3.5-flash, 2.5-flash, 2.0-flash, 1.5-flash)
 GEMINI_MODELS = [
+    "gemini-3.5-flash",
+    "gemini-2.5-flash",
     "gemini-2.0-flash",
     "gemini-1.5-flash",
-    "gemini-1.5-flash-latest",
+    "gemini-1.5-flash-8b",
+    "gemini-3.5-pro",
+    "gemini-2.5-pro",
     "gemini-1.5-pro",
-    "gemini-1.5-pro-latest",
-    "gemini-2.0-flash-exp"
+    "gemini-2.0-flash-exp",
+    "gemini-3.1-pro",
+    "gemini-flash-latest",
+    "gemini-pro-latest"
 ]
