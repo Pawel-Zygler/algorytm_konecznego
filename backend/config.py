@@ -17,13 +17,9 @@ GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 
 # Fallback list of valid Gemini models supported by Google REST API v1beta
 GEMINI_MODELS = [
-    "gemini-2.5-flash",
-    "gemini-2.0-flash",
     "gemini-1.5-flash",
+    "gemini-2.0-flash",
     "gemini-1.5-flash-8b",
-    "gemini-2.5-pro",
     "gemini-1.5-pro",
-    "gemini-2.0-flash-exp",
-    "gemini-flash-latest",
-    "gemini-pro-latest"
+    "gemini-2.0-flash-exp"
 ]
