@@ -893,6 +893,7 @@
 
     try {
       const config = await getStorageData();
+      window.konecznyConfig = config;
       let backendUrl = config.backendUrl || 'http://localhost:8005';
       if (backendUrl.includes(':8000')) {
         backendUrl = backendUrl.replace(':8000', ':8005');
@@ -1709,7 +1710,7 @@
       conscienceStatusScore >= 65 ? 'Autonomia (suwerenny sędzia)' : conscienceStatusScore >= 35 ? 'Mieszanka' : 'Heteronomia (okólnik / przepis)'
     );
 
-    const userSelected = config.selectedIndices || [];
+    const userSelected = (window.konecznyConfig && window.konecznyConfig.selectedIndices) || [];
     const hasUserSelected = Array.isArray(userSelected) && userSelected.length > 0;
 
     const isIdxEnabled = (key) => {
