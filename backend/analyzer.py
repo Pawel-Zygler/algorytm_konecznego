@@ -167,6 +167,7 @@ def calculate_koneczny_metrics(llm_data: Dict[str, Any]) -> Dict[str, Any]:
         result["morality_supremacy_score"], result["public_morality_totality_score"], result["administrative_responsibility_score"]
     ]
     valid_spirit = [s for s in spirit_scores if s >= 0]
+    result["spirit_supremacy_score"] = round(sum(valid_spirit) / len(valid_spirit), 2) if valid_spirit else -1.0
     # Calculate Generalia (Step 3) ethical coherence score
     generalia_data = llm_data.get("generalia_scores", {})
     gen_vals = []
