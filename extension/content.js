@@ -926,15 +926,14 @@
 
       clearInterval(window.konecznyLoadingInterval);
       const newData = await response.json();
-      window.konecznyResults.sacrality_score = newData.sacrality_score || window.konecznyResults.sacrality_score;
-      window.konecznyResults.spirit_supremacy_score = newData.spirit_supremacy_score || window.konecznyResults.spirit_supremacy_score;
-      window.konecznyResults.legal_dualism_score = newData.legal_dualism_score || window.konecznyResults.legal_dualism_score;
-      window.konecznyResults.law_source_pluralism_score = newData.law_source_pluralism_score || window.konecznyResults.law_source_pluralism_score;
-      window.konecznyResults.aposteriori_apriori_score = newData.aposteriori_apriori_score || window.konecznyResults.aposteriori_apriori_score;
-      window.konecznyResults.organism_mechanism_score = newData.organism_mechanism_score || window.konecznyResults.organism_mechanism_score;
-      window.konecznyResults.personalism_score = newData.personalism_score || window.konecznyResults.personalism_score;
-      window.konecznyResults.family_law_autonomy_score = newData.family_law_autonomy_score || window.konecznyResults.family_law_autonomy_score;
-      window.konecznyResults.raw_ratings = { ...window.konecznyResults.raw_ratings, ...(newData.raw_ratings || {}) };
+      window.konecznyResults = {
+        ...window.konecznyResults,
+        ...newData,
+        raw_ratings: {
+          ...(window.konecznyResults.raw_ratings || {}),
+          ...(newData.raw_ratings || {})
+        }
+      };
       renderResults();
 
     } catch (err) {
@@ -1583,7 +1582,7 @@
 
     const generaliaScores = data.raw_ratings?.generalia_scores || {};
 
-    let ethicalCoherenceScore = data.ethical_coherence_score !== undefined ? data.ethical_coherence_score : -1;
+    let ethicalCoherenceScore = (data.ethical_coherence_score !== undefined && data.ethical_coherence_score >= 0) ? data.ethical_coherence_score : -1;
     if (ethicalCoherenceScore < 0 && Object.keys(generaliaScores).length > 0) {
       let sum = 0;
       let count = 0;
@@ -1594,19 +1593,21 @@
           count++;
         }
       }
-      if (count > 0) {
+      if (count === 7) {  // Require all 7 generalia indicators
         ethicalCoherenceScore = sum;
       }
     }
 
-    const generaliaDiagnosis = data.generalia_diagnosis || (ethicalCoherenceScore >= 6.0 ? 'Dominacja Szeregu Personalistycznego (Cywilizacja Łacińska)' : (ethicalCoherenceScore >= 0 && ethicalCoherenceScore <= 2.0) ? 'Dominacja Szeregu Gromadnościowego' : (ethicalCoherenceScore > 2.0) ? '⚠️ MIESZANKA TRUJĄCA (Stan acywilizacyjny / Kołobłęd etyczny)' : 'Brak danych');
-    const mixtureAlert = data.mixture_alert !== undefined ? data.mixture_alert : (ethicalCoherenceScore >= 2.5 && ethicalCoherenceScore <= 5.5);
+    const generaliaDiagnosis = ethicalCoherenceScore >= 0 
+      ? (data.generalia_diagnosis || (ethicalCoherenceScore >= 6.0 ? 'Dominacja Szeregu Personalistycznego (Cywilizacja Łacińska)' : (ethicalCoherenceScore <= 2.0) ? 'Dominacja Szeregu Gromadnościowego' : '⚠️ MIESZANKA TRUJĄCA (Stan acywilizacyjny / Kołobłęd etyczny)'))
+      : 'Brak danych w tekście (niezaznaczony indeks generaliów)';
 
     const generaliaHero = buildDarkHero(
       'SPÓJNOŚĆ GENERALIÓW ETYKI',
       ethicalCoherenceScore >= 0 ? Math.round((ethicalCoherenceScore / 7) * 100) : -1,
       generaliaDiagnosis,
-      ethicalCoherenceScore >= 0 ? `${ethicalCoherenceScore.toFixed(1)} / 7.0` : null
+      ethicalCoherenceScore >= 0 ? `${ethicalCoherenceScore.toFixed(1)} / 7.0` : null,
+      'Siedem Niewiadomych Etyki (Krok 3). Wymaga pełnego wyliczenia generaliów.'
     );
 
     const dutySourceScores = data.raw_ratings?.duty_source_scores || {};
