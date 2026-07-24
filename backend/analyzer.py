@@ -1138,6 +1138,9 @@ Wszystkie wskaźniki podawaj w skali 0.0 - 1.0 (gdzie 1.0 oznacza pełne urzeczy
 BARDZO WAŻNE INSTRUKCJE:
 Przeprowadź analizę WSZYSTKICH 13 wskaźników PERSONALISTYCZNEGO ŹRÓDŁA OBOWIĄZKU (duty_source_scores) dla poniższego tekstu.
 
+BARDZO WAŻNA ZASADA DLA NEWS_EXAMPLES:
+Każdy z 3 nagłówków w news_examples MUSI bezwzględnie zawierać nazwę kraju / państwa / podmiotu opisanego w analizowanym tekście (np. jeśli tekst dotyczy Izraela, napiszesz 'Krytyka ustawy o państwie narodowym w Izraelu', 'Spory o charakter prawny państwa w Izraelu', 'Rola ustaw zasadniczych w sądownictwie Izraela' zamiast ogólnych fraz bez wskazania państwa).
+
 TEKST DO ANALIZY:
 {trimmed_text}
 Zwróć JSON."""
@@ -1204,6 +1207,9 @@ Wszystkie wskaźniki podawaj w skali 0.0 - 1.0 (gdzie 1.0 oznacza pełne urzeczy
 
 BARDZO WAŻNE INSTRUKCJE:
 Przeprowadź analizę WSZYSTKICH 14 wskaźników MOTYWACJI I BEZINTERESOWNOŚCI (motivation_scores) dla poniższego tekstu.
+
+BARDZO WAŻNA ZASADA DLA NEWS_EXAMPLES:
+Każdy z 3 nagłówków w news_examples MUSI bezwzględnie zawierać nazwę kraju / państwa / podmiotu opisanego w analizowanym tekście (np. jeśli tekst dotyczy Izraela, napiszesz 'Krytyka ustawy o państwie narodowym w Izraelu', 'Spory o charakter prawny państwa w Izraelu', 'Rola ustaw zasadniczych w sądownictwie Izraela' zamiast ogólnych fraz bez wskazania państwa).
 
 TEKST DO ANALIZY:
 {trimmed_text}
@@ -1294,6 +1300,9 @@ Musisz przeanalizować i zwrócić DOKŁADNIE WSZYSTKIE 16 WSKAŹNIKÓW NATURY S
 
 Dla każdego z 16 wskaźników podaj wycenę (score 0.0-1.0 lub -1.0), zwięzłe wyjaśnienie (explanation) oraz przykłady (news_examples).
 
+BARDZO WAŻNA ZASADA DLA NEWS_EXAMPLES:
+Każdy z 3 nagłówków w news_examples MUSI bezwzględnie zawierać nazwę kraju / państwa / podmiotu opisanego w analizowanym tekście (np. jeśli tekst dotyczy Izraela, napiszesz 'Krytyka ustawy o państwie narodowym w Izraelu', 'Spory o charakter prawny państwa w Izraelu', 'Rola ustaw zasadniczych w sądownictwie Izraela' zamiast ogólnych fraz bez wskazania państwa).
+
 TEKST DO ANALIZY:
 {trimmed_text}
 Zwróć JSON."""
@@ -1380,6 +1389,9 @@ Musisz przeanalizować i zwrócić DOKŁADNIE WSZYSTKIE 15 WSKAŹNIKÓW STATUSU 
 15. no_camp_turanian_coercion
 
 Dla każdego z 15 wskaźników podaj wycenę (score 0.0-1.0 lub -1.0), zwięzłe wyjaśnienie (explanation) oraz przykłady (news_examples).
+
+BARDZO WAŻNA ZASADA DLA NEWS_EXAMPLES:
+Każdy z 3 nagłówków w news_examples MUSI bezwzględnie zawierać nazwę kraju / państwa / podmiotu opisanego w analizowanym tekście (np. jeśli tekst dotyczy Izraela, napiszesz 'Krytyka ustawy o państwie narodowym w Izraelu', 'Spory o charakter prawny państwa w Izraelu', 'Rola ustaw zasadniczych w sądownictwie Izraela' zamiast ogólnych fraz bez wskazania państwa).
 
 TEKST DO ANALIZY:
 {trimmed_text}
