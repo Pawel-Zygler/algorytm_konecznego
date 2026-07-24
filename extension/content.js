@@ -1166,6 +1166,24 @@
       no_socialist_collectivism: { name: 'Brak Socjalistycznego Kolektywizmu', question: 'Czy odrzuca się zastępowanie sumienia wolą gromady?', isDev: true }
     };
 
+    const CONSCIENCE_STATUS_META = {
+      no_statutory_morality_only: { name: 'Odrzucenie Moralności Przepisu', question: 'Czy potępia się uznawanie się za moralnego tylko z powodu braku kolizji z przepisem?', isDev: true },
+      conscience_as_supreme_judge: { name: 'Sumienie Suwerennym Sędzią', question: 'Czy sumienie uznawane jest za sędziego nad prawem stanowionym?', isDev: true },
+      no_legislative_elephantiasis: { name: 'Brak Elephantiasis Ustawodawczej', question: 'Czy odrzuca się skodyfikowanie wszystkiego krępujące sumienie?', isDev: true },
+      refusal_of_immoral_orders: { name: 'Odmowa Zbrodniczego Rozkazu', question: 'Czy istnieje obowiązek odmowy wykonania rozkazu sprzecznego z sumieniem?', isDev: true },
+      personal_accountability_god: { name: 'Osobisty Rachunek Sumienia', question: 'Czy istnieje instytucja osobistej odpowiedzialności przed Bogiem i sumieniem?', isDev: true },
+      no_shylock_formalism: { name: 'Odrzucenie Metody Shylocka', question: 'Czy odrzuca się naciąganie litery kodeksu wbrew słuszności?', isDev: true },
+      ethics_above_law: { name: 'Etyka Przodowniczką Prawa', question: 'Czy prawo wywodzi się z etyki (zamiast etyki jako działu administracji)?', isDev: true },
+      personalism_sovereignty: { name: 'Suwerenność Personalistyczna', question: 'Czy jednostka uznawana jest za suwerenny podmiot z wolną wolą?', isDev: true },
+      good_hegemony_over_law: { name: 'Prymat Dobra nad Prawem', question: 'Czy państwo i prawo podlegają tej samej etyce co życie prywatne?', isDev: true },
+      legal_dualism_privacy: { name: 'Ścisły Dualizm Prawny', question: 'Czy rozdział sfer gwarantuje obszar wolności sumienia?', isDev: true },
+      aposteriori_experience: { name: 'Prawo Aposterioryczne', question: 'Czy prawo wyrasta z doświadczenia i etyki społecznej?', isDev: true },
+      no_casuistry_expropriation: { name: 'Brak Wywłaszczenia Kazuistyką', question: 'Czy odrzuca się zastępowanie osobistego sumienia kazuistyką?', isDev: true },
+      no_byzantine_statolatry: { name: 'Brak Bizantynizmu i Statolatrii', question: 'Czy odrzuca się mrok prawny biurokracji zwalniający z myślenia?', isDev: true },
+      no_socialist_gregarious_fear: { name: 'Brak Lęku Przed Gromadą', question: 'Czy odrzuca się zastępowanie sumienia bojaźnią przed gromadą?', isDev: true },
+      no_camp_turanian_coercion: { name: 'Brak Turańskiego Przymusu', question: 'Czy odrzuca się wolę wodza i przymus znoszący odpowiedzialność?', isDev: true }
+    };
+
     const SPIRIT_META = {
       LEGAL_DUALISM_INDEX:           { name: 'Indeks Dualizmu Prawnego',        question: 'Czy państwo uznaje niezależną sferę praw prywatnych jednostki?' },
       LAW_SOURCE_PLURALISM_INDEX:    { name: 'Pluralizm Źródeł Prawa',           question: 'Czy istnieje wolność stanowienia prawa zwyczajowego i lokalnego?' },
@@ -1648,6 +1666,30 @@
       justiceNatureScore >= 65 ? 'Etyczne Poczucie Słuszności' : justiceNatureScore >= 35 ? 'Mieszanka' : 'Bezduszny Legalizm / Przepis'
     );
 
+    const conscienceStatusScores = data.raw_ratings?.conscience_status_scores || {};
+    let calcConscienceStatusScore = data.conscience_autonomous_score || 0;
+    if (calcConscienceStatusScore === 0 && Object.keys(conscienceStatusScores).length > 0) {
+      let validCount = 0;
+      let validSum = 0;
+      for (const val of Object.values(conscienceStatusScores)) {
+        let s = typeof val === 'number' ? val : (val && val.score !== undefined ? val.score : -1.0);
+        if (s >= 0) {
+          validSum += s;
+          validCount++;
+        }
+      }
+      if (validCount > 0) {
+        calcConscienceStatusScore = validSum / validCount;
+      }
+    }
+    const conscienceStatusScore = Math.round(calcConscienceStatusScore * 100);
+
+    const conscienceStatusHero = buildDarkHero(
+      'STATUS SUMIENIA',
+      conscienceStatusScore,
+      conscienceStatusScore >= 65 ? 'Autonomia (suwerenny sędzia)' : conscienceStatusScore >= 35 ? 'Mieszanka' : 'Heteronomia (okólnik / przepis)'
+    );
+
     const INDEX_DEV_FLAGS = {
       sacrality: false,
       spirit: false,
@@ -1655,8 +1697,8 @@
       duty_source: false,
       motivation: false,
       responsibility_type: false,
-      justice_nature: true,
-      conscience_status: false,
+      justice_nature: false,
+      conscience_status: true,
       time_mastery: false,
       work_ethos: false,
       dualism: false,
@@ -1672,6 +1714,13 @@
       public_morality: false,
       administrative_responsibility: false
     };
+
+    const conscienceStatusCards = Object.keys(conscienceStatusScores).length > 0 ? buildCardsGroup(conscienceStatusScores, CONSCIENCE_STATUS_META) : `
+      <div id="loader-conscience-status" style="padding:20px; text-align:center;">
+        ${INDEX_DEV_FLAGS.conscience_status ? `<button class="tab-btn active zapytaj-btn" data-target="conscience_status" data-loader="loader-conscience-status" data-name="Status Sumienia" style="margin:0 auto; padding:10px 20px;">
+          Zapytaj (Pobierz dane)
+        </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony</div>`}
+      </div>`;
 
     const justiceNatureCards = Object.keys(justiceNatureScores).length > 0 ? buildCardsGroup(justiceNatureScores, JUSTICE_NATURE_META) : `
       <div id="loader-justice-nature" style="padding:20px; text-align:center;">
@@ -1721,6 +1770,13 @@
              Mierzy, czy sprawiedliwość opiera się na etycznym poczuciu słuszności stojącym ponad przepisem (szereg personalistyczny), czy na bezdusznym legalizmie i ślepym posłuszeństwie literze prawa (gromadnościowy).
           </div>
           <div class="section-title" style="margin-top:10px">16 Wskaźników Natury Sprawiedliwości</div> ${justiceNatureCards}
+        </div>
+        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+          ${conscienceStatusHero}
+          <div style="font-size: 13px; color: #9ca3af; padding: 10px 20px; margin-bottom: 5px; line-height: 1.5; text-align: center;">
+             Mierzy, czy najwyższą instancją jest autonomia sumienia i autokrytyka moralna (szereg personalistyczny), czy heteronomia zastępująca sumienie okólnikiem władzy (gromadnościowy).
+          </div>
+          <div class="section-title" style="margin-top:10px">15 Wskaźników Statusu Sumienia</div> ${conscienceStatusCards}
         </div>
       </div>`;
 

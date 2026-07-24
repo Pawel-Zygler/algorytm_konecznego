@@ -14,8 +14,8 @@ INDEX_DEV_FLAGS = {
     "duty_source": False,
     "motivation": False,
     "responsibility_type": False,
-    "justice_nature": True,
-    "conscience_status": False,
+    "justice_nature": False,
+    "conscience_status": True,
     "time_mastery": False,
     "work_ethos": False,
     "dualism": False,
@@ -157,6 +157,7 @@ def calculate_koneczny_metrics(llm_data: Dict[str, Any]) -> Dict[str, Any]:
         "duty_source_personalistic_score": _calc_avg("duty_source_scores"),
         "motivation_altruism_score": _calc_avg("motivation_scores"),
         "justice_equity_score": _calc_avg("justice_nature_scores"),
+        "conscience_autonomous_score": _calc_avg("conscience_status_scores"),
     }
     # Calculate global spirit supremacy score from 12 indices
     spirit_scores = [
@@ -1297,6 +1298,93 @@ TEKST DO ANALIZY:
 {trimmed_text}
 Zwróć JSON."""
 
+    schema_conscience_status = {
+        "type": "object",
+        "properties": {
+            "conscience_status_scores": {
+                "type": "object",
+                "properties": {
+                    "no_statutory_morality_only": indicator_item,
+                    "conscience_as_supreme_judge": indicator_item,
+                    "no_legislative_elephantiasis": indicator_item,
+                    "refusal_of_immoral_orders": indicator_item,
+                    "personal_accountability_god": indicator_item,
+                    "no_shylock_formalism": indicator_item,
+                    "ethics_above_law": indicator_item,
+                    "personalism_sovereignty": indicator_item,
+                    "good_hegemony_over_law": indicator_item,
+                    "legal_dualism_privacy": indicator_item,
+                    "aposteriori_experience": indicator_item,
+                    "no_casuistry_expropriation": indicator_item,
+                    "no_byzantine_statolatry": indicator_item,
+                    "no_socialist_gregarious_fear": indicator_item,
+                    "no_camp_turanian_coercion": indicator_item
+                },
+                "required": [
+                    "no_statutory_morality_only", "conscience_as_supreme_judge", "no_legislative_elephantiasis",
+                    "refusal_of_immoral_orders", "personal_accountability_god", "no_shylock_formalism",
+                    "ethics_above_law", "personalism_sovereignty", "good_hegemony_over_law", "legal_dualism_privacy",
+                    "aposteriori_experience", "no_casuistry_expropriation", "no_byzantine_statolatry",
+                    "no_socialist_gregarious_fear", "no_camp_turanian_coercion"
+                ]
+            },
+            "conscience_status_news_1": {"type": "string"},
+            "conscience_status_news_2": {"type": "string"},
+            "conscience_status_news_3": {"type": "string"},
+            "conscience_status_justification": {"type": "string"}
+        },
+        "required": [
+            "conscience_status_scores", "conscience_status_news_1", "conscience_status_news_2", "conscience_status_news_3", "conscience_status_justification"
+        ]
+    }
+
+    sys_inst_conscience_status = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w wymiarze 15 WSKAŹNIKÓW STATUSU SUMIENIA - AUTONOMIA VS HETERONOMIA (conscience_status_scores):
+1. no_statutory_morality_only: Odrzucenie poglądu, że moralność wynika z samego braku kolizji z przepisem
+2. conscience_as_supreme_judge: Sumienie uznawane za suwerennego sędziego nad prawem
+3. no_legislative_elephantiasis: Odrzucenie skodyfikowania wszystkiego krępującego sumienie
+4. refusal_of_immoral_orders: Obowiązek odmowy wykonania rozkazu sprzecznego z Dekalogiem
+5. personal_accountability_god: Rachunek sumienia i osobista odpowiedzialność przed Bogiem
+6. no_shylock_formalism: Odrzucenie formalizmu Shylocka wbrew słuszności i sumieniu
+7. ethics_above_law: Etyka jako przodowniczka prawa (wyznacza granice prawu)
+8. personalism_sovereignty: Personalizm (suwerenność jednostki i bezpośrednia relacja z Bogiem)
+9. good_hegemony_over_law: Prymat Dobra i etyki totalnej nad prawem i polityką
+10. legal_dualism_privacy: Ścisły dualizm prawny gwarantujący wolność sumienia
+11. aposteriori_experience: Prawo wyrastające z doświadczenia (aposteriori), nie apriorycznych schematów
+12. no_casuistry_expropriation: Odrzucenie wywłaszczenia sumienia przez kazuistykę prawną
+13. no_byzantine_statolatry: Odrzucenie bizantynizmu, statolatrii i nieomylności państwa
+14. no_socialist_gregarious_fear: Odrzucenie zastępowania sumienia bojaźnią przed gromadą
+15. no_camp_turanian_coercion: Odrzucenie turańskiego prawa obozowego i ślepej woli wodza
+
+Wszystkie wskaźniki podawaj w skali 0.0 - 1.0 (gdzie 1.0 oznacza pełne urzeczywistnienie autonomii sumienia / szereg personalistyczny). Jeśli brak danych: -1.0. Zwróć JSON."""
+
+    prompt_conscience_status = f"""Kontekst metodologiczny Konecznego (Status Sumienia):
+{indices_context[:3000]}
+{rag_context}
+
+BARDZO WAŻNE INSTRUKCJE:
+Musisz przeanalizować i zwrócić DOKŁADNIE WSZYSTKIE 15 WSKAŹNIKÓW STATUSU SUMIENIA (conscience_status_scores):
+1. no_statutory_morality_only
+2. conscience_as_supreme_judge
+3. no_legislative_elephantiasis
+4. refusal_of_immoral_orders
+5. personal_accountability_god
+6. no_shylock_formalism
+7. ethics_above_law
+8. personalism_sovereignty
+9. good_hegemony_over_law
+10. legal_dualism_privacy
+11. aposteriori_experience
+12. no_casuistry_expropriation
+13. no_byzantine_statolatry
+14. no_socialist_gregarious_fear
+15. no_camp_turanian_coercion
+
+Dla każdego z 15 wskaźników podaj wycenę (score 0.0-1.0 lub -1.0), zwięzłe wyjaśnienie (explanation) oraz przykłady (news_examples).
+
+TEKST DO ANALIZY:
+{trimmed_text}
+Zwróć JSON."""
+
     # Execute calls conditionally based on target_indices
     if target_indices is None:
         # Default for development if not specified
@@ -1316,6 +1404,7 @@ Zwróć JSON."""
     if "duty_source" in target_indices: tasks.append((prompt_duty_source, sys_inst_duty_source, schema_duty_source))
     if "motivation" in target_indices: tasks.append((prompt_motivation, sys_inst_motivation, schema_motivation))
     if "justice_nature" in target_indices: tasks.append((prompt_justice_nature, sys_inst_justice_nature, schema_justice_nature))
+    if "conscience_status" in target_indices: tasks.append((prompt_conscience_status, sys_inst_conscience_status, schema_conscience_status))
     if "dualism" in target_indices: tasks.append((prompt_2, sys_inst_2, schema_2))
     if "pluralism" in target_indices: tasks.append((prompt_3, sys_inst_3, schema_3))
     if "aposteriori" in target_indices: tasks.append((prompt_4, sys_inst_4, schema_4))
