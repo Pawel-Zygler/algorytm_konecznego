@@ -1703,6 +1703,14 @@
     );
 
     const mixtureAlert = data.mixture_alert !== undefined ? data.mixture_alert : (ethicalCoherenceScore >= 2.5 && ethicalCoherenceScore <= 5.5);
+    const mixtureAlertHtml = mixtureAlert ? `
+      <div style="background: rgba(239, 68, 68, 0.15); border: 2px solid #ef4444; border-radius: 10px; padding: 14px; margin: 15px 20px; text-align: center;">
+        <div style="color: #ef4444; font-weight: 800; font-size: 15px; margin-bottom: 6px;">⚠️ ALERT MIESZANKI TRUJĄCEJ (ACYWILIZACYJNY KOŁOBŁĘD)</div>
+        <div style="color: #f87171; font-size: 12px; line-height: 1.5;">
+          Według metody Konecznego zrzeszenie połączyło sprzeczne generalia etyczne (${ethicalCoherenceScore} / 7.0). 
+          Synkretyzm etyczny paraliżuje kulturę czynu – norma prawna pozostaje w sprzeczności z normą moralną.
+        </div>
+      </div>` : '';
 
     const dutySourceScores = data.raw_ratings?.duty_source_scores || {};
     let calcDutySourceScore = data.duty_source_personalistic_score || 0;
