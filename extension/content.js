@@ -907,13 +907,13 @@
       const selectedIndices = targetIndexStr ? [targetIndexStr] : (config.selectedIndices && config.selectedIndices.length > 0 ? config.selectedIndices : null);
 
       if (pageData && pageData.pdf_url) {
-        reqBody = { pdf_url: pageData.pdf_url };
+        reqBody = { pdf_url: pageData.pdf_url, url: window.location.href, title: document.title };
         if (selectedIndices) reqBody.target_indices = selectedIndices;
       } else {
         if (!pageData || pageData.length < 50) {
           throw new Error('Niewystarczająca ilość tekstu na stronie.');
         }
-        reqBody = { text: pageData.substring(0, 8000) };
+        reqBody = { text: pageData.substring(0, 8000), url: window.location.href, title: document.title };
         if (selectedIndices) reqBody.target_indices = selectedIndices;
       }
 
@@ -1236,6 +1236,45 @@
       honest_prosperity_duty: { name: 'IV. DOBROBYT: Uczciwa Zamożność Obowiązkiem Moralnym', question: 'Czy uznaje się, że uczciwy dobrobyt ułatwia praktykowanie cnót i wspiera oświatę?', isDev: true },
       beauty_allegory_of_good: { name: 'V. PIĘKNO: Piękno Alegorią i Uduchowieniem Dobra', question: 'Czy sztuka dąży do wyrażania ideałów moralnych i uduchowienia (vs czysta zmysłowość/użyteczność)?', isDev: true },
       full_artistic_freedom: { name: 'V. PIĘKNO: Pełna Swoboda Twórcza w Sztuce', question: 'Czy zrzeszenie dopuszcza pełną swobodę we wszystkich dziedzinach sztuki (plastyka, muzyka, poezja)?', isDev: true }
+    };
+
+    const HEALTH_META = {
+      public_scientific_health_duty: { name: 'Piecza o Zdrowie Obowiązkiem Publicznym', question: 'Czy ochrona zdrowia opiera się na przyrodzonej nauce i medycynie (zamiast sakralizmu/rytuału)?', isDev: true },
+      res_sacra_miser_ethics: { name: 'Zasada Res Sacra Miser i Etyka Medyczna', question: 'Czy obowiązuje zasada res sacra miser (cierpiący bliźni jest świętością)?', isDev: true },
+      patient_person_dignity: { name: 'Godność i Sumienie Pacjenta', question: 'Czy medycyna szanuje godność i sumienie pacjenta jako wolnej osoby?', isDev: true },
+      rejection_of_medical_killing: { name: 'Odrzucenie Zabójstwa Medycznego', question: 'Czy odrzuca się eutanazję i eugenikę na rzecz bezwzględnej ochrony życia?', isDev: true },
+      independent_medical_profession: { name: 'Autonomia Samorządu Lekarskiego', question: 'Czy istnieje samorząd i instytucja lekarska niepodporządkowana biurokracji państwowej?', isDev: true },
+      public_hygiene_and_sanitation: { name: 'Higiena Publiczna i Sanitariaty', question: 'Czy państwo dba o czystość środowiska, wodociągi i higienę publiczną z motywów etycznych?', isDev: true },
+      no_body_exploitation: { name: 'Brak Wyzysku Ciała Ludzkiego', question: 'Czy odrzuca się traktowanie ciała jako przedmiotu wyzysku lub eksperymentów?', isDev: true },
+      physician_conscience_clause: { name: 'Klauzula Sumienia Lekarza', question: 'Czy lekarz ma autonomiczną swobodę wyboru leczenia zgodną z wiedzą i sumieniem?', isDev: true },
+      non_discriminatory_care: { name: 'Niedyskryminacyjna Opieka Medyczna', question: 'Czy pomoc medyczna jest dostępna bez dyskryminacji kastowej czy majątkowej?', isDev: true },
+      rational_disease_prevention: { name: 'Racjonalna Profilaktyka Medyczna', question: 'Czy odrzuca się zabobony i magię na rzecz racjonalnej profilaktyki medycznej?', isDev: true }
+    };
+
+    const TRUTH_SCIENCE_META = {
+      pure_disinterested_truth: { name: 'Bezinteresowne Dociekanie Prawdy', question: 'Czy Prawda jest szukana bezinteresownie dla niej samej (jako wartość autonomiczna)?', isDev: true },
+      academic_research_freedom: { name: 'Wolność Badań Naukowych', question: 'Czy badania naukowe są wolne od cenzury ideologicznej, państwowej i religijnej?', isDev: true },
+      aposteriori_empirical_science: { name: 'Aposterioryzm i Doświadczenie', question: 'Czy akceptuje się aposterioryczne doświadczenie przyrodzone w badaniu świata?', isDev: true },
+      state_monopoly_free_education: { name: 'Oświata Wolna od Monopolu Państwa', question: 'Czy oświata i szkolnictwo są wolne od monopolu i ideologizacji państwowej?', isDev: true },
+      truth_above_authority: { name: 'Prawda ponad Władzą i Autorytetem', question: 'Czy dopuszcza się krytykę i kwestionowanie dogmatów władzy w imię Prawdy?', isDev: true },
+      no_utilitarian_reductionism: { name: 'Odrzucenie Redukcjonizmu Utylitarnego', question: 'Czy odrzuca się pragmatyzm sprowadzający naukę tylko do wynalazków technicznych?', isDev: true },
+      free_academic_speech: { name: 'Wolność Słowa w Kulturze Akademickiej', question: 'Czy kultura akademicka szanuje wolność słowa i wolną debatę naukową?', isDev: true },
+      logos_and_logic_in_science: { name: 'Logos i Logika w Nauce', question: 'Czy nauka opiera się na rozumnym planowaniu i logice (Logos)?', isDev: true },
+      preservation_of_sources: { name: 'Rzetelna Ochrona Źródeł i Faktów', question: 'Czy dokumentacja naukowa i faktograficzna jest rzetelnie gromadzona i chroniona?', isDev: true },
+      rejection_of_historical_revisionism: { name: 'Odrzucenie Fałszowania Historii', question: 'Czy odrzuca się fałszowanie historii na rzecz obiektywnej prawdy dziejowej?', isDev: true }
+    };
+
+    const BEAUTY_ART_META = {
+      beauty_allegory_of_good: { name: 'Piękno Alegorią i Uduchowieniem Dobra', question: 'Czy Piękno jest traktowane jako alegoria i uduchowienie Dobra oraz Prawdy?', isDev: true },
+      full_artistic_freedom: { name: 'Pełna Swoboda Twórcza w Sztuce', question: 'Czy istnieje pełna swoboda twórcza we wszystkich dziedzinach sztuki (plastyka, muzyka, poezja)?', isDev: true },
+      rejection_of_aniconism: { name: 'Odrzucenie Anikonizmu i Zakazów Sakralnych', question: 'Czy odrzuca się zakazy sakralne krępujące przedstawianie postaci ludzkiej?', isDev: true },
+      uplifting_aesthetic_ideals: { name: 'Uduchowiające Ideały Estetyczne', question: 'Czy sztuka dąży do harmonii i wyniesienia ducha (vs kult brzydoty i destrukcji)?', isDev: true },
+      craftsmanship_aesthetic_spiritualization: { name: 'Uduchowienie Materiału w Rzemiośle', question: 'Czy rzemiosło i architektura łączą użyteczność z uduchowieniem materiału?', isDev: true },
+      protection_of_aesthetic_heritage: { name: 'Ochrona Dziedzictwa Estetycznego', question: 'Czy zabytki i dorobek estetyczny przodków są chronione z szacunku dla historyzmu?', isDev: true },
+      independent_artistic_patronage: { name: 'Niezależny Mecenat Artystyczny', question: 'Czy mecenat artystyczny jest wolny od dyktatu biurokracji politycznej?', isDev: true },
+      art_serving_person_not_state: { name: 'Sztuka w Służbie Osobie (vs Statolatria)', question: 'Czy sztuka służy rozwojowi wolnej osoby, a nie propagowaniu statolatrii?', isDev: true },
+      moral_sensitivity_in_art: { name: 'Wrażliwość Moralna w Sztuce', question: 'Czy wolność estetyczna szanuje uniwersalną wrażliwość moralną zrzeszenia?', isDev: true },
+      universal_access_to_culture: { name: 'Powszechny Dostęp do Kultury Estetycznej', question: 'Czy kultura estetyczna jest powszechnie dostępna dla wszystkich stanów społecznych?', isDev: true }
     };
 
     const SPIRIT_META = {
@@ -1831,6 +1870,9 @@
       time_mastery: isIdxEnabled('time_mastery'),
       work_ethos: isIdxEnabled('work_ethos'),
       quincunx: isIdxEnabled('quincunx'),
+      health: isIdxEnabled('health'),
+      truth_science: isIdxEnabled('truth_science'),
+      beauty_art: isIdxEnabled('beauty_art'),
       dualism: isIdxEnabled('dualism'),
       pluralism: isIdxEnabled('pluralism'),
       aposteriori: isIdxEnabled('aposteriori'),
@@ -2182,6 +2224,25 @@
       'CYWILIZACJA DEFEKTOWNA / UŁOMNA (Defekt sfery bytu)'
     );
 
+    const historyStats = data.history_stats || {};
+    let historyBadgeHtml = '';
+    if (historyStats && historyStats.total_runs > 0) {
+      const runsCount = historyStats.total_runs;
+      const avgQ = historyStats.avg_quincunx >= 0 ? Math.round(historyStats.avg_quincunx * 100) : null;
+      let deltaStr = '';
+      if (avgQ !== null && quincunxScore >= 0) {
+        const delta = quincunxScore - avgQ;
+        const sign = delta >= 0 ? '+' : '';
+        deltaStr = ` (Δ ${sign}${delta}%)`;
+      }
+      historyBadgeHtml = `
+        <div style="margin: 10px 0; padding: 10px 15px; background: rgba(59, 130, 246, 0.12); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 8px; font-size: 13px; color: #93c5fd; text-align: center; line-height: 1.4;">
+          📜 <strong>Średnia Historyczna Źródła:</strong> Wynik bieżący: <strong>${quincunxScore >= 0 ? quincunxScore + '%' : 'Brak'}</strong> | 
+          Średnia całościowa (${runsCount} ${runsCount === 1 ? 'wywołanie' : 'wywołań'} od początku): <strong>${avgQ !== null ? avgQ + '%' : 'Brak'}</strong>${deltaStr}
+        </div>
+      `;
+    }
+
     const quincunxHero = buildDarkHero(
       'KROK 5: PIĘCIOMIAN BYTU (QUINCUNX)',
       quincunxScore,
@@ -2249,6 +2310,7 @@
         ${timeMasteryCards}
       </div>
       <div id="view-quincunx" style="display:none">
+        ${historyBadgeHtml}
         ${quincunxHero}
         <div style="font-size: 13px; color: #9ca3af; padding: 0 20px; margin-bottom: 15px; line-height: 1.5; text-align: center;">
            Pięciomian Bytu (Quincunx): Dobro, Prawda, Zdrowie, Dobrobyt i Piękno.

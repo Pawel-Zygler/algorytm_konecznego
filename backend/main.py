@@ -8,6 +8,7 @@ import fitz
 import io
 from backend import analyzer
 from backend import rag
+from backend import history
 
 app = FastAPI(
     title="Algorytm Konecznego API",
@@ -37,6 +38,8 @@ async def startup_event():
 class AnalysisRequest(BaseModel):
     text: Optional[str] = None
     pdf_url: Optional[str] = None
+    url: Optional[str] = None
+    title: Optional[str] = None
     api_key: Optional[str] = None
     target_indices: Optional[list[str]] = None
 
@@ -56,6 +59,7 @@ class AnalysisResponse(BaseModel):
     public_morality_totality_score: float = 0.0
     administrative_responsibility_score: float = 0.0
     raw_ratings: Dict[str, Any] = {}
+    history_stats: Dict[str, Any] = {}
 
 @app.post("/api/analyze", response_model=AnalysisResponse)
 async def analyze_text(request: AnalysisRequest, x_gemini_api_key: Optional[str] = Header(None)):
@@ -90,6 +94,14 @@ async def analyze_text(request: AnalysisRequest, x_gemini_api_key: Optional[str]
     try:
         # Run analysis
         result = analyzer.analyze_sample(text_to_analyze, api_key=api_key, target_indices=request.target_indices)
+        
+        # Save analysis to history database if URL is provided
+        target_url = request.url or request.pdf_url
+        if target_url:
+            history.save_analysis(target_url, request.title, result)
+            stats = history.get_history_stats_for_url(target_url)
+            result["history_stats"] = stats
+            
         return result
     except Exception as e:
         import traceback
@@ -101,6 +113,19 @@ async def analyze_text(request: AnalysisRequest, x_gemini_api_key: Optional[str]
                 detail="⚠️ Przekroczono limit zapytań Gemini API (Quota Exceeded / 429). Darmowy limit został tymczasowo wyczerpany. Poczekaj około 30–60 sekund i spróbuj ponownie."
             )
         raise HTTPException(status_code=500, detail=f"Błąd analizy: {err_msg}")
+
+@app.get("/api/history")
+async def get_url_history(url: str):
+    """Retrieve historical analysis runs and cumulative statistics for a given URL."""
+    items = history.get_history_for_url(url)
+    stats = history.get_history_stats_for_url(url)
+    return {"url": url, "history": items, "stats": stats}
+
+@app.get("/api/history/sources")
+async def get_analyzed_sources(limit: int = 50):
+    """Retrieve all previously analyzed unique sources."""
+    sources = history.get_all_sources(limit)
+    return {"sources": sources}
 
 @app.get("/api/health")
 async def health_check():

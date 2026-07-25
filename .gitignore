@@ -18,5 +18,6 @@ Thumbs.db
 # Project specifics
 books/
 backend/chroma_db/
+*.db
 scratch/
 response.json

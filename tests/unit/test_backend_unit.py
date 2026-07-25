@@ -110,3 +110,38 @@ def test_unchecked_generalia_returns_negative_coherence():
     result = calculate_koneczny_metrics(mock_empty)
     assert result["ethical_coherence_score"] == -1.0
     assert result["generalia_diagnosis"] == "Brak danych generaliów"
+
+def test_quincunx_hegemony_penalty():
+    """Test 9: Verify Hegemony Penalty applies when Goodness is lower than material categories."""
+    mock_data = {
+        "morality_supremacy_scores": {"ind1": {"score": 0.2}},  # Goodness D = 0.2
+        "truth_science_scores": {"ind1": {"score": 0.9}},        # Truth P = 0.9
+        "health_scores": {"ind1": {"score": 0.8}},               # Health Z = 0.8
+        "work_ethos_scores": {"ind1": {"score": 0.9}},           # Prosperity Db = 0.9
+        "beauty_art_scores": {"ind1": {"score": 0.8}}            # Beauty Pi = 0.8
+    }
+    result = calculate_koneczny_metrics(mock_data)
+    assert result["quincunx_categories"]["good"] == 0.2
+    assert "ZWICHNIĘCIE PIĘCIOMIANU" in result["quincunx_diagnosis"]
+
+def test_analysis_history_persistence():
+    """Test 10: Verify saving analysis runs and calculating cumulative historical averages."""
+    from backend import history
+    test_url = "https://pl.wikipedia.org/wiki/Test_Konecznego"
+    
+    # Save first run with Quincunx = 0.70
+    mock_res_1 = {"quincunx_coherence_score": 0.70, "ethical_coherence_score": 5.0}
+    history.save_analysis(test_url, "Test Title", mock_res_1)
+    
+    # Save second run with Quincunx = 0.90
+    mock_res_2 = {"quincunx_coherence_score": 0.90, "ethical_coherence_score": 6.0}
+    history.save_analysis(test_url, "Test Title", mock_res_2)
+    
+    runs = history.get_history_for_url(test_url)
+    assert len(runs) >= 2
+    
+    stats = history.get_history_stats_for_url(test_url)
+    assert stats["total_runs"] >= 2
+    assert stats["avg_quincunx"] == 0.80  # (0.70 + 0.90) / 2
+
+

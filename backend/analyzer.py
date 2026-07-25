@@ -20,6 +20,9 @@ INDEX_DEV_FLAGS = {
     "time_mastery": True,
     "work_ethos": True,
     "quincunx": True,
+    "health": True,
+    "truth_science": True,
+    "beauty_art": True,
     "dualism": True,
     "pluralism": True,
     "aposteriori": True,
@@ -288,23 +291,60 @@ def calculate_koneczny_metrics(llm_data: Dict[str, Any]) -> Dict[str, Any]:
         else:
             result["time_mastery_efficiency_diagnosis"] = "Brak danych dla Kroku 4"
 
-    # Calculate Step 5: QUINCUNX_COHERENCE_INDEX (Współmierność Pięciomianu Bytu)
+    # Calculate Step 5: QUINCUNX_COHERENCE_INDEX (Syntetyczna Współmierność Pięciomianu Bytu)
     q_data = llm_data.get("quincunx_scores", {})
-    def _get_q_val(keys):
+    health_data = llm_data.get("health_scores", {})
+    truth_data = llm_data.get("truth_science_scores", {})
+    beauty_data = llm_data.get("beauty_art_scores", {})
+
+    def _extract_avg(sources):
         vals = []
-        for k in keys:
-            v = q_data.get(k)
-            if isinstance(v, (int, float)): s = float(v)
-            elif isinstance(v, dict): s = float(v.get("score", -1.0))
-            else: s = -1.0
-            if s >= 0: vals.append(s)
+        for src in sources:
+            if not isinstance(src, dict): continue
+            for k, v in src.items():
+                if isinstance(v, (int, float)): s = float(v)
+                elif isinstance(v, dict): s = float(v.get("score", -1.0))
+                else: s = -1.0
+                if s >= 0: vals.append(s)
         return sum(vals) / len(vals) if vals else -1.0
 
-    d_score = _get_q_val(["ethics_totality_public_private", "good_above_law_force", "personal_moral_accountability"])
-    p_score = _get_q_val(["natural_truth_pure_science", "academic_educational_freedom"])
-    z_score = _get_q_val(["public_scientific_health_duty", "res_sacra_miser_ethics"])
-    db_score = _get_q_val(["individual_hereditary_property", "honest_prosperity_duty"])
-    pi_score = _get_q_val(["beauty_allegory_of_good", "full_artistic_freedom"])
+    # I. DOBRO (Moralność)
+    d_score = _extract_avg([
+        {k: v for k, v in q_data.items() if k in ["ethics_totality_public_private", "good_above_law_force", "personal_moral_accountability"]},
+        llm_data.get("morality_supremacy_scores", {}),
+        llm_data.get("public_morality_totality_scores", {}),
+        llm_data.get("conscience_status_scores", {}),
+        llm_data.get("duty_source_scores", {})
+    ])
+
+    # II. PRAWDA (Nauka)
+    p_score = _extract_avg([
+        truth_data,
+        {k: v for k, v in q_data.items() if k in ["natural_truth_pure_science", "academic_educational_freedom"]},
+        llm_data.get("aposteriori_apriori_scores", {}),
+        llm_data.get("law_source_pluralism_scores", {})
+    ])
+
+    # III. ZDROWIE (Higiena)
+    z_score = _extract_avg([
+        health_data,
+        {k: v for k, v in q_data.items() if k in ["public_scientific_health_duty", "res_sacra_miser_ethics"]}
+    ])
+
+    # IV. DOBROBYT (Gospodarka)
+    db_score = _extract_avg([
+        llm_data.get("work_ethos_scores", {}),
+        llm_data.get("property_rights_stability_scores", {}),
+        llm_data.get("inheritance_continuity_scores", {}),
+        llm_data.get("family_law_autonomy_scores", {}),
+        {k: v for k, v in q_data.items() if k in ["individual_hereditary_property", "honest_prosperity_duty"]}
+    ])
+
+    # V. PIĘKNO (Sztuka)
+    pi_score = _extract_avg([
+        beauty_data,
+        {k: v for k, v in q_data.items() if k in ["beauty_allegory_of_good", "full_artistic_freedom"]}
+    ])
 
     q_cats = [d_score, p_score, z_score, db_score, pi_score]
     valid_q_cats = [c for c in q_cats if c >= 0]
@@ -325,7 +365,14 @@ def calculate_koneczny_metrics(llm_data: Dict[str, Any]) -> Dict[str, Any]:
         std_dev = math.sqrt(variance)
         consistency_factor = max(0.0, 1.0 - (std_dev / (mean_val if mean_val > 0 else 1.0)))
 
-        q_final = round(geo_mean * consistency_factor, 2)
+        # Hegemony of Goodness Penalty: Goodness (D) must lead
+        other_max = max([c for idx, c in enumerate(q_cats) if idx != 0 and c >= 0], default=0.0)
+        hegemony_penalty = 1.0
+        if d_score >= 0 and other_max > d_score:
+            diff = other_max - d_score
+            hegemony_penalty = max(0.5, round(1.0 - (diff / 1.5), 2))
+
+        q_final = round(geo_mean * consistency_factor * hegemony_penalty, 2)
         result["quincunx_coherence_score"] = q_final
         result["quincunx_categories"] = {
             "good": round(d_score, 2),
@@ -339,9 +386,11 @@ def calculate_koneczny_metrics(llm_data: Dict[str, Any]) -> Dict[str, Any]:
 
         if any(c <= 0.1 for c in valid_q_cats):
             result["quincunx_diagnosis"] = f"CYWILIZACJA DEFEKTOWNA / UŁOMNA (Defekt sfery bytu){sphere_note}"
+        elif hegemony_penalty < 0.90:
+            result["quincunx_diagnosis"] = f"⚠️ ZWICHNIĘCIE PIĘCIOMIANU (Zaniedbanie Etyki na rzecz Materializmu/Państwa){sphere_note}"
         elif q_final >= 0.65 and consistency_factor >= 0.75:
             if num_cats == 5:
-                result["quincunx_diagnosis"] = "PEŁNIA CYWILIZACJI ŁACIŃSKIEJ (Harmonia 5/5 sfer Pięciomianu)"
+                result["quincunx_diagnosis"] = "PEŁNIA CYWILIZACJI ŁACIŃSKIEJ (Harmonia 5/5 sfer Pięciomianu pod przodownictwem Etyki)"
             else:
                 result["quincunx_diagnosis"] = f"DOMINACJA NORMY ŁACIŃSKIEJ (Niepełny Pięciomian: {num_cats}/5 sfer w tekście)"
         elif consistency_factor < 0.60 and num_cats > 1:
@@ -1768,6 +1817,168 @@ TEKST DO ANALIZY:
 {trimmed_text}
 Zwróć JSON."""
 
+    # Schema Health Status
+    schema_health = {
+        "type": "object",
+        "properties": {
+            "health_scores": {
+                "type": "object",
+                "properties": {
+                    "public_scientific_health_duty": indicator_item,
+                    "res_sacra_miser_ethics": indicator_item,
+                    "patient_person_dignity": indicator_item,
+                    "rejection_of_medical_killing": indicator_item,
+                    "independent_medical_profession": indicator_item,
+                    "public_hygiene_and_sanitation": indicator_item,
+                    "no_body_exploitation": indicator_item,
+                    "physician_conscience_clause": indicator_item,
+                    "non_discriminatory_care": indicator_item,
+                    "rational_disease_prevention": indicator_item
+                },
+                "required": [
+                    "public_scientific_health_duty", "res_sacra_miser_ethics", "patient_person_dignity",
+                    "rejection_of_medical_killing", "independent_medical_profession", "public_hygiene_and_sanitation",
+                    "no_body_exploitation", "physician_conscience_clause", "non_discriminatory_care", "rational_disease_prevention"
+                ]
+            },
+            "health_news_1": {"type": "string"},
+            "health_news_2": {"type": "string"},
+            "health_news_3": {"type": "string"},
+            "health_justification": {"type": "string"}
+        },
+        "required": ["health_scores", "health_news_1", "health_news_2", "health_news_3", "health_justification"]
+    }
+
+    sys_inst_health = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w wymiarze 10 WSKAŹNIKÓW STATUSU ZDROWIA I HIGIENY (Sfera III Quincunxa):
+1. public_scientific_health_duty: Piecza o zdrowie jako naukowo-etyczny obowiązek publiczny (vs rytuał)
+2. res_sacra_miser_ethics: Zasada res sacra miser (cierpiący bliźni świętością) i etyka medyczna
+3. patient_person_dignity: Szacunek dla godności i sumienia pacjenta jako wolnej osoby
+4. rejection_of_medical_killing: Odrzucenie zabójstwa medycznego (eutanazja, eugenika)
+5. independent_medical_profession: Autonomiczny samorząd lekarski wolny od biurokracji państwowej
+6. public_hygiene_and_sanitation: Troska o czystość środowiska, wodociągi i higienę publiczną
+7. no_body_exploitation: Odrzucenie traktowania ciała jako przedmiotu wyzysku / eksperymentów
+8. physician_conscience_clause: Klauzula sumienia i swoboda leczenia dla lekarza
+9. non_discriminatory_care: Dostępność pomocy medycznej bez dyskryminacji kastowej/majątkowej
+10. rational_disease_prevention: Racjonalna profilaktyka medyczna zamiast magii i zabobonów
+
+Wszystkie wskaźniki podawaj w skali 0.0 - 1.0 (1.0 = Łacina / Personalizm). Jeśli brak danych: -1.0. Zwróć JSON."""
+
+    prompt_health = f"""Kontekst metodologiczny Konecznego (Status Zdrowia i Higieny):
+{indices_context[:3000]}
+{rag_context}
+
+TEKST DO ANALIZY:
+{trimmed_text}
+Zwróć JSON."""
+
+    # Schema Truth and Science
+    schema_truth_science = {
+        "type": "object",
+        "properties": {
+            "truth_science_scores": {
+                "type": "object",
+                "properties": {
+                    "pure_disinterested_truth": indicator_item,
+                    "academic_research_freedom": indicator_item,
+                    "aposteriori_empirical_science": indicator_item,
+                    "state_monopoly_free_education": indicator_item,
+                    "truth_above_authority": indicator_item,
+                    "no_utilitarian_reductionism": indicator_item,
+                    "free_academic_speech": indicator_item,
+                    "logos_and_logic_in_science": indicator_item,
+                    "preservation_of_sources": indicator_item,
+                    "rejection_of_historical_revisionism": indicator_item
+                },
+                "required": [
+                    "pure_disinterested_truth", "academic_research_freedom", "aposteriori_empirical_science",
+                    "state_monopoly_free_education", "truth_above_authority", "no_utilitarian_reductionism",
+                    "free_academic_speech", "logos_and_logic_in_science", "preservation_of_sources", "rejection_of_historical_revisionism"
+                ]
+            },
+            "truth_science_news_1": {"type": "string"},
+            "truth_science_news_2": {"type": "string"},
+            "truth_science_news_3": {"type": "string"},
+            "truth_science_justification": {"type": "string"}
+        },
+        "required": ["truth_science_scores", "truth_science_news_1", "truth_science_news_2", "truth_science_news_3", "truth_science_justification"]
+    }
+
+    sys_inst_truth_science = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w wymiarze 10 WSKAŹNIKÓW AUTONOMII PRAWDY I NAUKI (Sfera II Quincunxa):
+1. pure_disinterested_truth: Bezinteresowne dociekanie Prawdy dla niej samej
+2. academic_research_freedom: Wolność badań naukowych od cenzury ideologicznej/państwowej
+3. aposteriori_empirical_science: Aposterioryczne doświadczenie przyrodzone w badaniu świata
+4. state_monopoly_free_education: Oświata wolna od monopolu i ideologizacji państwowej
+5. truth_above_authority: Prawo do krytyki dogmatów władzy w imię Prawdy
+6. no_utilitarian_reductionism: Odrzucenie pragmatyzmu sprowadzającego naukę tylko do techniki
+7. free_academic_speech: Wolność słowa i otwarta debata w kulturze akademickiej
+8. logos_and_logic_in_science: Oparcie nauki na logice i rozumnym planowaniu (Logos)
+9. preservation_of_sources: Rzetelna ochrona źródeł, faktów i dokumentacji
+10. rejection_of_historical_revisionism: Odrzucenie fałszowania historii na rzecz prawdy dziejowej
+
+Wszystkie wskaźniki podawaj w skali 0.0 - 1.0 (1.0 = Łacina / Wolność nauki). Jeśli brak danych: -1.0. Zwróć JSON."""
+
+    prompt_truth_science = f"""Kontekst metodologiczny Konecznego (Autonomia Prawdy i Nauki):
+{indices_context[:3000]}
+{rag_context}
+
+TEKST DO ANALIZY:
+{trimmed_text}
+Zwróć JSON."""
+
+    # Schema Beauty and Art
+    schema_beauty_art = {
+        "type": "object",
+        "properties": {
+            "beauty_art_scores": {
+                "type": "object",
+                "properties": {
+                    "beauty_allegory_of_good": indicator_item,
+                    "full_artistic_freedom": indicator_item,
+                    "rejection_of_aniconism": indicator_item,
+                    "uplifting_aesthetic_ideals": indicator_item,
+                    "craftsmanship_aesthetic_spiritualization": indicator_item,
+                    "protection_of_aesthetic_heritage": indicator_item,
+                    "independent_artistic_patronage": indicator_item,
+                    "art_serving_person_not_state": indicator_item,
+                    "moral_sensitivity_in_art": indicator_item,
+                    "universal_access_to_culture": indicator_item
+                },
+                "required": [
+                    "beauty_allegory_of_good", "full_artistic_freedom", "rejection_of_aniconism",
+                    "uplifting_aesthetic_ideals", "craftsmanship_aesthetic_spiritualization", "protection_of_aesthetic_heritage",
+                    "independent_artistic_patronage", "art_serving_person_not_state", "moral_sensitivity_in_art", "universal_access_to_culture"
+                ]
+            },
+            "beauty_art_news_1": {"type": "string"},
+            "beauty_art_news_2": {"type": "string"},
+            "beauty_art_news_3": {"type": "string"},
+            "beauty_art_justification": {"type": "string"}
+        },
+        "required": ["beauty_art_scores", "beauty_art_news_1", "beauty_art_news_2", "beauty_art_news_3", "beauty_art_justification"]
+    }
+
+    sys_inst_beauty_art = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w wymiarze 10 WSKAŹNIKÓW STATUSU PIĘKNA I SZTUKI (Sfera V Quincunxa):
+1. beauty_allegory_of_good: Piękno jako alegoria i uduchowienie Dobra oraz Prawdy
+2. full_artistic_freedom: Pełna swoboda twórcza we wszystkich dziedzinach sztuki
+3. rejection_of_aniconism: Odrzucenie zakazów sakralnych krępujących sztukę (anikonizm)
+4. uplifting_aesthetic_ideals: Sztuka dążąca do harmonii i uduchowienia (vs kult brzydoty)
+5. craftsmanship_aesthetic_spiritualization: Uduchowienie materiału w rzemiośle i architekturze
+6. protection_of_aesthetic_heritage: Ochrona zabytków i dziedzictwa estetycznego przodków
+7. independent_artistic_patronage: Mecenat artystyczny wolny od dyktatu biurokracji państwowej
+8. art_serving_person_not_state: Sztuka służąca rozwojowi osoby (vs propaganda statolatrii)
+9. moral_sensitivity_in_art: Wolność estetyczna szanująca wrażliwość moralną
+10. universal_access_to_culture: Powszechny dostęp do kultury estetycznej dla wszystkich stanów
+
+Wszystkie wskaźniki podawaj w skali 0.0 - 1.0 (1.0 = Łacina / Wolna sztuka). Jeśli brak danych: -1.0. Zwróć JSON."""
+
+    prompt_beauty_art = f"""Kontekst metodologiczny Konecznego (Status Piękna i Sztuki):
+{indices_context[:3000]}
+{rag_context}
+
+TEKST DO ANALIZY:
+{trimmed_text}
+Zwróć JSON."""
+
     # Execute calls conditionally based on target_indices
     if target_indices is None:
         # Default for development if not specified
@@ -1791,6 +2002,9 @@ Zwróć JSON."""
     if "time_mastery" in target_indices: tasks.append((prompt_time_mastery, sys_inst_time_mastery, schema_time_mastery))
     if "work_ethos" in target_indices: tasks.append((prompt_work_ethos, sys_inst_work_ethos, schema_work_ethos))
     if "quincunx" in target_indices: tasks.append((prompt_quincunx, sys_inst_quincunx, schema_quincunx))
+    if "health" in target_indices: tasks.append((prompt_health, sys_inst_health, schema_health))
+    if "truth_science" in target_indices: tasks.append((prompt_truth_science, sys_inst_truth_science, schema_truth_science))
+    if "beauty_art" in target_indices: tasks.append((prompt_beauty_art, sys_inst_beauty_art, schema_beauty_art))
     if "dualism" in target_indices: tasks.append((prompt_2, sys_inst_2, schema_2))
     if "pluralism" in target_indices: tasks.append((prompt_3, sys_inst_3, schema_3))
     if "aposteriori" in target_indices: tasks.append((prompt_4, sys_inst_4, schema_4))
