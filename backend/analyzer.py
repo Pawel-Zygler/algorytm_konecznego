@@ -23,6 +23,7 @@ INDEX_DEV_FLAGS = {
     "health": True,
     "truth_science": True,
     "beauty_art": True,
+    "civilizational_lie": True,
     "dualism": True,
     "pluralism": True,
     "aposteriori": True,
@@ -400,6 +401,54 @@ def calculate_koneczny_metrics(llm_data: Dict[str, Any]) -> Dict[str, Any]:
     else:
         result["quincunx_coherence_score"] = -1.0
         result["quincunx_diagnosis"] = "Brak danych dla Kroku 5 w tekście"
+
+    # Calculate Experimental Meta-Index: CIVILIZATIONAL_LIE_INDEX (Współczynnik Kłamstwa Cywilizacyjnego)
+    lie_vectors = []
+    
+    # 1. SPIRIT_SUPREMACY
+    if result.get("spirit_supremacy_score", -1.0) >= 0:
+        lie_vectors.append(result["spirit_supremacy_score"])
+    
+    # 2. MORALITY_SUPREMACY / GENERALIA / DOBRO
+    if result.get("ethical_coherence_score", -1.0) >= 0:
+        lie_vectors.append(min(1.0, max(0.0, result["ethical_coherence_score"] / 7.0)))
+    elif d_score >= 0:
+        lie_vectors.append(d_score)
+
+    # 3. PERSONALISM
+    if result.get("personalism_score", -1.0) >= 0:
+        lie_vectors.append(result["personalism_score"])
+
+    # 4. PUBLIC_MORALITY_TOTALITY
+    if result.get("public_morality_totality_score", -1.0) >= 0:
+        lie_vectors.append(result["public_morality_totality_score"])
+
+    if lie_vectors:
+        truth_score = sum(lie_vectors) / float(len(lie_vectors))
+        
+        # Fanaticism / Forced Sacrality Penalty
+        sacrality = result.get("sacrality_score", -1.0)
+        if sacrality > 0.65:
+            truth_score *= (1.0 - (sacrality - 0.65))
+
+        lie_score = max(0.0, min(1.0, 1.0 - truth_score))
+        lie_pct = round(lie_score * 100, 1)
+
+        result["civilizational_lie_score"] = round(lie_score, 2)
+        result["civilizational_lie_percentage"] = lie_pct
+
+        if lie_pct <= 15.0:
+            result["civilizational_lie_diagnosis"] = "PRAWDA OBIEKTYWNA I PERSONALIZM (Civitas Dei)"
+        elif lie_pct <= 40.0:
+            result["civilizational_lie_diagnosis"] = "UMIARKOWANA MANIPULACJA / PRAGMATYZM"
+        elif lie_pct <= 70.0:
+            result["civilizational_lie_diagnosis"] = "⚠️ ZAKŁAMANIE SYSTEMOWE (Dwoistość Sumienia / Statolatria)"
+        else:
+            result["civilizational_lie_diagnosis"] = "🚨 KŁAMSTWO FUNDAMENTALNE (Zbawienie Zbiorowe / Acywilizacyjny Kołobłęd)"
+    else:
+        result["civilizational_lie_score"] = -1.0
+        result["civilizational_lie_percentage"] = -1.0
+        result["civilizational_lie_diagnosis"] = "Brak danych dla Wskaźnika Kłamstwa"
 
     result["raw_ratings"] = llm_data
     return result

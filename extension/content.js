@@ -2258,6 +2258,23 @@
         </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony</div>`}
       </div>`;
 
+    const liePct = typeof data.civilizational_lie_percentage === 'number' ? data.civilizational_lie_percentage : -1;
+    const lieDiagnosis = data.civilizational_lie_diagnosis || (
+      liePct < 0 ? 'Brak danych dla Wskaźnika Kłamstwa' :
+      liePct <= 15 ? 'PRAWDA OBIEKTYWNA I PERSONALIZM (Civitas Dei)' :
+      liePct <= 40 ? 'UMIARKOWANA MANIPULACJA / PRAGMATYZM' :
+      liePct <= 70 ? '⚠️ ZAKŁAMANIE SYSTEMOWE (Dwoistość Sumienia / Statolatria)' :
+      '🚨 KŁAMSTWO FUNDAMENTALNE (Zbawienie Zbiorowe / Acywilizacyjny Kołobłęd)'
+    );
+
+    const lieHero = buildDarkHero(
+      'EKSPERYMENTALNY WSKAŹNIK KŁAMSTWA CYWILIZACYJNEGO',
+      liePct >= 0 ? liePct : 0,
+      lieDiagnosis,
+      liePct >= 0 ? `${liePct}% Kłamstwa` : null,
+      'Mierzy odchylenie próbki od Prawdy i zbawienia duszy (salus animarum) na rzecz fałszywego zbawienia zbiorowego, dwoistości sumienia lub statolatrii.'
+    );
+
     content.innerHTML = `
       <div class="tab-bar">
         <button class="tab-btn" id="tab-sacrality">Indeks Sakralności</button>
@@ -2265,6 +2282,7 @@
         <button class="tab-btn active" id="tab-generalia">Szereg Personalistyczny</button>
         <button class="tab-btn" id="tab-chyznosc">Krok 4: Chyżość</button>
         <button class="tab-btn" id="tab-quincunx">Krok 5: Quincunx</button>
+        <button class="tab-btn" id="tab-lie">Wskaźnik Kłamstwa</button>
       </div>
 
       <div id="view-sacrality" style="display:none">
@@ -2319,6 +2337,31 @@
         <div class="section-title">11 Wskaźników Pięciomianu Bytu (Quincunx)</div>
         ${quincunxCards}
       </div>
+      <div id="view-lie" style="display:none">
+        ${lieHero}
+        <div style="font-size: 13px; color: #9ca3af; padding: 0 20px; margin-bottom: 15px; line-height: 1.5; text-align: center;">
+           Baseline: Celem istnienia człowieka jest zbawienie duszy (salus animarum), a prawo ma służyć Dobru i Dekalogowi.
+           Współczynnik Kłamstwa bada odchylenie próbki na rzecz zbawienia zbiorowego, dwoistości sumienia lub statolatrii.
+        </div>
+        <div class="section-title">5 Wektorów Składowych Kłamstwa Cywilizacyjnego</div>
+        <div style="padding: 0 20px; font-size: 13px; line-height: 1.6; color: #e5e7eb;">
+          <div style="margin-bottom: 10px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 6px;">
+            <strong>1. Supremacja Ducha (Spirit Supremacy):</strong> Uznanie wyższości celów duchowych nad państwem i pieniądzem.
+          </div>
+          <div style="margin-bottom: 10px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 6px;">
+            <strong>2. Hegemonia Moralności (Morality Supremacy):</strong> Prawo złe (sprzeczne z Dekalogiem) jest bezprawiem; sprzeciw wobec bezprawnej władzy.
+          </div>
+          <div style="margin-bottom: 10px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 6px;">
+            <strong>3. Personalizm (Personalism):</strong> Zbawienie dotyczy konkretnej osoby, a nie zbiorowości (kłamstwo zbawienia zbiorowego).
+          </div>
+          <div style="margin-bottom: 10px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 6px;">
+            <strong>4. Totalność Etyki (Public Morality):</strong> Brak "dwóch sumień" – ta sama etyka w życiu prywatnym i publicznym.
+          </div>
+          <div style="margin-bottom: 10px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 6px;">
+            <strong>5. Test Fanatyzmu (Sacrality Penalty):</strong> Odrzucenie zmuszania siłą/mieczem do wiary i fałszywej sakralizacji państwa.
+          </div>
+        </div>
+      </div>
     `;
 
     const tabSacrality = content.querySelector('#tab-sacrality');
@@ -2326,24 +2369,27 @@
     const tabGeneralia = content.querySelector('#tab-generalia');
     const tabChyznosc = content.querySelector('#tab-chyznosc');
     const tabQuincunx = content.querySelector('#tab-quincunx');
+    const tabLie = content.querySelector('#tab-lie');
     const viewSacrality = content.querySelector('#view-sacrality');
     const viewSpirit = content.querySelector('#view-spirit');
     const viewGeneralia = content.querySelector('#view-generalia');
     const viewChyznosc = content.querySelector('#view-chyznosc');
     const viewQuincunx = content.querySelector('#view-quincunx');
+    const viewLie = content.querySelector('#view-lie');
 
     function switchTab(tabBtn, viewDiv) {
-      [tabSacrality, tabSpirit, tabGeneralia, tabChyznosc, tabQuincunx].forEach(t => t && t.classList.remove('active'));
-      [viewSacrality, viewSpirit, viewGeneralia, viewChyznosc, viewQuincunx].forEach(v => v && (v.style.display = 'none'));
-      tabBtn.classList.add('active');
-      viewDiv.style.display = 'block';
+      [tabSacrality, tabSpirit, tabGeneralia, tabChyznosc, tabQuincunx, tabLie].forEach(t => t && t.classList.remove('active'));
+      [viewSacrality, viewSpirit, viewGeneralia, viewChyznosc, viewQuincunx, viewLie].forEach(v => v && (v.style.display = 'none'));
+      if (tabBtn) tabBtn.classList.add('active');
+      if (viewDiv) viewDiv.style.display = 'block';
     }
 
-    tabSacrality.addEventListener('click', () => switchTab(tabSacrality, viewSacrality));
-    tabSpirit.addEventListener('click', () => switchTab(tabSpirit, viewSpirit));
-    tabGeneralia.addEventListener('click', () => switchTab(tabGeneralia, viewGeneralia));
+    if (tabSacrality) tabSacrality.addEventListener('click', () => switchTab(tabSacrality, viewSacrality));
+    if (tabSpirit) tabSpirit.addEventListener('click', () => switchTab(tabSpirit, viewSpirit));
+    if (tabGeneralia) tabGeneralia.addEventListener('click', () => switchTab(tabGeneralia, viewGeneralia));
     if (tabChyznosc) tabChyznosc.addEventListener('click', () => switchTab(tabChyznosc, viewChyznosc));
     if (tabQuincunx) tabQuincunx.addEventListener('click', () => switchTab(tabQuincunx, viewQuincunx));
+    if (tabLie) tabLie.addEventListener('click', () => switchTab(tabLie, viewLie));
 
     // Bind Zapytaj buttons
     content.querySelectorAll('.zapytaj-btn').forEach(btn => {

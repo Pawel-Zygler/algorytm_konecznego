@@ -144,4 +144,29 @@ def test_analysis_history_persistence():
     assert stats["total_runs"] >= 2
     assert stats["avg_quincunx"] == 0.80  # (0.70 + 0.90) / 2
 
+def test_civilizational_lie_index_calculation():
+    """Test 11: Verify Civilizational Lie Index calculation for high vs low truth samples."""
+    # Sample with low truth scores (high lie score)
+    mock_totalitarian = {
+        "spirit_supremacy_scores": {"ind1": {"score": 0.1}},
+        "personalism_scores": {"ind1": {"score": 0.1}},
+        "public_morality_totality_scores": {"ind1": {"score": 0.1}},
+        "morality_supremacy_scores": {"ind1": {"score": 0.1}}
+    }
+    res_tot = calculate_koneczny_metrics(mock_totalitarian)
+    assert res_tot["civilizational_lie_percentage"] >= 80.0
+    assert "KŁAMSTWO FUNDAMENTALNE" in res_tot["civilizational_lie_diagnosis"]
+
+    # Sample with high Latin personalist truth scores (low lie score)
+    mock_latin = {
+        "spirit_supremacy_scores": {"ind1": {"score": 0.9}},
+        "personalism_scores": {"ind1": {"score": 1.0}},
+        "public_morality_totality_scores": {"ind1": {"score": 0.9}},
+        "morality_supremacy_scores": {"ind1": {"score": 1.0}}
+    }
+    res_lat = calculate_koneczny_metrics(mock_latin)
+    assert res_lat["civilizational_lie_percentage"] <= 15.0
+    assert "Civitas Dei" in res_lat["civilizational_lie_diagnosis"]
+
+
 
