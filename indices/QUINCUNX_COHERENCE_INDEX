@@ -65,13 +65,14 @@ _Kryterium: Czy piękno wspiera Dobro i Prawdę, czy służy jedynie zmysłom? [
 
 Zgodnie z metodą Konecznego, pomyślność zrzeszenia mierzymy za pomocą **iloczynu społecznego** ($I_s$) [76-78].
 
-$$QUINCUNX\_COHERENCE\_INDEX = \frac{D \times P \times Z \times Db \times Pi}{Consistency\_Factor}$$
+$$QUINCUNX\_COHERENCE\_INDEX = \sqrt[5]{D \times P \times Z \times Db \times Pi} \times Consistency\_Factor$$
 
 Gdzie:
 
-- **D, P, Z, Db, Pi** – wartości jakościowe (oceniane w skali 0.0 – 1.0) dla każdej kategorii quincunxa.
-- **Consistency Factor** (Współczynnik Spójności):
-  - **Wynik bliski 1.0 (Harmonia):** Wszystkie kategorie wywodzą się z tej samej metody (szeregu personalistycznego lub gromadnościowego). Powoduje to **mnożenie sił społecznych** [77, 79].
-  - **Wynik bliski 0.0 (Mieszanka):** Występują sprzeczności między kategoriami (np. wysokie Piękno i Dobrobyt, ale brak Prawdy i Dobra w życiu publicznym). Każdy czynnik niewspółmierny działa jak **minus**, który drastycznie obniża iloczyn, prowadząc do „zatoru cywilizacyjnego” [70, 80-83].
+- **D, P, Z, Db, Pi** – średnie wartości jakościowe (oceniane w skali 0.0 – 1.0) dla 5 kategorii bytu (Dobro, Prawda, Zdrowie, Dobrobyt, Piękno).
+- **$\sqrt[5]{\dots}$ (Średnia Geometryczna):** Gwarantuje zerowanie wyniku w przypadku defektu którejkolwiek kategorii.
+- **Consistency Factor** (Współczynnik Spójności = $1 - \frac{\sigma}{\text{Średnia}}$):
+  - **Wynik bliski 1.0 (Harmonia):** Wszystkie kategorie wywodzą się z tej samej metody cywilizacyjnej (szeregu personalistycznego), powodując **mnożenie sił społecznych** [77, 79].
+  - **Wynik bliski 0.0 (Niewspółmierność):** Występują sprzeczności metodologiczne między kategoriami (np. wysoki Dobrobyt i Piękno, ale brak Dobra i Prawdy). Każdy czynnik niewspółmierny drastycznie obniża iloczyn, prowadząc do „zatoru cywilizacyjnego” [70, 80-83].
 
 **Wniosek:** Wysoki indeks (Pełnia Cywilizacji) charakteryzuje wyłącznie **cywilizację łacińską**, gdzie wszystkie kategorie współdziałają w uduchowieniu życia [13, 48, 84]. Niski indeks (Defektowność lub Mieszanka) oznacza systemy, w których np. dbałość o Zdrowie i Dobrobyt niszczy Moralność (bolszewizm) lub Prawda nadprzyrodzona niszczy kategorię Zdrowia (sakralizm) [43, 67, 68, 85, 86].

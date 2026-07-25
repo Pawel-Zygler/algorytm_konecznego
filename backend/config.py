@@ -12,8 +12,9 @@ SCORE_FILE = os.path.join(BASE_DIR, "Score")
 GENERALIA_ENUM_FILE = os.path.join(BASE_DIR, "Generalia_enum")
 PERSONALISTIC_ROW_FILE = os.path.join(BASE_DIR, "isPersonalisticRow")
 
-# Gemini API configuration
+# API Keys configuration
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+TON_API_KEY = os.environ.get("TON_API_KEY")
 
 # Verified list of Gemini models supported by Google REST API v1beta
 GEMINI_MODELS = [

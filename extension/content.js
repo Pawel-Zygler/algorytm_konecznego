@@ -1,6 +1,6 @@
 // Koneczny Civilization Analyzer - Content Script
 
-(function() {
+(function () {
   if (document.getElementById('koneczny-extension-root')) return;
 
   const root = document.createElement('div');
@@ -596,9 +596,9 @@
   shadow.appendChild(container);
 
   const trigger = shadow.getElementById('koneczny-trigger');
-  const panel   = shadow.getElementById('koneczny-panel');
+  const panel = shadow.getElementById('koneczny-panel');
   const closeBtn = shadow.getElementById('koneczny-close');
-  const content  = shadow.getElementById('koneczny-content');
+  const content = shadow.getElementById('koneczny-content');
 
   closeBtn.addEventListener('click', () => panel.classList.remove('open'));
   trigger.addEventListener('click', () => {
@@ -610,99 +610,99 @@
     }
   });
 
-    function initKonecznyTankDom(arena, konecznyImgSrc) {
-      const negativeWords = ["GROMADNOŚĆ", "MECHANIZM", "STATOLATRIA", "APRIORYZM", "CEZAROPAPIZM", "KOLEKTYWIZM", "TURAŃSZCZYZNA", "BIZANTYNIZM", "FISKALIZM", "MAKIAWELIZM"];
-      const positiveWords = ["PERSONALIZM", "DUALIZM PRAWNY", "ETYKA", "WOLNOŚĆ", "APOSTERIORYZM", "AUTONOMIA RODZINY", "PRAWDA OBIEKTYWNA", "HISTORYZM"];
+  function initKonecznyTankDom(arena, konecznyImgSrc) {
+    const negativeWords = ["GROMADNOŚĆ", "MECHANIZM", "STATOLATRIA", "APRIORYZM", "CEZAROPAPIZM", "KOLEKTYWIZM", "TURAŃSZCZYZNA", "BIZANTYNIZM", "FISKALIZM", "MAKIAWELIZM"];
+    const positiveWords = ["PERSONALIZM", "DUALIZM PRAWNY", "ETYKA", "WOLNOŚĆ", "APOSTERIORYZM", "AUTONOMIA RODZINY", "PRAWDA OBIEKTYWNA", "HISTORYZM"];
 
-      const svg = arena.querySelector('.tank-laser-svg');
+    const svg = arena.querySelector('.tank-laser-svg');
 
-      function spawnNegative() {
-        if (!document.body.contains(arena)) return;
-        const word = negativeWords[Math.floor(Math.random() * negativeWords.length)];
+    function spawnNegative() {
+      if (!document.body.contains(arena)) return;
+      const word = negativeWords[Math.floor(Math.random() * negativeWords.length)];
 
-        const leftPx = 200 + Math.random() * 140;
-        const topPx = 20 + Math.random() * 150;
+      const leftPx = 200 + Math.random() * 140;
+      const topPx = 20 + Math.random() * 150;
 
-        const badge = document.createElement('div');
-        badge.className = 'badge-negative';
-        badge.textContent = '💥 ' + word;
-        badge.style.left = leftPx + 'px';
-        badge.style.top = topPx + 'px';
-        arena.appendChild(badge);
+      const badge = document.createElement('div');
+      badge.className = 'badge-negative';
+      badge.textContent = '💥 ' + word;
+      badge.style.left = leftPx + 'px';
+      badge.style.top = topPx + 'px';
+      arena.appendChild(badge);
 
-        setTimeout(() => {
-          if (!document.body.contains(badge)) return;
+      setTimeout(() => {
+        if (!document.body.contains(badge)) return;
 
-          const tank = arena.querySelector('.koneczny-tank');
-          const barrel = arena.querySelector('.tank-barrel');
+        const tank = arena.querySelector('.koneczny-tank');
+        const barrel = arena.querySelector('.tank-barrel');
 
-          const tankX = 95;
-          const tankY = tank ? tank.offsetTop + 26 : 100;
-          const targetX = leftPx + 35;
-          const targetY = topPx + 10;
+        const tankX = 95;
+        const tankY = tank ? tank.offsetTop + 26 : 100;
+        const targetX = leftPx + 35;
+        const targetY = topPx + 10;
 
-          const dx = targetX - tankX;
-          const dy = targetY - tankY;
-          const angleDeg = Math.atan2(dy, dx) * (180 / Math.PI);
+        const dx = targetX - tankX;
+        const dy = targetY - tankY;
+        const angleDeg = Math.atan2(dy, dx) * (180 / Math.PI);
 
-          if (barrel) barrel.style.transform = `rotate(${angleDeg}deg)`;
+        if (barrel) barrel.style.transform = `rotate(${angleDeg}deg)`;
 
-          const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-          line.setAttribute('x1', tankX);
-          line.setAttribute('y1', tankY);
-          line.setAttribute('x2', targetX);
-          line.setAttribute('y2', targetY);
-          line.setAttribute('stroke', '#ef4444');
-          line.setAttribute('stroke-width', '3');
-          line.setAttribute('stroke-linecap', 'round');
-          line.setAttribute('style', 'filter: drop-shadow(0 0 6px #ef4444); opacity: 1; transition: opacity 0.2s ease;');
-          if (svg) svg.appendChild(line);
-
-          setTimeout(() => {
-            if (line) line.style.opacity = '0';
-            setTimeout(() => { if (line) line.remove(); }, 200);
-
-            badge.style.transform = 'scale(1.4)';
-            badge.style.opacity = '0';
-            setTimeout(() => {
-              if (document.body.contains(badge)) badge.remove();
-              if (document.body.contains(arena)) spawnNegative();
-            }, 200);
-          }, 150);
-        }, 400 + Math.random() * 500);
-      }
-
-      function spawnPositive() {
-        if (!document.body.contains(arena)) return;
-        const word = positiveWords[Math.floor(Math.random() * positiveWords.length)];
-
-        const startX = 240 + Math.random() * 100;
-        const startY = 10 + Math.random() * 40;
-
-        const badge = document.createElement('div');
-        badge.className = 'badge-positive';
-        badge.textContent = '⚡ ' + word;
-        badge.style.left = startX + 'px';
-        badge.style.top = startY + 'px';
-        arena.appendChild(badge);
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', tankX);
+        line.setAttribute('y1', tankY);
+        line.setAttribute('x2', targetX);
+        line.setAttribute('y2', targetY);
+        line.setAttribute('stroke', '#ef4444');
+        line.setAttribute('stroke-width', '3');
+        line.setAttribute('stroke-linecap', 'round');
+        line.setAttribute('style', 'filter: drop-shadow(0 0 6px #ef4444); opacity: 1; transition: opacity 0.2s ease;');
+        if (svg) svg.appendChild(line);
 
         setTimeout(() => {
-          if (!document.body.contains(badge)) return;
-          badge.style.left = '45px';
-          badge.style.top = '90px';
-          badge.style.transform = 'scale(0.2)';
+          if (line) line.style.opacity = '0';
+          setTimeout(() => { if (line) line.remove(); }, 200);
+
+          badge.style.transform = 'scale(1.4)';
           badge.style.opacity = '0';
-
           setTimeout(() => {
             if (document.body.contains(badge)) badge.remove();
-            if (document.body.contains(arena)) spawnPositive();
-          }, 1600);
-        }, 100);
-      }
-
-      for (let i = 0; i < 3; i++) setTimeout(spawnNegative, i * 350);
-      for (let i = 0; i < 2; i++) setTimeout(spawnPositive, i * 650);
+            if (document.body.contains(arena)) spawnNegative();
+          }, 200);
+        }, 150);
+      }, 400 + Math.random() * 500);
     }
+
+    function spawnPositive() {
+      if (!document.body.contains(arena)) return;
+      const word = positiveWords[Math.floor(Math.random() * positiveWords.length)];
+
+      const startX = 240 + Math.random() * 100;
+      const startY = 10 + Math.random() * 40;
+
+      const badge = document.createElement('div');
+      badge.className = 'badge-positive';
+      badge.textContent = '⚡ ' + word;
+      badge.style.left = startX + 'px';
+      badge.style.top = startY + 'px';
+      arena.appendChild(badge);
+
+      setTimeout(() => {
+        if (!document.body.contains(badge)) return;
+        badge.style.left = '45px';
+        badge.style.top = '90px';
+        badge.style.transform = 'scale(0.2)';
+        badge.style.opacity = '0';
+
+        setTimeout(() => {
+          if (document.body.contains(badge)) badge.remove();
+          if (document.body.contains(arena)) spawnPositive();
+        }, 1600);
+      }, 100);
+    }
+
+    for (let i = 0; i < 3; i++) setTimeout(spawnNegative, i * 350);
+    for (let i = 0; i < 2; i++) setTimeout(spawnPositive, i * 650);
+  }
 
   // ── Analysis ──────────────────────────────────────────
   async function runAnalysis(targetIndexStr = null) {
@@ -870,12 +870,12 @@
     let questIdx = 0;
     let sequenceCounter = 0;
     let sequenceTarget = Math.floor(Math.random() * 2) + 2; // 2 or 3
-    
-    if(window.konecznyLoadingInterval) clearInterval(window.konecznyLoadingInterval);
-    
+
+    if (window.konecznyLoadingInterval) clearInterval(window.konecznyLoadingInterval);
+
     window.konecznyLoadingInterval = setInterval(() => {
       const label = content.querySelector('#loader-label-text');
-      if(label) {
+      if (label) {
         let text = "";
         if (sequenceCounter < sequenceTarget) {
           text = statements[statIdx % statements.length];
@@ -991,7 +991,7 @@
 
 
     const sacralityScore = Math.round((data.sacrality_score || 0) * 100);
-    const spiritScore    = Math.round((data.spirit_supremacy_score || 0) * 100);
+    const spiritScore = Math.round((data.spirit_supremacy_score || 0) * 100);
 
 
     const legalDualismScore = Math.round((data.legal_dualism_score || 0) * 100);
@@ -1091,22 +1091,22 @@
 
 
     const sacralityScores = data.raw_ratings?.sacrality_scores || {};
-    const spiritScores    = data.raw_ratings?.spirit_supremacy_scores || {};
+    const spiritScores = data.raw_ratings?.spirit_supremacy_scores || {};
 
     const SACRALITY_META = {
-      RELIGIOUS_LAW_SUPREMACY:      { name: 'Supremacja Prawa Religijnego',     question: 'Czy prawo religijne dominuje nad świeckim?' },
-      THEOCRATIC_AUTHORITY:         { name: 'Autorytet Teokratyczny',            question: 'Czy władza polityczna pochodzi z autorytetu religijnego?' },
-      FAMILY_RELIGIOUS_CONTROL:     { name: 'Kontrola Religijna Rodziny',        question: 'Czy małżeństwo, rozwód i dziedziczenie są regulowane przez religię?' },
-      RELIGIOUS_EDUCATION:          { name: 'Religia w Edukacji',                question: 'Czy edukacja jest wyłącznie lub dominująco religijna?' },
-      PROPERTY_RELIGIOUS_CONTROL:   { name: 'Kontrola Religijna Własności',    question: 'Czy własność prywatna podlega normom religijnym?' },
-      SACRAL_CRIMINAL_LAW:          { name: 'Sakralne Prawo Karne',              question: 'Czy prawo karne opiera się na nakazach religijnych (np. hudud)?' },
-      RELIGIOUS_TIME_CALENDAR:      { name: 'Religijny Kalendarz i Czas',        question: 'Czy organizacja czasu i świąt jest wyznaczana przez religię?' },
-      SCIENCE_RELIGION_FUSION:      { name: 'Fuzja Nauki i Religii',             question: 'Czy nauka jest podporządkowana dogmatom religijnym?' },
-      ETHICS_RELIGION_IDENTITY:     { name: 'Tożsamość Etyki i Religii',       question: 'Czy etyka jest tożsama z nakazami religijnymi, nie ma etyki poza religią?' },
-      SACRAL_ECONOMICS:             { name: 'Sakralna Ekonomia',                 question: 'Czy działalność gospodarcza jest regulowana normami religijnymi (np. zakaz lichwy)?' },
-      SOCIAL_HIERARCHY_RELIGIOUS:   { name: 'Religijna Hierarchia Społeczna',  question: 'Czy hierarchia społeczna (kasty, stany) jest religijnie określona?' },
-      STATE_CHURCH_UNITY:           { name: 'Jedność Państwa i Kościoła',      question: 'Czy państwo i instytucja religijna stanowią jedność (teokracja)?' },
-      APOSTASY_PUNISHMENT:          { name: 'Karanie Apostazji',                 question: 'Czy odejście od wiary jest czynem karalnym cywilnie lub karnie?' }
+      RELIGIOUS_LAW_SUPREMACY: { name: 'Supremacja Prawa Religijnego', question: 'Czy prawo religijne dominuje nad świeckim?' },
+      THEOCRATIC_AUTHORITY: { name: 'Autorytet Teokratyczny', question: 'Czy władza polityczna pochodzi z autorytetu religijnego?' },
+      FAMILY_RELIGIOUS_CONTROL: { name: 'Kontrola Religijna Rodziny', question: 'Czy małżeństwo, rozwód i dziedziczenie są regulowane przez religię?' },
+      RELIGIOUS_EDUCATION: { name: 'Religia w Edukacji', question: 'Czy edukacja jest wyłącznie lub dominująco religijna?' },
+      PROPERTY_RELIGIOUS_CONTROL: { name: 'Kontrola Religijna Własności', question: 'Czy własność prywatna podlega normom religijnym?' },
+      SACRAL_CRIMINAL_LAW: { name: 'Sakralne Prawo Karne', question: 'Czy prawo karne opiera się na nakazach religijnych (np. hudud)?' },
+      RELIGIOUS_TIME_CALENDAR: { name: 'Religijny Kalendarz i Czas', question: 'Czy organizacja czasu i świąt jest wyznaczana przez religię?' },
+      SCIENCE_RELIGION_FUSION: { name: 'Fuzja Nauki i Religii', question: 'Czy nauka jest podporządkowana dogmatom religijnym?' },
+      ETHICS_RELIGION_IDENTITY: { name: 'Tożsamość Etyki i Religii', question: 'Czy etyka jest tożsama z nakazami religijnymi, nie ma etyki poza religią?' },
+      SACRAL_ECONOMICS: { name: 'Sakralna Ekonomia', question: 'Czy działalność gospodarcza jest regulowana normami religijnymi (np. zakaz lichwy)?' },
+      SOCIAL_HIERARCHY_RELIGIOUS: { name: 'Religijna Hierarchia Społeczna', question: 'Czy hierarchia społeczna (kasty, stany) jest religijnie określona?' },
+      STATE_CHURCH_UNITY: { name: 'Jedność Państwa i Kościoła', question: 'Czy państwo i instytucja religijna stanowią jedność (teokracja)?' },
+      APOSTASY_PUNISHMENT: { name: 'Karanie Apostazji', question: 'Czy odejście od wiary jest czynem karalnym cywilnie lub karnie?' }
     };
 
     const GENERALIA_META = {
@@ -1224,17 +1224,31 @@
       no_totalitarian_forced_labor: { name: 'Brak Pracy Przymusowej', question: 'Czy odrzuca się turańsko-bizantyński przymus kastowy oraz marksizm?', isDev: true }
     };
 
+    const QUINCUNX_META = {
+      ethics_totality_public_private: { name: 'I. DOBRO: Etyka Totalna (Prywatna i Publiczna)', question: 'Czy ta sama moralność obowiązuje w życiu prywatnym, jak i w polityce i urzędzie (brak dwóch sumień)?', isDev: true },
+      good_above_law_force: { name: 'I. DOBRO: Prymat Etyki nad Prawem i Siłą', question: 'Czy uznaje się, że prawo sprzeczne z etyką jest bezprawiem, a utylitaryzm winien być etyczny?', isDev: true },
+      personal_moral_accountability: { name: 'I. DOBRO: Osobista Odpowiedzialność przed Bogiem/Sumieniem', question: 'Czy jednostka odpowiada za czyny, myśli i mowy przed sumieniem i Bogiem, a nie tylko paragrafem?', isDev: true },
+      natural_truth_pure_science: { name: 'II. PRAWDA: Prawda Przyrodzona i Bezinteresowna Nauka', question: 'Czy nauka jest uprawiana jako bezinteresowne dociekanie Prawdy, a nie tylko pożytek techniczny?', isDev: true },
+      academic_educational_freedom: { name: 'II. PRAWDA: Swoboda Badań i Oświaty', question: 'Czy badania naukowe i oświata są wolne od cenzury ideologicznej, religijnej lub państwowej?', isDev: true },
+      public_scientific_health_duty: { name: 'III. ZDROWIE: Piecza o Zdrowie Obowiązkiem Publicznym', question: 'Czy ochrona zdrowia opiera się na naukowej medycynie i higienie publicznej (zamiast sakralizmu/rytuału)?', isDev: true },
+      res_sacra_miser_ethics: { name: 'III. ZDROWIE: Zasada Res Sacra Miser i Etyka Medyczna', question: 'Czy uznaje się cierpiącego za świętość (res sacra miser), a medycyna współpracuje z etyką?', isDev: true },
+      individual_hereditary_property: { name: 'IV. DOBROBYT: Własność Indywidualna i Dziedziczna', question: 'Czy gospodarka opiera się na własności osobistej i rodzinnie dziedzicznej (vs kolektywizm/despocja)?', isDev: true },
+      honest_prosperity_duty: { name: 'IV. DOBROBYT: Uczciwa Zamożność Obowiązkiem Moralnym', question: 'Czy uznaje się, że uczciwy dobrobyt ułatwia praktykowanie cnót i wspiera oświatę?', isDev: true },
+      beauty_allegory_of_good: { name: 'V. PIĘKNO: Piękno Alegorią i Uduchowieniem Dobra', question: 'Czy sztuka dąży do wyrażania ideałów moralnych i uduchowienia (vs czysta zmysłowość/użyteczność)?', isDev: true },
+      full_artistic_freedom: { name: 'V. PIĘKNO: Pełna Swoboda Twórcza w Sztuce', question: 'Czy zrzeszenie dopuszcza pełną swobodę we wszystkich dziedzinach sztuki (plastyka, muzyka, poezja)?', isDev: true }
+    };
+
     const SPIRIT_META = {
-      LEGAL_DUALISM_INDEX:           { name: 'Indeks Dualizmu Prawnego',        question: 'Czy państwo uznaje niezależną sferę praw prywatnych jednostki?' },
-      LAW_SOURCE_PLURALISM_INDEX:    { name: 'Pluralizm Źródeł Prawa',           question: 'Czy istnieje wolność stanowienia prawa zwyczajowego i lokalnego?' },
-      APOSTERIORI_APRIORI_INDEX:      { name: 'Prawo Aposterioryczne vs Apriori', question: 'Czy prawo wyrasta z doświadczenia społeczeństwa (aposteriori)?' },
-      ORGANISM_MECHANISM_INDEX:      { name: 'Organizm vs Mechanizm',          question: 'Czy społeczeństwo traktowane jest jako organizm czy mechanizm?' },
-      PERSONALISM_INDEX:             { name: 'Indeks Personalizmu',             question: 'Czy człowiek jest traktowany podmiotowo i unikalnie?' },
-      FAMILY_LAW_AUTONOMY_INDEX:     { name: 'Autonomia Prawa Rodzinnego',      question: 'Czy rodzina ma autonomiczną sferę niezależną od państwa?' },
-      CHURCH_INDEPENDENCE_INDEX:     { name: 'Niezależność Kościoła',           question: 'Czy instytucje duchowe są wolne od kontroli państwa?' },
-      PROPERTY_RIGHTS_STABILITY_INDEX: { name: 'Trwałość Prawa Własności',      question: 'Czy własność prywatna jest bezwzględnie chroniona?' },
-      INHERITANCE_CONTINUITY_INDEX:  { name: 'Ciągłość Dziedziczenia',          question: 'Czy dziedziczenie odbywa się swobodnie w rodzinie?' },
-      MORALITY_SUPREMACY_INDEX:      { name: 'Nadrzędność Moralności',          question: 'Czy polityka i prawo podlegają uniwersalnej etyce?' },
+      LEGAL_DUALISM_INDEX: { name: 'Indeks Dualizmu Prawnego', question: 'Czy państwo uznaje niezależną sferę praw prywatnych jednostki?' },
+      LAW_SOURCE_PLURALISM_INDEX: { name: 'Pluralizm Źródeł Prawa', question: 'Czy istnieje wolność stanowienia prawa zwyczajowego i lokalnego?' },
+      APOSTERIORI_APRIORI_INDEX: { name: 'Prawo Aposterioryczne vs Apriori', question: 'Czy prawo wyrasta z doświadczenia społeczeństwa (aposteriori)?' },
+      ORGANISM_MECHANISM_INDEX: { name: 'Organizm vs Mechanizm', question: 'Czy społeczeństwo traktowane jest jako organizm czy mechanizm?' },
+      PERSONALISM_INDEX: { name: 'Indeks Personalizmu', question: 'Czy człowiek jest traktowany podmiotowo i unikalnie?' },
+      FAMILY_LAW_AUTONOMY_INDEX: { name: 'Autonomia Prawa Rodzinnego', question: 'Czy rodzina ma autonomiczną sferę niezależną od państwa?' },
+      CHURCH_INDEPENDENCE_INDEX: { name: 'Niezależność Kościoła', question: 'Czy instytucje duchowe są wolne od kontroli państwa?' },
+      PROPERTY_RIGHTS_STABILITY_INDEX: { name: 'Trwałość Prawa Własności', question: 'Czy własność prywatna jest bezwzględnie chroniona?' },
+      INHERITANCE_CONTINUITY_INDEX: { name: 'Ciągłość Dziedziczenia', question: 'Czy dziedziczenie odbywa się swobodnie w rodzinie?' },
+      MORALITY_SUPREMACY_INDEX: { name: 'Nadrzędność Moralności', question: 'Czy polityka i prawo podlegają uniwersalnej etyce?' },
       PUBLIC_MORALITY_TOTALITY_INDEX: { name: 'Totalność Moralności Publicznej', question: 'Czy państwo wymusza jedną etykę czy szanuje sumienie?' },
       ADMINISTRATIVE_RESPONSIBILITY_INDEX: { name: 'Odpowiedzialność Urzędnicza', question: 'Czy urzędnik odpowiada osobiscie przed obywatelem za szkody?' }
     };
@@ -1323,25 +1337,25 @@
       COERCION_AS_MAIN_BOND: { name: 'Więzi Dobrowolne', question: 'Czy zrzeszenie opiera się na dobrowolnych więziach społecznych zamiast na przymusie państwowym?' }
     };
 
-  
-  const FAMILY_META = {
-    adult_son_independence: { name: 'Niezależność Dorosłego Syna', question: 'Czy dorosły syn osiąga niezależność, czy pozostaje pod władzą rodu?', positive: 'Syn usamodzielniony (1.0)', negative: 'Syn zależny (0.0)' },
-    family_emancipation_from_clan: { name: 'Emancypacja z Rodu', question: 'Czy rodzina może w pełni wyemancypować się ze struktur rodowych?', positive: 'Rodzina wyemancypowana (1.0)', negative: 'Wchłonięta przez ród (0.0)' },
-    son_adulthood_during_fathers_life: { name: 'Pełnoletność Syna', question: 'Czy syn może osiągnąć dojrzałość prawną jeszcze za życia ojca?', positive: 'Pełnoletność za życia ojca (1.0)', negative: 'Zależność do śmierci ojca (0.0)' },
-    wife_treated_as_free_person: { name: 'Prawa Żony', question: 'Czy żona traktowana jest jako wolna osoba i partner, czy jako własność?', positive: 'Żona osobą wolną (1.0)', negative: 'Żona traktowana jak przedmiot (0.0)' },
-    marriage_by_mutual_consent: { name: 'Małżeństwo z Wyboru', question: 'Czy małżeństwo zawiera się na podstawie wolnej decyzji obu stron?', positive: 'Małżeństwo z ugody stron (1.0)', negative: 'Małżeństwo aranżowane/przymusowe (0.0)' },
-    lifelong_monogamy: { name: 'Dożywotnia Monogamia', question: 'Czy obowiązuje zasada dożywotniej monogamii (jednożeństwo bez łatwych rozwodów)?', positive: 'Monogamia dożywotnia (1.0)', negative: 'Poligamia / rozwody (0.0)' },
-    state_religion_interferes_home_life: { name: 'Brak Ingerencji w Dom', question: 'Czy państwo lub autorytet religijny może swobodnie ingerować w życie domowe?', positive: 'Brak ingerencji w dom (1.0)', negative: 'Państwo/religia decyduje (0.0)' },
-    exclusive_parental_care_rights: { name: 'Wyłączne Prawa Rodzicielskie', question: 'Czy prawa rodzicielskie do wychowania dzieci są wyłączne i chronione przed państwem?', positive: 'Wyłączne prawa rodzicielskie (1.0)', negative: 'Państwo/religia ingeruje (0.0)' },
-    property_independent_of_clan_state: { name: 'Własność Prywatna', question: 'Czy istnieje niezależna własność prywatna rodziny, wolna od zwierzchnictwa klanu?', positive: 'Własność prywatna (1.0)', negative: 'Brak własności / państwowa (0.0)' },
-    family_law_inaccessible_to_state: { name: 'Ochrona Prawa Rodzinnego', question: 'Czy obszar prawa rodzinnego jest chroniony i niedostępny dla wszechwładzy państwa?', positive: 'Prawo rodzinne chronione (1.0)', negative: 'Prawo regulowane przez państwo (0.0)' },
-    polygamy_exists: { name: 'Brak Poligamii', question: 'Czy istnieje zjawisko poligamii degradujące status kobiety?', positive: 'Brak poligamii (1.0)', negative: 'Istnieje poligamia (0.0)' },
-    state_regulates_private_life: { name: 'Ochrona Życia Prywatnego', question: 'Czy państwo uzurpuje sobie prawo do mikrozarządzania i regulacji życia prywatnego?', positive: 'Życie prywatne chronione (1.0)', negative: 'Państwo reguluje życie prywatne (0.0)' },
-    family_autonomy_disappears_to_state: { name: 'Autonomia Wobec Państwa', question: 'Czy pierwotna autonomia rodziny znika całkowicie na rzecz struktur państwowych?', positive: 'Autonomia zachowana (1.0)', negative: 'Autonomia wchłonięta przez państwo (0.0)' },
-    sacralization_of_life: { name: 'Desakralizacja Życia', question: 'Czy życie rodzinne opiera się na umowie i prawie, czy ulega całkowitej sakralizacji rytualnej?', positive: 'Brak totalnej sakralizacji życia (1.0)', negative: 'Sakralizacja życia (0.0)' }
-  };
 
-  const PERSONALISM_META = {
+    const FAMILY_META = {
+      adult_son_independence: { name: 'Niezależność Dorosłego Syna', question: 'Czy dorosły syn osiąga niezależność, czy pozostaje pod władzą rodu?', positive: 'Syn usamodzielniony (1.0)', negative: 'Syn zależny (0.0)' },
+      family_emancipation_from_clan: { name: 'Emancypacja z Rodu', question: 'Czy rodzina może w pełni wyemancypować się ze struktur rodowych?', positive: 'Rodzina wyemancypowana (1.0)', negative: 'Wchłonięta przez ród (0.0)' },
+      son_adulthood_during_fathers_life: { name: 'Pełnoletność Syna', question: 'Czy syn może osiągnąć dojrzałość prawną jeszcze za życia ojca?', positive: 'Pełnoletność za życia ojca (1.0)', negative: 'Zależność do śmierci ojca (0.0)' },
+      wife_treated_as_free_person: { name: 'Prawa Żony', question: 'Czy żona traktowana jest jako wolna osoba i partner, czy jako własność?', positive: 'Żona osobą wolną (1.0)', negative: 'Żona traktowana jak przedmiot (0.0)' },
+      marriage_by_mutual_consent: { name: 'Małżeństwo z Wyboru', question: 'Czy małżeństwo zawiera się na podstawie wolnej decyzji obu stron?', positive: 'Małżeństwo z ugody stron (1.0)', negative: 'Małżeństwo aranżowane/przymusowe (0.0)' },
+      lifelong_monogamy: { name: 'Dożywotnia Monogamia', question: 'Czy obowiązuje zasada dożywotniej monogamii (jednożeństwo bez łatwych rozwodów)?', positive: 'Monogamia dożywotnia (1.0)', negative: 'Poligamia / rozwody (0.0)' },
+      state_religion_interferes_home_life: { name: 'Brak Ingerencji w Dom', question: 'Czy państwo lub autorytet religijny może swobodnie ingerować w życie domowe?', positive: 'Brak ingerencji w dom (1.0)', negative: 'Państwo/religia decyduje (0.0)' },
+      exclusive_parental_care_rights: { name: 'Wyłączne Prawa Rodzicielskie', question: 'Czy prawa rodzicielskie do wychowania dzieci są wyłączne i chronione przed państwem?', positive: 'Wyłączne prawa rodzicielskie (1.0)', negative: 'Państwo/religia ingeruje (0.0)' },
+      property_independent_of_clan_state: { name: 'Własność Prywatna', question: 'Czy istnieje niezależna własność prywatna rodziny, wolna od zwierzchnictwa klanu?', positive: 'Własność prywatna (1.0)', negative: 'Brak własności / państwowa (0.0)' },
+      family_law_inaccessible_to_state: { name: 'Ochrona Prawa Rodzinnego', question: 'Czy obszar prawa rodzinnego jest chroniony i niedostępny dla wszechwładzy państwa?', positive: 'Prawo rodzinne chronione (1.0)', negative: 'Prawo regulowane przez państwo (0.0)' },
+      polygamy_exists: { name: 'Brak Poligamii', question: 'Czy istnieje zjawisko poligamii degradujące status kobiety?', positive: 'Brak poligamii (1.0)', negative: 'Istnieje poligamia (0.0)' },
+      state_regulates_private_life: { name: 'Ochrona Życia Prywatnego', question: 'Czy państwo uzurpuje sobie prawo do mikrozarządzania i regulacji życia prywatnego?', positive: 'Życie prywatne chronione (1.0)', negative: 'Państwo reguluje życie prywatne (0.0)' },
+      family_autonomy_disappears_to_state: { name: 'Autonomia Wobec Państwa', question: 'Czy pierwotna autonomia rodziny znika całkowicie na rzecz struktur państwowych?', positive: 'Autonomia zachowana (1.0)', negative: 'Autonomia wchłonięta przez państwo (0.0)' },
+      sacralization_of_life: { name: 'Desakralizacja Życia', question: 'Czy życie rodzinne opiera się na umowie i prawie, czy ulega całkowitej sakralizacji rytualnej?', positive: 'Brak totalnej sakralizacji życia (1.0)', negative: 'Sakralizacja życia (0.0)' }
+    };
+
+    const PERSONALISM_META = {
       GOD_RELATION_PERSONAL_VS_COLLECTIVE: { name: 'Osobista Relacja z Bogiem', question: 'Czy relacja z Bogiem/etyką ma charakter indywidualny i osobisty?' },
       RESPONSIBILITY_PERSONAL_VS_COLLECTIVE: { name: 'Odpowiedzialność Osobista', question: 'Czy odpowiedzialność prawna i moralna jest wyłącznie osobista (a nie zbiorowa)?' },
       CONFESSION_PERSONAL_VS_COLLECTIVE: { name: 'Osobiste Wyznanie', question: 'Czy spowiedź/wyznanie jest osobiste, a nie narzucone gromadnie?' },
@@ -1481,9 +1495,9 @@
         const pct = score < 0 ? 'Brak danych' : Math.round(score * 100) + '%';
         let polarityMarker = '';
         if (score >= 0) {
-            if (score > 0.5) polarityMarker = '<span style="color: #10b981; font-weight: bold; font-size: 0.65em; margin-left: 6px; vertical-align: middle;">[+ Podwyższa]</span>';
-            else if (score < 0.5) polarityMarker = '<span style="color: #ef4444; font-weight: bold; font-size: 0.65em; margin-left: 6px; vertical-align: middle;">[- Obniża]</span>';
-            else polarityMarker = '<span style="color: #9ca3af; font-size: 0.65em; margin-left: 6px; vertical-align: middle;">[Neutralne]</span>';
+          if (score > 0.5) polarityMarker = '<span style="color: #10b981; font-weight: bold; font-size: 0.65em; margin-left: 6px; vertical-align: middle;">[+ Podwyższa]</span>';
+          else if (score < 0.5) polarityMarker = '<span style="color: #ef4444; font-weight: bold; font-size: 0.65em; margin-left: 6px; vertical-align: middle;">[- Obniża]</span>';
+          else polarityMarker = '<span style="color: #9ca3af; font-size: 0.65em; margin-left: 6px; vertical-align: middle;">[Neutralne]</span>';
         }
         const barColor = score < 0 ? '#52525b' : `hsl(${Math.round(score * 120)}, 78%, 46%)`;
         const barWidth = score < 0 ? 0 : Math.round(score * 100);
@@ -1563,15 +1577,15 @@
     }
 
 
-    
 
-    
 
-    
 
-    
 
-    
+
+
+
+
+
     const familyHero = buildDarkHero(
       'EMANCYPACJA RODZINY',
       familyScore,
@@ -1637,7 +1651,7 @@
       }
     }
 
-    const generaliaDiagnosis = ethicalCoherenceScore >= 0 
+    const generaliaDiagnosis = ethicalCoherenceScore >= 0
       ? (data.generalia_diagnosis || (ethicalCoherenceScore >= 6.0 ? 'Dominacja Szeregu Personalistycznego (Cywilizacja Łacińska)' : (ethicalCoherenceScore <= 2.0) ? 'Dominacja Szeregu Gromadnościowego' : '⚠️ MIESZANKA TRUJĄCA (Stan acywilizacyjny / Kołobłęd etyczny)'))
       : 'Brak danych w tekście (niezaznaczony indeks generaliów)';
 
@@ -1816,6 +1830,7 @@
       conscience_status: isIdxEnabled('conscience_status'),
       time_mastery: isIdxEnabled('time_mastery'),
       work_ethos: isIdxEnabled('work_ethos'),
+      quincunx: isIdxEnabled('quincunx'),
       dualism: isIdxEnabled('dualism'),
       pluralism: isIdxEnabled('pluralism'),
       aposteriori: isIdxEnabled('aposteriori'),
@@ -1931,35 +1946,35 @@
         </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony (isUnderDev = false)</div>`}
       </div>`;
 
-      
+
     const dualismCards = Object.keys(legalDualismScores).length > 0 ? buildCardsGroup(legalDualismScores, LEGAL_DUALISM_META) : `
       <div id="loader-dualism" style="padding:20px; text-align:center;">
         ${INDEX_DEV_FLAGS.dualism ? `<button class="tab-btn active zapytaj-btn" data-target="dualism" data-loader="loader-dualism" data-name="Dualizm Prawny" style="margin:0 auto; padding:10px 20px;">
           Zapytaj (Pobierz dane)
         </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony (isUnderDev = false)</div>`}
       </div>`;
-      
+
     const pluralismCards = Object.keys(pluralismScores).length > 0 ? buildCardsGroup(pluralismScores, PLURALISM_META) : `
       <div id="loader-pluralism" style="padding:20px; text-align:center;">
         ${INDEX_DEV_FLAGS.pluralism ? `<button class="tab-btn active zapytaj-btn" data-target="pluralism" data-loader="loader-pluralism" data-name="Pluralizm Zródeł Prawa" style="margin:0 auto; padding:10px 20px;">
           Zapytaj (Pobierz dane)
         </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony (isUnderDev = false)</div>`}
       </div>`;
-      
+
     const aposterioriCards = Object.keys(aposterioriScores).length > 0 ? buildCardsGroup(aposterioriScores, APOSTERIORI_META) : `
       <div id="loader-aposteriori" style="padding:20px; text-align:center;">
         ${INDEX_DEV_FLAGS.aposteriori ? `<button class="tab-btn active zapytaj-btn" data-target="aposteriori" data-loader="loader-aposteriori" data-name="Aposteriori vs Apriori" style="margin:0 auto; padding:10px 20px;">
           Zapytaj (Pobierz dane)
         </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony (isUnderDev = false)</div>`}
       </div>`;
-      
+
     const organismCards = Object.keys(organismScores).length > 0 ? buildCardsGroup(organismScores, ORGANISM_META) : `
       <div id="loader-organism" style="padding:20px; text-align:center;">
         ${INDEX_DEV_FLAGS.organism ? `<button class="tab-btn active zapytaj-btn" data-target="organism" data-loader="loader-organism" data-name="Organizm i Personalizm" style="margin:0 auto; padding:10px 20px;">
           Zapytaj (Pobierz dane)
         </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony (isUnderDev = false)</div>`}
       </div>`;
-      
+
     const personalismCards = Object.keys(personalismScores).length > 0 ? buildCardsGroup(personalismScores, PERSONALISM_META) : `
       <div id="loader-personalism" style="padding:20px; text-align:center;">
         ${INDEX_DEV_FLAGS.personalism ? `<button class="tab-btn active zapytaj-btn" data-target="personalism" data-loader="loader-personalism" data-name="Personalizm" style="margin:0 auto; padding:10px 20px;">
@@ -1975,7 +1990,7 @@
       </div>`;
 
     // Make runPartialAnalysis accessible
-    
+
 
     const sacralityHero = buildDarkHero(
       'INDEKS SAKRALNOŚCI',
@@ -2125,11 +2140,70 @@
         </div>
       </div>`;
 
+    const chyznoscScore = data.time_mastery_efficiency_score >= 0 
+      ? Math.round(data.time_mastery_efficiency_score * 100)
+      : timeMasteryScore;
+
+    const chyznoscDiagnosis = data.time_mastery_efficiency_diagnosis || (
+      chyznoscScore >= 65 ? 'Wysoka Chyżość Historyczna (Akumulacja Dorobku / Łacina)' :
+      chyznoscScore >= 35 ? 'Umiarkowana Wydajność Cywilizacyjna' :
+      'Niska Chyżość Historyczna (Wegetacja Ab Ovo / Zastój)'
+    );
+
+    const chyznoscHero = buildDarkHero(
+      'KROK 4: CHYŻOŚĆ HISTORYCZNA (WYDAJNOŚĆ)',
+      chyznoscScore,
+      chyznoscDiagnosis,
+      chyznoscScore >= 0 ? `${chyznoscScore}%` : null,
+      'Mierzy wyraz historyzmu prywatnego i publicznego oraz zdolność do oszczędzania czasu dla przyszłych pokoleń (zamiast zaczynania od zera ab ovo).'
+    );
+
+    const quincunxScores = data.raw_ratings?.quincunx_scores || {};
+    let calcQuincunxScore = typeof data.quincunx_coherence_score === 'number' ? data.quincunx_coherence_score : -1.0;
+    if (calcQuincunxScore < 0 && Object.keys(quincunxScores).length > 0) {
+      let validCount = 0;
+      let validSum = 0;
+      for (const val of Object.values(quincunxScores)) {
+        let s = typeof val === 'number' ? val : (val && val.score !== undefined ? val.score : -1.0);
+        if (s >= 0) {
+          validSum += s;
+          validCount++;
+        }
+      }
+      if (validCount > 0) {
+        calcQuincunxScore = validSum / validCount;
+      }
+    }
+    const quincunxScore = calcQuincunxScore >= 0 ? Math.round(calcQuincunxScore * 100) : -1;
+
+    const quincunxDiagnosis = data.quincunx_diagnosis || (
+      quincunxScore >= 65 ? 'DOMINACJA NORMY ŁACIŃSKIEJ (Współmierność sfer bytu)' :
+      quincunxScore >= 35 ? 'Umiarkowana Współmierność Bytu' :
+      'CYWILIZACJA DEFEKTOWNA / UŁOMNA (Defekt sfery bytu)'
+    );
+
+    const quincunxHero = buildDarkHero(
+      'KROK 5: PIĘCIOMIAN BYTU (QUINCUNX)',
+      quincunxScore,
+      quincunxDiagnosis,
+      quincunxScore >= 0 ? `${quincunxScore}%` : null,
+      'Mierzy harmonijną współmierność 5 sfer bytu (Dobro, Prawda, Zdrowie, Dobrobyt, Piękno) pod przodownictwem Etyki.'
+    );
+
+    const quincunxCards = Object.keys(quincunxScores).length > 0 ? buildCardsGroup(quincunxScores, QUINCUNX_META) : `
+      <div id="loader-quincunx" style="padding:20px; text-align:center;">
+        ${INDEX_DEV_FLAGS.quincunx ? `<button class="tab-btn active zapytaj-btn" data-target="quincunx" data-loader="loader-quincunx" data-name="Współmierność Pięciomianu Bytu (Quincunx)" style="margin:0 auto; padding:10px 20px;">
+          Zapytaj (Pobierz dane)
+        </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony</div>`}
+      </div>`;
+
     content.innerHTML = `
       <div class="tab-bar">
         <button class="tab-btn" id="tab-sacrality">Indeks Sakralności</button>
         <button class="tab-btn" id="tab-spirit">Supremacja Ducha</button>
         <button class="tab-btn active" id="tab-generalia">Szereg Personalistyczny</button>
+        <button class="tab-btn" id="tab-chyznosc">Krok 4: Chyżość</button>
+        <button class="tab-btn" id="tab-quincunx">Krok 5: Quincunx</button>
       </div>
 
       <div id="view-sacrality" style="display:none">
@@ -2165,18 +2239,40 @@
         <div class="section-title">7 Generaliów Etycznych (Siedem Niewiadomych)</div>
         ${generaliaCards}
       </div>
+      <div id="view-chyznosc" style="display:none">
+        ${chyznoscHero}
+        <div style="font-size: 13px; color: #9ca3af; padding: 0 20px; margin-bottom: 15px; line-height: 1.5; text-align: center;">
+           Wydajność cywilizacyjna (Chyżość Historyczna) to zdolność społeczności do oszczędzania i akumulacji czasu.
+           Im wyższa chyżość, tym szybciej rozwijają się prawo, etyka i gospodarka, pozwalając kolejnym pokoleniom zaczynać tam, gdzie poprzednie skończyły.
+        </div>
+        <div class="section-title">Wskaźniki Opanowania Czasu i Kapitalizacji</div>
+        ${timeMasteryCards}
+      </div>
+      <div id="view-quincunx" style="display:none">
+        ${quincunxHero}
+        <div style="font-size: 13px; color: #9ca3af; padding: 0 20px; margin-bottom: 15px; line-height: 1.5; text-align: center;">
+           Pięciomian Bytu (Quincunx): Dobro, Prawda, Zdrowie, Dobrobyt i Piękno.
+           Tylko Cywilizacja Łacińska rozwija harmonijnie wszystkie 5 sfer pod hegemonią Etyki. Brak jakiejkolwiek sfery czyni cywilizację defektowną.
+        </div>
+        <div class="section-title">11 Wskaźników Pięciomianu Bytu (Quincunx)</div>
+        ${quincunxCards}
+      </div>
     `;
 
     const tabSacrality = content.querySelector('#tab-sacrality');
-    const tabSpirit    = content.querySelector('#tab-spirit');
+    const tabSpirit = content.querySelector('#tab-spirit');
     const tabGeneralia = content.querySelector('#tab-generalia');
+    const tabChyznosc = content.querySelector('#tab-chyznosc');
+    const tabQuincunx = content.querySelector('#tab-quincunx');
     const viewSacrality = content.querySelector('#view-sacrality');
-    const viewSpirit    = content.querySelector('#view-spirit');
+    const viewSpirit = content.querySelector('#view-spirit');
     const viewGeneralia = content.querySelector('#view-generalia');
+    const viewChyznosc = content.querySelector('#view-chyznosc');
+    const viewQuincunx = content.querySelector('#view-quincunx');
 
     function switchTab(tabBtn, viewDiv) {
-      [tabSacrality, tabSpirit, tabGeneralia].forEach(t => t.classList.remove('active'));
-      [viewSacrality, viewSpirit, viewGeneralia].forEach(v => v.style.display = 'none');
+      [tabSacrality, tabSpirit, tabGeneralia, tabChyznosc, tabQuincunx].forEach(t => t && t.classList.remove('active'));
+      [viewSacrality, viewSpirit, viewGeneralia, viewChyznosc, viewQuincunx].forEach(v => v && (v.style.display = 'none'));
       tabBtn.classList.add('active');
       viewDiv.style.display = 'block';
     }
@@ -2184,6 +2280,8 @@
     tabSacrality.addEventListener('click', () => switchTab(tabSacrality, viewSacrality));
     tabSpirit.addEventListener('click', () => switchTab(tabSpirit, viewSpirit));
     tabGeneralia.addEventListener('click', () => switchTab(tabGeneralia, viewGeneralia));
+    if (tabChyznosc) tabChyznosc.addEventListener('click', () => switchTab(tabChyznosc, viewChyznosc));
+    if (tabQuincunx) tabQuincunx.addEventListener('click', () => switchTab(tabQuincunx, viewQuincunx));
 
     // Bind Zapytaj buttons
     content.querySelectorAll('.zapytaj-btn').forEach(btn => {
@@ -2216,7 +2314,7 @@
       return { pdf_url: window.location.href };
     }
 
-    const selectors = ['article','main','[role="main"]','#content','.content','.post-content','.entry-content','.article-content'];
+    const selectors = ['article', 'main', '[role="main"]', '#content', '.content', '.post-content', '.entry-content', '.article-content'];
     for (const s of selectors) {
       const el = document.querySelector(s);
       if (el && el.innerText.trim().length > 400) return clean(el.innerText);
@@ -2225,12 +2323,12 @@
   }
 
   function clean(str) {
-    return str.replace(/\s+/g,' ').replace(/[\t\r\n]/g,' ').trim();
+    return str.replace(/\s+/g, ' ').replace(/[\t\r\n]/g, ' ').trim();
   }
 
   function getStorageData() {
     return new Promise(resolve => {
-      chrome.storage.local.get(['backendUrl','apiKey','selectedIndices'], data => {
+      chrome.storage.local.get(['backendUrl', 'apiKey', 'selectedIndices'], data => {
         let backendUrl = data ? data.backendUrl || 'http://localhost:8005' : 'http://localhost:8005';
         if (backendUrl.includes(':8000')) {
           backendUrl = backendUrl.replace(':8000', ':8005');

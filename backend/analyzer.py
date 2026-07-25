@@ -19,6 +19,7 @@ INDEX_DEV_FLAGS = {
     "conscience_status": True,
     "time_mastery": True,
     "work_ethos": True,
+    "quincunx": True,
     "dualism": True,
     "pluralism": True,
     "aposteriori": True,
@@ -237,6 +238,119 @@ def calculate_koneczny_metrics(llm_data: Dict[str, Any]) -> Dict[str, Any]:
         result["ethical_coherence_score"] = -1.0
         result["generalia_diagnosis"] = "Brak danych generaliów"
         result["mixture_alert"] = False
+
+    # Calculate Step 4: Chyżość Historyczna (Wydajność Cywilizacyjna)
+    tm_scores = llm_data.get("time_mastery_scores", {})
+    def _get_tm_val(key: str) -> float:
+        v = tm_scores.get(key)
+        if isinstance(v, (int, float)): return float(v)
+        if isinstance(v, dict): return float(v.get("score", -1.0))
+        return -1.0
+
+    s_chronology = _get_tm_val("scientific_chronology")
+    s_tradition = _get_tm_val("active_critical_tradition")
+    s_surnames = _get_tm_val("hereditary_surnames")
+    s_cap = _get_tm_val("capitalization_of_time")
+
+    valid_tm_weights = []
+    w_sum = 0.0
+    if s_chronology >= 0:
+        w_sum += 0.2 * s_chronology
+        valid_tm_weights.append(0.2)
+    if s_tradition >= 0:
+        w_sum += 0.2 * s_tradition
+        valid_tm_weights.append(0.2)
+    if s_surnames >= 0:
+        w_sum += 0.3 * s_surnames
+        valid_tm_weights.append(0.3)
+    if s_cap >= 0:
+        w_sum += 0.3 * s_cap
+        valid_tm_weights.append(0.3)
+
+    if valid_tm_weights:
+        eff_score = round(w_sum / sum(valid_tm_weights), 2)
+        result["time_mastery_efficiency_score"] = eff_score
+        if eff_score >= 0.65:
+            result["time_mastery_efficiency_diagnosis"] = "Dominacja Cywilizacji Łacińskiej (Wysoka Chyżość Historyczna / Akumulacja Dorobku)"
+        elif eff_score >= 0.35:
+            result["time_mastery_efficiency_diagnosis"] = "Umiarkowana Wydajność Cywilizacyjna (Stan Synkretyczny / Mieszanka)"
+        else:
+            result["time_mastery_efficiency_diagnosis"] = "Niska Chyżość Historyczna (Brak Historyzmu / Wegetacja Ab Ovo / Zastój)"
+    else:
+        result["time_mastery_efficiency_score"] = result.get("time_mastery_history_score", -1.0)
+        eff_history = result.get("time_mastery_history_score", -1.0)
+        if eff_history >= 0.65:
+            result["time_mastery_efficiency_diagnosis"] = "Dominacja Cywilizacji Łacińskiej (Wysoka Chyżość Historyczna / Akumulacja Dorobku)"
+        elif eff_history >= 0.35:
+            result["time_mastery_efficiency_diagnosis"] = "Umiarkowana Wydajność Cywilizacyjna (Stan Synkretyczny / Mieszanka)"
+        elif eff_history >= 0:
+            result["time_mastery_efficiency_diagnosis"] = "Niska Chyżość Historyczna (Brak Historyzmu / Wegetacja Ab Ovo / Zastój)"
+        else:
+            result["time_mastery_efficiency_diagnosis"] = "Brak danych dla Kroku 4"
+
+    # Calculate Step 5: QUINCUNX_COHERENCE_INDEX (Współmierność Pięciomianu Bytu)
+    q_data = llm_data.get("quincunx_scores", {})
+    def _get_q_val(keys):
+        vals = []
+        for k in keys:
+            v = q_data.get(k)
+            if isinstance(v, (int, float)): s = float(v)
+            elif isinstance(v, dict): s = float(v.get("score", -1.0))
+            else: s = -1.0
+            if s >= 0: vals.append(s)
+        return sum(vals) / len(vals) if vals else -1.0
+
+    d_score = _get_q_val(["ethics_totality_public_private", "good_above_law_force", "personal_moral_accountability"])
+    p_score = _get_q_val(["natural_truth_pure_science", "academic_educational_freedom"])
+    z_score = _get_q_val(["public_scientific_health_duty", "res_sacra_miser_ethics"])
+    db_score = _get_q_val(["individual_hereditary_property", "honest_prosperity_duty"])
+    pi_score = _get_q_val(["beauty_allegory_of_good", "full_artistic_freedom"])
+
+    q_cats = [d_score, p_score, z_score, db_score, pi_score]
+    valid_q_cats = [c for c in q_cats if c >= 0]
+
+    if valid_q_cats:
+        num_cats = len(valid_q_cats)
+        if any(c == 0.0 for c in valid_q_cats):
+            geo_mean = 0.0
+        else:
+            prod = 1.0
+            for c in valid_q_cats:
+                prod *= c
+            geo_mean = prod ** (1.0 / float(num_cats))
+
+        import math
+        mean_val = sum(valid_q_cats) / float(num_cats)
+        variance = sum((c - mean_val) ** 2 for c in valid_q_cats) / float(num_cats) if num_cats > 1 else 0.0
+        std_dev = math.sqrt(variance)
+        consistency_factor = max(0.0, 1.0 - (std_dev / (mean_val if mean_val > 0 else 1.0)))
+
+        q_final = round(geo_mean * consistency_factor, 2)
+        result["quincunx_coherence_score"] = q_final
+        result["quincunx_categories"] = {
+            "good": round(d_score, 2),
+            "truth": round(p_score, 2),
+            "health": round(z_score, 2),
+            "prosperity": round(db_score, 2),
+            "beauty": round(pi_score, 2)
+        }
+
+        sphere_note = f" (ocena z {num_cats}/5 sfer)" if num_cats < 5 else ""
+
+        if any(c <= 0.1 for c in valid_q_cats):
+            result["quincunx_diagnosis"] = f"CYWILIZACJA DEFEKTOWNA / UŁOMNA (Defekt sfery bytu){sphere_note}"
+        elif q_final >= 0.65 and consistency_factor >= 0.75:
+            if num_cats == 5:
+                result["quincunx_diagnosis"] = "PEŁNIA CYWILIZACJI ŁACIŃSKIEJ (Harmonia 5/5 sfer Pięciomianu)"
+            else:
+                result["quincunx_diagnosis"] = f"DOMINACJA NORMY ŁACIŃSKIEJ (Niepełny Pięciomian: {num_cats}/5 sfer w tekście)"
+        elif consistency_factor < 0.60 and num_cats > 1:
+            result["quincunx_diagnosis"] = f"⚠️ ACYWILIZACYJNA NIEWSPÓŁMIERNOŚĆ (Mieszanka Metod Niszcząca Siły Społeczne){sphere_note}"
+        else:
+            result["quincunx_diagnosis"] = f"Umiarkowana Współmierność Bytu{sphere_note}"
+    else:
+        result["quincunx_coherence_score"] = -1.0
+        result["quincunx_diagnosis"] = "Brak danych dla Kroku 5 w tekście"
 
     result["raw_ratings"] = llm_data
     return result
@@ -1578,6 +1692,82 @@ TEKST DO ANALIZY:
 {trimmed_text}
 Zwróć JSON."""
 
+    schema_quincunx = {
+        "type": "object",
+        "properties": {
+            "quincunx_scores": {
+                "type": "object",
+                "properties": {
+                    "ethics_totality_public_private": indicator_item,
+                    "good_above_law_force": indicator_item,
+                    "personal_moral_accountability": indicator_item,
+                    "natural_truth_pure_science": indicator_item,
+                    "academic_educational_freedom": indicator_item,
+                    "public_scientific_health_duty": indicator_item,
+                    "res_sacra_miser_ethics": indicator_item,
+                    "individual_hereditary_property": indicator_item,
+                    "honest_prosperity_duty": indicator_item,
+                    "beauty_allegory_of_good": indicator_item,
+                    "full_artistic_freedom": indicator_item
+                },
+                "required": [
+                    "ethics_totality_public_private", "good_above_law_force", "personal_moral_accountability",
+                    "natural_truth_pure_science", "academic_educational_freedom",
+                    "public_scientific_health_duty", "res_sacra_miser_ethics",
+                    "individual_hereditary_property", "honest_prosperity_duty",
+                    "beauty_allegory_of_good", "full_artistic_freedom"
+                ]
+            },
+            "quincunx_news_1": {"type": "string"},
+            "quincunx_news_2": {"type": "string"},
+            "quincunx_news_3": {"type": "string"},
+            "quincunx_justification": {"type": "string"}
+        },
+        "required": [
+            "quincunx_scores", "quincunx_news_1", "quincunx_news_2", "quincunx_news_3", "quincunx_justification"
+        ]
+    }
+
+    sys_inst_quincunx = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w wymiarze 11 WSKAŹNIKÓW PIĘCIOMIANU BYTU (QUINCUNX: Dobro, Prawda, Zdrowie, Dobrobyt, Piękno):
+DOBRO (Etyka):
+1. ethics_totality_public_private: Etyka totalna (ta sama moralność w życiu prywatnym i publicznym)
+2. good_above_law_force: Prymat Dobra i Etyki nad stanowionym prawem i siłą
+3. personal_moral_accountability: Osobista odpowiedzialność moralna przed Bogiem i sumieniem
+
+PRAWDA (Nauka):
+4. natural_truth_pure_science: Prawda przyrodzona i bezinteresowne dociekanie nauki
+5. academic_educational_freedom: Wolność badań naukowych i oświaty od ideologii/cenzury
+
+ZDROWIE (Higiena):
+6. public_scientific_health_duty: Piecza o zdrowie jako naukowo-etyczny obowiązek publiczny
+7. res_sacra_miser_ethics: Zasada res sacra miser (cierpiący świętością) i etyka medyczna
+
+DOBROBYT (Gospodarka):
+8. individual_hereditary_property: Fundament własności osobistej i dziedzicznej
+9. honest_prosperity_duty: Uczciwa zamożność jako obowiązek moralny ułatwiający cnoty
+
+PIĘKNO (Sztuka):
+10. beauty_allegory_of_good: Piękno jako alegoria i uduchowienie Dobra
+11. full_artistic_freedom: Pełna swoboda twórcza we wszystkich dziedzinach sztuki
+
+ZASADA POLARYZACJI SCORINGU (0.0 - 1.0):
+Wszystkie wskaźniki podawaj w skali 0.0 - 1.0, gdzie:
+- 1.0 OZNACZA PEŁNE URZECZYWISTNIENIE MODELU PERSONALISTYCZNEGO / CYWILIZACJI ŁACIŃSKIEJ.
+- 0.0 OZNACZA MODEL GROMADNOŚCIOWY / BRAK DANEJ SFERY LUB JEJ DEFEKT.
+Jeśli brak danych w tekście: -1.0. Zwróć JSON."""
+
+    prompt_quincunx = f"""Kontekst metodologiczny Konecznego (Pięciomian Bytu - Quincunx):
+{indices_context[:3000]}
+{rag_context}
+
+BARDZO WAŻNE INSTRUKCJE:
+Musisz przeanalizować i zwrócić DOKŁADNIE WSZYSTKIE 11 WSKAŹNIKÓW PIĘCIOMIANU (quincunx_scores).
+BARDZO WAŻNA ZASADA DLA NEWS_EXAMPLES: Każdy z 3 nagłówków w news_examples MUSI bezwzględnie zawierać nazwę kraju / państwa / podmiotu opisanego w analizowanym tekście.
+
+TEKST DO ANALIZY:
+{trimmed_text}
+Zwróć JSON."""
+
     # Execute calls conditionally based on target_indices
     if target_indices is None:
         # Default for development if not specified
@@ -1600,6 +1790,7 @@ Zwróć JSON."""
     if "conscience_status" in target_indices: tasks.append((prompt_conscience_status, sys_inst_conscience_status, schema_conscience_status))
     if "time_mastery" in target_indices: tasks.append((prompt_time_mastery, sys_inst_time_mastery, schema_time_mastery))
     if "work_ethos" in target_indices: tasks.append((prompt_work_ethos, sys_inst_work_ethos, schema_work_ethos))
+    if "quincunx" in target_indices: tasks.append((prompt_quincunx, sys_inst_quincunx, schema_quincunx))
     if "dualism" in target_indices: tasks.append((prompt_2, sys_inst_2, schema_2))
     if "pluralism" in target_indices: tasks.append((prompt_3, sys_inst_3, schema_3))
     if "aposteriori" in target_indices: tasks.append((prompt_4, sys_inst_4, schema_4))

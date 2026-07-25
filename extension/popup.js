@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     apiKeyInput.value = res?.apiKey || '';
 
     // Default indices if not previously saved
-    const savedIndices = res?.selectedIndices || ['duty_source', 'motivation', 'justice_nature', 'conscience_status', 'time_mastery', 'work_ethos'];
+    const savedIndices = res?.selectedIndices || ['duty_source', 'motivation', 'justice_nature', 'conscience_status', 'time_mastery', 'work_ethos', 'quincunx'];
     const checkboxes = document.querySelectorAll('input[name="selectedIndices"]');
     checkboxes.forEach(cb => {
       cb.checked = savedIndices.includes(cb.value);
