@@ -2275,6 +2275,44 @@
       'Mierzy odchylenie próbki od Prawdy i zbawienia duszy (salus animarum) na rzecz fałszywego zbawienia zbiorowego, dwoistości sumienia lub statolatrii.'
     );
 
+    const lieVectors = data.civilizational_lie_vectors || {};
+    const formatVector = (score, name, desc) => {
+      if (typeof score !== 'number' || score < 0) {
+        return `
+          <div style="margin-bottom: 12px; padding: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+              <strong style="color:#e5e7eb; font-size:13px;">${name}</strong>
+              <span style="color:#6b7280; font-size:12px;">Brak danych</span>
+            </div>
+            <div style="color:#9ca3af; font-size:12px; line-height:1.4;">${desc}</div>
+          </div>
+        `;
+      }
+      const truthPct = Math.round(score * 100);
+      const liePctVal = 100 - truthPct;
+      const barColor = truthPct >= 70 ? '#10b981' : truthPct >= 40 ? '#f59e0b' : '#ef4444';
+      return `
+        <div style="margin-bottom: 12px; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <strong style="color:#f3f4f6; font-size:13px;">${name}</strong>
+            <span style="font-weight:700; color:${barColor}; font-size:12px;">Prawda: ${truthPct}% | Kłamstwo: ${liePctVal}%</span>
+          </div>
+          <div style="width:100%; height:6px; background:rgba(255,255,255,0.1); border-radius:3px; overflow:hidden; margin-bottom:6px;">
+            <div style="width:${truthPct}%; height:100%; background:${barColor}; border-radius:3px;"></div>
+          </div>
+          <div style="color:#9ca3af; font-size:12px; line-height:1.4;">${desc}</div>
+        </div>
+      `;
+    };
+
+    const lieBreakdownHtml = `
+      ${formatVector(lieVectors.spirit_supremacy, '1. Supremacja Ducha (Spirit Supremacy)', 'Wyższość celów duchowych nad państwem, siłą militarną i bogactwem.')}
+      ${formatVector(lieVectors.morality_supremacy, '2. Hegemonia Moralności (Morality Supremacy)', 'Prawo złe jest bezprawiem. Sprzeciw wobec bezprawnej władzy nakazującej zło.')}
+      ${formatVector(lieVectors.personalism, '3. Personalizm vs Zbawienie Zbiorowe', 'Osobista odpowiedzialność za zbawienie duszy vs ułuda zbawienia zbiorowego (socjalizm/totalitaryzm).')}
+      ${formatVector(lieVectors.public_morality_totality, '4. Totalność Etyki (Brak Dwóch Sumień)', 'Jedna etyka w życiu prywatnym i publicznym – zakaz hipokryzji politycznej.')}
+      ${formatVector(lieVectors.sacrality_penalty, '5. Test Fanatyzmu i Sakralności (Coercion Penalty)', 'Odrzucenie zmuszania siłą/mieczem do wiary oraz fałszywego traktowania państwa jako świętości.')}
+    `;
+
     content.innerHTML = `
       <div class="tab-bar">
         <button class="tab-btn" id="tab-sacrality">Indeks Sakralności</button>
@@ -2303,14 +2341,7 @@
       </div>
       <div id="view-generalia">
         ${generaliaHero}
-        ${mixtureAlert ? `
-        <div style="background: rgba(239, 68, 68, 0.15); border: 2px solid #ef4444; border-radius: 10px; padding: 14px; margin: 15px 20px; text-align: center;">
-          <div style="color: #ef4444; font-weight: 800; font-size: 15px; margin-bottom: 6px;">⚠️ ALERT MIESZANKI TRUJĄCEJ (ACYWILIZACYJNY KOŁOBŁĘD)</div>
-          <div style="color: #f87171; font-size: 12px; line-height: 1.5;">
-            Według metody Konecznego zrzeszenie połączyło sprzeczne generalia etyczne (${ethicalCoherenceScore} / 7.0). 
-            Synkretyzm etyczny paraliżuje kulturę czynu – norma prawna pozostaje w sprzeczności z normą moralną.
-          </div>
-        </div>` : ''}
+        ${mixtureAlertHtml}
         <div style="font-size: 13px; color: #9ca3af; padding: 0 20px; margin-bottom: 15px; line-height: 1.5; text-align: center;">
            Siedem Niewiadomych Etyki: Obowiązek, Bezinteresowność, Odpowiedzialność, Sprawiedliwość, Sumienie, Czas i Praca.
            Ocena spójności etycznej określa czy społeczeństwo opiera się na wolności osoby (Łacińska) czy przymusie gromadnościowym.
@@ -2344,22 +2375,8 @@
            Współczynnik Kłamstwa bada odchylenie próbki na rzecz zbawienia zbiorowego, dwoistości sumienia lub statolatrii.
         </div>
         <div class="section-title">5 Wektorów Składowych Kłamstwa Cywilizacyjnego</div>
-        <div style="padding: 0 20px; font-size: 13px; line-height: 1.6; color: #e5e7eb;">
-          <div style="margin-bottom: 10px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 6px;">
-            <strong>1. Supremacja Ducha (Spirit Supremacy):</strong> Uznanie wyższości celów duchowych nad państwem i pieniądzem.
-          </div>
-          <div style="margin-bottom: 10px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 6px;">
-            <strong>2. Hegemonia Moralności (Morality Supremacy):</strong> Prawo złe (sprzeczne z Dekalogiem) jest bezprawiem; sprzeciw wobec bezprawnej władzy.
-          </div>
-          <div style="margin-bottom: 10px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 6px;">
-            <strong>3. Personalizm (Personalism):</strong> Zbawienie dotyczy konkretnej osoby, a nie zbiorowości (kłamstwo zbawienia zbiorowego).
-          </div>
-          <div style="margin-bottom: 10px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 6px;">
-            <strong>4. Totalność Etyki (Public Morality):</strong> Brak "dwóch sumień" – ta sama etyka w życiu prywatnym i publicznym.
-          </div>
-          <div style="margin-bottom: 10px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 6px;">
-            <strong>5. Test Fanatyzmu (Sacrality Penalty):</strong> Odrzucenie zmuszania siłą/mieczem do wiary i fałszywej sakralizacji państwa.
-          </div>
+        <div style="padding: 0 20px;">
+          ${lieBreakdownHtml}
         </div>
       </div>
     `;
