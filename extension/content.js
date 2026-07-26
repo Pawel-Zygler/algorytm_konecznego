@@ -1881,6 +1881,7 @@
       health: isIdxEnabled('health'),
       truth_science: isIdxEnabled('truth_science'),
       beauty_art: isIdxEnabled('beauty_art'),
+      civilizational_lie: isIdxEnabled('civilizational_lie'),
       dualism: isIdxEnabled('dualism'),
       pluralism: isIdxEnabled('pluralism'),
       aposteriori: isIdxEnabled('aposteriori'),
