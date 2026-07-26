@@ -709,27 +709,20 @@
     if (trigger) trigger.classList.add('spinning');
 
     content.innerHTML = `
-      <div class="loader">
-        <div class="tank-arena" id="tank-arena">
-          <svg class="tank-laser-svg" style="position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:4;"></svg>
-          <div class="koneczny-tank">
-            <div class="tank-body">
-              <div class="tank-barrel"></div>
-            </div>
-            <div class="tank-treads"></div>
-            <div class="tank-hatch">
-              <img src="${konecznyImg}" alt="Feliks Koneczny">
-            </div>
+      <div class="loader" style="padding: 45px 20px; text-align: center;">
+        <style>
+          @keyframes spinGlowRing { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+          @keyframes pulsePortrait { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }
+        </style>
+        <div style="position: relative; width: 105px; height: 105px; margin: 0 auto 25px auto;">
+          <div style="position: absolute; inset: -7px; border-radius: 50%; background: conic-gradient(from 0deg, #3b82f6, #8b5cf6, #ec4899, #3b82f6); animation: spinGlowRing 2.5s linear infinite; filter: blur(3px);"></div>
+          <div style="position: absolute; inset: 0; border-radius: 50%; background: #0f172a; padding: 4px; display: flex; align-items: center; justify-content: center; z-index: 2; animation: pulsePortrait 3s ease-in-out infinite;">
+            <img src="${konecznyImg}" alt="Profesor Feliks Koneczny" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,0.2);">
           </div>
         </div>
-        <div class="loader-label" id="loader-label-text">Profesor analizuje tekst…</div>
+        <div class="loader-label" id="loader-label-text" style="font-size: 15px; font-weight: 600; color: #f3f4f6; text-shadow: 0 2px 6px rgba(0,0,0,0.6); max-width: 320px; margin: 0 auto; line-height: 1.5;">Profesor analizuje tekst…</div>
       </div>
     `;
-
-    const arena = content.querySelector('#tank-arena');
-    if (arena) {
-      initKonecznyTankDom(arena, konecznyImg);
-    }
 
     const statements = [
       "Szereguję dwoistości...",

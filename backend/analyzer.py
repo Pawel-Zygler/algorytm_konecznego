@@ -2080,6 +2080,12 @@ Zwróć JSON."""
             if idx not in target_indices:
                 target_indices.append(idx)
 
+    # Map "civilizational_lie" to its component indices
+    if "civilizational_lie" in target_indices:
+        for idx in ["quincunx", "duty_source", "morality", "public_morality", "personalism", "sacrality"]:
+            if idx not in target_indices:
+                target_indices.append(idx)
+
     import concurrent.futures
 
     tasks = []
