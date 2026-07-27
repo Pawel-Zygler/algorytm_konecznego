@@ -474,7 +474,7 @@ def calculate_koneczny_metrics(llm_data: Dict[str, Any]) -> Dict[str, Any]:
             "morality_supremacy": round(v_morality, 2) if v_morality >= 0 else -1.0,
             "personalism": round(v_personalism, 2) if v_personalism >= 0 else -1.0,
             "public_morality_totality": round(v_totality, 2) if v_totality >= 0 else -1.0,
-            "sacrality_penalty": round(v_sacrality, 2) if v_sacrality >= 0 else -1.0
+            "sacrality_penalty": round(1.0 - v_sacrality, 2) if v_sacrality >= 0 else -1.0
         }
 
         if lie_pct <= 15.0:

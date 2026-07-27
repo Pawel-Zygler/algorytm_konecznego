@@ -47,6 +47,10 @@ Algorytm analizuje tekst chronologicznie w 5 krokach historiozoficznych Feliksa 
 
 ---
 
+> **Uwaga dotycząca złożoności (Cost/Quota):** Pełna wersja analizy (ze wszystkimi włączonymi checkboxami) wysyła równolegle **24 zapytania (prompty)** do modelu LLM. Łącznie w ramach jednej analizy tekstu ewaluowane są aż **352 szczegółowe pytania/kryteria** dla pod-wskaźników! Z tego powodu należy uważać na limity darmowego API (Quota 429).
+
+---
+
 ## ⚡ Przyspieszenie Dewelopmentu i Testowania (Dev Speedup)
 
 Projekt zawiera wbudowane narzędzia zapewniające natychmiastowy feedback i kontrolę testów:

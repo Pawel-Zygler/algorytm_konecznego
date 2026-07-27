@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>V6: Terminal HUD</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #000;
+      font-family: 'Share Tech Mono', monospace;
+      color: #0f0;
+      display: flex;
+      justify-content: center;
+      padding: 40px;
+      min-height: 100vh;
+      background-image: linear-gradient(rgba(0, 255, 0, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 255, 0, 0.05) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+
+    .panel {
+      width: 420px;
+      background: rgba(0, 20, 0, 0.9);
+      border: 1px solid #0f0;
+      padding: 20px;
+      box-shadow: 0 0 10px #0f0, inset 0 0 20px rgba(0,255,0,0.2);
+      text-shadow: 0 0 5px #0f0;
+    }
+
+    .header {
+      margin-bottom: 20px;
+      border-bottom: 1px dashed #0f0;
+      padding-bottom: 10px;
+    }
+
+    .header h1 {
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+    
+    .header p {
+      font-size: 12px;
+      color: #0a0;
+    }
+
+    /* Gauge styles */
+    .gauge-container {
+      border: 1px solid #0a0;
+      padding: 15px;
+      margin-bottom: 15px;
+      text-align: center;
+      background: rgba(0, 255, 0, 0.05);
+    }
+
+    .gauge-svg {
+      width: 140px;
+      overflow: visible;
+      filter: drop-shadow(0 0 5px #0f0);
+    }
+
+    .gauge-bg {
+      fill: none;
+      stroke: #030;
+      stroke-width: 8;
+      stroke-linecap: square;
+    }
+
+    .gauge-fg {
+      fill: none;
+      stroke: #0f0;
+      stroke-width: 8;
+      stroke-linecap: square;
+      stroke-dasharray: 125.66;
+      stroke-dashoffset: 32.67; 
+      transition: stroke-dashoffset 1s ease-out;
+    }
+
+    .gauge-text {
+      font-size: 24px;
+      fill: #0f0;
+    }
+
+    .gauge-label {
+      margin-top: 5px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Dual gauge layout */
+    .dual-gauges {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+    .dual-gauges .gauge-container {
+      flex: 1;
+      padding: 10px;
+      margin-bottom: 0;
+    }
+    .dual-gauges .gauge-svg {
+      width: 90px;
+    }
+    .dual-gauges .gauge-fg.red { stroke: #f00; filter: drop-shadow(0 0 5px #f00); stroke-dashoffset: 9.8; }
+    .dual-gauges .gauge-fg.blue { stroke: #0ff; filter: drop-shadow(0 0 5px #0ff); stroke-dashoffset: 18.8; }
+    .dual-gauges .gauge-text { font-size: 20px; }
+
+    .grid-quincunx {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 5px;
+      margin-top: 10px;
+    }
+
+    .node {
+      border: 1px solid #0a0;
+      padding: 6px 0;
+      text-align: center;
+      background: rgba(0, 40, 0, 0.5);
+    }
+    .node-title {
+      font-size: 10px;
+      color: #0a0;
+      margin-bottom: 2px;
+    }
+    .node-val {
+      font-size: 14px;
+      color: #0f0;
+    }
+    .node-val.warning {
+      color: #f00;
+      text-shadow: 0 0 5px #f00;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="panel">
+    <div class="header">
+      <h1>[SYS_KONE]</h1>
+      <p>STATUS: ANALYZING...</p>
+    </div>
+
+    <!-- Main Gauge -->
+    <div class="gauge-container">
+      <svg viewBox="0 0 100 50" class="gauge-svg">
+        <path class="gauge-bg" d="M 10 50 A 40 40 0 0 1 90 50" />
+        <path class="gauge-fg" d="M 10 50 A 40 40 0 0 1 90 50" />
+        <text x="50" y="45" text-anchor="middle" class="gauge-text">74%</text>
+      </svg>
+      <div class="gauge-label">ZGODNOŚĆ ŁACIŃSKA</div>
+    </div>
+
+    <!-- Dual Gauges -->
+    <div class="dual-gauges">
+      <div class="gauge-container">
+        <svg viewBox="0 0 100 50" class="gauge-svg">
+          <path class="gauge-bg" d="M 10 50 A 40 40 0 0 1 90 50" />
+          <path class="gauge-fg blue" d="M 10 50 A 40 40 0 0 1 90 50" />
+          <text x="50" y="45" text-anchor="middle" class="gauge-text" style="fill:#0ff">85%</text>
+        </svg>
+        <div class="gauge-label" style="font-size: 10px; color:#0ff;">SUPR. DUCHA</div>
+      </div>
+      <div class="gauge-container">
+        <svg viewBox="0 0 100 50" class="gauge-svg" style="filter: drop-shadow(0 0 5px #f00);">
+          <path class="gauge-bg" d="M 10 50 A 40 40 0 0 1 90 50" />
+          <path class="gauge-fg red" d="M 10 50 A 40 40 0 0 1 90 50" />
+          <text x="50" y="45" text-anchor="middle" class="gauge-text" style="fill:#f00">92%</text>
+        </svg>
+        <div class="gauge-label" style="font-size: 10px; color:#f00;">KŁAMSTWO</div>
+      </div>
+    </div>
+
+    <div style="font-size: 12px; text-align: center; color: #0a0; margin-top: 15px; border-bottom: 1px dashed #0a0; padding-bottom: 5px;">
+      QUINCUNX MATRIX
+    </div>
+    <div class="grid-quincunx">
+      <div class="node"><div class="node-title">DOBRO</div><div class="node-val">90%</div></div>
+      <div class="node"><div class="node-title">PRAWDA</div><div class="node-val">60%</div></div>
+      <div class="node"><div class="node-title">ZDROWIE</div><div class="node-val">70%</div></div>
+      <div class="node"><div class="node-title">DBRYT</div><div class="node-val warning">50%</div></div>
+      <div class="node"><div class="node-title">PIĘKNO</div><div class="node-val">80%</div></div>
+    </div>
+  </div>
+</body>
+</html>

@@ -58,6 +58,10 @@ class AnalysisResponse(BaseModel):
     morality_supremacy_score: float = 0.0
     public_morality_totality_score: float = 0.0
     administrative_responsibility_score: float = 0.0
+    civilizational_lie_score: float = 0.0
+    civilizational_lie_percentage: float = 0.0
+    civilizational_lie_diagnosis: str = ""
+    civilizational_lie_vectors: Dict[str, float] = {}
     raw_ratings: Dict[str, Any] = {}
     history_stats: Dict[str, Any] = {}
 
