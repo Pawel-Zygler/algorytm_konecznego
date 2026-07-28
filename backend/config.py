@@ -8,9 +8,6 @@ load_dotenv(dotenv_path)
 # Base paths
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 INDICES_DIR = os.path.join(BASE_DIR, "indices")
-SCORE_FILE = os.path.join(BASE_DIR, "Score")
-GENERALIA_ENUM_FILE = os.path.join(BASE_DIR, "Generalia_enum")
-PERSONALISTIC_ROW_FILE = os.path.join(BASE_DIR, "isPersonalisticRow")
 
 # API Keys configuration
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
