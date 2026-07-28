@@ -58,7 +58,7 @@ Backend wystartuje pod adresem `http://127.0.0.1:8005`.
 
 Algorytm analizuje tekst chronologicznie w 5 krokach historiozoficznych Feliksa Konecznego:
 
-1. **Krok 1: Indeks Sakralności (Przemiana Cywilizacyjna)**:
+1. **Krok 1: Indeks Sakralności**:
    - Mierzy stopień uświęcenia prawa i państwa oraz odrzucenie statolatrii i cezaropapizmu (13 wskaźników).
 
 2. **Krok 2: Supremacja Ducha** (Agregacja 12 pod-indeksów):
