@@ -6,6 +6,23 @@ Format opiera się na zasadach [Keep a Changelog](https://keepachangelog.com/pl/
 
 ---
 
+## [1.4.0] - 2026-07-28
+
+### Dodane (Added)
+- **Wskaźnik Kłamstwa Cywilizacyjnego (Civilizational Lie Index)**: Dodano eksperymentalny meta-indeks detekcji kłamstwa (na bazie punktu odniesienia *Civitas Dei*) z 5 wektorami składowymi i wykresem radarowym. Zintegrowano obsługę z poziomu checkboxa w UI.
+- **Krok 4 Algorytmu (Chyżość Historyczna / Wydajność Cywilizacyjna)**: Zaimplementowano miarę zdolności badanej społeczności do kapitalizowania czasu (vs powrót *ab ovo*).
+- **Krok 5 Algorytmu (Współmierność Quincunxa)**: Zrestrukturyzowano logikę harmonijnej spójności 5 sfer bytu poprzez wprowadzenie nowej, zaawansowanej formuły syntezy geometrycznej oraz wbudowano historię / pamięć analiz tekstu.
+- **Alternatywne Warianty Interfejsu Graficznego (Mockupy)**: Zaprojektowano 6 gotowych, unikalnych koncepcji UI panelu wyników (w tym Mroczny Glassmorphism, Brutalizm Akademicki, Neumorfizm, Hacker HUD) z nowym wykresem półkolistym SVG (*semi-circle gauge*).
+- **Skrypty Wydawnicze i Dystrybucyjne**: Stworzono skrypt `scripts/build_release.sh` oraz filtry `.gitattributes` drastycznie ułatwiające pakowanie i pobieranie czystej wersji wtyczki (pozbawionej testów i plików developerskich) z serwerów GitHuba. W README.md zawarto przykładowy pakiet analityczny offline (Imperium Rzymskie).
+
+### Zmienione (Changed)
+- Zastąpiono animację loadera (oczekiwania na odpowiedź) – z żartobliwej wizualizacji czołgu na elegancki, zarysowujący się portret Profesora.
+- Poprawiono logikę i polaryzację ocen (naprawa błędu inwersji) dla Indeksu Sakralności.
+
+### Usunięte (Removed)
+- Wyrzucono z repozytorium przestarzałe "sieroty kodu" (martwe pliki `Score`, `isPersonalisticRow`, `Generalia_enum`) oraz odpowiadające im odwołania w backendzie.
+- Oskubano plik instalacyjny `README.md` ze zbyt technicznej sekcji dla programistów (Dev Speedup).
+
 ## [1.3.0] - 2026-07-23
 
 ### Dodane (Added)
