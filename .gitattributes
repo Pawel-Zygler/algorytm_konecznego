@@ -1,0 +1,12 @@
+# Pliki i foldery ignorowane podczas pobierania repozytorium jako plik ZIP z GitHuba
+tests/ export-ignore
+ui_mockups/ export-ignore
+scripts/ export-ignore
+pytest.ini export-ignore
+.github/ export-ignore
+.vscode/ export-ignore
+.agents/ export-ignore
+
+# Ignoruj pliki deweloperskie w pobieranym archiwum
+.gitignore export-ignore
+.gitattributes export-ignore
