@@ -9,7 +9,7 @@ Cyfrowe narzędzie analityczne i wtyczka przeglądarkowa wdrażająca historiozo
 
 ---
 
-## 🛠️ Instalacja i Uruchomienie Lokalnie
+## 🛠️ Instalacja i Uruchomienie Lokalnie (Tryb Online)
 
 ### Krok 1: Klonowanie repozytorium i instalacja zależności
 ```bash
