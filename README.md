@@ -29,6 +29,9 @@ Otwórz plik `backend/.env` i uzupełnij:
 GEMINI_API_KEY=twój_działający_klucz_api
 ```
 
+> **💡 Jak zdobyć darmowy klucz API?**
+> Wejdź na stronę [Google AI Studio](https://aistudio.google.com/app/apikey), zaloguj się swoim kontem Google i kliknij **"Create API key"**. Wygenerowany ciąg znaków to Twój klucz, który pozwala na setki darmowych analiz dziennie.
+
 ### Krok 3: Uruchomienie serwera backendowego
 Z poziomu głównego folderu uruchom serwer FastAPI:
 ```bash
