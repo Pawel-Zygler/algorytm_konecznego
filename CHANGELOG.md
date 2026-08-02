@@ -4,13 +4,6 @@ Wszystkie znaczące zmiany w projekcie **Algorytm Konecznego** (metoda historioz
 
 Format opiera się na zasadach [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
-## [1.2.9] - 2026-08-02
-
-### Dokumentacja (Docs)
-- **Instrukcja nawigacji Markdown w README.md**: Dodano wyjaśnienie oraz ramkę ostrzeżenia sanitacji GitHub wyjaśniającą nawigację w nowej karcie (Ctrl / Cmd + klik).
-
----
-
 ## [1.2.8] - 2026-08-02
 
 ### Poprawione (Fixed)

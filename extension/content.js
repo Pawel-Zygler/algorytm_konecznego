@@ -579,7 +579,7 @@
           <div>
             <div style="display: flex; align-items: center; gap: 8px;">
               <div class="header-title">Analiza Konecznego</div>
-              <span style="font-size: 11px; background: #e2e8f0; color: #475569; padding: 2px 8px; border-radius: 4px; font-weight: 600;">v1.2.9</span>
+              <span style="font-size: 11px; background: #e2e8f0; color: #475569; padding: 2px 8px; border-radius: 4px; font-weight: 600;">v1.2.8</span>
             </div>
             <div class="header-subtitle">Metoda Historiozoficzna</div>
           </div>
@@ -2229,14 +2229,14 @@
         </div>
       </div>`;
 
-    const chyznoscScore = data.time_mastery_efficiency_score >= 0 
+    const chyznoscScore = data.time_mastery_efficiency_score >= 0
       ? Math.round(data.time_mastery_efficiency_score * 100)
       : timeMasteryScore;
 
     const chyznoscDiagnosis = data.time_mastery_efficiency_diagnosis || (
       chyznoscScore >= 65 ? 'Wysoka Chyżość Historyczna (Akumulacja Dorobku / Łacina)' :
-      chyznoscScore >= 35 ? 'Umiarkowana Wydajność Cywilizacyjna' :
-      'Niska Chyżość Historyczna (Wegetacja Ab Ovo / Zastój)'
+        chyznoscScore >= 35 ? 'Umiarkowana Wydajność Cywilizacyjna' :
+          'Niska Chyżość Historyczna (Wegetacja Ab Ovo / Zastój)'
     );
 
     const chyznoscHero = buildDarkHero(
@@ -2267,8 +2267,8 @@
 
     const quincunxDiagnosis = data.quincunx_diagnosis || (
       quincunxScore >= 65 ? 'DOMINACJA NORMY ŁACIŃSKIEJ (Współmierność sfer bytu)' :
-      quincunxScore >= 35 ? 'Umiarkowana Współmierność Bytu' :
-      'CYWILIZACJA DEFEKTOWNA / UŁOMNA (Defekt sfery bytu)'
+        quincunxScore >= 35 ? 'Umiarkowana Współmierność Bytu' :
+          'CYWILIZACJA DEFEKTOWNA / UŁOMNA (Defekt sfery bytu)'
     );
 
     const historyStats = data.history_stats || {};
@@ -2308,10 +2308,10 @@
     const liePct = typeof data.civilizational_lie_percentage === 'number' ? data.civilizational_lie_percentage : -1;
     const lieDiagnosis = data.civilizational_lie_diagnosis || (
       liePct < 0 ? 'Brak danych dla Wskaźnika Kłamstwa' :
-      liePct <= 15 ? 'PRAWDA OBIEKTYWNA I PERSONALIZM (Civitas Dei)' :
-      liePct <= 40 ? 'UMIARKOWANA MANIPULACJA / PRAGMATYZM' :
-      liePct <= 70 ? '⚠️ ZAKŁAMANIE SYSTEMOWE (Dwoistość Sumienia / Statolatria)' :
-      '🚨 KŁAMSTWO FUNDAMENTALNE (Zbawienie Zbiorowe / Acywilizacyjny Kołobłęd)'
+        liePct <= 15 ? 'PRAWDA OBIEKTYWNA I PERSONALIZM (Civitas Dei)' :
+          liePct <= 40 ? 'UMIARKOWANA MANIPULACJA / PRAGMATYZM' :
+            liePct <= 70 ? '⚠️ ZAKŁAMANIE SYSTEMOWE (Dwoistość Sumienia / Statolatria)' :
+              '🚨 KŁAMSTWO FUNDAMENTALNE (Zbawienie Zbiorowe / Acywilizacyjny Kołobłęd)'
     );
 
     const lieHero = buildDarkHero(
@@ -2525,7 +2525,7 @@
     const paragraphs = Array.from(document.querySelectorAll('p, .metadata-value, .description'))
       .map(p => p && p.innerText ? p.innerText.trim() : '')
       .filter(t => t.length > 20);
-    
+
     if (paragraphs.length > 0) {
       const joined = paragraphs.join(' ');
       if (joined.length > 100) return clean(joined);
