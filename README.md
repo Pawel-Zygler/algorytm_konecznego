@@ -18,7 +18,9 @@ Zamiast pobierać backend i konfigurację, możesz natychmiast otworzyć gotowe 
 * ⭐️ <a href="https://raw.githack.com/Pawel-Zygler/algorytm_konecznego/main/examples/offline-roman-empire/5-quincunx-pieciomian.html" target="_blank"><strong>Raport 5: Krok 5 – Współmierność Pięciomianu Bytu / Quincunx (Otwórz w nowej karcie ↗)</strong></a>
 * 👁️ <a href="https://raw.githack.com/Pawel-Zygler/algorytm_konecznego/main/examples/offline-roman-empire/6-wskaznik-klamstwa.html" target="_blank"><strong>Raport 6: Wskaźnik Kłamstwa Cywilizacyjnego (Otwórz w nowej karcie ↗)</strong></a>
 
-> **💡 Wskazówka:** Jeśli Twoja przeglądarka otwiera link w tym samym oknie, przytrzymaj klawisz `Ctrl` (lub `Cmd` na Macu) podczas kliknięcia lub użyj prawego przycisku myszy *"Otwórz odnośnik w nowej karcie"*.
+> [!NOTE]
+> Ze względów bezpieczeństwa serwis GitHub usuwa atrybuty `target="_blank"` w Markdownie i wymusza otwieranie odnośników w tym samym oknie. Aby otworzyć dowolny raport w nowej karcie, **przytrzymaj klawisz `Ctrl` (lub `Cmd` na Macu)** podczas kliknięcia linku bądź kliknij go kółkiem myszy.
+
 > **Katalog plików w repozytorium:** [`examples/offline-roman-empire`](examples/offline-roman-empire)
 
 ---
