@@ -4,6 +4,13 @@ Wszystkie znaczące zmiany w projekcie **Algorytm Konecznego** (metoda historioz
 
 Format opiera się na zasadach [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
+## [1.2.7] - 2026-08-02
+
+### Poprawione (Fixed)
+- **Izolacja CSS w podglądzie offline**: Przywrócono powłokę Shadow DOM w plikach raportów offline z automatyczną hydratacją JS, eliminując nakładanie się stylów wtyczki na oryginalne strony Wikipedia.
+
+---
+
 ## [1.2.6] - 2026-08-02
 
 ### Poprawione (Fixed)
