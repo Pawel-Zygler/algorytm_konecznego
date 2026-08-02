@@ -4,6 +4,13 @@ Wszystkie znaczące zmiany w projekcie **Algorytm Konecznego** (metoda historioz
 
 Format opiera się na zasadach [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
+## [1.2.5] - 2026-08-02
+
+### Zmienione (Changed)
+- **Otwieranie raportów w nowej karcie**: Przekształcono linki w README.md na tagi HTML `target="_blank"` wraz z usugą `htmlpreview`, pozwalając otwierać wyrenderowane strony wyników w nowej karcie przeglądarki.
+
+---
+
 ## [1.2.4] - 2026-08-02
 
 ### Dodane (Added)
