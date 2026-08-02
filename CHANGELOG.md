@@ -4,6 +4,28 @@ Wszystkie znaczące zmiany w projekcie **Algorytm Konecznego** (metoda historioz
 
 Format opiera się na zasadach [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
+## [1.2.3] - 2026-08-02
+
+### Dodane (Added)
+- **Przykłady offline w repozytorium**: Rozpakowano i udostępniono bez pakowania zbiór gotowych raportów analitycznych HTML dla Imperium Rzymskiego w folderze `examples/`.
+
+---
+
+## [1.2.2] - 2026-08-02
+
+### Zmienione (Changed)
+- **Rozmiary okien wtyczki**: Zwiększono szerokość panelu i okienka popup o 30% (panel z 600px na 780px, popup z 20rem na 26rem) oraz wysokość o 15% (max-height do 94vh).
+
+---
+
+## [1.2.1] - 2026-08-02
+
+### Poprawione (Fixed)
+- **Czytelność czcionek**: Usunięto zamazany text-shadow w loaderze, poprawiono kontrast czcionek i ustawiono stos fontów systemowych z antyaliasingiem.
+- **Domyślne zakładki po analizie**: Zaimplementowano automatyczne przełączanie zakładek na wyliczony lub pierwszy wybrany indeks zaraz po zakończeniu analizy.
+- **Status połączenia w popupie**: Dodano fallback IPv6/IPv4 (`localhost` vs `127.0.0.1`), czyszczenie URL oraz wydłużony timeout zapytań stanu serwera.
+- **Obsługa Polona.pl i serwisów OCR**: Dodano analizę zaznaczonego tekstu (`window.getSelection()`), selektory OCR/transkrypcji dla archiwów cyfrowych oraz bezpieczne parsowanie JSON odpowiedzi Gemini API.
+
 ---
 
 ## [1.4.0] - 2026-07-28

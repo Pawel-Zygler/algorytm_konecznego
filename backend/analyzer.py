@@ -116,8 +116,21 @@ def call_gemini_api(prompt: str, system_instruction: str, api_key: str, schema: 
                     response = requests.post(url, headers=headers, json=data, timeout=120)
                     if response.status_code == 200:
                         res_json = response.json()
-                        content_text = res_json['candidates'][0]['content']['parts'][0]['text']
-                        return content_text
+                        candidates = res_json.get('candidates', [])
+                        if candidates:
+                            cand = candidates[0]
+                            content_obj = cand.get('content', {})
+                            parts = content_obj.get('parts', [])
+                            if parts and isinstance(parts, list) and len(parts) > 0 and 'text' in parts[0]:
+                                return parts[0]['text']
+                            else:
+                                finish_reason = cand.get('finishReason', 'UNKNOWN')
+                                last_error = f"Gemini model {model_name} response missing text (finishReason: {finish_reason})"
+                                print(f"⚠️ {last_error}")
+                                continue
+                        else:
+                            last_error = f"Gemini model {model_name} returned empty candidates"
+                            continue
                     
                     elif response.status_code == 429:
                         last_error = f"Model {model_name} quota exceeded (429): {response.text}"

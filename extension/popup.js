@@ -71,18 +71,40 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Async server health check with Guard Clauses
+  // Async server health check with Guard Clauses and IPv6/IPv4 fallback
   async function checkServerHealth(url) {
     statusDot.className = 'status-dot';
     statusText.textContent = 'Sprawdzanie...';
 
-    try {
-      const response = await fetch(`${url}/api/health`, {
-        method: 'GET',
-        signal: AbortSignal.timeout(3000)
-      });
+    let cleanUrl = (url || DEFAULT_BACKEND_URL).trim().replace(/\/+$/, '');
 
-      if (!response.ok) {
+    try {
+      let response;
+      try {
+        response = await fetch(`${cleanUrl}/api/health`, {
+          method: 'GET',
+          signal: AbortSignal.timeout(5000)
+        });
+      } catch (err) {
+        // Fallback between localhost and 127.0.0.1 for macOS IPv6 resolution
+        if (cleanUrl.includes('localhost')) {
+          const fallbackUrl = cleanUrl.replace('localhost', '127.0.0.1');
+          response = await fetch(`${fallbackUrl}/api/health`, {
+            method: 'GET',
+            signal: AbortSignal.timeout(5000)
+          });
+        } else if (cleanUrl.includes('127.0.0.1')) {
+          const fallbackUrl = cleanUrl.replace('127.0.0.1', 'localhost');
+          response = await fetch(`${fallbackUrl}/api/health`, {
+            method: 'GET',
+            signal: AbortSignal.timeout(5000)
+          });
+        } else {
+          throw err;
+        }
+      }
+
+      if (!response || !response.ok) {
         statusDot.classList.add('error');
         statusText.textContent = 'Błąd statusu';
         return;

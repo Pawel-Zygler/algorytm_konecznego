@@ -5,11 +5,11 @@ Cyfrowe narzędzie analityczne i wtyczka przeglądarkowa wdrażająca historiozo
 ![Screenshot z działania wtyczki](extension/screenshot.png)
 ![Screenshot z analizy artykułu Wikipedia](extension/screenshot2.png)
 
-> **[Pobierz przykładowe wyniki offline (Imperium Rzymskie)](examples/wyniki_imperium_rzymskie_v1.2.0.zip)** – rozpakuj i zobacz, jak w praktyce wygląda raport z algorytmu.
+> **[Przeglądaj przykładowe wyniki offline (Imperium Rzymskie)](<examples/Wyniki algorytmu dla Imperium Rzymskiego, wersja 1.2.0. Offline.>)** – zobacz w praktyce rozpakowane raporty i wyniki z analizy algorytmu.
 
 ---
 
-## 🛠️ Instalacja i Uruchomienie Lokalnie (Tryb Online)
+## 🛠️ Instalacja wtyczki (Tryb Online)
 
 ### Krok 1: Klonowanie repozytorium i instalacja zależności
 ```bash

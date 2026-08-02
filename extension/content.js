@@ -5,18 +5,17 @@
 
   const root = document.createElement('div');
   root.id = 'koneczny-extension-root';
-  root.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:999999;font-family:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",sans-serif;';
+  root.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:999999;font-family:system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;';
   document.body.appendChild(root);
 
   const shadow = root.attachShadow({ mode: 'open' });
 
-  // Import Google Font via link inside shadow (won't work in shadow, so we use system fonts)
   const css = `
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-
     :host {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     *, *::before, *::after { box-sizing: inherit; }
@@ -55,8 +54,8 @@
       position: fixed;
       bottom: 88px;
       right: 24px;
-      width: 600px;
-      max-height: 82vh;
+      width: 780px;
+      max-height: 94vh;
       background: #ffffff;
       border: 1px solid #e4e4e7;
       border-radius: 16px;
@@ -249,7 +248,7 @@
       color: #dc2626;
       font-size: 10px;
       font-weight: 700;
-      font-family: monospace;
+      font-family: system-ui, sans-serif;
       border-radius: 6px;
       white-space: nowrap;
       transition: all 0.3s ease;
@@ -263,7 +262,7 @@
       color: #059669;
       font-size: 10px;
       font-weight: 700;
-      font-family: monospace;
+      font-family: system-ui, sans-serif;
       border-radius: 6px;
       white-space: nowrap;
       transition: left 1.8s cubic-bezier(0.4, 0, 0.2, 1), top 1.8s cubic-bezier(0.4, 0, 0.2, 1), transform 1.8s ease, opacity 1.8s ease;
@@ -580,7 +579,7 @@
           <div>
             <div style="display: flex; align-items: center; gap: 8px;">
               <div class="header-title">Analiza Konecznego</div>
-              <span style="font-size: 11px; background: rgba(255,255,255,0.1); color: #9ca3af; padding: 2px 6px; border-radius: 4px; font-family: monospace;">v1.2.0</span>
+              <span style="font-size: 11px; background: #e2e8f0; color: #475569; padding: 2px 8px; border-radius: 4px; font-weight: 600;">v1.2.3</span>
             </div>
             <div class="header-subtitle">Metoda Historiozoficzna</div>
           </div>
@@ -706,6 +705,7 @@
 
   // ── Analysis ──────────────────────────────────────────
   async function runAnalysis(targetIndexStr = null) {
+    window.lastAnalysisTargetIndex = targetIndexStr;
     if (trigger) trigger.classList.add('spinning');
 
     content.innerHTML = `
@@ -720,7 +720,7 @@
             <img src="${konecznyImg}" alt="Profesor Feliks Koneczny" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,0.2);">
           </div>
         </div>
-        <div class="loader-label" id="loader-label-text" style="font-size: 15px; font-weight: 600; color: #f3f4f6; text-shadow: 0 2px 6px rgba(0,0,0,0.6); max-width: 320px; margin: 0 auto; line-height: 1.5;">Profesor analizuje tekst…</div>
+        <div class="loader-label" id="loader-label-text" style="font-size: 15px; font-weight: 600; color: #1e293b; max-width: 380px; margin: 0 auto; line-height: 1.5; text-shadow: none;">Profesor analizuje tekst…</div>
       </div>
     `;
 
@@ -968,6 +968,22 @@
   }
 
 
+  function getTabForIndexKey(key) {
+    if (!key) return null;
+    const k = key.toLowerCase().trim();
+    if (k === 'sacrality') return 'tab-sacrality';
+    if (k === 'quincunx') return 'tab-quincunx';
+    if (k === 'time_mastery' || k === 'chyznosc') return 'tab-chyznosc';
+    if (k === 'lie' || k === 'lie_index' || k === 'civilizational_lie') return 'tab-lie';
+    if (['generalia', 'duty_source', 'motivation', 'justice_nature', 'conscience_status', 'work_ethos'].includes(k)) {
+      return 'tab-generalia';
+    }
+    if (['spirit', 'dualism', 'pluralism', 'aposteriori', 'organism', 'personalism', 'family', 'church', 'property', 'inheritance', 'morality', 'public_morality', 'administrative_responsibility'].includes(k)) {
+      return 'tab-spirit';
+    }
+    return null;
+  }
+
   // Global state
   window.konecznyResults = window.konecznyResults || { raw_ratings: {} };
   // ── Render ─────────────────────────────────────────────
@@ -975,11 +991,40 @@
     if (trigger) trigger.classList.remove('spinning');
     const data = window.konecznyResults;
 
-    // Remember active tab
-    let activeTabId = 'tab-church'; // default to church for dev
-    const existingActive = content.querySelector('.tab-btn.active');
-    if (existingActive) {
-      activeTabId = existingActive.id;
+    // Determine active tab dynamically based on requested index or calculated/selected indices
+    let activeTabId = null;
+
+    if (window.lastAnalysisTargetIndex) {
+      activeTabId = getTabForIndexKey(window.lastAnalysisTargetIndex);
+    }
+
+    if (!activeTabId && window.konecznyConfig && Array.isArray(window.konecznyConfig.selectedIndices) && window.konecznyConfig.selectedIndices.length > 0) {
+      const sorted = [...window.konecznyConfig.selectedIndices].sort();
+      for (const idxKey of sorted) {
+        const tab = getTabForIndexKey(idxKey);
+        if (tab) {
+          activeTabId = tab;
+          break;
+        }
+      }
+    }
+
+    if (!activeTabId && data.raw_ratings) {
+      const rawKeys = Object.keys(data.raw_ratings).sort();
+      for (const rKey of rawKeys) {
+        if (Object.keys(data.raw_ratings[rKey] || {}).length > 0) {
+          const cleanKey = rKey.replace('_scores', '');
+          const tab = getTabForIndexKey(cleanKey);
+          if (tab) {
+            activeTabId = tab;
+            break;
+          }
+        }
+      }
+    }
+
+    if (!activeTabId) {
+      activeTabId = 'tab-generalia';
     }
 
 
@@ -2317,15 +2362,15 @@
 
     content.innerHTML = `
       <div class="tab-bar">
-        <button class="tab-btn" id="tab-sacrality">Indeks Sakralności</button>
-        <button class="tab-btn" id="tab-spirit">Supremacja Ducha</button>
-        <button class="tab-btn active" id="tab-generalia">Szereg Personalistyczny</button>
-        <button class="tab-btn" id="tab-chyznosc">Krok 4: Chyżość</button>
-        <button class="tab-btn" id="tab-quincunx">Krok 5: Quincunx</button>
-        <button class="tab-btn" id="tab-lie">Wskaźnik Kłamstwa</button>
+        <button class="tab-btn ${activeTabId === 'tab-sacrality' ? 'active' : ''}" id="tab-sacrality">Indeks Sakralności</button>
+        <button class="tab-btn ${activeTabId === 'tab-spirit' ? 'active' : ''}" id="tab-spirit">Supremacja Ducha</button>
+        <button class="tab-btn ${activeTabId === 'tab-generalia' ? 'active' : ''}" id="tab-generalia">Szereg Personalistyczny</button>
+        <button class="tab-btn ${activeTabId === 'tab-chyznosc' ? 'active' : ''}" id="tab-chyznosc">Krok 4: Chyżość</button>
+        <button class="tab-btn ${activeTabId === 'tab-quincunx' ? 'active' : ''}" id="tab-quincunx">Krok 5: Quincunx</button>
+        <button class="tab-btn ${activeTabId === 'tab-lie' ? 'active' : ''}" id="tab-lie">Wskaźnik Kłamstwa</button>
       </div>
 
-      <div id="view-sacrality" style="display:none">
+      <div id="view-sacrality" style="${activeTabId === 'tab-sacrality' ? '' : 'display:none'}">
         ${sacralityHero}
         <div style="font-size: 13px; color: #9ca3af; padding: 0 20px; margin-bottom: 15px; line-height: 1.5; text-align: center;">
            Mierzy, czy porządek życia zbiorowego (prawo, państwo, instytucje) posiada charakter sakralny, tzn. czy jest uznawany za święty, nietykalny i wyjęty spod krytyki moralnej i rozumowej.
@@ -2333,7 +2378,7 @@
         <div class="section-title">13 Wskaźników Sakralności</div>
         ${sacralityCards}
       </div>
-      <div id="view-spirit" style="display:none">
+      <div id="view-spirit" style="${activeTabId === 'tab-spirit' ? '' : 'display:none'}">
         ${spiritHero}
         <div style="font-size: 13px; color: #9ca3af; padding: 0 20px; margin-bottom: 15px; line-height: 1.5; text-align: center;">
            Supremacja Ducha to agregacja 12 podstawowych indeksów: od dualizmu prawnego po odpowiedzialność urzędniczą.
@@ -2341,7 +2386,7 @@
         </div>
         ${spiritCards}
       </div>
-      <div id="view-generalia">
+      <div id="view-generalia" style="${activeTabId === 'tab-generalia' ? '' : 'display:none'}">
         ${generaliaHero}
         ${mixtureAlertHtml}
         <div style="font-size: 13px; color: #9ca3af; padding: 0 20px; margin-bottom: 15px; line-height: 1.5; text-align: center;">
@@ -2351,7 +2396,7 @@
         <div class="section-title">7 Generaliów Etycznych (Siedem Niewiadomych)</div>
         ${generaliaCards}
       </div>
-      <div id="view-chyznosc" style="display:none">
+      <div id="view-chyznosc" style="${activeTabId === 'tab-chyznosc' ? '' : 'display:none'}">
         ${chyznoscHero}
         <div style="font-size: 13px; color: #9ca3af; padding: 0 20px; margin-bottom: 15px; line-height: 1.5; text-align: center;">
            Wydajność cywilizacyjna (Chyżość Historyczna) to zdolność społeczności do oszczędzania i akumulacji czasu.
@@ -2360,7 +2405,7 @@
         <div class="section-title">Wskaźniki Opanowania Czasu i Kapitalizacji</div>
         ${timeMasteryCards}
       </div>
-      <div id="view-quincunx" style="display:none">
+      <div id="view-quincunx" style="${activeTabId === 'tab-quincunx' ? '' : 'display:none'}">
         ${historyBadgeHtml}
         ${quincunxHero}
         <div style="font-size: 13px; color: #9ca3af; padding: 0 20px; margin-bottom: 15px; line-height: 1.5; text-align: center;">
@@ -2370,7 +2415,7 @@
         <div class="section-title">11 Wskaźników Pięciomianu Bytu (Quincunx)</div>
         ${quincunxCards}
       </div>
-      <div id="view-lie" style="display:none">
+      <div id="view-lie" style="${activeTabId === 'tab-lie' ? '' : 'display:none'}">
         ${lieHero}
         <div style="font-size: 13px; color: #9ca3af; padding: 0 20px; margin-bottom: 15px; line-height: 1.5; text-align: center;">
            Baseline: Celem istnienia człowieka jest zbawienie duszy (salus animarum), a prawo ma służyć Dobru i Dekalogowi.
@@ -2441,12 +2486,53 @@
       return { pdf_url: window.location.href };
     }
 
-    const selectors = ['article', 'main', '[role="main"]', '#content', '.content', '.post-content', '.entry-content', '.article-content'];
+    // 1. Check if user highlighted/selected text (ideal for Polona scans, excerpts, etc.)
+    const selection = window.getSelection ? window.getSelection().toString() : '';
+    if (selection && selection.trim().length > 30) {
+      return clean(selection);
+    }
+
+    // 2. Check digital libraries (Polona), articles, OCR containers and main content
+    const selectors = [
+      'polona-transcription',
+      'app-transcription',
+      '.transcription',
+      '[data-test="transcription"]',
+      '#transcription',
+      '.item-metadata',
+      '.ocr-text',
+      '.metadata-container',
+      '.document-text',
+      '.reader-content',
+      'article',
+      'main',
+      '[role="main"]',
+      '#content',
+      '.content',
+      '.post-content',
+      '.entry-content',
+      '.article-content'
+    ];
+
     for (const s of selectors) {
       const el = document.querySelector(s);
-      if (el && el.innerText.trim().length > 400) return clean(el.innerText);
+      if (el && el.innerText && el.innerText.trim().length > 100) {
+        return clean(el.innerText);
+      }
     }
-    return clean(document.body.innerText);
+
+    // 3. Aggregate paragraphs/metadata elements if article containers missing
+    const paragraphs = Array.from(document.querySelectorAll('p, .metadata-value, .description'))
+      .map(p => p && p.innerText ? p.innerText.trim() : '')
+      .filter(t => t.length > 20);
+    
+    if (paragraphs.length > 0) {
+      const joined = paragraphs.join(' ');
+      if (joined.length > 100) return clean(joined);
+    }
+
+    // 4. Fallback to body text
+    return clean(document.body ? document.body.innerText || '' : '');
   }
 
   function clean(str) {
