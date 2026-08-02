@@ -4,6 +4,13 @@ Wszystkie znaczące zmiany w projekcie **Algorytm Konecznego** (metoda historioz
 
 Format opiera się na zasadach [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
+## [1.2.4] - 2026-08-02
+
+### Dodane (Added)
+- **Sekcja Trybu Offline w README.md**: Dodano bezpośrednie odnośniki do 6 gotowych raportów analitycznych HTML dla szybkiego podglądu działania bez instalacji.
+
+---
+
 ## [1.2.3] - 2026-08-02
 
 ### Dodane (Added)

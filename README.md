@@ -5,7 +5,20 @@ Cyfrowe narzędzie analityczne i wtyczka przeglądarkowa wdrażająca historiozo
 ![Screenshot z działania wtyczki](extension/screenshot.png)
 ![Screenshot z analizy artykułu Wikipedia](extension/screenshot2.png)
 
-> **[Przeglądaj przykładowe wyniki offline (Imperium Rzymskie)](<examples/Wyniki algorytmu dla Imperium Rzymskiego, wersja 1.2.0. Offline.>)** – zobacz w praktyce rozpakowane raporty i wyniki z analizy algorytmu.
+> **⚡ Chcesz szybko zobaczyć działanie wtyczki bez instalacji?** Wybierz jeden z gotowych raportów offline poniżej!
+
+## 📄 Przykłady Wyników Offline (Bez Instalacji i Bez API)
+
+Zamiast pobierać backend i konfigurację, możesz natychmiast otworzyć gotowe raporty z analizy artykułu **Imperium Rzymskie (Wikipedia)**:
+
+* 🏛️ **[Raport 1: Indeks Sakralności](<examples/Wyniki algorytmu dla Imperium Rzymskiego, wersja 1.2.0. Offline./Roman Empire - Wikipedia.html>)**
+* 🕊️ **[Raport 2: Supremacja Ducha (Agregacja 12 Indeksów)](<examples/Wyniki algorytmu dla Imperium Rzymskiego, wersja 1.2.0. Offline./supremacja ducha.htm>)**
+* ⚖️ **[Raport 3: Szereg Personalistyczny (Siedem Niewiadomych Etyki)](<examples/Wyniki algorytmu dla Imperium Rzymskiego, wersja 1.2.0. Offline./Roman Empire - Wikipedia - szereg.html>)**
+* ⏳ **[Raport 4: Krok 4 – Chyżość Historyczna](<examples/Wyniki algorytmu dla Imperium Rzymskiego, wersja 1.2.0. Offline./Roman Empire - Wikipedia - chyzosc.html>)**
+* ⭐️ **[Raport 5: Krok 5 – Współmierność Pięciomianu Bytu (Quincunx)](<examples/Wyniki algorytmu dla Imperium Rzymskiego, wersja 1.2.0. Offline./Roman Empire - Wikipedia - spojnosc pieciomianu.html>)**
+* 👁️ **[Raport 6: Wskaźnik Kłamstwa Cywilizacyjnego](<examples/Wyniki algorytmu dla Imperium Rzymskiego, wersja 1.2.0. Offline./Roman Empire - Wikipedia - eksperyment - wskaznik klamstwa.html>)**
+
+> **Przeglądaj cały folder z wynikami offline:** [`examples/Wyniki algorytmu dla Imperium Rzymskiego, wersja 1.2.0. Offline.`](<examples/Wyniki algorytmu dla Imperium Rzymskiego, wersja 1.2.0. Offline.>)
 
 ---
 
