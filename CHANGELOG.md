@@ -4,6 +4,13 @@ Wszystkie znaczące zmiany w projekcie **Algorytm Konecznego** (metoda historioz
 
 Format opiera się na zasadach [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
+## [1.2.6] - 2026-08-02
+
+### Poprawione (Fixed)
+- **Renderowanie podglądu offline**: Rozwinięto znaleziska w plikach HTML z wyciszonego `<template shadowrootmode="open">` na bezpośrednio widoczny element z automatyczną interaktywnością zakładek i kart.
+
+---
+
 ## [1.2.5] - 2026-08-02
 
 ### Zmienione (Changed)
