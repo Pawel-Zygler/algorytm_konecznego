@@ -9,16 +9,17 @@ Cyfrowe narzędzie analityczne i wtyczka przeglądarkowa wdrażająca historiozo
 
 ## 📄 Przykłady Wyników Offline (Bez Instalacji i Bez API)
 
-Zamiast pobierać backend i konfigurację, możesz natychmiast otworzyć wyrenderowany interfejs wtyczki z wynikami analizy artykułu **Imperium Rzymskie (Wikipedia)** w nowej karcie przeglądarki:
+Zamiast pobierać backend i konfigurację, możesz natychmiast otworzyć gotowe wyrenderowane raporty z analizy artykułu **Imperium Rzymskie (Wikipedia)** w nowej karcie przeglądarki:
 
-* 🏛️ <a href="https://raw.githack.com/Pawel-Zygler/algorytm_konecznego/main/examples/Wyniki%20algorytmu%20dla%20Imperium%20Rzymskiego,%20wersja%201.2.0.%20Offline./Roman%20Empire%20-%20Wikipedia.html" target="_blank"><strong>Raport 1: Indeks Sakralności (Otwórz podgląd ↗)</strong></a>
-* 🕊️ <a href="https://raw.githack.com/Pawel-Zygler/algorytm_konecznego/main/examples/Wyniki%20algorytmu%20dla%20Imperium%20Rzymskiego,%20wersja%201.2.0.%20Offline./supremacja%20ducha.htm" target="_blank"><strong>Raport 2: Supremacja Ducha – Agregacja 12 Indeksów (Otwórz podgląd ↗)</strong></a>
-* ⚖️ <a href="https://raw.githack.com/Pawel-Zygler/algorytm_konecznego/main/examples/Wyniki%20algorytmu%20dla%20Imperium%20Rzymskiego,%20wersja%201.2.0.%20Offline./Roman%20Empire%20-%20Wikipedia%20-%20szereg.html" target="_blank"><strong>Raport 3: Szereg Personalistyczny – 7 Generaliów Etyki (Otwórz podgląd ↗)</strong></a>
-* ⏳ <a href="https://raw.githack.com/Pawel-Zygler/algorytm_konecznego/main/examples/Wyniki%20algorytmu%20dla%20Imperium%20Rzymskiego,%20wersja%201.2.0.%20Offline./Roman%20Empire%20-%20Wikipedia%20-%20chyzosc.html" target="_blank"><strong>Raport 4: Krok 4 – Chyżość Historyczna (Otwórz podgląd ↗)</strong></a>
-* ⭐️ <a href="https://raw.githack.com/Pawel-Zygler/algorytm_konecznego/main/examples/Wyniki%20algorytmu%20dla%20Imperium%20Rzymskiego,%20wersja%201.2.0.%20Offline./Roman%20Empire%20-%20Wikipedia%20-%20spojnosc%20pieciomianu.html" target="_blank"><strong>Raport 5: Krok 5 – Współmierność Pięciomianu Bytu / Quincunx (Otwórz podgląd ↗)</strong></a>
-* 👁️ <a href="https://raw.githack.com/Pawel-Zygler/algorytm_konecznego/main/examples/Wyniki%20algorytmu%20dla%20Imperium%20Rzymskiego,%20wersja%201.2.0.%20Offline./Roman%20Empire%20-%20Wikipedia%20-%20eksperyment%20-%20wskaznik%20klamstwa.html" target="_blank"><strong>Raport 6: Wskaźnik Kłamstwa Cywilizacyjnego (Otwórz podgląd ↗)</strong></a>
+* 🏛️ <a href="https://raw.githack.com/Pawel-Zygler/algorytm_konecznego/main/examples/offline-roman-empire/1-indeks-sakralnosci.html" target="_blank"><strong>Raport 1: Indeks Sakralności (Otwórz w nowej karcie ↗)</strong></a>
+* 🕊️ <a href="https://raw.githack.com/Pawel-Zygler/algorytm_konecznego/main/examples/offline-roman-empire/2-supremacja-ducha.html" target="_blank"><strong>Raport 2: Supremacja Ducha – Agregacja 12 Indeksów (Otwórz w nowej karcie ↗)</strong></a>
+* ⚖️ <a href="https://raw.githack.com/Pawel-Zygler/algorytm_konecznego/main/examples/offline-roman-empire/3-szereg-personalistyczny.html" target="_blank"><strong>Raport 3: Szereg Personalistyczny – 7 Generaliów Etyki (Otwórz w nowej karcie ↗)</strong></a>
+* ⏳ <a href="https://raw.githack.com/Pawel-Zygler/algorytm_konecznego/main/examples/offline-roman-empire/4-chyzosc-historyczna.html" target="_blank"><strong>Raport 4: Krok 4 – Chyżość Historyczna (Otwórz w nowej karcie ↗)</strong></a>
+* ⭐️ <a href="https://raw.githack.com/Pawel-Zygler/algorytm_konecznego/main/examples/offline-roman-empire/5-quincunx-pieciomian.html" target="_blank"><strong>Raport 5: Krok 5 – Współmierność Pięciomianu Bytu / Quincunx (Otwórz w nowej karcie ↗)</strong></a>
+* 👁️ <a href="https://raw.githack.com/Pawel-Zygler/algorytm_konecznego/main/examples/offline-roman-empire/6-wskaznik-klamstwa.html" target="_blank"><strong>Raport 6: Wskaźnik Kłamstwa Cywilizacyjnego (Otwórz w nowej karcie ↗)</strong></a>
 
-> **Alternatywny podgląd (HTMLPreview):** [<a href="https://htmlpreview.github.io/?https://github.com/Pawel-Zygler/algorytm_konecznego/blob/main/examples/Wyniki%20algorytmu%20dla%20Imperium%20Rzymskiego,%20wersja%201.2.0.%20Offline./Roman%20Empire%20-%20Wikipedia.html" target="_blank">Otwórz przez HTMLPreview</a>] | **Katalog plików w repozytorium:** [`examples/Wyniki algorytmu dla Imperium Rzymskiego, wersja 1.2.0. Offline.`](<examples/Wyniki algorytmu dla Imperium Rzymskiego, wersja 1.2.0. Offline.>)
+> **💡 Wskazówka:** Jeśli Twoja przeglądarka otwiera link w tym samym oknie, przytrzymaj klawisz `Ctrl` (lub `Cmd` na Macu) podczas kliknięcia lub użyj prawego przycisku myszy *"Otwórz odnośnik w nowej karcie"*.
+> **Katalog plików w repozytorium:** [`examples/offline-roman-empire`](examples/offline-roman-empire)
 
 ---
 

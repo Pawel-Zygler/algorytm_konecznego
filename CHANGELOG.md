@@ -4,6 +4,13 @@ Wszystkie znaczące zmiany w projekcie **Algorytm Konecznego** (metoda historioz
 
 Format opiera się na zasadach [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
+## [1.2.8] - 2026-08-02
+
+### Poprawione (Fixed)
+- **MIME types i nazwy plików podglądu offline**: Zmieniono rozszerzenia stylów z `.php` na `.css` i skorygowano nazwy ścieżek na czytelne dla CDN, co przywróciło pełne stylizowanie Wikipedii w podglądzie offline.
+
+---
+
 ## [1.2.7] - 2026-08-02
 
 ### Poprawione (Fixed)
