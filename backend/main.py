@@ -86,8 +86,12 @@ async def analyze_text(request: AnalysisRequest, x_gemini_api_key: Optional[str]
     if not text_to_analyze.strip():
         raise HTTPException(status_code=400, detail="Tekst wejściowy lub zawartość PDF nie może być pusta.")
         
-    # Determine API key: first check Request body, then Header, then environment
-    api_key = request.api_key or x_gemini_api_key or os.environ.get("GEMINI_API_KEY")
+    # Determine API key: first check Request body, then Header, then environment (strip empty strings)
+    req_key = (request.api_key or "").strip()
+    hdr_key = (x_gemini_api_key or "").strip()
+    env_key = (os.environ.get("GEMINI_API_KEY") or "").strip()
+    
+    api_key = req_key or hdr_key or env_key
     
     if not api_key:
         raise HTTPException(

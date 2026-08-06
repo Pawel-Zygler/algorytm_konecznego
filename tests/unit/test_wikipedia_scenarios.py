@@ -54,14 +54,17 @@ def _mock_llm_for_talibowie(prompt: str, system_instruction: str, api_key: str, 
 @pytest.mark.unit
 def test_scenario_1_happy_path_polska_wikipedia(monkeypatch):
     """Scenario 1: Happy Path - Analysis of Poland (Wikipedia excerpt)."""
-    if os.environ.get("RUN_LIVE_TESTS") != "1":
+    env_key = (os.environ.get("GEMINI_API_KEY") or "").strip()
+    run_live = os.environ.get("RUN_LIVE_TESTS") == "1" and bool(env_key)
+
+    if not run_live:
         monkeypatch.setattr(analyzer, "call_gemini_api", _mock_llm_for_polska)
 
     payload = {
         "text": POLSKA_WIKIPEDIA_TEXT,
         "title": "Polska - Wikipedia",
         "url": "https://pl.wikipedia.org/wiki/Polska",
-        "api_key": os.environ.get("GEMINI_API_KEY", "test_key_ci"),
+        "api_key": env_key if run_live else "test_key_ci",
         "target_indices": ["sacrality", "conscience_status", "duty_source"]
     }
 
@@ -88,14 +91,17 @@ def test_scenario_1_happy_path_polska_wikipedia(monkeypatch):
 @pytest.mark.unit
 def test_scenario_2_talibowie_wikipedia(monkeypatch):
     """Scenario 2: Analysis of Taliban / Islamic Emirate (Wikipedia excerpt)."""
-    if os.environ.get("RUN_LIVE_TESTS") != "1":
+    env_key = (os.environ.get("GEMINI_API_KEY") or "").strip()
+    run_live = os.environ.get("RUN_LIVE_TESTS") == "1" and bool(env_key)
+
+    if not run_live:
         monkeypatch.setattr(analyzer, "call_gemini_api", _mock_llm_for_talibowie)
 
     payload = {
         "text": TALIBOWIE_WIKIPEDIA_TEXT,
         "title": "Talibowie - Wikipedia",
         "url": "https://pl.wikipedia.org/wiki/Talibowie",
-        "api_key": os.environ.get("GEMINI_API_KEY", "test_key_ci"),
+        "api_key": env_key if run_live else "test_key_ci",
         "target_indices": ["sacrality", "conscience_status", "duty_source"]
     }
 

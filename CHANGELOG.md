@@ -4,6 +4,13 @@ Wszystkie znaczące zmiany w projekcie **Algorytm Konecznego** (metoda historioz
 
 Format opiera się na zasadach [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
+## [1.3.0] - 2026-08-06
+
+### Poprawione (Fixed)
+- **Bezpieczna weryfikacja klucza API w CI**: Zabezpieczono ekstraktację klucza API w backendzie oraz scenariuszowych testach CI przed pustymi zmiennymi środowiskowymi `GEMINI_API_KEY=""`.
+
+---
+
 ## [1.2.9] - 2026-08-06
 
 ### Dodane (Added)
