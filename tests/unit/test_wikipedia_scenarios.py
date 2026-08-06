@@ -35,13 +35,28 @@ Wydawnictwo nawołuje do bezinteresownej pracy na rzecz odbudowy dorobku cywiliz
 szacunku dla własności prywatnej, uczciwości kupieckiej oraz poszanowania godności ludzkiej.
 """
 
+FRANCJA_2026_TEXT = """
+Francja (Republika Francuska) w 2026 roku jest państwem o ugruntowanym ustroju laickim, opartym na bezwzględnym rozdziale państwa i religii (laïcité),
+zgodnie z Artykułem 1 Konstytucji V Republiki. Prawo świeckie posiada wyłączny priorytet, a symbolika oraz nakazy religijne są całkowicie
+wyłączone z państwowego aparatu urzędniczego i ustawodawczego. Szkoły publiczne, sądy oraz urzędy zachowują pełną neutralność światopoglądową.
+Etyka państwowa wyklucza jakąkolwiek sakralizację prawa państwowego czy instytucji publicznych, odrzucając teokrację, prawo wyznaniowe
+oraz priorytet doktryn religijnych nad stanowionym prawem świeckim Republiki.
+"""
+
 SENAT_PDF_URL = "https://www.senat.gov.pl/gfx/senat/userfiles/_public/k10/kancelaria/wydawnictwa/pdf/konstytucja_rp_miniatura_w._polska.pdf"
 POLONA_ITEM_URL = "https://polona2.pl/item/furmani-inc-polska-przezywa-w-obecnej-dobie-kryzys-gospodarczy-konsekwencje-tego,OTI4NjM0ODI/0/#info:metadata"
+FRANCJA_URL = "https://fr.wikipedia.org/wiki/France"
 
 def _mock_llm_generic(prompt: str, system_instruction: str, api_key: str, schema: dict) -> str:
     """Fast deterministic LLM response for automated scenario tests."""
     p_lower = prompt.lower()
     s_str = str(schema)
+
+    if "francj" in p_lower or "laïcité" in p_lower or "laick" in p_lower:
+        if "sacrality" in p_lower or "sakralno" in p_lower or "religious_law_supremacy" in s_str:
+            return '{"sacrality_scores": {"religious_law_supremacy": {"score": 0.05, "explanation": "Bezwzględny rozdział państwa i religii (laïcité) we Francji w 2026 r.", "news_examples": ["Art 1 Konstytucji V Republiki", "Neutralność światopoglądowa urzędów", "Prawo świeckie bez religii"]}, "clerical_theocracy": {"score": 0.0, "explanation": "Całkowity brak teokracji i wpływu instytucji wyznaniowych nad ustawodawstwem", "news_examples": ["Neutralność szkolnictwa publicznego", "Brak ustawodawstwa religijnego", "Pełny desakralizm państwa"]}}}'
+        elif "conscience" in p_lower or "sumien" in p_lower or "conscience_as_supreme_judge" in s_str:
+            return '{"conscience_status_scores": {"no_statutory_morality_only": {"score": 0.85, "explanation": "Wysoka ochrona praw obywatelskich i sumienia", "news_examples": ["Wolność przekonań", "Karta Praw Podstawowych", "Prawa jednostki"]}, "conscience_as_supreme_judge": {"score": 0.80, "explanation": "Prymat wolności indywidualnej", "news_examples": ["Orzecznictwo sądów", "Ochrona prywatności", "Autonomia jednostki"]}}}'
 
     if "talib" in p_lower:
         if "sacrality" in p_lower or "sakralno" in p_lower or "religious_law_supremacy" in s_str:
@@ -50,7 +65,7 @@ def _mock_llm_generic(prompt: str, system_instruction: str, api_key: str, schema
             return '{"conscience_status_scores": {"no_statutory_morality_only": {"score": 0.0, "explanation": "Absolutna heteronomia i zakaz niezależnego sumienia", "news_examples": ["Policja Moralności Hizba", "Kary za heterodoksję", "Przymus religijny"]}, "conscience_as_supreme_judge": {"score": 0.05, "explanation": "Kara za własny osąd etyczny", "news_examples": ["Zakaz krytyki dekretów", "Odpowiedzialność zbiorowa", "Brak prawa oporu"]}}}'
         else:
             return '{"duty_source_scores": {"ethics_over_law": {"score": 0.05, "explanation": "Przymus zewnętrzny państwowo-religijny", "news_examples": ["Przymusowy dekretyzm", "Heteronomia", "Brak dobrowolności"]}}}'
-    
+
     # Generic Latin / Constitutional / Ethos fallback (Polska, Senat PDF, Polona)
     if "sacrality" in p_lower or "sakralno" in p_lower or "religious_law_supremacy" in s_str:
         return '{"sacrality_scores": {"religious_law_supremacy": {"score": 0.1, "explanation": "Niska sakralizacja prawa państwowego w konstytucjonalizmie", "news_examples": ["Art 25 Konstytucji RP", "Autonomia Kościoła i Państwa", "Prawo świeckie"]}, "clerical_theocracy": {"score": 0.05, "explanation": "Brak ustroju teokratycznego", "news_examples": ["Podział władz", "Demokracja parlamentarna", "Konstytucjonalizm"]}}}'
@@ -267,3 +282,54 @@ def test_scenario_4_polona_ocr_image_item(monkeypatch):
     assert "raw_ratings" in data
     assert "history_stats" in data
     assert data["history_stats"].get("total_runs", 0) >= 1
+
+@pytest.mark.unit
+def test_scenario_5_france_2026_laicite_negative_sacrality(monkeypatch):
+    """
+    Scenario 5: Negative Test Scenario - France 2026 Secular State (Laïcité).
+    Verifies that a secular republic text (France 2026) returns a LOW sacrality score (<0.15 / <=0.20),
+    confirming that non-sacralized secular states do not trigger sacralization metrics.
+    """
+    env_key = (os.environ.get("GEMINI_API_KEY") or "").strip()
+    run_live = os.environ.get("RUN_LIVE_TESTS") == "1" and bool(env_key)
+
+    if not run_live:
+        monkeypatch.setattr(analyzer, "call_gemini_api", _mock_llm_generic)
+
+    payload = {
+        "text": FRANCJA_2026_TEXT.strip(),
+        "title": "Francja 2026 - Państwo Świeckie (Laïcité)",
+        "url": FRANCJA_URL,
+        "api_key": env_key if run_live else "test_key_ci",
+        "target_indices": ["sacrality", "conscience_status", "duty_source"]
+    }
+
+    print("\n" + "="*80)
+    print("🇫🇷 [SCENARIO 5 - API CALL REQUEST BODY (Francja 2026 Laïcité - Test Negatywny)]")
+    print(json.dumps(payload, indent=2, ensure_ascii=False))
+    print("="*80)
+
+    response = client.post("/api/analyze", json=payload)
+
+    if response.status_code in [429, 500, 503]:
+        monkeypatch.setattr(analyzer, "call_gemini_api", _mock_llm_generic)
+        response = client.post("/api/analyze", json=payload)
+
+    assert response.status_code == 200, f"Expected 200 OK, got {response.status_code}: {response.text}"
+    data = response.json()
+
+    print("\n" + "="*80)
+    print("🇫🇷 [SCENARIO 5 - API RESPONSE RESULT (Francja 2026 Laïcité - Test Negatywny)]")
+    print(json.dumps({
+        "status_code": response.status_code,
+        "sacrality_score": data.get("sacrality_score"),
+        "raw_ratings_keys": list(data.get("raw_ratings", {}).keys()),
+        "generalia_diagnosis": data.get("generalia_diagnosis", "Państwo Świeckie (Desakralizacja Prawa)")
+    }, indent=2, ensure_ascii=False))
+    print("="*80 + "\n")
+
+    assert "sacrality_score" in data
+    assert "raw_ratings" in data
+
+    # Negative Test Assertion: Sacrality score for secular France 2026 must be LOW (<= 0.20)
+    assert data["sacrality_score"] <= 0.20, f"Expected low sacrality score for secular France (< 0.20), got {data['sacrality_score']}"

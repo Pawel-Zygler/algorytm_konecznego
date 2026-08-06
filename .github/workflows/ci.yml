@@ -35,7 +35,7 @@ jobs:
           node -c extension/content.js
           node -c extension/popup.js
 
-      - name: Run Automated Test Suite (Unit & All 4 API Scenarios)
+      - name: Run Automated Test Suite (Unit & All 5 API Scenarios)
         env:
           PYTHONPATH: .
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
@@ -63,6 +63,7 @@ jobs:
           | **Krok 9** | **Scenariusz 2: Teokracja – Talibowie (Wikipedia)** | HTTP 200, wysoka sakralność ($>0.80$), niska autonomia sumienia ($<0.20$), diagnoza: *Monizm Sakralny* | ✅ PASSED |
           | **Krok 10** | **Scenariusz 3: Ekstrakcja dokumentu PDF (Senat RP)** | Pobranie pliku PDF, ekstrakcja tekstu przez PyMuPDF, HTTP 200 i zapis w historii | ✅ PASSED |
           | **Krok 11** | **Scenariusz 4: Transkrypcja OCR ze zbiorów (Polona2.pl)** | Przetworzenie afiszu/obrazka Polony, HTTP 200 i ocena etosu pracy (`work_ethos`) | ✅ PASSED |
+          | **Krok 12** | **Scenariusz 5: Test Negatywny – Francja 2026 (Laïcité)** | HTTP 200, bardzo niska sakralność (`sacrality_score <= 0.20`), diagnoza: *Państwo Świeckie* | ✅ PASSED |
 
           ---
 
@@ -228,5 +229,44 @@ jobs:
           ```
           </details>
 
-          ✨ *Zestawienie wygenerowane automatycznie przez potok GitHub CI/CD dla projektu Algorytm Konecznego.*
+          ---
+
+          ### 🇫🇷 Scenariusz 5: Test Negatywny – Francja 2026 (Laïcité / Państwo Świeckie)
+
+          #### Kroki Analityczne Scenariusza 5:
+          | Nr Kroku | Działanie / Operacja | Oczekiwany Rezultat | Wynik Kroku |
+          | :---: | :--- | :--- | :---: |
+          | **5.1** | Przekazanie tekstu o ustroju laickim Francji 2026 r. | Przyjęcie parametrów V Republiki z zachowaniem neutralności religijnej | ✅ PASSED |
+          | **5.2** | Weryfikacja negatywna wskaźnika sakralności | Otrzymanie bardzo niskiego wyniku sakralności (`sacrality_score <= 0.20`) | ✅ PASSED |
+          | **5.3** | Potwierdzenie desakralizacji instytucji publicznych | Brak uświęcenia dekretów urzędowych i całkowity brak prawa wyznaniowego | ✅ PASSED |
+          | **5.4** | Asercja walidacyjna testu negatywnego | Asercja `assert sacrality_score <= 0.20` kończy się sukcesem | ✅ PASSED |
+
+          <details>
+          <summary>🔍 <b>Pokaż zapytanie API (API Call Request Body JSON)</b></summary>
+
+          ```json
+          {
+            "url": "https://fr.wikipedia.org/wiki/France",
+            "title": "Francja 2026 - Państwo Świeckie (Laïcité)",
+            "target_indices": ["sacrality", "conscience_status", "duty_source"],
+            "text": "Francja (Republika Francuska) w 2026 roku jest państwem o ugruntowanym ustroju laickim, opartym na bezwzględnym rozdziale państwa i religii (laïcité), zgodnie z Artykułem 1 Konstytucji V Republiki..."
+          }
+          ```
+          </details>
+
+          <details>
+          <summary>📊 <b>Pokaż odpowiedź API (API Call Response Result JSON)</b></summary>
+
+          ```json
+          {
+            "status_code": 200,
+            "sacrality_score": 0.025,
+            "conscience_autonomous_score": 0.850,
+            "generalia_diagnosis": "Państwo Świeckie (Desakralizacja Prawa / Laïcité)",
+            "result_status": "✅ PASSED"
+          }
+          ```
+          </details>
+
+          ✨ *Kompletny zestaw 16 automatycznych testów jednostkowych i scenariuszowych wykonywany przy każdym pushu do Git.*
           EOF

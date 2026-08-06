@@ -4,6 +4,13 @@ Wszystkie znaczące zmiany w projekcie **Algorytm Konecznego** (metoda historioz
 
 Format opiera się na zasadach [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
+## [1.3.4] - 2026-08-06
+
+### Dodane (Added)
+- **Scenariusz 5: Test negatywny dla Francji 2026 (Laïcité)**: Wdrożono test negatywny weryfikujący niski wskaźnik sakralności (`sacrality_score <= 0.20`) dla współczesnej świeckiej Republiki Francuskiej w 2026 r.
+
+---
+
 ## [1.3.3] - 2026-08-06
 
 ### Dodane (Added)
