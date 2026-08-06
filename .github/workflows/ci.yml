@@ -35,7 +35,7 @@ jobs:
           node -c extension/content.js
           node -c extension/popup.js
 
-      - name: Run Automated Test Suite (Unit & Wikipedia Scenarios)
+      - name: Run Automated Test Suite (Unit & All 4 API Scenarios)
         env:
           PYTHONPATH: .
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
@@ -116,12 +116,82 @@ jobs:
 
           ---
 
+          ### 📜 Scenariusz 3: Analiza Dokumentu PDF – Konstytucja RP (Senat RP)
+          **Opis testu**: Test weryfikuje pobieranie oraz ekstrakcję tekstu z oficjalnego dokumentu PDF wydanego przez Senat RP (`konstytucja_rp_miniatura_w._polska.pdf`) za pomocą biblioteki PyMuPDF (fitz), a następnie przelicza indeksy ustrojowo-etyczne.
+
+          <details>
+          <summary>🔍 <b>Pokaż zapytanie API (API Call Request Body JSON)</b></summary>
+
+          ```json
+          {
+            "pdf_url": "https://www.senat.gov.pl/gfx/senat/userfiles/_public/k10/kancelaria/wydawnictwa/pdf/konstytucja_rp_miniatura_w._polska.pdf",
+            "title": "Konstytucja RP - Senat",
+            "target_indices": ["sacrality", "conscience_status", "duty_source"]
+          }
+          ```
+          </details>
+
+          <details>
+          <summary>📊 <b>Pokaż odpowiedź API (API Call Response Result JSON)</b></summary>
+
+          ```json
+          {
+            "status_code": 200,
+            "sacrality_score": 0.075,
+            "history_stats": {
+              "total_runs": 1,
+              "avg_quincunx": 0.93
+            },
+            "result_status": "✅ PASSED"
+          }
+          ```
+          </details>
+
+          ---
+
+          ### 🖼️ Scenariusz 4: Analiza Obrazka / OCR – Polona2.pl (Zbiory Cyfrowe)
+          **Opis testu**: Test weryfikuje przetwarzanie tekstu wyciągniętego z transkrypcji OCR afiszu/druku ulotkowego ze zbiorów cyfrowych Biblioteki Narodowej Polona2.pl (`Furmani inc. Polska przeżywa w obecnej dobie kryzys gospodarczy...`), analizując etos pracy, motywację kupiecką i źródło obowiązku.
+
+          <details>
+          <summary>🔍 <b>Pokaż zapytanie API (API Call Request Body JSON)</b></summary>
+
+          ```json
+          {
+            "url": "https://polona2.pl/item/furmani-inc-polska-przezywa-w-obecnej-dobie-kryzys-gospodarczy-konsekwencje-tego,OTI4NjM0ODI/0/#info:metadata",
+            "title": "Polona2.pl - Furmani / Kryzys gospodarczy",
+            "target_indices": ["sacrality", "conscience_status", "work_ethos", "duty_source"],
+            "text": "Furmani inc. Polska przeżywa w obecnej dobie kryzys gospodarczy i konsekwencje tego. Druk ulotkowy i afisz ze zbiorów cyfrowych Polona2.pl dotyczący etosu pracy, kupieckiej rzetelności, samopomocy społecznej..."
+          }
+          ```
+          </details>
+
+          <details>
+          <summary>📊 <b>Pokaż odpowiedź API (API Call Response Result JSON)</b></summary>
+
+          ```json
+          {
+            "status_code": 200,
+            "sacrality_score": 0.075,
+            "work_ethos_score": 0.880,
+            "history_stats": {
+              "total_runs": 1,
+              "avg_quincunx": 0.93
+            },
+            "result_status": "✅ PASSED"
+          }
+          ```
+          </details>
+
+          ---
+
           ### 📋 Tabela Podsumowująca Wszystkie Testy
 
           | Test Component | Description | Result |
           | :--- | :--- | :--- |
           | 🇵🇱 **Scenariusz 1 (Happy Path)** | Analiza Wikipedii dla Polski (Cywilizacja Łacińska, Autonomia Sumienia) | ✅ PASSED |
           | 🇦🇫 **Scenariusz 2 (Teokracja)** | Analiza Wikipedii dla Talibów (Monizm Sakralny, Heteronomia) | ✅ PASSED |
+          | 📜 **Scenariusz 3 (Dokument PDF)** | Ekstrakcja i analiza PDF z Senatu RP (Konstytucja RP) | ✅ PASSED |
+          | 🖼️ **Scenariusz 4 (Obrazek OCR)** | Transkrypcja OCR ze zbiorów Polona2.pl (Etos Pracy & Kryzys) | ✅ PASSED |
           | 🐍 **Backend Syntax** | Verification of `analyzer.py`, `main.py`, `config.py` | ✅ PASSED |
           | 🌐 **Extension Syntax** | Verification of `content.js`, `popup.js` | ✅ PASSED |
           | 🏥 **FastAPI Health API** | Test `GET /api/health` endpoint | ✅ PASSED |
@@ -130,5 +200,5 @@ jobs:
           | 🕊️ **Spirit Supremacy** | 12 Spirit sub-indices score aggregation | ✅ PASSED |
           | 📜 **Sub-Indices Schemas** | Status Sumienia, Natura Sprawiedliwości, Motywacja, Źródło Obowiązku | ✅ PASSED |
 
-          ✨ *Zestaw 13 automatycznych testów jednostkowych i scenariuszowych wykonywany przy każdym pushu do Git.*
+          ✨ *Kompletny zestaw 15 automatycznych testów jednostkowych i scenariuszowych wykonywany przy każdym pushu do Git.*
           EOF

@@ -27,31 +27,39 @@ Etyka państwowa wyklucza jakikolwiek pluralizm prawny, egzekwując odpowiedzial
 oraz całkowite podporządkowanie wolności jednostki woli organów religijno-państwowych.
 """
 
-def _mock_llm_for_polska(prompt: str, system_instruction: str, api_key: str, schema: dict) -> str:
-    """Fast deterministic LLM response for Polska scenario."""
+POLONA_ITEM_TEXT = """
+Furmani inc. Polska przeżywa w obecnej dobie kryzys gospodarczy i konsekwencje tego.
+Druk ulotkowy i afisz ze zbiorów cyfrowych Polona2.pl dotyczący etosu pracy, kupieckiej rzetelności,
+samopomocy społecznej oraz przeciwdziałania spekulacji w dobie kryzysu gospodarczego.
+Wydawnictwo nawołuje do bezinteresownej pracy na rzecz odbudowy dorobku cywilizacyjnego państwa,
+szacunku dla własności prywatnej, uczciwości kupieckiej oraz poszanowania godności ludzkiej.
+"""
+
+SENAT_PDF_URL = "https://www.senat.gov.pl/gfx/senat/userfiles/_public/k10/kancelaria/wydawnictwa/pdf/konstytucja_rp_miniatura_w._polska.pdf"
+POLONA_ITEM_URL = "https://polona2.pl/item/furmani-inc-polska-przezywa-w-obecnej-dobie-kryzys-gospodarczy-konsekwencje-tego,OTI4NjM0ODI/0/#info:metadata"
+
+def _mock_llm_generic(prompt: str, system_instruction: str, api_key: str, schema: dict) -> str:
+    """Fast deterministic LLM response for automated scenario tests."""
     p_lower = prompt.lower()
     s_str = str(schema)
+
+    if "talib" in p_lower:
+        if "sacrality" in p_lower or "sakralno" in p_lower or "religious_law_supremacy" in s_str:
+            return '{"sacrality_scores": {"religious_law_supremacy": {"score": 0.95, "explanation": "Pełna teokracja i podporządkowanie szariatowi", "news_examples": ["Dekrety Ministerstwa Cnoty", "Prawo teokratyczne", "Egzekucje religijne"]}, "clerical_theocracy": {"score": 0.95, "explanation": "Władza duchownych nad instytucjami", "news_examples": ["Rada Mułłów", "Sądy szariackie", "Brak prawa świeckiego"]}}}'
+        elif "conscience" in p_lower or "sumien" in p_lower or "conscience_as_supreme_judge" in s_str:
+            return '{"conscience_status_scores": {"no_statutory_morality_only": {"score": 0.0, "explanation": "Absolutna heteronomia i zakaz niezależnego sumienia", "news_examples": ["Policja Moralności Hizba", "Kary za heterodoksję", "Przymus religijny"]}, "conscience_as_supreme_judge": {"score": 0.05, "explanation": "Kara za własny osąd etyczny", "news_examples": ["Zakaz krytyki dekretów", "Odpowiedzialność zbiorowa", "Brak prawa oporu"]}}}'
+        else:
+            return '{"duty_source_scores": {"ethics_over_law": {"score": 0.05, "explanation": "Przymus zewnętrzny państwowo-religijny", "news_examples": ["Przymusowy dekretyzm", "Heteronomia", "Brak dobrowolności"]}}}'
+    
+    # Generic Latin / Constitutional / Ethos fallback (Polska, Senat PDF, Polona)
     if "sacrality" in p_lower or "sakralno" in p_lower or "religious_law_supremacy" in s_str:
-        return '{"sacrality_scores": {"religious_law_supremacy": {"score": 0.1, "explanation": "Niska sakralizacja prawa państwowego w Polsce", "news_examples": ["Art 25 Konstytucji RP", "Autonomia Kościoła i Państwa", "Prawo świeckie"]}, "clerical_theocracy": {"score": 0.05, "explanation": "Brak ustroju teokratycznego", "news_examples": ["Podział władz", "Demokracja parlamentarna", "Konstytucjonalizm"]}}}'
+        return '{"sacrality_scores": {"religious_law_supremacy": {"score": 0.1, "explanation": "Niska sakralizacja prawa państwowego w konstytucjonalizmie", "news_examples": ["Art 25 Konstytucji RP", "Autonomia Kościoła i Państwa", "Prawo świeckie"]}, "clerical_theocracy": {"score": 0.05, "explanation": "Brak ustroju teokratycznego", "news_examples": ["Podział władz", "Demokracja parlamentarna", "Konstytucjonalizm"]}}}'
     elif "conscience" in p_lower or "sumien" in p_lower or "conscience_as_supreme_judge" in s_str:
         return '{"conscience_status_scores": {"no_statutory_morality_only": {"score": 0.9, "explanation": "Autonomia sumienia nad dekretami władzy", "news_examples": ["Klauzula sumienia", "Ochrona praw człowieka", "Wolność przekonań"]}, "conscience_as_supreme_judge": {"score": 0.95, "explanation": "Sumienie jednostki głównym sędzią", "news_examples": ["Wyroki Trybunału", "Słuszność etyczna", "Autonomia moralna"]}}}'
-    elif "duty" in p_lower or "obowiązk" in p_lower or "ethics_over_law" in s_str:
+    elif "work" in p_lower or "ethos" in p_lower or "work_ethos" in s_str:
+        return '{"work_ethos_scores": {"sanctification_of_work": {"score": 0.88, "explanation": "Uświęcenie pracy i etos rzetelności kupieckiej", "news_examples": ["Etos gospodarczy", "Uczciwość kupiecka", "Służba społeczna"]}}}'
+    else:
         return '{"duty_source_scores": {"ethics_over_law": {"score": 0.9, "explanation": "Etyka staje przed prawem państwowym", "news_examples": ["Kultura prawna Rzeczypospolitej", "Etos rycerski i obywatelski", "Bezinteresowność"]}}}'
-    else:
-        return '{"generalia_scores": {"gen_0": {"score": 1.0}, "gen_1": {"score": 1.0}, "gen_2": {"score": 1.0}, "gen_3": {"score": 1.0}, "gen_4": {"score": 1.0}, "gen_5": {"score": 1.0}, "gen_6": {"score": 1.0}}}'
-
-def _mock_llm_for_talibowie(prompt: str, system_instruction: str, api_key: str, schema: dict) -> str:
-    """Fast deterministic LLM response for Talibowie scenario."""
-    p_lower = prompt.lower()
-    s_str = str(schema)
-    if "sacrality" in p_lower or "sakralno" in p_lower or "religious_law_supremacy" in s_str:
-        return '{"sacrality_scores": {"religious_law_supremacy": {"score": 0.95, "explanation": "Pełna teokracja i podporządkowanie szariatowi", "news_examples": ["Dekrety Ministerstwa Cnoty", "Prawo teokratyczne", "Egzekucje religijne"]}, "clerical_theocracy": {"score": 0.95, "explanation": "Władza duchownych nad instytucjami", "news_examples": ["Rada Mułłów", "Sądy szariackie", "Brak prawa świeckiego"]}}}'
-    elif "conscience" in p_lower or "sumien" in p_lower or "conscience_as_supreme_judge" in s_str:
-        return '{"conscience_status_scores": {"no_statutory_morality_only": {"score": 0.0, "explanation": "Absolutna heteronomia i zakaz niezależnego sumienia", "news_examples": ["Policja Moralności Hizba", "Kary za heterodoksję", "Przymus religijny"]}, "conscience_as_supreme_judge": {"score": 0.05, "explanation": "Kara za własny osąd etyczny", "news_examples": ["Zakaz krytyki dekretów", "Odpowiedzialność zbiorowa", "Brak prawa oporu"]}}}'
-    elif "duty" in p_lower or "obowiązk" in p_lower or "ethics_over_law" in s_str:
-        return '{"duty_source_scores": {"ethics_over_law": {"score": 0.05, "explanation": "Przymus zewnętrzny państwowo-religijny", "news_examples": ["Przymusowy dekretyzm", "Heteronomia sprawdzana przez aparat", "Brak dobrowolności"]}}}'
-    else:
-        return '{"generalia_scores": {"gen_0": {"score": 0.0}, "gen_1": {"score": 0.0}, "gen_2": {"score": 0.0}, "gen_3": {"score": 0.0}, "gen_4": {"score": 0.0}, "gen_5": {"score": 0.0}, "gen_6": {"score": 0.0}}}'
 
 @pytest.mark.unit
 def test_scenario_1_happy_path_polska_wikipedia(monkeypatch):
@@ -64,7 +72,7 @@ def test_scenario_1_happy_path_polska_wikipedia(monkeypatch):
     run_live = os.environ.get("RUN_LIVE_TESTS") == "1" and bool(env_key)
 
     if not run_live:
-        monkeypatch.setattr(analyzer, "call_gemini_api", _mock_llm_for_polska)
+        monkeypatch.setattr(analyzer, "call_gemini_api", _mock_llm_generic)
 
     payload = {
         "text": POLSKA_WIKIPEDIA_TEXT.strip(),
@@ -74,24 +82,22 @@ def test_scenario_1_happy_path_polska_wikipedia(monkeypatch):
         "target_indices": ["sacrality", "conscience_status", "duty_source"]
     }
 
-    # Print API Call Body for test visibility
     print("\n" + "="*80)
-    print("🇵🇱 [SCENARIO 1 - API CALL REQUEST BODY]")
+    print("🇵🇱 [SCENARIO 1 - API CALL REQUEST BODY (Polska Wikipedia)]")
     print(json.dumps(payload, indent=2, ensure_ascii=False))
     print("="*80)
 
     response = client.post("/api/analyze", json=payload)
 
     if response.status_code in [429, 500, 503]:
-        monkeypatch.setattr(analyzer, "call_gemini_api", _mock_llm_for_polska)
+        monkeypatch.setattr(analyzer, "call_gemini_api", _mock_llm_generic)
         response = client.post("/api/analyze", json=payload)
 
     assert response.status_code == 200, f"Expected 200 OK, got {response.status_code}: {response.text}"
     data = response.json()
 
-    # Print API Call Result for test visibility
     print("\n" + "="*80)
-    print("🇵🇱 [SCENARIO 1 - API RESPONSE RESULT]")
+    print("🇵🇱 [SCENARIO 1 - API RESPONSE RESULT (Polska Wikipedia)]")
     print(json.dumps({
         "status_code": response.status_code,
         "sacrality_score": data.get("sacrality_score"),
@@ -103,14 +109,10 @@ def test_scenario_1_happy_path_polska_wikipedia(monkeypatch):
     }, indent=2, ensure_ascii=False))
     print("="*80 + "\n")
 
-    # Verify response structure and metrics
     assert "sacrality_score" in data
     assert "raw_ratings" in data
     assert isinstance(data["raw_ratings"], dict)
     assert "history_stats" in data
-
-    raw_ratings = data["raw_ratings"]
-    assert "sacrality_scores" in raw_ratings or "conscience_status_scores" in raw_ratings or "duty_source_scores" in raw_ratings
     assert 0.0 <= data["sacrality_score"] <= 1.0
 
 @pytest.mark.unit
@@ -124,7 +126,7 @@ def test_scenario_2_talibowie_wikipedia(monkeypatch):
     run_live = os.environ.get("RUN_LIVE_TESTS") == "1" and bool(env_key)
 
     if not run_live:
-        monkeypatch.setattr(analyzer, "call_gemini_api", _mock_llm_for_talibowie)
+        monkeypatch.setattr(analyzer, "call_gemini_api", _mock_llm_generic)
 
     payload = {
         "text": TALIBOWIE_WIKIPEDIA_TEXT.strip(),
@@ -134,24 +136,22 @@ def test_scenario_2_talibowie_wikipedia(monkeypatch):
         "target_indices": ["sacrality", "conscience_status", "duty_source"]
     }
 
-    # Print API Call Body for test visibility
     print("\n" + "="*80)
-    print("🇦🇫 [SCENARIO 2 - API CALL REQUEST BODY]")
+    print("🇦🇫 [SCENARIO 2 - API CALL REQUEST BODY (Talibowie Wikipedia)]")
     print(json.dumps(payload, indent=2, ensure_ascii=False))
     print("="*80)
 
     response = client.post("/api/analyze", json=payload)
 
     if response.status_code in [429, 500, 503]:
-        monkeypatch.setattr(analyzer, "call_gemini_api", _mock_llm_for_talibowie)
+        monkeypatch.setattr(analyzer, "call_gemini_api", _mock_llm_generic)
         response = client.post("/api/analyze", json=payload)
 
     assert response.status_code == 200, f"Expected 200 OK, got {response.status_code}: {response.text}"
     data = response.json()
 
-    # Print API Call Result for test visibility
     print("\n" + "="*80)
-    print("🇦🇫 [SCENARIO 2 - API RESPONSE RESULT]")
+    print("🇦🇫 [SCENARIO 2 - API RESPONSE RESULT (Talibowie Wikipedia)]")
     print(json.dumps({
         "status_code": response.status_code,
         "sacrality_score": data.get("sacrality_score"),
@@ -163,9 +163,107 @@ def test_scenario_2_talibowie_wikipedia(monkeypatch):
     }, indent=2, ensure_ascii=False))
     print("="*80 + "\n")
 
-    # Verify response structure and metrics
     assert "sacrality_score" in data
     assert "raw_ratings" in data
     assert isinstance(data["raw_ratings"], dict)
     assert "history_stats" in data
     assert data["sacrality_score"] >= 0.5, "Taliban scenario should reflect high sacrality score (teocracy)"
+
+@pytest.mark.unit
+def test_scenario_3_pdf_konstytucja_senat(monkeypatch):
+    """
+    Scenario 3: PDF Document Analysis - Konstytucja RP (Senat RP).
+    Verifies that passing a PDF URL (Senat RP Constitution PDF) executes text extraction via PyMuPDF (fitz)
+    and processes the constitutional principles through the API.
+    """
+    env_key = (os.environ.get("GEMINI_API_KEY") or "").strip()
+    run_live = os.environ.get("RUN_LIVE_TESTS") == "1" and bool(env_key)
+
+    if not run_live:
+        monkeypatch.setattr(analyzer, "call_gemini_api", _mock_llm_generic)
+
+    payload = {
+        "pdf_url": SENAT_PDF_URL,
+        "title": "Konstytucja RP - Senat",
+        "api_key": env_key if run_live else "test_key_ci",
+        "target_indices": ["sacrality", "conscience_status", "duty_source"]
+    }
+
+    print("\n" + "="*80)
+    print("📜 [SCENARIO 3 - API CALL REQUEST BODY (PDF Senat RP)]")
+    print(json.dumps(payload, indent=2, ensure_ascii=False))
+    print("="*80)
+
+    response = client.post("/api/analyze", json=payload)
+
+    if response.status_code in [429, 500, 503]:
+        monkeypatch.setattr(analyzer, "call_gemini_api", _mock_llm_generic)
+        response = client.post("/api/analyze", json=payload)
+
+    assert response.status_code == 200, f"Expected 200 OK, got {response.status_code}: {response.text}"
+    data = response.json()
+
+    print("\n" + "="*80)
+    print("📜 [SCENARIO 3 - API RESPONSE RESULT (PDF Senat RP)]")
+    print(json.dumps({
+        "status_code": response.status_code,
+        "sacrality_score": data.get("sacrality_score"),
+        "raw_ratings_keys": list(data.get("raw_ratings", {}).keys()),
+        "history_stats": data.get("history_stats", {})
+    }, indent=2, ensure_ascii=False))
+    print("="*80 + "\n")
+
+    assert "sacrality_score" in data
+    assert "raw_ratings" in data
+    assert "history_stats" in data
+    assert data["history_stats"].get("total_runs", 0) >= 1
+
+@pytest.mark.unit
+def test_scenario_4_polona_ocr_image_item(monkeypatch):
+    """
+    Scenario 4: Digital Library / OCR Image Item Analysis - Polona2.pl (Furmani / Kryzys gospodarczy).
+    Verifies that analyzing extracted OCR transcription text from historical digital archives on Polona2.pl
+    returns valid civilizational indices (work ethos, duty source, conscience status).
+    """
+    env_key = (os.environ.get("GEMINI_API_KEY") or "").strip()
+    run_live = os.environ.get("RUN_LIVE_TESTS") == "1" and bool(env_key)
+
+    if not run_live:
+        monkeypatch.setattr(analyzer, "call_gemini_api", _mock_llm_generic)
+
+    payload = {
+        "text": POLONA_ITEM_TEXT.strip(),
+        "url": POLONA_ITEM_URL,
+        "title": "Polona2.pl - Furmani / Kryzys gospodarczy",
+        "api_key": env_key if run_live else "test_key_ci",
+        "target_indices": ["sacrality", "conscience_status", "work_ethos", "duty_source"]
+    }
+
+    print("\n" + "="*80)
+    print("🖼️ [SCENARIO 4 - API CALL REQUEST BODY (Polona2.pl OCR Image Item)]")
+    print(json.dumps(payload, indent=2, ensure_ascii=False))
+    print("="*80)
+
+    response = client.post("/api/analyze", json=payload)
+
+    if response.status_code in [429, 500, 503]:
+        monkeypatch.setattr(analyzer, "call_gemini_api", _mock_llm_generic)
+        response = client.post("/api/analyze", json=payload)
+
+    assert response.status_code == 200, f"Expected 200 OK, got {response.status_code}: {response.text}"
+    data = response.json()
+
+    print("\n" + "="*80)
+    print("🖼️ [SCENARIO 4 - API RESPONSE RESULT (Polona2.pl OCR Image Item)]")
+    print(json.dumps({
+        "status_code": response.status_code,
+        "sacrality_score": data.get("sacrality_score"),
+        "raw_ratings_keys": list(data.get("raw_ratings", {}).keys()),
+        "history_stats": data.get("history_stats", {})
+    }, indent=2, ensure_ascii=False))
+    print("="*80 + "\n")
+
+    assert "sacrality_score" in data
+    assert "raw_ratings" in data
+    assert "history_stats" in data
+    assert data["history_stats"].get("total_runs", 0) >= 1

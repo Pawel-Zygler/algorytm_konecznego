@@ -4,6 +4,13 @@ Wszystkie znaczące zmiany w projekcie **Algorytm Konecznego** (metoda historioz
 
 Format opiera się na zasadach [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
+## [1.3.2] - 2026-08-06
+
+### Dodane (Added)
+- **Scenariusze testowe PDF i Obrazka OCR (Polona2.pl)**: Wdrożono testy automatyczne dla pliku PDF z Senatu RP (Konstytucja RP) oraz transkrypcji OCR ze zbiorów cyfrowych Polona2.pl wraz ze szczegółową inspekcją API w CI.
+
+---
+
 ## [1.3.1] - 2026-08-06
 
 ### Dodane (Added)
