@@ -4,6 +4,13 @@ Wszystkie znaczące zmiany w projekcie **Algorytm Konecznego** (metoda historioz
 
 Format opiera się na zasadach [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
+## [1.3.3] - 2026-08-06
+
+### Dodane (Added)
+- **Tabelaryczny podział testów w CI na kroki i oczekiwane rezultaty**: Zbudowano czytelne podsumowanie GitHub Actions podzielone na numerowane kroki z osobnymi kolumnami dla opisu operacji, oczekiwanego rezultatu oraz statusu.
+
+---
+
 ## [1.3.2] - 2026-08-06
 
 ### Dodane (Added)
