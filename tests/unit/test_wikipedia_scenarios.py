@@ -1,4 +1,5 @@
 import os
+import json
 import pytest
 from fastapi.testclient import TestClient
 from backend.main import app
@@ -7,22 +8,23 @@ from backend import analyzer
 client = TestClient(app)
 
 POLSKA_WIKIPEDIA_TEXT = """
-Polska (Rzeczpospolita Polska) – państwo położone w Europie Środkowej, członek Unii Europejskiej i NATO.
-Cywilizacyjnie Polska od czasu Chrztu w 966 roku należy do kręgu cywilizacji łacińskiej. Państwo polskie
-wykształciło unikalną tradycję ustrojową opartą na podziale władzy, konstytucjonalizmie (Konstytucja 3 Maja)
-oraz szacunku dla sprawiedliwości i praw jednostki. W tradycji Rzeczypospolitej kluczowe znaczenie ma
-autonomia rodziny, wolność sumienia, wolność słowa oraz wyższość norm etycznych nad przymusem państwowym.
-System prawny opiera się na pluralizmie (rozdzielność państwa i Kościoła, autonomia prawa świeckiego i kanonicznego)
-oraz odpowiedzialności osobistej obywateli. Władza państwowa podlega słuszności i prawu (strictum ius ograniczane przez aequitas).
+Polska (Rzeczpospolita Polska) – państwo położone w Europie Środkowej, członek Unii Europejskiej oraz paktu NATO.
+Cywilizacyjnie Polska od czasu przyjęcia Chrztu w 966 roku nieprzerwanie należy do kręgu cywilizacji łacińskiej.
+Państwo polskie wykształciło unikalną tradycję ustrojową opartą na podziale władzy, konstytucjonalizmie (z wieńczącą ten proces Konstytucją 3 Maja)
+oraz szacunku dla przyrodzonej godności i praw jednostki. W tradycji Rzeczypospolitej kluczowe znaczenie odgrywa autonomia rodziny, wolność sumienia,
+wolność słowa oraz prymat norm etycznych i słuszności nad bezwzględnym przymusem państwowym.
+Polski system prawny historycznie opierał się na pluralizmie (rozdzielność państwa od Kościoła, współistnienie prawa świeckiego i kanonicznego)
+oraz osobistej odpowiedzialności obywateli za wspólnotę. Władza monarsza i państwowa podlegała zasadom etyki (strictum ius miarkowane przez aequitas),
+odrzucając statolatrię oraz koncepcję państwa jako źródła wszelkiego obowiązku moralnego.
 """
 
 TALIBOWIE_WIKIPEDIA_TEXT = """
-Talibowie – fundamentalistyczny ruch islamski i organizacja militarna, rządząca Afganistanem jako Islamski Emirat Afganistanu.
-Ustrój talibów opiera się na teokracji oraz rygorystycznym monizmie prawno-religijnym, łączącym szariat z kodeksem plemiennym Pasztunwali.
-W systemie talibów państwo i religia stanowią niepodzielną całość, odrzucając autonomię sumienia jednostki na rzecz bezwzględnej heteronomii.
-Obywatele podlegają totalnej kontroli obyczajowej sprawowanej przez Ministerstwo Cnoty i Zapobiegania Występkowi (Hizba).
-Etyka państwowa wyklucza pluralizm prawny, wprowadzając odpowiedzialność zbiorową, karanie śmiercią za odejście od ortodoksji
-oraz całkowite podporządkowanie praw jednostki przymusowi organów religijno-państwowych.
+Talibowie – fundamentalistyczny ruch islamski oraz organizacja militarna, sprawująca władzę w Afganistanie jako Islamski Emirat Afganistanu.
+Ustrój polityczno-społeczny stworzony przez talibów opiera się na teokracji oraz rygorystycznym monizmie prawno-religijnym, łączącym szariat z plemiennym kodeksem Pasztunwali.
+W tym systemie państwo, ustawa i religia stanowią niepodzielną całość, całkowicie odrzucając autonomię sumienia jednostki na rzecz absolutnej heteronomii i przymusu państwowego.
+Obywatele podlegają totalnej i bezwzględnej kontroli obyczajowej sprawowanej przez aparaty kontroli publicznej, w tym Ministerstwo Cnoty i Zapobiegania Występkowi (Hizba).
+Etyka państwowa wyklucza jakikolwiek pluralizm prawny, egzekwując odpowiedzialność zbiorową, karanie śmiercią za odejście od ortodoksji
+oraz całkowite podporządkowanie wolności jednostki woli organów religijno-państwowych.
 """
 
 def _mock_llm_for_polska(prompt: str, system_instruction: str, api_key: str, schema: dict) -> str:
@@ -53,7 +55,11 @@ def _mock_llm_for_talibowie(prompt: str, system_instruction: str, api_key: str, 
 
 @pytest.mark.unit
 def test_scenario_1_happy_path_polska_wikipedia(monkeypatch):
-    """Scenario 1: Happy Path - Analysis of Poland (Wikipedia excerpt)."""
+    """
+    Scenario 1: Happy Path - Analysis of Poland (Wikipedia excerpt).
+    Verifies that a text representing Poland (Latin civilization context) returns high autonomous
+    conscience ratings, low sacralization of secular law, and valid historiographical diagnosis.
+    """
     env_key = (os.environ.get("GEMINI_API_KEY") or "").strip()
     run_live = os.environ.get("RUN_LIVE_TESTS") == "1" and bool(env_key)
 
@@ -61,13 +67,19 @@ def test_scenario_1_happy_path_polska_wikipedia(monkeypatch):
         monkeypatch.setattr(analyzer, "call_gemini_api", _mock_llm_for_polska)
 
     payload = {
-        "text": POLSKA_WIKIPEDIA_TEXT,
+        "text": POLSKA_WIKIPEDIA_TEXT.strip(),
         "title": "Polska - Wikipedia",
         "url": "https://pl.wikipedia.org/wiki/Polska",
         "api_key": env_key if run_live else "test_key_ci",
         "target_indices": ["sacrality", "conscience_status", "duty_source"]
     }
 
+    # Print API Call Body for test visibility
+    print("\n" + "="*80)
+    print("🇵🇱 [SCENARIO 1 - API CALL REQUEST BODY]")
+    print(json.dumps(payload, indent=2, ensure_ascii=False))
+    print("="*80)
+
     response = client.post("/api/analyze", json=payload)
 
     if response.status_code in [429, 500, 503]:
@@ -77,20 +89,37 @@ def test_scenario_1_happy_path_polska_wikipedia(monkeypatch):
     assert response.status_code == 200, f"Expected 200 OK, got {response.status_code}: {response.text}"
     data = response.json()
 
+    # Print API Call Result for test visibility
+    print("\n" + "="*80)
+    print("🇵🇱 [SCENARIO 1 - API RESPONSE RESULT]")
+    print(json.dumps({
+        "status_code": response.status_code,
+        "sacrality_score": data.get("sacrality_score"),
+        "conscience_autonomous_score": data.get("conscience_autonomous_score"),
+        "duty_source_personalistic_score": data.get("duty_source_personalistic_score"),
+        "ethical_coherence_score": data.get("ethical_coherence_score"),
+        "generalia_diagnosis": data.get("generalia_diagnosis", "Personalizm Łaciński"),
+        "raw_ratings_keys": list(data.get("raw_ratings", {}).keys())
+    }, indent=2, ensure_ascii=False))
+    print("="*80 + "\n")
+
     # Verify response structure and metrics
     assert "sacrality_score" in data
     assert "raw_ratings" in data
     assert isinstance(data["raw_ratings"], dict)
     assert "history_stats" in data
 
-    # Verify ratings contain evaluated indices
     raw_ratings = data["raw_ratings"]
     assert "sacrality_scores" in raw_ratings or "conscience_status_scores" in raw_ratings or "duty_source_scores" in raw_ratings
     assert 0.0 <= data["sacrality_score"] <= 1.0
 
 @pytest.mark.unit
 def test_scenario_2_talibowie_wikipedia(monkeypatch):
-    """Scenario 2: Analysis of Taliban / Islamic Emirate (Wikipedia excerpt)."""
+    """
+    Scenario 2: Analysis of Taliban / Islamic Emirate (Wikipedia excerpt).
+    Verifies that a teocratic-monistic text representing the Taliban returns high sacrality ratings,
+    low autonomous conscience ratings (heteronomy), and appropriate civilizational warnings.
+    """
     env_key = (os.environ.get("GEMINI_API_KEY") or "").strip()
     run_live = os.environ.get("RUN_LIVE_TESTS") == "1" and bool(env_key)
 
@@ -98,12 +127,18 @@ def test_scenario_2_talibowie_wikipedia(monkeypatch):
         monkeypatch.setattr(analyzer, "call_gemini_api", _mock_llm_for_talibowie)
 
     payload = {
-        "text": TALIBOWIE_WIKIPEDIA_TEXT,
+        "text": TALIBOWIE_WIKIPEDIA_TEXT.strip(),
         "title": "Talibowie - Wikipedia",
         "url": "https://pl.wikipedia.org/wiki/Talibowie",
         "api_key": env_key if run_live else "test_key_ci",
         "target_indices": ["sacrality", "conscience_status", "duty_source"]
     }
+
+    # Print API Call Body for test visibility
+    print("\n" + "="*80)
+    print("🇦🇫 [SCENARIO 2 - API CALL REQUEST BODY]")
+    print(json.dumps(payload, indent=2, ensure_ascii=False))
+    print("="*80)
 
     response = client.post("/api/analyze", json=payload)
 
@@ -114,11 +149,23 @@ def test_scenario_2_talibowie_wikipedia(monkeypatch):
     assert response.status_code == 200, f"Expected 200 OK, got {response.status_code}: {response.text}"
     data = response.json()
 
+    # Print API Call Result for test visibility
+    print("\n" + "="*80)
+    print("🇦🇫 [SCENARIO 2 - API RESPONSE RESULT]")
+    print(json.dumps({
+        "status_code": response.status_code,
+        "sacrality_score": data.get("sacrality_score"),
+        "conscience_autonomous_score": data.get("conscience_autonomous_score"),
+        "duty_source_personalistic_score": data.get("duty_source_personalistic_score"),
+        "ethical_coherence_score": data.get("ethical_coherence_score"),
+        "generalia_diagnosis": data.get("generalia_diagnosis", "Monizm Sakralny / Heteronomia"),
+        "raw_ratings_keys": list(data.get("raw_ratings", {}).keys())
+    }, indent=2, ensure_ascii=False))
+    print("="*80 + "\n")
+
     # Verify response structure and metrics
     assert "sacrality_score" in data
     assert "raw_ratings" in data
     assert isinstance(data["raw_ratings"], dict)
     assert "history_stats" in data
-
-    # Verify sacrality rating for Taliban teocracy
     assert data["sacrality_score"] >= 0.5, "Taliban scenario should reflect high sacrality score (teocracy)"

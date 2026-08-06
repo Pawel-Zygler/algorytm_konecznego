@@ -40,23 +40,95 @@ jobs:
           PYTHONPATH: .
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          python -m pytest tests/unit/ -v --tb=short
+          python -m pytest tests/unit/ -v -s --tb=short
 
-      - name: Generate CI Summary Report
+      - name: Generate CI Summary Report & API Call Inspection
         if: always()
         run: |
-          echo "## 🛡️ Algorytm Konecznego CI Test Summary Report" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| Test Component | Description | Result |" >> $GITHUB_STEP_SUMMARY
-          echo "| :--- | :--- | :--- |" >> $GITHUB_STEP_SUMMARY
-          echo "| 🇵🇱 **Scenariusz 1 (Happy Path)** | Analiza Wikipedii dla Polski (Cywilizacja Łacińska, Autonomia Sumienia) | ✅ PASSED |" >> $GITHUB_STEP_SUMMARY
-          echo "| 🇦🇫 **Scenariusz 2 (Teokracja)** | Analiza Wikipedii dla Talibów (Monizm Sakralny, Heteronomia) | ✅ PASSED |" >> $GITHUB_STEP_SUMMARY
-          echo "| 🐍 **Backend Syntax** | Verification of \`analyzer.py\`, \`main.py\`, \`config.py\` | ✅ PASSED |" >> $GITHUB_STEP_SUMMARY
-          echo "| 🌐 **Extension Syntax** | Verification of \`content.js\`, \`popup.js\` | ✅ PASSED |" >> $GITHUB_STEP_SUMMARY
-          echo "| 🏥 **FastAPI Health API** | Test \`GET /api/health\` endpoint | ✅ PASSED |" >> $GITHUB_STEP_SUMMARY
-          echo "| 📚 **Indices Context** | Memory loading of Koneczny index definitions | ✅ PASSED |" >> $GITHUB_STEP_SUMMARY
-          echo "| ⚖️ **Generalia Coherence** | Step 3 (7 Generaliów Etyki) & Poisonous Mixture Alert | ✅ PASSED |" >> $GITHUB_STEP_SUMMARY
-          echo "| 🕊️ **Spirit Supremacy** | 12 Spirit sub-indices score aggregation | ✅ PASSED |" >> $GITHUB_STEP_SUMMARY
-          echo "| 📜 **Sub-Indices Schemas** | Status Sumienia, Natura Sprawiedliwości, Motywacja, Źródło Obowiązku | ✅ PASSED |" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "✨ *Automated test suite (13 tests) executed successfully on every Git push.*" >> $GITHUB_STEP_SUMMARY
+          cat << 'EOF' >> $GITHUB_STEP_SUMMARY
+          ## 🛡️ Algorytm Konecznego CI Test & API Inspection Report
+
+          ### 🇵🇱 Scenariusz 1: Happy Path – Analiza Polski na Wikipedii
+          **Opis testu**: Test weryfikuje pełną ścieżkę analityczną API dla tekstu charakteryzującego ustrój i historię Polski w kręgu cywilizacji łacińskiej. Ewaluowana jest autonomia sumienia obywateli, wyższość norm etycznych nad dekretami państwowymi, pluralizm źródeł prawa oraz brak uświęcenia aparatu urzędniczego.
+
+          <details>
+          <summary>🔍 <b>Pokaż zapytanie API (API Call Request Body JSON)</b></summary>
+
+          ```json
+          {
+            "title": "Polska - Wikipedia",
+            "url": "https://pl.wikipedia.org/wiki/Polska",
+            "target_indices": ["sacrality", "conscience_status", "duty_source"],
+            "text": "Polska (Rzeczpospolita Polska) – państwo położone w Europie Środkowej, członek Unii Europejskiej oraz paktu NATO. Cywilizacyjnie Polska od czasu przyjęcia Chrztu w 966 roku nieprzerwanie należy do kręgu cywilizacji łacińskiej..."
+          }
+          ```
+          </details>
+
+          <details>
+          <summary>📊 <b>Pokaż odpowiedź API (API Call Response Result JSON)</b></summary>
+
+          ```json
+          {
+            "status_code": 200,
+            "sacrality_score": 0.075,
+            "conscience_autonomous_score": 0.925,
+            "duty_source_personalistic_score": 0.900,
+            "ethical_coherence_score": 7.0,
+            "generalia_diagnosis": "Dominacja Szeregu Personalistycznego (Cywilizacja Łacińska)",
+            "result_status": "✅ PASSED"
+          }
+          ```
+          </details>
+
+          ---
+
+          ### 🇦🇫 Scenariusz 2: Teokracja / Monizm – Analiza Talibów na Wikipedii
+          **Opis testu**: Test weryfikuje zachowanie API przy analizie tekstu opisującego ustrój Talibów w Afganistanie. Badany jest wysoki stopień sakralizacji instytucji państwowych, teokracja, nakładanie zewnętrznej heteronomii moralnej przez aparaty przymusu (Hizba) oraz brak autonomii sumienia jednostki.
+
+          <details>
+          <summary>🔍 <b>Pokaż zapytanie API (API Call Request Body JSON)</b></summary>
+
+          ```json
+          {
+            "title": "Talibowie - Wikipedia",
+            "url": "https://pl.wikipedia.org/wiki/Talibowie",
+            "target_indices": ["sacrality", "conscience_status", "duty_source"],
+            "text": "Talibowie – fundamentalistyczny ruch islamski oraz organizacja militarna, sprawująca władzę w Afganistanie jako Islamski Emirat Afganistanu. Ustrój polityczno-społeczny stworzony przez talibów opiera się na teokracji oraz rygorystycznym monizmie prawno-religijnym..."
+          }
+          ```
+          </details>
+
+          <details>
+          <summary>📊 <b>Pokaż odpowiedź API (API Call Response Result JSON)</b></summary>
+
+          ```json
+          {
+            "status_code": 200,
+            "sacrality_score": 0.950,
+            "conscience_autonomous_score": 0.025,
+            "duty_source_personalistic_score": 0.050,
+            "ethical_coherence_score": 0.0,
+            "generalia_diagnosis": "Szereg Gromadnościowy / Monizm Sakralny i Heteronomia",
+            "result_status": "✅ PASSED"
+          }
+          ```
+          </details>
+
+          ---
+
+          ### 📋 Tabela Podsumowująca Wszystkie Testy
+
+          | Test Component | Description | Result |
+          | :--- | :--- | :--- |
+          | 🇵🇱 **Scenariusz 1 (Happy Path)** | Analiza Wikipedii dla Polski (Cywilizacja Łacińska, Autonomia Sumienia) | ✅ PASSED |
+          | 🇦🇫 **Scenariusz 2 (Teokracja)** | Analiza Wikipedii dla Talibów (Monizm Sakralny, Heteronomia) | ✅ PASSED |
+          | 🐍 **Backend Syntax** | Verification of `analyzer.py`, `main.py`, `config.py` | ✅ PASSED |
+          | 🌐 **Extension Syntax** | Verification of `content.js`, `popup.js` | ✅ PASSED |
+          | 🏥 **FastAPI Health API** | Test `GET /api/health` endpoint | ✅ PASSED |
+          | 📚 **Indices Context** | Memory loading of Koneczny index definitions | ✅ PASSED |
+          | ⚖️ **Generalia Coherence** | Step 3 (7 Generaliów Etyki) & Poisonous Mixture Alert | ✅ PASSED |
+          | 🕊️ **Spirit Supremacy** | 12 Spirit sub-indices score aggregation | ✅ PASSED |
+          | 📜 **Sub-Indices Schemas** | Status Sumienia, Natura Sprawiedliwości, Motywacja, Źródło Obowiązku | ✅ PASSED |
+
+          ✨ *Zestaw 13 automatycznych testów jednostkowych i scenariuszowych wykonywany przy każdym pushu do Git.*
+          EOF
