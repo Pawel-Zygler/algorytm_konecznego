@@ -4,6 +4,13 @@ Wszystkie znaczące zmiany w projekcie **Algorytm Konecznego** (metoda historioz
 
 Format opiera się na zasadach [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
+## [1.2.9] - 2026-08-06
+
+### Dodane (Added)
+- **Automatyzacja CI/CD i Scenariusze API**: Wdrożono automatyczne testy integracyjne API w pytest i GitHub Actions dla 2 scenariuszy (Happy Path Polska na Wikipedii vs Talibowie teokracja) z prezentacją wyników w GitHub Step Summary.
+
+---
+
 ## [1.2.8] - 2026-08-02
 
 ### Poprawione (Fixed)

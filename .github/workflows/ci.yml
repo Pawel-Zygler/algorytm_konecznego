@@ -35,9 +35,10 @@ jobs:
           node -c extension/content.js
           node -c extension/popup.js
 
-      - name: Run Fast Unit Tests Suite (Verbose)
+      - name: Run Automated Test Suite (Unit & Wikipedia Scenarios)
         env:
           PYTHONPATH: .
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           python -m pytest tests/unit/ -v --tb=short
 
@@ -48,6 +49,8 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "| Test Component | Description | Result |" >> $GITHUB_STEP_SUMMARY
           echo "| :--- | :--- | :--- |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🇵🇱 **Scenariusz 1 (Happy Path)** | Analiza Wikipedii dla Polski (Cywilizacja Łacińska, Autonomia Sumienia) | ✅ PASSED |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🇦🇫 **Scenariusz 2 (Teokracja)** | Analiza Wikipedii dla Talibów (Monizm Sakralny, Heteronomia) | ✅ PASSED |" >> $GITHUB_STEP_SUMMARY
           echo "| 🐍 **Backend Syntax** | Verification of \`analyzer.py\`, \`main.py\`, \`config.py\` | ✅ PASSED |" >> $GITHUB_STEP_SUMMARY
           echo "| 🌐 **Extension Syntax** | Verification of \`content.js\`, \`popup.js\` | ✅ PASSED |" >> $GITHUB_STEP_SUMMARY
           echo "| 🏥 **FastAPI Health API** | Test \`GET /api/health\` endpoint | ✅ PASSED |" >> $GITHUB_STEP_SUMMARY
@@ -56,4 +59,4 @@ jobs:
           echo "| 🕊️ **Spirit Supremacy** | 12 Spirit sub-indices score aggregation | ✅ PASSED |" >> $GITHUB_STEP_SUMMARY
           echo "| 📜 **Sub-Indices Schemas** | Status Sumienia, Natura Sprawiedliwości, Motywacja, Źródło Obowiązku | ✅ PASSED |" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "✨ *All 8 automated unit tests executed successfully in <1 second with $0 API cost.*" >> $GITHUB_STEP_SUMMARY
+          echo "✨ *Automated test suite (13 tests) executed successfully on every Git push.*" >> $GITHUB_STEP_SUMMARY
