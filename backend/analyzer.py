@@ -74,39 +74,52 @@ def get_indices_context() -> str:
     return _INDICES_CONTEXT_CACHE
 
 def call_ollama_api(prompt: str, system_instruction: str, model_name: str = None, host: str = None) -> str:
-    """Calls local Ollama REST API (e.g. for glm-5.2 or llama3) with JSON output format."""
+    """Calls local Ollama REST API (e.g. for glm-5.2, glm-5.2:cloud or glm4) with JSON output format."""
     target_host = (host or config.OLLAMA_HOST or "http://localhost:11434").rstrip('/')
-    target_model = model_name or config.OLLAMA_MODEL or "glm-5.2"
+    primary_model = model_name or config.OLLAMA_MODEL or "glm-5.2"
     url = f"{target_host}/api/generate"
 
-    payload = {
-        "model": target_model,
-        "prompt": prompt,
-        "system": system_instruction,
-        "format": "json",
-        "stream": False,
-        "options": {
-            "temperature": 0.1
-        }
-    }
+    candidate_models = [primary_model]
+    if primary_model == "glm-5.2":
+        candidate_models.extend(["glm-5.2:cloud", "glm4", "glm4:9b"])
+    elif primary_model == "glm4":
+        candidate_models.extend(["glm-5.2:cloud", "glm-5.2", "glm4:9b"])
 
-    try:
-        response = requests.post(url, json=payload, timeout=180)
-        if response.status_code == 200:
-            res_json = response.json()
-            raw_text = res_json.get("response", "")
-            if raw_text.strip():
-                return raw_text
-            raise Exception("Ollama returned empty response string.")
-        else:
-            raise Exception(f"Ollama server returned HTTP {response.status_code}: {response.text}")
-    except requests.exceptions.ConnectionError:
-        raise Exception(
-            f"Nie można połączyć się z lokalną usługą Ollama ({target_host}). "
-            f"Upewnij się, że usługa Ollama działa oraz wykonano komendę: 'ollama run {target_model}'."
-        )
-    except Exception as e:
-        raise Exception(f"Błąd komunikacji z Ollama ({target_model}): {str(e)}")
+    last_error = None
+    for target_model in candidate_models:
+        payload = {
+            "model": target_model,
+            "prompt": prompt,
+            "system": system_instruction,
+            "format": "json",
+            "stream": False,
+            "options": {
+                "temperature": 0.1
+            }
+        }
+
+        try:
+            response = requests.post(url, json=payload, timeout=180)
+            if response.status_code == 200:
+                res_json = response.json()
+                raw_text = res_json.get("response", "")
+                if raw_text.strip():
+                    return raw_text
+                last_error = "Ollama returned empty response string."
+            elif response.status_code == 404 or "not found" in response.text.lower():
+                last_error = f"Model '{target_model}' nie został odnaleziony w Ollama."
+                continue
+            else:
+                last_error = f"Ollama server returned HTTP {response.status_code}: {response.text}"
+        except requests.exceptions.ConnectionError:
+            raise Exception(
+                f"Nie można połączyć się z lokalną usługą Ollama ({target_host}). "
+                f"Upewnij się, że usługa Ollama działa oraz wykonano komendę: 'ollama run {primary_model}'."
+            )
+        except Exception as e:
+            last_error = f"Błąd komunikacji z Ollama ({target_model}): {str(e)}"
+
+    raise Exception(f"{last_error} Aby pobrać model, uruchom w terminalu: 'ollama run glm-5.2:cloud' lub 'ollama run glm4'.")
 
 def call_gemini_api(prompt: str, system_instruction: str, api_key: str, schema: dict) -> str:
     """Calls LLM API (Gemini or local Ollama) with multi-key rotation and 429 rate limit retry parsing."""
