@@ -4,6 +4,13 @@ Wszystkie znaczące zmiany w projekcie **Algorytm Konecznego** (metoda historioz
 
 Format opiera się na zasadach [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
+## [1.3.6] - 2026-08-10
+
+### Dodane (Added)
+- **Obsługa Lokalnego Dostawcy LLM Ollama z Modelami GLM-5.2 / GLM-4 / Llama 3**: Dodano pełne wsparcie dla lokalnego wywoływania modeli LLM (bez limitów tokenów i zapytań 429) poprzez integrację REST API Ollama (`http://localhost:11434`), z możliwością wyboru modelu `glm-5.2` poprzez zmienną środowiskową `OLLAMA_MODEL` lub klucz `ollama:glm-5.2` we wtyczce.
+
+---
+
 ## [1.3.5] - 2026-08-10
 
 ### Dodane (Added)

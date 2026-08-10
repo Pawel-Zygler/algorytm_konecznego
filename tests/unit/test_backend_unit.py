@@ -168,5 +168,21 @@ def test_civilizational_lie_index_calculation():
     assert res_lat["civilizational_lie_percentage"] <= 15.0
     assert "Civitas Dei" in res_lat["civilizational_lie_diagnosis"]
 
+def test_ollama_provider_routing(monkeypatch):
+    """Test 12: Verify call_gemini_api routes to call_ollama_api when api_key is 'ollama:glm-5.2'."""
+    from backend.analyzer import call_gemini_api
+
+    called = {}
+    def mock_ollama(prompt, system_instruction, model_name=None, host=None):
+        called["prompt"] = prompt
+        called["model_name"] = model_name
+        return '{"test": "ok"}'
+
+    monkeypatch.setattr("backend.analyzer.call_ollama_api", mock_ollama)
+    res = call_gemini_api("Test prompt", "System instruction", "ollama:glm-5.2", {})
+    assert res == '{"test": "ok"}'
+    assert called.get("model_name") == "glm-5.2"
+
+
 
 

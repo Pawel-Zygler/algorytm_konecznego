@@ -73,8 +73,52 @@ def get_indices_context() -> str:
     _INDICES_CONTEXT_CACHE = "\n".join(context_parts)
     return _INDICES_CONTEXT_CACHE
 
+def call_ollama_api(prompt: str, system_instruction: str, model_name: str = None, host: str = None) -> str:
+    """Calls local Ollama REST API (e.g. for glm-5.2 or llama3) with JSON output format."""
+    target_host = (host or config.OLLAMA_HOST or "http://localhost:11434").rstrip('/')
+    target_model = model_name or config.OLLAMA_MODEL or "glm-5.2"
+    url = f"{target_host}/api/generate"
+
+    payload = {
+        "model": target_model,
+        "prompt": prompt,
+        "system": system_instruction,
+        "format": "json",
+        "stream": False,
+        "options": {
+            "temperature": 0.1
+        }
+    }
+
+    try:
+        response = requests.post(url, json=payload, timeout=180)
+        if response.status_code == 200:
+            res_json = response.json()
+            raw_text = res_json.get("response", "")
+            if raw_text.strip():
+                return raw_text
+            raise Exception("Ollama returned empty response string.")
+        else:
+            raise Exception(f"Ollama server returned HTTP {response.status_code}: {response.text}")
+    except requests.exceptions.ConnectionError:
+        raise Exception(
+            f"Nie można połączyć się z lokalną usługą Ollama ({target_host}). "
+            f"Upewnij się, że usługa Ollama działa oraz wykonano komendę: 'ollama run {target_model}'."
+        )
+    except Exception as e:
+        raise Exception(f"Błąd komunikacji z Ollama ({target_model}): {str(e)}")
+
 def call_gemini_api(prompt: str, system_instruction: str, api_key: str, schema: dict) -> str:
-    """Calls Gemini API with multi-key rotation, 429 rate limit retry parsing, and model fallback."""
+    """Calls LLM API (Gemini or local Ollama) with multi-key rotation and 429 rate limit retry parsing."""
+    # Check if Ollama provider is explicitly requested via config or API key prefix
+    if config.LLM_PROVIDER == "ollama" or (api_key and "ollama" in api_key.lower()):
+        target_model = config.OLLAMA_MODEL
+        if api_key and ":" in api_key and "ollama" in api_key.lower():
+            parts = api_key.split(":", 1)
+            if len(parts) > 1 and parts[1].strip():
+                target_model = parts[1].strip()
+        return call_ollama_api(prompt, system_instruction, model_name=target_model)
+
     headers = {"Content-Type": "application/json"}
 
     # Build key pool (supports comma-separated keys from request or config .env)

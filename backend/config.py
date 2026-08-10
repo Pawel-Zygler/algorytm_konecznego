@@ -30,3 +30,9 @@ GEMINI_MODELS = [
     "gemini-flash-latest",
     "gemini-pro-latest"
 ]
+
+# LLM Provider configuration: 'gemini' (default) or 'ollama'
+LLM_PROVIDER = os.environ.get("LLM_PROVIDER", "gemini").lower()
+OLLAMA_HOST = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
+OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "glm-5.2")
+
