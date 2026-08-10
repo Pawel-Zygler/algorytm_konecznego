@@ -4,6 +4,13 @@ Wszystkie znaczące zmiany w projekcie **Algorytm Konecznego** (metoda historioz
 
 Format opiera się na zasadach [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
+## [1.3.5] - 2026-08-10
+
+### Dodane (Added)
+- **Eksport i Pobieranie Raportów Wyników w Formacie JSON**: Dodano przycisk `📥 Pobierz JSON` w nagłówku oraz stopce panelu wtyczki, pozwalający wyeksportować pełne wyniki analizy cywilizacyjnej wraz z metadanymi i surowymi ocenami do pliku `.json`.
+
+---
+
 ## [1.3.4] - 2026-08-06
 
 ### Dodane (Added)

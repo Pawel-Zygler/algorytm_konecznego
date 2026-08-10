@@ -558,8 +558,29 @@
     }
     .error-box strong { display:block;margin-bottom:4px; }
     .error-hint { font-size:11.5px;color:#dc2626;opacity:.8;margin-top:6px; }
+    .download-btn {
+      background: rgba(16, 185, 129, 0.15);
+      color: #10b981;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      padding: 5px 11px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+    .download-btn:hover {
+      background: rgba(16, 185, 129, 0.28);
+      border-color: #10b981;
+      color: #34d399;
+    }
   `;
 
+  let lastAnalysisResultData = null;
   const konecznyImg = chrome.runtime.getURL('koneczny.jpg');
 
   const container = document.createElement('div');
@@ -579,14 +600,19 @@
           <div>
             <div style="display: flex; align-items: center; gap: 8px;">
               <div class="header-title">Analiza Konecznego</div>
-              <span style="font-size: 11px; background: #e2e8f0; color: #475569; padding: 2px 8px; border-radius: 4px; font-weight: 600;">v1.3.4</span>
+              <span style="font-size: 11px; background: #e2e8f0; color: #475569; padding: 2px 8px; border-radius: 4px; font-weight: 600;">v1.3.5</span>
             </div>
             <div class="header-subtitle">Metoda Historiozoficzna</div>
           </div>
         </div>
-        <button class="close-btn" id="koneczny-close">
-          <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <button class="download-btn" id="koneczny-download" title="Pobierz wyniki analizy w formacie JSON" style="display: none;">
+            📥 Pobierz JSON
+          </button>
+          <button class="close-btn" id="koneczny-close">
+            <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
       </div>
       <div class="content" id="koneczny-content"></div>
     </div>
@@ -597,9 +623,11 @@
   const trigger = shadow.getElementById('koneczny-trigger');
   const panel = shadow.getElementById('koneczny-panel');
   const closeBtn = shadow.getElementById('koneczny-close');
+  const downloadBtn = shadow.getElementById('koneczny-download');
   const content = shadow.getElementById('koneczny-content');
 
   closeBtn.addEventListener('click', () => panel.classList.remove('open'));
+  downloadBtn.addEventListener('click', () => downloadResultsJson(lastAnalysisResultData));
   trigger.addEventListener('click', () => {
     if (panel.classList.contains('open')) {
       panel.classList.remove('open');
@@ -608,6 +636,54 @@
       runAnalysis();
     }
   });
+
+  function downloadResultsJson(data) {
+    if (!data) return;
+
+    const rawTitle = document.title || 'analiza';
+    const cleanTitle = rawTitle
+      .toLowerCase()
+      .replace(/[^a-z0-9a-ząćęłńóśźż]+/gi, '_')
+      .replace(/^_+|_+$/g, '')
+      .substring(0, 40) || 'analiza_cywilizacyjna';
+
+    const dateStr = new Date().toISOString().slice(0, 10);
+    const filename = `koneczny_${cleanTitle}_${dateStr}.json`;
+
+    const exportPayload = {
+      meta: {
+        aplikacja: "Algorytm Konecznego - Analiza Cywilizacyjna",
+        metoda: "Historiozoficzna metoda Feliksa Konecznego",
+        wersja: "1.3.5",
+        data_analizy: new Date().toISOString(),
+        url: window.location.href,
+        tytuł_strony: document.title
+      },
+      podsumowanie: {
+        sakralność: data.sacrality_score !== undefined ? data.sacrality_score : null,
+        supremacja_ducha: data.spirit_supremacy_score !== undefined ? data.spirit_supremacy_score : null,
+        spójność_etyczna_7_generaliów: data.ethical_coherence_score !== undefined ? data.ethical_coherence_score : null,
+        diagnoza_generaliów: data.generalia_diagnosis || "",
+        kłamstwo_cywilizacyjne_procent: data.civilizational_lie_percentage !== undefined ? data.civilizational_lie_percentage : null,
+        diagnoza_kłamstwa: data.civilizational_lie_diagnosis || ""
+      },
+      wyniki_wskaźników: data.raw_ratings || {},
+      statystyki_historii: data.history_stats || {},
+      surowe_dane_api: data
+    };
+
+    const jsonStr = JSON.stringify(exportPayload, null, 2);
+    const blob = new Blob([jsonStr], { type: 'application/json;charset=utf-8;' });
+    const blobUrl = URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = blobUrl;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(blobUrl);
+  }
 
   function initKonecznyTankDom(arena, konecznyImgSrc) {
     const negativeWords = ["GROMADNOŚĆ", "MECHANIZM", "STATOLATRIA", "APRIORYZM", "CEZAROPAPIZM", "KOLEKTYWIZM", "TURAŃSZCZYZNA", "BIZANTYNIZM", "FISKALIZM", "MAKIAWELIZM"];
@@ -2426,6 +2502,11 @@
           ${lieBreakdownHtml}
         </div>
       </div>
+      <div style="padding: 15px 20px 25px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.08); margin-top: 20px;">
+        <button class="download-btn download-action-btn" style="padding: 8px 18px; font-size: 12.5px;">
+          📥 Pobierz Raport Wyników (JSON)
+        </button>
+      </div>
     `;
 
     const tabSacrality = content.querySelector('#tab-sacrality');
@@ -2454,6 +2535,13 @@
     if (tabChyznosc) tabChyznosc.addEventListener('click', () => switchTab(tabChyznosc, viewChyznosc));
     if (tabQuincunx) tabQuincunx.addEventListener('click', () => switchTab(tabQuincunx, viewQuincunx));
     if (tabLie) tabLie.addEventListener('click', () => switchTab(tabLie, viewLie));
+
+    // Bind Download JSON action buttons
+    content.querySelectorAll('.download-action-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        downloadResultsJson(data);
+      });
+    });
 
     // Bind Zapytaj buttons
     content.querySelectorAll('.zapytaj-btn').forEach(btn => {
