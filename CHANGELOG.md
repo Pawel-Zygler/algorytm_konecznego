@@ -4,6 +4,13 @@ Wszystkie znaczące zmiany w projekcie **Algorytm Konecznego** (metoda historioz
 
 Format opiera się na zasadach [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
+## [1.4.2] - 2026-08-11
+
+### Naprawione (Fixed)
+- **Dynamiczne wykrywanie zainstalowanych tagów Ollama (`/api/tags`)**: Dodano automatyczne odpytywanie lokalnego serwera Ollama o listę pobranych modeli (np. `glm4:latest` vs `glm4`), eliminując błędy braku modelu (np. `Model glm4:9b nie został odnaleziony`) i natychmiast łącząc z faktycznie obecnym w systemie modelem.
+
+---
+
 ## [1.4.1] - 2026-08-11
 
 ### Naprawione (Fixed)

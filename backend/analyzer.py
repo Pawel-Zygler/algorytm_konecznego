@@ -73,17 +73,38 @@ def get_indices_context() -> str:
     _INDICES_CONTEXT_CACHE = "\n".join(context_parts)
     return _INDICES_CONTEXT_CACHE
 
+def get_installed_ollama_models(target_host: str) -> list:
+    """Queries Ollama /api/tags to list models locally installed on host."""
+    try:
+        res = requests.get(f"{target_host}/api/tags", timeout=3)
+        if res.status_code == 200:
+            models_data = res.json().get("models", [])
+            return [m.get("name", "") for m in models_data if m.get("name")]
+    except Exception:
+        pass
+    return []
+
 def call_ollama_api(prompt: str, system_instruction: str, model_name: str = None, host: str = None) -> str:
-    """Calls local Ollama REST API (e.g. for glm-5.2, glm-5.2:cloud or glm4) with JSON output format."""
+    """Calls local Ollama REST API with JSON output format and dynamic model matching."""
     target_host = (host or config.OLLAMA_HOST or "http://localhost:11434").rstrip('/')
-    primary_model = model_name or config.OLLAMA_MODEL or "glm-5.2"
+    primary_model = model_name or config.OLLAMA_MODEL or "glm4"
     url = f"{target_host}/api/generate"
 
-    candidate_models = [primary_model]
-    if primary_model == "glm-5.2":
-        candidate_models.extend(["glm-5.2:cloud", "glm4", "glm4:9b"])
-    elif primary_model == "glm4":
-        candidate_models.extend(["glm-5.2:cloud", "glm-5.2", "glm4:9b"])
+    installed = get_installed_ollama_models(target_host)
+    candidate_models = []
+
+    if installed:
+        primary_clean = primary_model.lower().strip()
+        # Find installed models matching primary_model or prefix
+        matching = [m for m in installed if primary_clean in m.lower() or m.lower().startswith(primary_clean)]
+        if matching:
+            candidate_models.extend(matching)
+        for m in installed:
+            if m not in candidate_models:
+                candidate_models.append(m)
+
+    if not candidate_models:
+        candidate_models = [primary_model, f"{primary_model}:latest", "glm4", "glm4:latest", "glm-5.2:cloud"]
 
     # Trim system instruction if extremely long to keep local LLM inference fast & memory-lean
     trimmed_sys_inst = system_instruction
@@ -112,12 +133,12 @@ def call_ollama_api(prompt: str, system_instruction: str, model_name: str = None
                 raw_text = res_json.get("response", "")
                 if raw_text.strip():
                     return raw_text
-                last_error = "Ollama returned empty response string."
+                last_error = f"Model '{target_model}' w Ollama zwrócił pustą odpowiedź."
             elif response.status_code == 404 or "not found" in response.text.lower():
                 last_error = f"Model '{target_model}' nie został odnaleziony w Ollama."
                 continue
             else:
-                last_error = f"Ollama server returned HTTP {response.status_code}: {response.text}"
+                last_error = f"Serwer Ollama zwrócił status HTTP {response.status_code}: {response.text}"
         except requests.exceptions.ConnectionError:
             raise Exception(
                 f"Nie można połączyć się z lokalną usługą Ollama ({target_host}). "
@@ -126,7 +147,7 @@ def call_ollama_api(prompt: str, system_instruction: str, model_name: str = None
         except Exception as e:
             last_error = f"Błąd komunikacji z Ollama ({target_model}): {str(e)}"
 
-    raise Exception(f"{last_error} Aby pobrać model, uruchom w terminalu: 'ollama run glm-5.2:cloud' lub 'ollama run glm4'.")
+    raise Exception(f"{last_error} Aby pobrać model, uruchom w terminalu: 'ollama run glm4' lub 'ollama run glm-5.2:cloud'.")
 
 def call_gemini_api(prompt: str, system_instruction: str, api_key: str, schema: dict) -> str:
     """Calls LLM API (Gemini or local Ollama) with multi-key rotation and 429 rate limit retry parsing."""
