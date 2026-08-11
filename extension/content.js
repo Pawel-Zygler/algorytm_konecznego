@@ -600,7 +600,7 @@
           <div>
             <div style="display: flex; align-items: center; gap: 8px;">
               <div class="header-title">Analiza Konecznego</div>
-              <span style="font-size: 11px; background: #e2e8f0; color: #475569; padding: 2px 8px; border-radius: 4px; font-weight: 600;">v1.4.2</span>
+              <span style="font-size: 11px; background: #e2e8f0; color: #475569; padding: 2px 8px; border-radius: 4px; font-weight: 600;">v1.5.0</span>
             </div>
             <div class="header-subtitle" title="Dzieła i teoria Konecznego zamienione w cyfrowe narzędzie">Metoda Historiozoficzna</div>
           </div>
@@ -784,21 +784,59 @@
     window.lastAnalysisTargetIndex = targetIndexStr;
     if (trigger) trigger.classList.add('spinning');
 
+    window.konecznyAnalysisLogs = [];
+    const addLiveLog = (msg, type = 'info') => {
+      const now = new Date();
+      const timeStr = now.toTimeString().split(' ')[0] + '.' + String(now.getMilliseconds()).padStart(3, '0').substring(0, 2);
+      window.konecznyAnalysisLogs.push({ time: timeStr, msg, type });
+
+      const logsBox = content.querySelector('#live-logs-box');
+      if (logsBox) {
+        const colorMap = {
+          info: '#93c5fd',
+          success: '#34d399',
+          warning: '#fbbf24',
+          step: '#c084fc',
+          system: '#94a3b8'
+        };
+        const color = colorMap[type] || '#f8fafc';
+        const line = document.createElement('div');
+        line.style.cssText = 'margin-bottom: 4px; line-height: 1.4; word-break: break-word;';
+        line.innerHTML = `<span style="color: #64748b; margin-right: 6px;">[${timeStr}]</span> <span style="color: ${color};">${msg}</span>`;
+        logsBox.appendChild(line);
+        logsBox.scrollTop = logsBox.scrollHeight;
+      }
+    };
+
     content.innerHTML = `
-      <div class="loader" style="padding: 45px 20px; text-align: center;">
+      <div class="loader" style="padding: 25px 20px; text-align: center;">
         <style>
           @keyframes spinGlowRing { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
           @keyframes pulsePortrait { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }
         </style>
-        <div style="position: relative; width: 105px; height: 105px; margin: 0 auto 25px auto;">
-          <div style="position: absolute; inset: -7px; border-radius: 50%; background: conic-gradient(from 0deg, #3b82f6, #8b5cf6, #ec4899, #3b82f6); animation: spinGlowRing 2.5s linear infinite; filter: blur(3px);"></div>
-          <div style="position: absolute; inset: 0; border-radius: 50%; background: #0f172a; padding: 4px; display: flex; align-items: center; justify-content: center; z-index: 2; animation: pulsePortrait 3s ease-in-out infinite;">
+        <div style="position: relative; width: 85px; height: 85px; margin: 0 auto 15px auto;">
+          <div style="position: absolute; inset: -5px; border-radius: 50%; background: conic-gradient(from 0deg, #3b82f6, #8b5cf6, #ec4899, #3b82f6); animation: spinGlowRing 2.5s linear infinite; filter: blur(3px);"></div>
+          <div style="position: absolute; inset: 0; border-radius: 50%; background: #0f172a; padding: 3px; display: flex; align-items: center; justify-content: center; z-index: 2; animation: pulsePortrait 3s ease-in-out infinite;">
             <img src="${konecznyImg}" alt="Profesor Feliks Koneczny" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,0.2);">
           </div>
         </div>
-        <div class="loader-label" id="loader-label-text" style="font-size: 15px; font-weight: 600; color: #1e293b; max-width: 380px; margin: 0 auto; line-height: 1.5; text-shadow: none;">Profesor analizuje tekst…</div>
+        <div class="loader-label" id="loader-label-text" style="font-size: 14px; font-weight: 600; color: #1e293b; max-width: 480px; margin: 0 auto 12px auto; line-height: 1.4; text-shadow: none;">Profesor analizuje tekst…</div>
+        
+        <!-- Console Live Logs Widget -->
+        <div style="max-width: 720px; margin: 15px auto 0 auto; background: #090d16; border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; padding: 12px 14px; text-align: left; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 8px; margin-bottom: 8px;">
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 11.5px; font-weight: 700; color: #e2e8f0; font-family: monospace;">
+              <span style="width: 8px; height: 8px; border-radius: 50%; background: #34d399; display: inline-block; box-shadow: 0 0 8px #34d399;"></span>
+              DZIENNIK ZDARZEŃ NA ŻYWO (LIVE LOGS)
+            </div>
+            <span style="font-size: 10.5px; color: #64748b; font-family: monospace;">POST /api/analyze</span>
+          </div>
+          <div id="live-logs-box" style="font-family: monospace; font-size: 11.5px; height: 150px; overflow-y: auto; color: #cbd5e1; scroll-behavior: smooth;"></div>
+        </div>
       </div>
     `;
+
+    addLiveLog("🚀 Inicjalizacja nowej analizy historiozoficznej...", "step");
 
     const statements = [
       "Szereguję dwoistości...",
@@ -938,11 +976,13 @@
     let statIdx = 0;
     let questIdx = 0;
     let sequenceCounter = 0;
-    let sequenceTarget = Math.floor(Math.random() * 2) + 2; // 2 or 3
+    let sequenceTarget = Math.floor(Math.random() * 2) + 2;
 
     if (window.konecznyLoadingInterval) clearInterval(window.konecznyLoadingInterval);
 
+    let elapsedSec = 0;
     window.konecznyLoadingInterval = setInterval(() => {
+      elapsedSec += 3;
       const label = content.querySelector('#loader-label-text');
       if (label) {
         let text = "";
@@ -958,9 +998,21 @@
         }
         label.textContent = text;
       }
+
+      // Periodically emit live log heartbeat updates
+      if (elapsedSec === 3) {
+        addLiveLog("⏳ Przesyłanie kontekstu historiozoficznego i tekstu do serwera...", "info");
+      } else if (elapsedSec === 6) {
+        addLiveLog("⏳ Model LLM ewaluuje wskaźniki i przykłady faktyczne...", "info");
+      } else if (elapsedSec === 12) {
+        addLiveLog("⏳ Wyliczanie uśrednionych wartości etyki i Pięciomianu Bytu...", "info");
+      } else if (elapsedSec % 15 === 0) {
+        addLiveLog(`⏳ Oczekiwanie na odpowiedź LLM (${elapsedSec}s)...`, "system");
+      }
     }, 3000);
 
     try {
+      addLiveLog("⚙️ Weryfikacja ustawień wtyczki z Chrome Storage...", "system");
       const config = await getStorageData();
       window.konecznyConfig = config;
       let backendUrl = config.backendUrl || 'http://localhost:8005';
@@ -970,21 +1022,33 @@
       }
       const apiKey = config.apiKey || '';
 
+      const isOllama = apiKey && apiKey.toLowerCase().includes('ollama');
+      if (isOllama) {
+        addLiveLog(`🧠 Dostawca LLM: Usługa lokalna Ollama (${apiKey})`, "step");
+      } else {
+        addLiveLog(`🧠 Dostawca LLM: Google Gemini API (${apiKey ? 'Własny Klucz API' : 'Klucz Domyślny'})`, "step");
+      }
+
       const pageData = extractCleanText();
       let reqBody;
 
       const selectedIndices = targetIndexStr ? [targetIndexStr] : (config.selectedIndices && config.selectedIndices.length > 0 ? config.selectedIndices : null);
+      addLiveLog(`🎯 Docelowe indeksy: ${selectedIndices ? selectedIndices.join(', ') : 'Wszystkie (Głowa Konecznego)'}`, "info");
 
       if (pageData && pageData.pdf_url) {
+        addLiveLog(`📄 Pobieranie i prasowanie pliku PDF: ${pageData.pdf_url}`, "info");
         reqBody = { pdf_url: pageData.pdf_url, url: window.location.href, title: document.title };
         if (selectedIndices) reqBody.target_indices = selectedIndices;
       } else {
         if (!pageData || pageData.length < 50) {
           throw new Error('Niewystarczająca ilość tekstu na stronie.');
         }
+        addLiveLog(`📄 Wyekstrahowano tekst strony: "${document.title}" (${pageData.substring(0, 8000).length} znaków)`, "info");
         reqBody = { text: pageData.substring(0, 8000), url: window.location.href, title: document.title };
         if (selectedIndices) reqBody.target_indices = selectedIndices;
       }
+
+      addLiveLog(`📡 Wysyłanie żądania HTTP POST do ${backendUrl}/api/analyze...`, "step");
 
       const response = await fetch(`${backendUrl}/api/analyze`, {
         method: 'POST',
@@ -998,7 +1062,12 @@
       }
 
       clearInterval(window.konecznyLoadingInterval);
+      addLiveLog("✅ Otrzymano odpowiedź z serwera backendowego (200 OK)!", "success");
+
       const newData = await response.json();
+      addLiveLog(`📊 Przetworzono ustrukturyzowane wskaźniki dla ${Object.keys(newData.raw_ratings || {}).length} kategorii.`, "success");
+      addLiveLog("Generowanie kart i widoków historiozoficznych...", "step");
+
       window.konecznyResults = {
         ...window.konecznyResults,
         ...newData,
@@ -1014,6 +1083,7 @@
       clearInterval(window.konecznyLoadingInterval);
 
       const errText = err.message || '';
+      addLiveLog(`❌ Błąd podczas analizy: ${errText}`, "warning");
       const isQuotaError = errText.includes('429') || errText.includes('Quota') || errText.includes('RESOURCE_EXHAUSTED') || errText.includes('limit');
 
       content.innerHTML = `
@@ -2422,8 +2492,22 @@
       ${formatVector(lieVectors.morality_supremacy, '2. Hegemonia Moralności (Morality Supremacy)', 'Prawo złe jest bezprawiem. Sprzeciw wobec bezprawnej władzy nakazującej zło.')}
       ${formatVector(lieVectors.personalism, '3. Personalizm vs Zbawienie Zbiorowe', 'Osobista odpowiedzialność za zbawienie duszy vs ułuda zbawienia zbiorowego (socjalizm/totalitaryzm).')}
       ${formatVector(lieVectors.public_morality_totality, '4. Totalność Etyki (Brak Dwóch Sumień)', 'Jedna etyka w życiu prywatnym i publicznym – zakaz hipokryzji politycznej.')}
-      ${formatVector(lieVectors.sacrality_penalty, '5. Test Fanatyzmu i Sakralności (Coercion Penalty)', 'Odrzucenie zmuszania siłą/mieczem do wiary oraz fałszywego traktowania państwa jako świętości.')}
-    `;
+    const logsHtml = (window.konecznyAnalysisLogs || []).map(l => {
+      const colorMap = { info: '#93c5fd', success: '#34d399', warning: '#fbbf24', step: '#c084fc', system: '#94a3b8' };
+      const color = colorMap[l.type] || '#f8fafc';
+      return `<div style="margin-bottom:3px;"><span style="color:#64748b;margin-right:6px;">[${l.time}]</span><span style="color:${color};">${l.msg}</span></div>`;
+    }).join('');
+
+    const logsAccordionHtml = logsHtml ? `
+      <details style="margin: 20px; background: #090d16; border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 10px 14px; text-align: left;">
+        <summary style="cursor: pointer; font-size: 12px; font-weight: 700; color: #cbd5e1; font-family: monospace; user-select: none;">
+          📋 Dziennik Zdarzeń (Logi Ostatniej Analizy)
+        </summary>
+        <div style="font-family: monospace; font-size: 11px; margin-top: 10px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.08); max-height: 160px; overflow-y: auto;">
+          ${logsHtml}
+        </div>
+      </details>
+    ` : '';
 
     content.innerHTML = `
       <div class="tab-bar">
@@ -2491,7 +2575,8 @@
           ${lieBreakdownHtml}
         </div>
       </div>
-      <div style="padding: 15px 20px 25px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.08); margin-top: 20px;">
+      ${logsAccordionHtml}
+      <div style="padding: 15px 20px 25px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.08); margin-top: 10px;">
         <button class="download-btn download-action-btn" style="padding: 8px 18px; font-size: 12.5px;">
           Pobierz Raport Wyników (JSON)
         </button>
