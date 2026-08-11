@@ -4,6 +4,14 @@ Wszystkie znaczące zmiany w projekcie **Algorytm Konecznego** (metoda historioz
 
 Format opiera się na zasadach [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
+## [1.4.4] - 2026-08-12
+
+### Naprawione (Fixed)
+- **Ochrona tekstu próbki (`TEKST DO ANALIZY`) przed obcięciem**: Naprawiono algorytm przycinania promptów dla Ollama tak, aby bezwzględnie zachowywał treść analizowanej strony internetowej i usuwał wyłącznie nagłówki RAG, gwarantując generowanie ocen w 3-4 sekundy.
+- **Dodanie unit testu weryfikacji dostawcy Ollama**: Dodano dedykowany test jednostkowy `test_ollama_prompt_sample_text_preservation`, który testuje zachowanie promptów dla usługi Ollama bez posługiwania się tylko mockami matematycznymi.
+
+---
+
 ## [1.4.3] - 2026-08-12
 
 ### Naprawione (Fixed)

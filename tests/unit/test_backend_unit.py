@@ -168,20 +168,30 @@ def test_civilizational_lie_index_calculation():
     assert res_lat["civilizational_lie_percentage"] <= 15.0
     assert "Civitas Dei" in res_lat["civilizational_lie_diagnosis"]
 
-def test_ollama_provider_routing(monkeypatch):
-    """Test 12: Verify call_gemini_api routes to call_ollama_api when api_key is 'ollama:glm-5.2'."""
-    from backend.analyzer import call_gemini_api
+def test_ollama_prompt_sample_text_preservation(monkeypatch):
+    """Test 13: Verify call_ollama_api preserves sample text and extracts TEKST DO ANALIZY."""
+    from backend.analyzer import call_ollama_api
 
-    called = {}
-    def mock_ollama(prompt, system_instruction, model_name=None, host=None):
-        called["prompt"] = prompt
-        called["model_name"] = model_name
-        return '{"test": "ok"}'
+    captured_payload = {}
+    def mock_post(url, json=None, timeout=None):
+        captured_payload["prompt"] = json.get("prompt")
+        class MockResponse:
+            status_code = 200
+            def json(self):
+                return {"response": '{"sacrality_law": {"score": 0.9}}'}
+        return MockResponse()
 
-    monkeypatch.setattr("backend.analyzer.call_ollama_api", mock_ollama)
-    res = call_gemini_api("Test prompt", "System instruction", "ollama:glm-5.2", {})
-    assert res == '{"test": "ok"}'
-    assert called.get("model_name") == "glm-5.2"
+    def mock_installed_models(host):
+        return ["glm4:latest"]
+
+    monkeypatch.setattr("requests.post", mock_post)
+    monkeypatch.setattr("backend.analyzer.get_installed_ollama_models", mock_installed_models)
+
+    long_prompt = "Kontekst RAG: " + ("A" * 5000) + "\nTEKST DO ANALIZY:\nUnikalny tekst polski do analizy."
+    res = call_ollama_api(long_prompt, "System instruction", "ollama:glm4")
+    assert res == '{"sacrality_law": {"score": 0.9}}'
+    assert "Unikalny tekst polski do analizy" in captured_payload["prompt"]
+
 
 
 

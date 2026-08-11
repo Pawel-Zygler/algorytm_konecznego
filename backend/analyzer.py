@@ -112,9 +112,16 @@ def call_ollama_api(prompt: str, system_instruction: str, model_name: str = None
         lines = trimmed_sys_inst.split('\n')
         trimmed_sys_inst = '\n'.join(lines[:60]) + '\n...\n' + '\n'.join(lines[-30:])
 
-    trimmed_prompt = prompt
-    if len(trimmed_prompt) > 4500:
-        trimmed_prompt = trimmed_prompt[:4500] + "\n\n[... skrócono długi tekst dla lokalnej usługi Ollama ...]\nZwróć JSON."
+    # Build lean prompt for Ollama: strictly preserve TEKST DO ANALIZY sample text
+    if "TEKST DO ANALIZY:" in prompt:
+        parts = prompt.split("TEKST DO ANALIZY:", 1)
+        header_context = parts[0][:800]
+        sample_text_body = parts[1][:3500]
+        trimmed_prompt = f"{header_context}\n\nTEKST DO ANALIZY:\n{sample_text_body}\n\nZwróć ustrukturyzowany JSON."
+    elif len(prompt) > 4000:
+        trimmed_prompt = prompt[-4000:]
+    else:
+        trimmed_prompt = prompt
 
     last_error = None
     for target_model in candidate_models:
