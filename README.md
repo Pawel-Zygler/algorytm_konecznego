@@ -1,6 +1,6 @@
 # Algorytm Konecznego
 
-Cyfrowe narzędzie analityczne i wtyczka przeglądarkowa wdrażająca historiozoficzny **Algorytm Konecznego** do analizy cywilizacyjnej i etycznej tekstów w locie.
+Dzieła i teoria Konecznego zamienione w cyfrowe narzędzie, praktyczny pomost od monografij do metody indukcyjnej umożliwiający badanie quincunxa, trójprawa oraz ścierania się cywilizacyj i etyk w tekstach.
 
 ![Screenshot z działania wtyczki](extension/screenshot.png)
 ![Screenshot z analizy artykułu Wikipedia](extension/screenshot2.png)

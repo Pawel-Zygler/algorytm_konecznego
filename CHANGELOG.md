@@ -4,6 +4,13 @@ Wszystkie znaczące zmiany w projekcie **Algorytm Konecznego** (metoda historioz
 
 Format opiera się na zasadach [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
+## [1.3.8] - 2026-08-11
+
+### Dodane (Added)
+- **Opis historiozoficzny w sekcji głównej (README.md)**: Zaktualizowano opis główny projektu na stronie głównej o sformułowanie charakteryzujące cyfrowe narzędzie jako praktyczny pomost od monografij do metody indukcyjnej badania quincunxa, trójprawa oraz ścierania się cywilizacyj i etyk w tekstach.
+
+---
+
 ## [1.3.7] - 2026-08-11
 
 ### Zmienione (Changed)
