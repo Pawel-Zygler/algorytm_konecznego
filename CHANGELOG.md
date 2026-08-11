@@ -4,6 +4,13 @@ Wszystkie znaczące zmiany w projekcie **Algorytm Konecznego** (metoda historioz
 
 Format opiera się na zasadach [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
+## [1.3.9] - 2026-08-11
+
+### Dodane (Added)
+- **Opis limitów Quota 429 dla Gemini API i sekcja instrukcji Ollama w README.md**: Sprecyzowano, że limity zapytań Quota 429 dotyczą darmowej wersji API Google Gemini oraz dodano osobną, rozwiniętą sekcję wyjaśniającą bezpłatną, lokalną analizę za pomocą narzędzia Ollama.
+
+---
+
 ## [1.3.8] - 2026-08-11
 
 ### Dodane (Added)

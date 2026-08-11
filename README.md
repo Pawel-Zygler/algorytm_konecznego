@@ -40,8 +40,8 @@ Otwórz plik `backend/.env` i uzupełnij:
 GEMINI_API_KEY=twój_działający_klucz_api
 ```
 
-> **Jak zdobyć darmowy klucz API?**
-> Wejdź na stronę [Google AI Studio](https://aistudio.google.com/app/apikey), zaloguj się swoim kontem Google i kliknij **"Create API key"**. Wygenerowany ciąg znaków to Twój klucz, który pozwala na setki darmowych analiz dziennie.
+> **Jak zdobyć darmowy klucz API Google Gemini?**
+> Wejdź na stronę [Google AI Studio](https://aistudio.google.com/app/apikey), zaloguj się swoim kontem Google i kliknij **"Create API key"**. Wygenerowany ciąg znaków to Twój darmowy klucz API.
 
 ### Krok 3: Uruchomienie serwera backendowego
 Z poziomu głównego folderu uruchom serwer FastAPI:
@@ -62,6 +62,38 @@ Backend wystartuje pod adresem `http://127.0.0.1:8005`.
 3. Zaznacz wybrane indeksy analityczne za pomocą checkboxów.
 4. Kliknij przycisk **Zapisz Ustawienia**. Wtyczka połączy się z backendem i zapisze Twoje preferencje.
 5. **Kliknij w głowę profesora w prawym dolnym rogu ekranu na dowolnej stronie, aby rozpocząć analizę jej tekstu.**
+
+</details>
+
+<details>
+<summary><b>Lokalny Dostawca LLM (Ollama) – Brak Opłat i Brak Quota 429</b></summary>
+
+Aby całkowicie wyeliminować opóźnienia i limity darmowego API Gemini (Quota 429), możesz uruchamiać analizy w 100% lokalnie na własnym komputerze przy użyciu usługi **Ollama**.
+
+### 1. Instalacja Ollama
+Pobierz i zainstaluj darmową aplikację: [ollama.com](https://ollama.com).
+
+### 2. Pobranie i uruchomienie modelu
+Wystarczy uruchomić w terminalu komendę dla wybranego modelu:
+
+* **GLM-5.2 / GLM-4 (Rekomendowane)**:
+  ```bash
+  ollama run glm-5.2:cloud
+  # lub w pełni lokalna wersja GLM-4:
+  ollama run glm4
+  ```
+* **Szybki i lekki model Qwen 2.5 (1.9 GB)**:
+  ```bash
+  ollama run qwen2.5:3b
+  ```
+
+### 3. Konfiguracja we wtyczce
+W oknie ustawień wtyczki w polu **Klucz API** wpisz nazwę modelu z prefiksem `ollama:`, np.:
+* `ollama:glm-5.2`
+* `ollama:glm4`
+* `ollama:qwen2.5:3b`
+
+Po zapisaniu ustawień backend automatycznie przełączy się na lokalny serwer Ollama (`http://localhost:11434`).
 
 </details>
 
@@ -108,4 +140,6 @@ Algorytm analizuje tekst chronologicznie w 5 krokach historiozoficznych Feliksa 
 
 ---
 
-> **Uwaga dotycząca złożoności (Cost/Quota):** Pełna wersja analizy (ze wszystkimi włączonymi checkboxami) wysyła równolegle **24 zapytania (prompty)** do modelu LLM. Łącznie w ramach jednej analizy tekstu ewaluowane są aż **352 szczegółowe pytania/kryteria** dla pod-wskaźników! Z tego powodu należy uważać na limity darmowego API (Quota 429). Gdy wybieramy jeden bądź kilka indeksów, powinno nam starczyć na kilkanaście zapytań.
+> **Uwaga dotycząca limitów zapytań (Quota 429 w darmowym planie Gemini API):** Pełna wersja analizy (ze wszystkimi włączonymi checkboxami) wysyła równolegle **24 zapytania (prompty)** do modelu LLM. Łącznie w ramach jednej analizy tekstu ewaluowane są aż **352 szczegółowe pytania/kryteria** dla pod-wskaźników.
+> - **W darmowej wersji Google Gemini API (Free Tier)** obowiązuje limit RPM/RPD, przez co serwer może nakładać kilkusekundowe opóźnienia retrujące (Quota 429).
+> - **Dla nielimitowanych zapytań bez opłat i bez limitów:** Zaznaczaj wybrane pojedyncze indeksy we wtyczce lub uruchom lokalnego dostawcę **Ollama** (`ollama:glm-5.2`).
