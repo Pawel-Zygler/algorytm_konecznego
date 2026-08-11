@@ -106,17 +106,21 @@ def call_ollama_api(prompt: str, system_instruction: str, model_name: str = None
     if not candidate_models:
         candidate_models = [primary_model, f"{primary_model}:latest", "glm4", "glm4:latest", "glm-5.2:cloud"]
 
-    # Trim system instruction if extremely long to keep local LLM inference fast & memory-lean
+    # Trim system instruction and prompt if extremely long to keep local LLM inference fast & memory-lean
     trimmed_sys_inst = system_instruction
     if len(trimmed_sys_inst) > 3500:
         lines = trimmed_sys_inst.split('\n')
         trimmed_sys_inst = '\n'.join(lines[:60]) + '\n...\n' + '\n'.join(lines[-30:])
 
+    trimmed_prompt = prompt
+    if len(trimmed_prompt) > 4500:
+        trimmed_prompt = trimmed_prompt[:4500] + "\n\n[... skrócono długi tekst dla lokalnej usługi Ollama ...]\nZwróć JSON."
+
     last_error = None
     for target_model in candidate_models:
         payload = {
             "model": target_model,
-            "prompt": prompt,
+            "prompt": trimmed_prompt,
             "system": trimmed_sys_inst,
             "format": "json",
             "stream": False,
@@ -127,7 +131,7 @@ def call_ollama_api(prompt: str, system_instruction: str, model_name: str = None
         }
 
         try:
-            response = requests.post(url, json=payload, timeout=180)
+            response = requests.post(url, json=payload, timeout=300)
             if response.status_code == 200:
                 res_json = response.json()
                 raw_text = res_json.get("response", "")
@@ -2216,7 +2220,9 @@ Zwróć JSON."""
     last_exception = None
     
     if tasks:
-        with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+        is_ollama = (config.LLM_PROVIDER == "ollama") or (api_key and "ollama" in api_key.lower())
+        workers = 1 if is_ollama else 2
+        with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as executor:
             future_to_task = {executor.submit(run_query, t[0], t[1], t[2]): t for t in tasks}
             for future in concurrent.futures.as_completed(future_to_task):
                 try:

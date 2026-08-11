@@ -4,11 +4,10 @@ Wszystkie znaczące zmiany w projekcie **Algorytm Konecznego** (metoda historioz
 
 Format opiera się na zasadach [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
-## [1.5.0] - 2026-08-12
+## [1.4.3] - 2026-08-12
 
-### Dodane (Added)
-- **Konsola Logów na Żywo (Live Logs Console) w widgecie**: Dodano czarny terminal logów w czasie rzeczywistym w widgecie analizatora z podglądem kroków, znacznikami czasowymi (np. `[23:04:12.45]`) oraz podsumowaniem zdarzeń pod wygenerowanym raportem.
-- **Optymalizacja pionowa okna Popup wtyczki**: Zredukowano marginesy i paski wtyczki w `popup.css`, eliminując pasek przewijania okna głównego Chrome.
+### Naprawione (Fixed)
+- **Eliminacja błędu `Read timed out` (timeout=300s + priorytet sekwencyjny dla Ollama)**: Skrócono prompt wejściowy dla zapytań lokalnych, zwiększono limit czasowy HTTP z 180s do 300s oraz ustawiono sekwencyjną kolejkę (`workers=1`) dla lokalnych modeli, zapobiegając zakleszczaniu się gniazd sieciowych Ollama.
 
 ---
 
