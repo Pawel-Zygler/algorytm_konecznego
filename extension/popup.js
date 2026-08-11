@@ -24,8 +24,10 @@ document.addEventListener('DOMContentLoaded', () => {
     backendUrlInput.value = url;
     apiKeyInput.value = res?.apiKey || '';
 
-    // Default indices if not previously saved
-    const savedIndices = res?.selectedIndices || ['duty_source', 'motivation', 'justice_nature', 'conscience_status', 'time_mastery', 'work_ethos', 'quincunx', 'health', 'truth_science', 'beauty_art', 'civilizational_lie'];
+    // Default indices if not previously saved (preserve empty array [] when deselectAll / Czystość is saved)
+    const savedIndices = (res && Array.isArray(res.selectedIndices))
+      ? res.selectedIndices
+      : ['duty_source', 'motivation', 'justice_nature', 'conscience_status', 'time_mastery', 'work_ethos', 'quincunx', 'health', 'truth_science', 'beauty_art', 'civilizational_lie'];
     const checkboxes = document.querySelectorAll('input[name="selectedIndices"]');
     checkboxes.forEach(cb => {
       cb.checked = savedIndices.includes(cb.value);

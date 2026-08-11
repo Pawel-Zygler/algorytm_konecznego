@@ -4,6 +4,15 @@ Wszystkie znaczące zmiany w projekcie **Algorytm Konecznego** (metoda historioz
 
 Format opiera się na zasadach [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
+## [1.4.0] - 2026-08-11
+
+### Zmienione (Changed)
+- **Rozszerzone okno popupu bez przewijania (No-scroll UI)**: Poszerzono okno wtyczki z `26rem` do `35rem` (560px) oraz usunięto limity wysokości `max-height`, sprawiając że wszystkie opcje są widoczne od razu bez paska przewijania.
+- **Kroki Algorytmu Konecznego na początku listy**: Zreorganizowano checkboxy wtyczki, umieszczając najpierw 5 Głównych Kroków Algorytmu (Krok 1 - Krok 5), a pod nimi pod-indeksy w dwukolumnowym układzie grid.
+- **Poprawione zachowanie przycisku 'Czystość'**: Naprawiono zapamiętywanie pustego wyboru checkboxów w Chrome Storage po kliknięciu przycisku 'Czystość'.
+
+---
+
 ## [1.3.9] - 2026-08-11
 
 ### Dodane (Added)

@@ -21,7 +21,7 @@
 
       <div class="form-group">
         <label for="apiKey">Klucz API</label>
-        <input type="password" id="apiKey" name="apiKey" placeholder="Zostanie pobrany z serwera, jeśli pusty">
+        <input type="password" id="apiKey" name="apiKey" placeholder="Zostanie pobrany z serwera lub format 'ollama:model'">
       </div>
 
       <div class="form-group">
@@ -34,117 +34,121 @@
         </div>
 
         <div class="checkbox-group">
-          <div class="category-header">── Główne Meta-Indeksy ──</div>
-          <label class="checkbox-label">
-            <input type="checkbox" id="idx_generalia" name="selectedIndices" value="generalia">
-            <span>7 Generaliów Etyki (Krok 3)</span>
-          </label>
-          <label class="checkbox-label">
-            <input type="checkbox" id="idx_spirit" name="selectedIndices" value="spirit">
-            <span>Supremacja Ducha (Wszystkie 12)</span>
-          </label>
-          <label class="checkbox-label">
-            <input type="checkbox" id="idx_sacrality" name="selectedIndices" value="sacrality">
-            <span>Indeks Sakralności</span>
-          </label>
+          <div class="category-header">── Kroki Algorytmu Konecznego (1 ── 5) ──</div>
+          <div style="display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 0.5rem;">
+            <label class="checkbox-label">
+              <input type="checkbox" id="idx_sacrality" name="selectedIndices" value="sacrality">
+              <span><strong>Krok 1: Indeks Sakralności</strong></span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="idx_spirit" name="selectedIndices" value="spirit">
+              <span><strong>Krok 2: Supremacja Ducha (Agregacja 12 Pod-indeksów)</strong></span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="idx_generalia" name="selectedIndices" value="generalia">
+              <span><strong>Krok 3: Szereg Personalistyczny (7 Generaliów Etyki)</strong></span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="idx_chyznosc" name="selectedIndices" value="chyznosc">
+              <span><strong>Krok 4: Chyżość Historyczna (Wydajność Cywilizacyjna)</strong></span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="idx_quincunx" name="selectedIndices" value="quincunx" checked>
+              <span><strong>Krok 5: Współmierność Pięciomianu Bytu (Quincunx)</strong></span>
+            </label>
+          </div>
 
-          <div class="category-header">── Szereg Personalistyczny ──</div>
-          <label class="checkbox-label">
-            <input type="checkbox" id="idx_duty_source" name="selectedIndices" value="duty_source" checked>
-            <span>Źródło Obowiązku</span>
-          </label>
-          <label class="checkbox-label">
-            <input type="checkbox" id="idx_motivation" name="selectedIndices" value="motivation" checked>
-            <span>Motywacja i Bezinteresowność</span>
-          </label>
-          <label class="checkbox-label">
-            <input type="checkbox" id="idx_justice_nature" name="selectedIndices" value="justice_nature" checked>
-            <span>Natura Sprawiedliwości</span>
-          </label>
-          <label class="checkbox-label">
-            <input type="checkbox" id="idx_conscience_status" name="selectedIndices" value="conscience_status" checked>
-            <span>Status Sumienia</span>
-          </label>
-          <label class="checkbox-label">
-            <input type="checkbox" id="idx_time_mastery" name="selectedIndices" value="time_mastery" checked>
-            <span>Opanowanie Czasu (Historyzm)</span>
-          </label>
-          <label class="checkbox-label">
-            <input type="checkbox" id="idx_work_ethos" name="selectedIndices" value="work_ethos" checked>
-            <span>Ethos Pracy</span>
-          </label>
-          <label class="checkbox-label">
-            <input type="checkbox" id="idx_quincunx" name="selectedIndices" value="quincunx" checked>
-            <span>Współmierność Pięciomianu (Quincunx)</span>
-          </label>
-          <label class="checkbox-label">
-            <input type="checkbox" id="idx_health" name="selectedIndices" value="health" checked>
-            <span>Sfera III: Status Zdrowia i Higieny</span>
-          </label>
-          <label class="checkbox-label">
-            <input type="checkbox" id="idx_truth_science" name="selectedIndices" value="truth_science" checked>
-            <span>Sfera II: Autonomia Prawdy i Nauki</span>
-          </label>
-          <label class="checkbox-label">
-            <input type="checkbox" id="idx_beauty_art" name="selectedIndices" value="beauty_art" checked>
-            <span>Sfera V: Status Piękna i Sztuki</span>
-          </label>
-          <label class="checkbox-label">
-            <input type="checkbox" id="idx_civilizational_lie" name="selectedIndices" value="civilizational_lie"
-              checked>
-            <span>Eksperymentalny Wskaźnik Kłamstwa</span>
-          </label>
-
-          <div class="category-header">── Pod-indeksy Supremacji Ducha (12) ──</div>
-          <label class="checkbox-label">
-            <input type="checkbox" id="idx_dualism" name="selectedIndices" value="dualism">
-            <span>Dualizm Prawny</span>
-          </label>
-          <label class="checkbox-label">
-            <input type="checkbox" id="idx_pluralism" name="selectedIndices" value="pluralism">
-            <span>Pluralizm Źródeł Prawa</span>
-          </label>
-          <label class="checkbox-label">
-            <input type="checkbox" id="idx_aposteriori" name="selectedIndices" value="aposteriori">
-            <span>Prawo Aposterioryczne</span>
-          </label>
-          <label class="checkbox-label">
-            <input type="checkbox" id="idx_organism" name="selectedIndices" value="organism">
-            <span>Organizm vs Mechanizm</span>
-          </label>
-          <label class="checkbox-label">
-            <input type="checkbox" id="idx_personalism" name="selectedIndices" value="personalism">
-            <span>Personalizm</span>
-          </label>
-          <label class="checkbox-label">
-            <input type="checkbox" id="idx_family" name="selectedIndices" value="family">
-            <span>Emancypacja Rodziny</span>
-          </label>
-          <label class="checkbox-label">
-            <input type="checkbox" id="idx_church" name="selectedIndices" value="church">
-            <span>Niezawisłość Kościoła</span>
-          </label>
-          <label class="checkbox-label">
-            <input type="checkbox" id="idx_property" name="selectedIndices" value="property">
-            <span>Stabilność Własności</span>
-          </label>
-          <label class="checkbox-label">
-            <input type="checkbox" id="idx_inheritance" name="selectedIndices" value="inheritance">
-            <span>Ciągłość Dziedziczenia</span>
-          </label>
-          <label class="checkbox-label">
-            <input type="checkbox" id="idx_morality" name="selectedIndices" value="morality">
-            <span>Supremacja Moralności</span>
-          </label>
-          <label class="checkbox-label">
-            <input type="checkbox" id="idx_public_morality" name="selectedIndices" value="public_morality">
-            <span>Totalność Moralności Publicznej</span>
-          </label>
-          <label class="checkbox-label">
-            <input type="checkbox" id="idx_administrative_responsibility" name="selectedIndices"
-              value="administrative_responsibility">
-            <span>Odpowiedzialność Urzędnicza</span>
-          </label>
+          <div class="category-header">── Pojedyncze Pod-indeksy i Sfery Bytu ──</div>
+          <div class="checkbox-grid">
+            <label class="checkbox-label">
+              <input type="checkbox" id="idx_duty_source" name="selectedIndices" value="duty_source" checked>
+              <span>Źródło Obowiązku</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="idx_motivation" name="selectedIndices" value="motivation" checked>
+              <span>Motywacja i Bezinteresowność</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="idx_justice_nature" name="selectedIndices" value="justice_nature" checked>
+              <span>Natura Sprawiedliwości</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="idx_conscience_status" name="selectedIndices" value="conscience_status" checked>
+              <span>Status Sumienia</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="idx_time_mastery" name="selectedIndices" value="time_mastery" checked>
+              <span>Opanowanie Czasu (Historyzm)</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="idx_work_ethos" name="selectedIndices" value="work_ethos" checked>
+              <span>Ethos Pracy</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="idx_civilizational_lie" name="selectedIndices" value="civilizational_lie" checked>
+              <span>Wskaźnik Kłamstwa</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="idx_truth_science" name="selectedIndices" value="truth_science" checked>
+              <span>Sfera II: Prawda i Nauka</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="idx_health" name="selectedIndices" value="health" checked>
+              <span>Sfera III: Zdrowie i Higiena</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="idx_beauty_art" name="selectedIndices" value="beauty_art" checked>
+              <span>Sfera V: Piękno i Sztuka</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="idx_dualism" name="selectedIndices" value="dualism">
+              <span>Dualizm Prawny</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="idx_pluralism" name="selectedIndices" value="pluralism">
+              <span>Pluralizm Źródeł Prawa</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="idx_aposteriori" name="selectedIndices" value="aposteriori">
+              <span>Prawo Aposterioryczne</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="idx_organism" name="selectedIndices" value="organism">
+              <span>Organizm vs Mechanizm</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="idx_personalism" name="selectedIndices" value="personalism">
+              <span>Personalizm</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="idx_family" name="selectedIndices" value="family">
+              <span>Emancypacja Rodziny</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="idx_church" name="selectedIndices" value="church">
+              <span>Niezależność Kościoła</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="idx_property" name="selectedIndices" value="property">
+              <span>Stabilność Własności</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="idx_inheritance" name="selectedIndices" value="inheritance">
+              <span>Ciągłość Dziedziczenia</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="idx_morality" name="selectedIndices" value="morality">
+              <span>Supremacja Moralności</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="idx_public_morality" name="selectedIndices" value="public_morality">
+              <span>Moralność Publiczna</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="idx_administrative_responsibility" name="selectedIndices" value="administrative_responsibility">
+              <span>Odpowiedzialność Urzędnicza</span>
+            </label>
+          </div>
         </div>
       </div>
 
@@ -160,7 +164,7 @@
         <span id="statusText">Sprawdzanie...</span>
       </div>
     </div>
-    <span id="versionTag" class="version-tag">v1.3.9</span>
+    <span id="versionTag" class="version-tag">v1.4.0</span>
   </footer>
 
   <script src="popup.js"></script>
