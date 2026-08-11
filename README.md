@@ -5,22 +5,22 @@ Cyfrowe narzędzie analityczne i wtyczka przeglądarkowa wdrażająca historiozo
 ![Screenshot z działania wtyczki](extension/screenshot.png)
 ![Screenshot z analizy artykułu Wikipedia](extension/screenshot2.png)
 
-> **⚡ Chcesz szybko zobaczyć działanie wtyczki bez instalacji?** Wybierz jeden z gotowych raportów offline poniżej!
-
-## 📄 Przykłady Wyników Offline (Bez Instalacji i Bez API)
+<details>
+<summary><b>Przykłady Wyników Offline (Bez Instalacji i Bez API)</b></summary>
 
 Zamiast pobierać backend i konfigurację, możesz natychmiast otworzyć gotowe wyrenderowane raporty z analizy artykułu **Imperium Rzymskie (Wikipedia)** w nowej karcie przeglądarki:
 
-* 🏛️ <a href="https://raw.githack.com/Pawel-Zygler/algorytm_konecznego/main/examples/offline-roman-empire/1-indeks-sakralnosci.html" target="_blank"><strong>Raport 1: Indeks Sakralności (Otwórz w nowej karcie ↗)</strong></a>
-* 🕊️ <a href="https://raw.githack.com/Pawel-Zygler/algorytm_konecznego/main/examples/offline-roman-empire/2-supremacja-ducha.html" target="_blank"><strong>Raport 2: Supremacja Ducha – Agregacja 12 Indeksów (Otwórz w nowej karcie ↗)</strong></a>
-* ⚖️ <a href="https://raw.githack.com/Pawel-Zygler/algorytm_konecznego/main/examples/offline-roman-empire/3-szereg-personalistyczny.html" target="_blank"><strong>Raport 3: Szereg Personalistyczny – 7 Generaliów Etyki (Otwórz w nowej karcie ↗)</strong></a>
-* ⏳ <a href="https://raw.githack.com/Pawel-Zygler/algorytm_konecznego/main/examples/offline-roman-empire/4-chyzosc-historyczna.html" target="_blank"><strong>Raport 4: Krok 4 – Chyżość Historyczna (Otwórz w nowej karcie ↗)</strong></a>
-* ⭐️ <a href="https://raw.githack.com/Pawel-Zygler/algorytm_konecznego/main/examples/offline-roman-empire/5-quincunx-pieciomian.html" target="_blank"><strong>Raport 5: Krok 5 – Współmierność Pięciomianu Bytu / Quincunx (Otwórz w nowej karcie ↗)</strong></a>
-* 👁️ <a href="https://raw.githack.com/Pawel-Zygler/algorytm_konecznego/main/examples/offline-roman-empire/6-wskaznik-klamstwa.html" target="_blank"><strong>Raport 6: Wskaźnik Kłamstwa Cywilizacyjnego (Otwórz w nowej karcie ↗)</strong></a>
+* <a href="https://raw.githack.com/Pawel-Zygler/algorytm_konecznego/main/examples/offline-roman-empire/1-indeks-sakralnosci.html" target="_blank"><strong>Raport 1: Indeks Sakralności (Otwórz w nowej karcie ↗)</strong></a>
+* <a href="https://raw.githack.com/Pawel-Zygler/algorytm_konecznego/main/examples/offline-roman-empire/2-supremacja-ducha.html" target="_blank"><strong>Raport 2: Supremacja Ducha – Agregacja 12 Indeksów (Otwórz w nowej karcie ↗)</strong></a>
+* <a href="https://raw.githack.com/Pawel-Zygler/algorytm_konecznego/main/examples/offline-roman-empire/3-szereg-personalistyczny.html" target="_blank"><strong>Raport 3: Szereg Personalistyczny – 7 Generaliów Etyki (Otwórz w nowej karcie ↗)</strong></a>
+* <a href="https://raw.githack.com/Pawel-Zygler/algorytm_konecznego/main/examples/offline-roman-empire/4-chyzosc-historyczna.html" target="_blank"><strong>Raport 4: Krok 4 – Chyżość Historyczna (Otwórz w nowej karcie ↗)</strong></a>
+* <a href="https://raw.githack.com/Pawel-Zygler/algorytm_konecznego/main/examples/offline-roman-empire/5-quincunx-pieciomian.html" target="_blank"><strong>Raport 5: Krok 5 – Współmierność Pięciomianu Bytu / Quincunx (Otwórz w nowej karcie ↗)</strong></a>
+* <a href="https://raw.githack.com/Pawel-Zygler/algorytm_konecznego/main/examples/offline-roman-empire/6-wskaznik-klamstwa.html" target="_blank"><strong>Raport 6: Wskaźnik Kłamstwa Cywilizacyjnego (Otwórz w nowej karcie ↗)</strong></a>
 
----
+</details>
 
-## 🛠️ Instalacja wtyczki (Tryb Online)
+<details>
+<summary><b>Instalacja wtyczki (Tryb Online)</b></summary>
 
 ### Krok 1: Klonowanie repozytorium i instalacja zależności
 ```bash
@@ -31,7 +31,7 @@ pip install pytest
 ```
 
 ### Krok 2: Konfiguracja klucza API w backendzie (Opcjonalnie)
-Skopiuj plik szablonu zmiennych środowiskowych i dodaj swój klucz do API Google Gemini:
+Skopiuj plik szablonu zmiennych środowiskowych i dodaj swój klucz do API Google Gemini lub Ollama:
 ```bash
 cp backend/.env.template backend/.env
 ```
@@ -40,7 +40,7 @@ Otwórz plik `backend/.env` i uzupełnij:
 GEMINI_API_KEY=twój_działający_klucz_api
 ```
 
-> **💡 Jak zdobyć darmowy klucz API?**
+> **Jak zdobyć darmowy klucz API?**
 > Wejdź na stronę [Google AI Studio](https://aistudio.google.com/app/apikey), zaloguj się swoim kontem Google i kliknij **"Create API key"**. Wygenerowany ciąg znaków to Twój klucz, który pozwala na setki darmowych analiz dziennie.
 
 ### Krok 3: Uruchomienie serwera backendowego
@@ -58,14 +58,15 @@ Backend wystartuje pod adresem `http://127.0.0.1:8005`.
 
 ### Krok 5: Konfiguracja i Uruchomienie
 1. Kliknij ikonę wtyczki **Analiza Konecznego** na pasku narzędzi przeglądarki Chrome.
-2. Wklej swój **Klucz Gemini API** (lub TON API) w polu tekstowym *Gemini API Key*.
+2. Wklej swój **Klucz API** w polu tekstowym *Klucz API*.
 3. Zaznacz wybrane indeksy analityczne za pomocą checkboxów.
 4. Kliknij przycisk **Zapisz Ustawienia**. Wtyczka połączy się z backendem i zapisze Twoje preferencje.
 5. **Kliknij w głowę profesora w prawym dolnym rogu ekranu na dowolnej stronie, aby rozpocząć analizę jej tekstu.**
 
----
+</details>
 
-## 🏛️ Struktura Indeksów Analitycznych
+<details>
+<summary><b>Struktura Indeksów Analitycznych</b></summary>
 
 Algorytm analizuje tekst chronologicznie w 5 krokach historiozoficznych Feliksa Konecznego:
 
@@ -88,7 +89,7 @@ Algorytm analizuje tekst chronologicznie w 5 krokach historiozoficznych Feliksa 
      - **Odpowiedzialność Urzędnicza** (`ADMINISTRATIVE_RESPONSIBILITY_INDEX`)
 
 3. **Krok 3: Szereg Personalistyczny (Generalia Etyki - Siedem Niewiadomych)**:
-   - Wylicza wskaźnik spójności etycznej (`ethical_coherence_score`) oraz diagnozuje **Szereg Personalistyczny** (Cywilizacja Łacińska) vs **Szereg Gromadnościowy** vs **⚠️ Mieszankę Trującą** (stan acywilizacyjny).
+   - Wylicza wskaźnik spójności etycznej (`ethical_coherence_score`) oraz diagnozuje **Szereg Personalistyczny** (Cywilizacja Łacińska) vs **Szereg Gromadnościowy** vs **Mieszankę Trującą** (stan acywilizacyjny).
    - Zawiera 7 pod-indeksów etycznych:
      - **Personalistyczne Źródło Obowiązku** (`duty_source` - 13 wskaźników)
      - **Motywacja i Bezinteresowność** (`motivation` - 14 wskaźników)
@@ -102,6 +103,8 @@ Algorytm analizuje tekst chronologicznie w 5 krokach historiozoficznych Feliksa 
 
 5. **Krok 5: Współmierność Pięciomianu Bytu (QUINCUNX_COHERENCE_INDEX)**:
    - Badanie harmonijnej spójności 5 sfer bytu (Dobro, Prawda, Zdrowie, Dobrobyt, Piękno) wyliczane za pomocą średniej geometrycznej $\sqrt[5]{D \cdot P \cdot Z \cdot Db \cdot Pi}$ oraz mnożnika spójności $Consistency\_Factor$.
+
+</details>
 
 ---
 

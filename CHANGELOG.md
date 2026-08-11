@@ -4,6 +4,13 @@ Wszystkie znaczące zmiany w projekcie **Algorytm Konecznego** (metoda historioz
 
 Format opiera się na zasadach [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
+## [1.3.7] - 2026-08-11
+
+### Zmienione (Changed)
+- **Klucz API Label i Czystość Interfejsu**: Zmieniono etykietę w ustawieniach wtyczki na „Klucz API”, rozwinięto domyślnie zwinięte sekcje w dokumentacji `README.md` oraz usunięto zbędne dekoracyjne ikonki/emoji z interfejsu i dokumentacji.
+
+---
+
 ## [1.3.6] - 2026-08-10
 
 ### Dodane (Added)

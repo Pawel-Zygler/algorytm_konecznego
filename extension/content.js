@@ -600,14 +600,14 @@
           <div>
             <div style="display: flex; align-items: center; gap: 8px;">
               <div class="header-title">Analiza Konecznego</div>
-              <span style="font-size: 11px; background: #e2e8f0; color: #475569; padding: 2px 8px; border-radius: 4px; font-weight: 600;">v1.3.6</span>
+              <span style="font-size: 11px; background: #e2e8f0; color: #475569; padding: 2px 8px; border-radius: 4px; font-weight: 600;">v1.3.7</span>
             </div>
             <div class="header-subtitle">Metoda Historiozoficzna</div>
           </div>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <button class="download-btn" id="koneczny-download" title="Pobierz wyniki analizy w formacie JSON" style="display: none;">
-            📥 Pobierz JSON
+            Pobierz JSON
           </button>
           <button class="close-btn" id="koneczny-close">
             <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -700,7 +700,7 @@
 
       const badge = document.createElement('div');
       badge.className = 'badge-negative';
-      badge.textContent = '💥 ' + word;
+      badge.textContent = word;
       badge.style.left = leftPx + 'px';
       badge.style.top = topPx + 'px';
       arena.appendChild(badge);
@@ -1019,16 +1019,16 @@
       content.innerHTML = `
         <div style="padding: 16px; background: rgba(239, 68, 68, 0.12); border: 1px solid #ef4444; border-radius: 10px; margin: 15px; text-align: left; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);">
           <div style="font-weight: 700; color: #f87171; font-size: 15px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-            ⚠️ ${isQuotaError ? 'Przekroczono limit API Gemini (Quota 429)' : 'Błąd analizy danych'}
+            ${isQuotaError ? 'Przekroczono limit API Gemini (Quota 429)' : 'Błąd analizy danych'}
           </div>
           <div style="font-size: 13px; color: #fee2e2; line-height: 1.5; margin-bottom: 12px; font-family: monospace; white-space: pre-wrap; word-break: break-word; max-height: 140px; overflow-y: auto; background: rgba(0,0,0,0.2); padding: 8px 10px; border-radius: 6px;">
             ${errText}
           </div>
           <div style="font-size: 12px; color: #fca5a5; border-top: 1px dashed rgba(239,68,68,0.3); padding-top: 10px; line-height: 1.4;">
-            💡 <strong>Powód braku danych:</strong> ${isQuotaError ? 'Klucz Gemini API osiągnął darmowy limit zapytań (RPM/RPD). Poczekaj około 30–60 sekund na odnowienie puli i spróbuj ponownie.' : 'Sprawdź połączenie z backendem (port 8005) oraz poprawność klucza Gemini API.'}
+            <strong>Powód braku danych:</strong> ${isQuotaError ? 'Klucz Gemini API osiągnął darmowy limit zapytań (RPM/RPD). Poczekaj około 30–60 sekund na odnowienie puli i spróbuj ponownie.' : 'Sprawdź połączenie z backendem (port 8005) oraz poprawność klucza Gemini API.'}
           </div>
           <button id="retry-analysis-btn" style="margin-top: 14px; width: 100%; padding: 10px; background: #ef4444; color: #fff; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='#dc2626'" onmouseout="this.style.background='#ef4444'">
-            🔄 Spróbuj ponownie
+            Spróbuj ponownie
           </button>
         </div>
       `;
@@ -1688,7 +1688,7 @@
             <div class="answer-body">
               <p class="explanation-text">${explanation}</p>
               ${news.length > 0 ? `
-                <div class="news-title">📰 Kontekst ze świata</div>
+                <div class="news-title">Kontekst ze świata</div>
                 <div class="news-list">${newsItems}</div>
               ` : ''}
             </div>
@@ -1819,7 +1819,7 @@
     const mixtureAlert = data.mixture_alert !== undefined ? data.mixture_alert : (ethicalCoherenceScore >= 2.5 && ethicalCoherenceScore <= 5.5);
     const mixtureAlertHtml = mixtureAlert ? `
       <div style="background: rgba(239, 68, 68, 0.15); border: 2px solid #ef4444; border-radius: 10px; padding: 14px; margin: 15px 20px; text-align: center;">
-        <div style="color: #ef4444; font-weight: 800; font-size: 15px; margin-bottom: 6px;">⚠️ ALERT MIESZANKI TRUJĄCEJ (ACYWILIZACYJNY KOŁOBŁĘD)</div>
+        <div style="color: #ef4444; font-weight: 800; font-size: 15px; margin-bottom: 6px;">ALERT MIESZANKI TRUJĄCEJ (ACYWILIZACYJNY KOŁOBŁĘD)</div>
         <div style="color: #f87171; font-size: 12px; line-height: 1.5;">
           Według metody Konecznego zrzeszenie połączyło sprzeczne generalia etyczne (${ethicalCoherenceScore} / 7.0). 
           Synkretyzm etyczny paraliżuje kulturę czynu – norma prawna pozostaje w sprzeczności z normą moralną.
@@ -2386,8 +2386,8 @@
       liePct < 0 ? 'Brak danych dla Wskaźnika Kłamstwa' :
         liePct <= 15 ? 'PRAWDA OBIEKTYWNA I PERSONALIZM (Civitas Dei)' :
           liePct <= 40 ? 'UMIARKOWANA MANIPULACJA / PRAGMATYZM' :
-            liePct <= 70 ? '⚠️ ZAKŁAMANIE SYSTEMOWE (Dwoistość Sumienia / Statolatria)' :
-              '🚨 KŁAMSTWO FUNDAMENTALNE (Zbawienie Zbiorowe / Acywilizacyjny Kołobłęd)'
+            liePct <= 70 ? 'ZAKŁAMANIE SYSTEMOWE (Dwoistość Sumienia / Statolatria)' :
+              'KŁAMSTWO FUNDAMENTALNE (Zbawienie Zbiorowe / Acywilizacyjny Kołobłęd)'
     );
 
     const lieHero = buildDarkHero(
@@ -2504,7 +2504,7 @@
       </div>
       <div style="padding: 15px 20px 25px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.08); margin-top: 20px;">
         <button class="download-btn download-action-btn" style="padding: 8px 18px; font-size: 12.5px;">
-          📥 Pobierz Raport Wyników (JSON)
+          Pobierz Raport Wyników (JSON)
         </button>
       </div>
     `;
