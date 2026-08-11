@@ -85,16 +85,23 @@ def call_ollama_api(prompt: str, system_instruction: str, model_name: str = None
     elif primary_model == "glm4":
         candidate_models.extend(["glm-5.2:cloud", "glm-5.2", "glm4:9b"])
 
+    # Trim system instruction if extremely long to keep local LLM inference fast & memory-lean
+    trimmed_sys_inst = system_instruction
+    if len(trimmed_sys_inst) > 3500:
+        lines = trimmed_sys_inst.split('\n')
+        trimmed_sys_inst = '\n'.join(lines[:60]) + '\n...\n' + '\n'.join(lines[-30:])
+
     last_error = None
     for target_model in candidate_models:
         payload = {
             "model": target_model,
             "prompt": prompt,
-            "system": system_instruction,
+            "system": trimmed_sys_inst,
             "format": "json",
             "stream": False,
             "options": {
-                "temperature": 0.1
+                "temperature": 0.1,
+                "num_ctx": 4096
             }
         }
 
@@ -2185,6 +2192,7 @@ Zwróć JSON."""
     if "administrative_responsibility" in target_indices: tasks.append((prompt_12, sys_inst_12, schema_12))
 
     llm_data = {}
+    last_exception = None
     
     if tasks:
         with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
@@ -2195,7 +2203,11 @@ Zwróć JSON."""
                     if res:
                         llm_data.update(res)
                 except Exception as exc:
+                    last_exception = exc
                     print(f"Task generated an exception: {exc}")
+
+    if tasks and not llm_data and last_exception:
+        raise last_exception
 
     # Run math calculations and return unified structure
     result = calculate_koneczny_metrics(llm_data)

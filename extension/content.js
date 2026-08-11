@@ -600,7 +600,7 @@
           <div>
             <div style="display: flex; align-items: center; gap: 8px;">
               <div class="header-title">Analiza Konecznego</div>
-              <span style="font-size: 11px; background: #e2e8f0; color: #475569; padding: 2px 8px; border-radius: 4px; font-weight: 600;">v1.4.0</span>
+              <span style="font-size: 11px; background: #e2e8f0; color: #475569; padding: 2px 8px; border-radius: 4px; font-weight: 600;">v1.4.1</span>
             </div>
             <div class="header-subtitle" title="Dzieła i teoria Konecznego zamienione w cyfrowe narzędzie">Metoda Historiozoficzna</div>
           </div>
@@ -2259,6 +2259,20 @@
         </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony (isUnderDev = false)</div>`}
       </div>`;
 
+    const isSingleTargetAnalysis = Boolean(window.lastAnalysisTargetIndex && window.lastAnalysisTargetIndex !== 'spirit');
+
+    const renderSubBlock = (hero, title, cards, scoresObj, key) => {
+      const hasScores = Object.keys(scoresObj || {}).length > 0;
+      if (!hasScores && isSingleTargetAnalysis && window.lastAnalysisTargetIndex !== key) {
+        return '';
+      }
+      return `
+        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+          ${hero} 
+          <div class="section-title" style="margin-top:10px">${title}</div> ${cards}
+        </div>`;
+    };
+
     const spiritCards = `
       <div id="loader-spirit" style="padding:20px; text-align:center;">
         ${INDEX_DEV_FLAGS.spirit ? `<button class="tab-btn active zapytaj-btn" data-target="spirit" data-loader="loader-spirit" data-name="Supremacja Ducha (12 indeksów)" style="margin:0 auto; padding:10px 20px;">
@@ -2266,43 +2280,18 @@
         </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony (isUnderDev = false)</div>`}
       </div>
       <div class="sub-indices" style="margin-top: 30px;">
-        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-          ${dualismHero} 
-          <div class="section-title" style="margin-top:10px">Wskaźniki Dualizmu Prawnego</div> ${dualismCards}
-        </div>
-        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-          ${pluralismHero} <div class="section-title" style="margin-top:10px">Wskaźniki Pluralizmu Źródeł Prawa</div> ${pluralismCards}
-        </div>
-        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-          ${aposterioriHero} <div class="section-title" style="margin-top:10px">Wskaźniki Aposterioryzmu</div> ${aposterioriCards}
-        </div>
-        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-          ${organismHero} <div class="section-title" style="margin-top:10px">Wskaźniki Organizmu</div> ${organismCards}
-        </div>
-        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-          ${personalismHero} <div class="section-title" style="margin-top:10px">Wskaźniki Personalizmu</div> ${personalismCards}
-        </div>
-        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-          ${familyHero} <div class="section-title" style="margin-top:10px">Wskaźniki Autonomii Rodziny</div> ${familyCards}
-        </div>
-        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-          ${churchHero} <div class="section-title" style="margin-top:10px">Wskaźniki Niezależności Kościoła</div> ${churchCards}
-        </div>
-        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-          ${propertyHero} <div class="section-title" style="margin-top:10px">Wskaźniki Stabilności Własności</div> ${propertyCards}
-        </div>
-        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-          ${inheritanceHero} <div class="section-title" style="margin-top:10px">Wskaźniki Ciągłości Dziedziczenia</div> ${inheritanceCards}
-        </div>
-        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-          ${moralityHero} <div class="section-title" style="margin-top:10px">Wskaźniki Supremacji Moralności</div> ${moralityCards}
-        </div>
-        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-          ${publicMoralityHero} <div class="section-title" style="margin-top:10px">Wskaźniki Moralności Publicznej</div> ${publicMoralityCards}
-        </div>
-        <div class="sub-index" style="margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-          ${adminRespHero} <div class="section-title" style="margin-top:10px">Wskaźniki Odpowiedzialności Urzędniczej</div> ${adminRespCards}
-        </div>
+        ${renderSubBlock(dualismHero, "Wskaźniki Dualizmu Prawnego", dualismCards, dualismScores, "dualism")}
+        ${renderSubBlock(pluralismHero, "Wskaźniki Pluralizmu Źródeł Prawa", pluralismCards, pluralismScores, "pluralism")}
+        ${renderSubBlock(aposterioriHero, "Wskaźniki Aposterioryzmu", aposterioriCards, aposterioriScores, "aposteriori")}
+        ${renderSubBlock(organismHero, "Wskaźniki Organizmu", organismCards, organismScores, "organism")}
+        ${renderSubBlock(personalismHero, "Wskaźniki Personalizmu", personalismCards, personalismScores, "personalism")}
+        ${renderSubBlock(familyHero, "Wskaźniki Autonomii Rodziny", familyCards, familyScores, "family")}
+        ${renderSubBlock(churchHero, "Wskaźniki Niezależności Kościoła", churchCards, churchScores, "church")}
+        ${renderSubBlock(propertyHero, "Wskaźniki Stabilności Własności", propertyCards, propertyScores, "property")}
+        ${renderSubBlock(inheritanceHero, "Wskaźniki Ciągłości Dziedziczenia", inheritanceCards, inheritanceScores, "inheritance")}
+        ${renderSubBlock(moralityHero, "Wskaźniki Supremacji Moralności", moralityCards, moralityScores, "morality")}
+        ${renderSubBlock(publicMoralityHero, "Wskaźniki Moralności Publicznej", publicMoralityCards, publicMoralityScores, "public_morality")}
+        ${renderSubBlock(adminRespHero, "Wskaźniki Odpowiedzialności Urzędniczej", adminRespCards, adminRespScores, "administrative_responsibility")}
       </div>`;
 
     const chyznoscScore = data.time_mastery_efficiency_score >= 0

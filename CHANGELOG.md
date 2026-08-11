@@ -4,6 +4,14 @@ Wszystkie znaczące zmiany w projekcie **Algorytm Konecznego** (metoda historioz
 
 Format opiera się na zasadach [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
+## [1.4.1] - 2026-08-11
+
+### Naprawione (Fixed)
+- **Optymalizacja wydajności zapytań lokalnych Ollama**: Wprowadzono automatyczne skracanie gigantycznych kontekstów RAG i dodano parametr `"num_ctx": 4096`, dzięki czemu wnioskowanie w usłudze Ollama trwa kilkanaście sekund zamiast kilku minut.
+- **Wyświetlanie wyników dla pojedynczych indeksów (np. Prawo Aposterioryczne)**: Ukryto puste, niewybrane szablony wtyczki ("Indeks wyłączony") podczas pojedynczej analizy celowanej oraz zapewniono automatyczne wyciąganie wyjątków serwera zamiast zwracania pustego panelu.
+
+---
+
 ## [1.4.0] - 2026-08-11
 
 ### Zmienione (Changed)
