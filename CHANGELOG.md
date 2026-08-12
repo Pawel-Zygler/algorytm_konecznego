@@ -4,6 +4,13 @@ Wszystkie znaczące zmiany w projekcie **Algorytm Konecznego** (metoda historioz
 
 Format opiera się na zasadach [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
+## [1.4.6] - 2026-08-12
+
+### Naprawione (Fixed)
+- **Eliminacja fałszywych statusów `isUnderDev = false` oraz `0%` dla niewybranych indeksów**: Ustawiono domyślny wynik `-1` (N/A) dla nieprzeanalizowanych indeksów oraz włączono aktywne przyciski `Zapytaj (Pobierz dane)` dla wszystkich sfer Supremacji Ducha.
+
+---
+
 ## [1.4.5] - 2026-08-12
 
 ### Naprawione (Fixed)

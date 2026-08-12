@@ -600,7 +600,7 @@
           <div>
             <div style="display: flex; align-items: center; gap: 8px;">
               <div class="header-title">Analiza Konecznego</div>
-              <span style="font-size: 11px; background: #e2e8f0; color: #475569; padding: 2px 8px; border-radius: 4px; font-weight: 600;">v1.4.5</span>
+              <span style="font-size: 11px; background: #e2e8f0; color: #475569; padding: 2px 8px; border-radius: 4px; font-weight: 600;">v1.4.6</span>
             </div>
             <div class="header-subtitle" title="Dzieła i teoria Konecznego zamienione w cyfrowe narzędzie">Metoda Historiozoficzna</div>
           </div>
@@ -1133,73 +1133,57 @@
     const publicMoralityScores = data.raw_ratings?.public_morality_totality_scores || {};
     const adminRespScores = data.raw_ratings?.administrative_responsibility_scores || {};
 
-    let calcAdminRespScore = data.administrative_responsibility_score || 0;
-    if (calcAdminRespScore === 0 && Object.keys(adminRespScores).length > 0) {
-      let validCount = 0;
-      let validSum = 0;
+    let calcAdminRespScore = data.administrative_responsibility_score !== undefined ? data.administrative_responsibility_score : -1;
+    if ((calcAdminRespScore === 0 || calcAdminRespScore === -1) && Object.keys(adminRespScores).length > 0) {
+      let validCount = 0, validSum = 0;
       for (const val of Object.values(adminRespScores)) {
         let s = typeof val === 'number' ? val : (val && val.score !== undefined ? val.score : -1.0);
-        if (s >= 0) {
-          validSum += s;
-          validCount++;
-        }
+        if (s >= 0) { validSum += s; validCount++; }
       }
-      if (validCount > 0) {
-        calcAdminRespScore = validSum / validCount;
-      }
+      calcAdminRespScore = validCount > 0 ? validSum / validCount : -1;
+    } else if (Object.keys(adminRespScores).length === 0) {
+      calcAdminRespScore = -1;
     }
-    const adminRespScore = Math.round(calcAdminRespScore * 100);
+    const adminRespScore = calcAdminRespScore >= 0 ? Math.round(calcAdminRespScore * 100) : -1;
 
-    let calcPublicMoralityScore = data.public_morality_totality_score || 0;
-    if (calcPublicMoralityScore === 0 && Object.keys(publicMoralityScores).length > 0) {
-      let validCount = 0;
-      let validSum = 0;
+    let calcPublicMoralityScore = data.public_morality_totality_score !== undefined ? data.public_morality_totality_score : -1;
+    if ((calcPublicMoralityScore === 0 || calcPublicMoralityScore === -1) && Object.keys(publicMoralityScores).length > 0) {
+      let validCount = 0, validSum = 0;
       for (const val of Object.values(publicMoralityScores)) {
         let s = typeof val === 'number' ? val : (val && val.score !== undefined ? val.score : -1.0);
-        if (s >= 0) {
-          validSum += s;
-          validCount++;
-        }
+        if (s >= 0) { validSum += s; validCount++; }
       }
-      if (validCount > 0) {
-        calcPublicMoralityScore = validSum / validCount;
-      }
+      calcPublicMoralityScore = validCount > 0 ? validSum / validCount : -1;
+    } else if (Object.keys(publicMoralityScores).length === 0) {
+      calcPublicMoralityScore = -1;
     }
-    const publicMoralityScore = Math.round(calcPublicMoralityScore * 100);
+    const publicMoralityScore = calcPublicMoralityScore >= 0 ? Math.round(calcPublicMoralityScore * 100) : -1;
 
-    let calcMoralityScore = data.morality_supremacy_score || 0;
-    if (calcMoralityScore === 0 && Object.keys(moralityScores).length > 0) {
-      let validCount = 0;
-      let validSum = 0;
+    let calcMoralityScore = data.morality_supremacy_score !== undefined ? data.morality_supremacy_score : -1;
+    if ((calcMoralityScore === 0 || calcMoralityScore === -1) && Object.keys(moralityScores).length > 0) {
+      let validCount = 0, validSum = 0;
       for (const val of Object.values(moralityScores)) {
         let s = typeof val === 'number' ? val : (val && val.score !== undefined ? val.score : -1.0);
-        if (s >= 0) {
-          validSum += s;
-          validCount++;
-        }
+        if (s >= 0) { validSum += s; validCount++; }
       }
-      if (validCount > 0) {
-        calcMoralityScore = validSum / validCount;
-      }
+      calcMoralityScore = validCount > 0 ? validSum / validCount : -1;
+    } else if (Object.keys(moralityScores).length === 0) {
+      calcMoralityScore = -1;
     }
-    const moralityScore = Math.round(calcMoralityScore * 100);
+    const moralityScore = calcMoralityScore >= 0 ? Math.round(calcMoralityScore * 100) : -1;
 
-    let calcInheritanceScore = data.inheritance_continuity_score || 0;
-    if (calcInheritanceScore === 0 && Object.keys(inheritanceScores).length > 0) {
-      let validCount = 0;
-      let validSum = 0;
+    let calcInheritanceScore = data.inheritance_continuity_score !== undefined ? data.inheritance_continuity_score : -1;
+    if ((calcInheritanceScore === 0 || calcInheritanceScore === -1) && Object.keys(inheritanceScores).length > 0) {
+      let validCount = 0, validSum = 0;
       for (const val of Object.values(inheritanceScores)) {
         let s = typeof val === 'number' ? val : (val && val.score !== undefined ? val.score : -1.0);
-        if (s >= 0) {
-          validSum += s;
-          validCount++;
-        }
+        if (s >= 0) { validSum += s; validCount++; }
       }
-      if (validCount > 0) {
-        calcInheritanceScore = validSum / validCount;
-      }
+      calcInheritanceScore = validCount > 0 ? validSum / validCount : -1;
+    } else if (Object.keys(inheritanceScores).length === 0) {
+      calcInheritanceScore = -1;
     }
-    const inheritanceScore = Math.round(calcInheritanceScore * 100);
+    const inheritanceScore = calcInheritanceScore >= 0 ? Math.round(calcInheritanceScore * 100) : -1;
 
 
 
@@ -1974,13 +1958,7 @@
     const userSelected = (window.konecznyConfig && window.konecznyConfig.selectedIndices) || [];
     const hasUserSelected = Array.isArray(userSelected) && userSelected.length > 0;
 
-    const isIdxEnabled = (key) => {
-      if (!hasUserSelected) return true;
-      if (userSelected.includes(key)) return true;
-      if (userSelected.includes('generalia') && ['duty_source', 'motivation', 'justice_nature', 'conscience_status', 'time_mastery', 'work_ethos'].includes(key)) return true;
-      if (userSelected.includes('spirit') && ['dualism', 'pluralism', 'aposteriori', 'organism', 'personalism', 'family', 'church', 'property', 'inheritance', 'morality', 'public_morality', 'administrative_responsibility'].includes(key)) return true;
-      return false;
-    };
+    const isIdxEnabled = () => true;
 
     const INDEX_DEV_FLAGS = {
       sacrality: isIdxEnabled('sacrality'),
