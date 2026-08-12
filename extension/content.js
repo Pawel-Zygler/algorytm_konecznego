@@ -600,7 +600,7 @@
           <div>
             <div style="display: flex; align-items: center; gap: 8px;">
               <div class="header-title">Analiza Konecznego</div>
-              <span style="font-size: 11px; background: #e2e8f0; color: #475569; padding: 2px 8px; border-radius: 4px; font-weight: 600;">v1.4.4</span>
+              <span style="font-size: 11px; background: #e2e8f0; color: #475569; padding: 2px 8px; border-radius: 4px; font-weight: 600;">v1.4.5</span>
             </div>
             <div class="header-subtitle" title="Dzieła i teoria Konecznego zamienione w cyfrowe narzędzie">Metoda Historiozoficzna</div>
           </div>
@@ -1109,7 +1109,8 @@
 
 
     const legalDualismScore = Math.round((data.legal_dualism_score || 0) * 100);
-    const legalDualismScores = data.raw_ratings?.legal_dualism_scores || {};
+    const dualismScores = data.raw_ratings?.legal_dualism_scores || {};
+    const legalDualismScores = dualismScores;
 
     const pluralismScore = Math.round((data.law_source_pluralism_score || 0) * 100);
     const pluralismScores = data.raw_ratings?.law_source_pluralism_scores || {};

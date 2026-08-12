@@ -4,6 +4,13 @@ Wszystkie znaczące zmiany w projekcie **Algorytm Konecznego** (metoda historioz
 
 Format opiera się na zasadach [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
+## [1.4.5] - 2026-08-12
+
+### Naprawione (Fixed)
+- **Naprawa błędu `ReferenceError: dualismScores is not defined`**: Zdefiniowano zmienną `dualismScores` w skrypcie `content.js`, eliminując awarię renderowania wyników dla sfery Dualizmu Prawnego po ukończeniu analizy.
+
+---
+
 ## [1.4.4] - 2026-08-12
 
 ### Naprawione (Fixed)
