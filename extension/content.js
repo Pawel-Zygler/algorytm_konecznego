@@ -805,10 +805,10 @@
             </div>
           </div>
 
-          <!-- Bubble Right: Mug slogans (Po prawej: pomysły na napisy na kubki dla userów) -->
+          <!-- Bubble Right: Gadget slogans (Kubek / Koszulka / Breloczek) -->
           <div style="flex: 1; min-width: 190px; background: rgba(30, 41, 59, 0.85); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 14px; padding: 12px 14px; text-align: left; box-shadow: 0 4px 16px rgba(0,0,0,0.3); backdrop-filter: blur(6px);">
-            <div style="font-size: 9.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #34d399; margin-bottom: 4px;">☕ HASŁO NA KUBEK USERA</div>
-            <div id="loader-mug-text" style="font-size: 12.5px; font-weight: 600; color: #f1f5f9; line-height: 1.4; font-style: italic;">"Etyka przed ustawą — kawę piję z prawa prywatnego."</div>
+            <div id="loader-gadget-header" style="font-size: 9.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #34d399; margin-bottom: 4px;">☕ HASŁO NA KUBEK</div>
+            <div id="loader-gadget-text" style="font-size: 12.5px; font-weight: 600; color: #f1f5f9; line-height: 1.4; font-style: italic;">"Etyka przed ustawą — kawę piję z prawa prywatnego."</div>
           </div>
         </div>
       </div>
@@ -962,7 +962,129 @@
       "\"Wolność osoby zaczyna się od porannej kawy.\"",
       "\"Zanim wydasz okólnik, daj mi wypić espresso.\"",
       "\"Słuszność etyczna ponad sztywną literą przepisu.\"",
-      "\"Zero gromadności w moim biurze!\""
+      "\"Zero gromadności w moim biurze!\"",
+      "\"Herbata czy kawa? Aposterioryczny wybór tradycji.\"",
+      "\"Moja rodzina jest wyemancypowana od biurokracji.\"",
+      "\"Nawet po trzeciej kawie odrzucam aprioryzm ustrojowy.\"",
+      "\"Kawa bez cukru jak ustrój bez przymusu.\"",
+      "\"Pora na łyk wolności i personalizmu.\"",
+      "\"Łacińska kultura czynu wymaga kofeiny.\"",
+      "\"Nie mieszam cywilizacji, nie mieszam kawy.\"",
+      "\"Własność prywatna kubka jest nienaruszalna.\"",
+      "\"Praca wolna i nieprzymuszona — z kubkiem w ręku.\"",
+      "\"Nie bierz mojego kubka — to monizm prywatny!\"",
+      "\"Etyczny monoteizm i świeżo mielona kawa.\"",
+      "\"Zgoda na nadgodziny? Tylko przy prymacie etyki.\"",
+      "\"Statolatria kończy się tam, gdzie zaczyna się czarna kawa.\"",
+      "\"Mój budzik szanuje chyżość historyczną.\"",
+      "\"Bezinteresowność dobra i kubek na biurku.\"",
+      "\"Odrzucam kazuistykę prawniczą, wybieram espresso.\"",
+      "\"Nawet w poniedziałek zachowuję autokrytykę sumienia.\"",
+      "\"Uświęcenie pracy umysłowej wymaga kofeiny.\"",
+      "\"Nie ma zbawienia zbiorowego, jest tylko mój kubek.\"",
+      "\"Prawo odkrywane w doświadczeniu, kawa parzona z pasją.\"",
+      "\"Autonomia prywatnego ogniska domowego.\"",
+      "\"Żadnych apriorycznych inżynierii społecznych przed kawą!\"",
+      "\"Zasada aequitas miarkuje rygor poranka.\"",
+      "\"Prymat słuszności nad legalizmem.\"",
+      "\"Koneczny pisał w Wilnie, ja piję w biurze.\"",
+      "\"Personalizm to nie egoizm — podziel się kawą!\""
+    ];
+
+    const tshirtSlogans = [
+      "\"Wytwór cywilizacji łacińskiej\"",
+      "\"Prawo nie stwarza etyki. Etyka stwarza prawo.\"",
+      "\"Dualizm Prawny — Ochrona Przed Państwem\"",
+      "\"Zero Statolatrii. Zero Przymusu.\"",
+      "\"Jestem Osobą, Nie Elementem Masy\"",
+      "\"Personalizm > Zbawienie Zbiorowe\"",
+      "\"Cywilizacja Łacińska: Wolność & Odpowiedzialność\"",
+      "\"Nie Daj Się Wciągnąć w Acywilizacyjny Kołobłęd\"",
+      "\"Moje Sumienie Jest Autonomiczne\"",
+      "\"Salus Animarum Suprema Lex\"",
+      "\"Aposterioryzm — Uczmy Się z Historii\"",
+      "\"Sprawdzam Quincunx Bytu\"",
+      "\"Stoik Łaciński w Świecie Biurokracji\"",
+      "\"Stop Inżynierii Społecznej i Aprioryzmowi\"",
+      "\"Etyka Prywatna = Etyka Publiczna\"",
+      "\"Wolność Osoby, Autonomia Rodziny, Trwałość Własności\"",
+      "\"Ustrój Obozowy? Nie ze Mną!\"",
+      "\"Prawo Służy Człowiekowi, Nie Państwo Prawu\"",
+      "\"Duch Ponad Materią\"",
+      "\"Zwyczaj i Doświadczenie Przed Dekretem\"",
+      "\"Prymat Słuszności (Aequitas) Nad Legalizmem\"",
+      "\"Zrozumieć Konecznego = Zrozumieć Świat\"",
+      "\"Monogamia & Własność Prywatna\"",
+      "\"Nie Jestem Własnością Państwa Ani Władcy\"",
+      "\"Chyżość Historyczna — Czas To Dorobek Pokoleń\"",
+      "\"Bezinteresowna Kultura Czynu\"",
+      "\"Etyka Nie Zna Dwóch Sumień\"",
+      "\"Obrona Autonomii Ogniska Domowego\"",
+      "\"Sędzia Słuszny, Nie Biurokrata\"",
+      "\"Uświęcenie Pracy Wolnej\"",
+      "\"Stop Kazuistyce i Manipulacji\"",
+      "\"Rozpoznaję Wpływy Bizantyńskie na Odległość\"",
+      "\"Nie Tylko Walka o Byt — Liczą Się Cele Wyższe\"",
+      "\"Trójpodział Władzy w Sercu Łacińskim\"",
+      "\"Architekt Etycznego Ładu\"",
+      "\"Praca, Prawda, Piękno, Etyka, Zdrowie\"",
+      "\"Precz z Państwowym Monizmem\"",
+      "\"Moje Prawo Własności Jest Nienaruszalne\"",
+      "\"Sprawdzam Odsetek Etyki w Twojej Ustawie\"",
+      "\"Koneczny Miał Rację.\"",
+      "\"Osoba Ludzka Jest Celem, Nie Środkiem\"",
+      "\"Suwerenność Sumienia Przed Władzą\"",
+      "\"Brak Zgody na Cezaropapizm\"",
+      "\"Odpowiedzialność Osobista za Słowa i Czyny\"",
+      "\"Nie Jestem Cyfrą w Statystyce Państwowej\"",
+      "\"Łacińska Dwoistość Prawa\"",
+      "\"Tradycja Trwania i Rozwoju\"",
+      "\"Wolny Człowiek Wolnej Cywilizacji\"",
+      "\"Quincunx w Rozkwicie\"",
+      "\"Odpór Turańszczyźnie!\""
+    ];
+
+    const keychainSlogans = [
+      "Dualizm Prawny",
+      "Supremacja Ducha",
+      "Quincunx Bytu",
+      "Personalizm",
+      "Salus Animarum",
+      "Civitas Dei",
+      "Chyżość Historyczna",
+      "Stoik Łaciński",
+      "Bez Statolatrii",
+      "Prawo Prywatne",
+      "Autonomia Sumienia",
+      "Zero Poligamii",
+      "Łaciński Ład",
+      "Etyka i Prawda",
+      "Nie Dla Turańszczyzny",
+      "Własność Prywatna",
+      "Emancypacja Rodziny",
+      "Kultura Czynu",
+      "Prawo Aposterioryczne",
+      "Trójprawo",
+      "Prymat Etyki",
+      "Autonomia Rodziny",
+      "Wolność Osoby",
+      "Aequitas",
+      "Słuszność Prawa",
+      "Feliks Koneczny",
+      "Metoda Indukcyjna",
+      "Prawda Obiektywna",
+      "Bez Aprioryzmu",
+      "Łacińska Szkoła",
+      "Wolność Człowieka",
+      "Nienaruszalność",
+      "Pięciomian Bytu",
+      "Suwerenność Osoby",
+      "Stop Biurokracji",
+      "Słuszność Etyki",
+      "Etyczny Ład",
+      "Czyste Sumienie",
+      "Tradycja Łacińska",
+      "Civitas Romana"
     ];
 
     function shuffle(array) {
@@ -976,10 +1098,13 @@
     shuffle(statements);
     shuffle(questions);
     shuffle(mugSlogans);
+    shuffle(tshirtSlogans);
+    shuffle(keychainSlogans);
 
     let statIdx = 0;
     let questIdx = 0;
-    let mugIdx = 0;
+    let gadgetCycle = 0; // 0: Mug, 1: Tshirt, 2: Keychain
+    let mIdx = 0, tIdx = 0, kIdx = 0;
     let sequenceCounter = 0;
     let sequenceTarget = Math.floor(Math.random() * 2) + 2; // 2 or 3
 
@@ -987,7 +1112,8 @@
 
     window.konecznyLoadingInterval = setInterval(() => {
       const label = content.querySelector('#loader-label-text');
-      const mugLabel = content.querySelector('#loader-mug-text');
+      const gadgetHeader = content.querySelector('#loader-gadget-header');
+      const gadgetText = content.querySelector('#loader-gadget-text');
 
       if (label) {
         let text = "";
@@ -1004,9 +1130,24 @@
         label.textContent = text;
       }
 
-      if (mugLabel) {
-        mugLabel.textContent = mugSlogans[mugIdx % mugSlogans.length];
-        mugIdx++;
+      if (gadgetHeader && gadgetText) {
+        if (gadgetCycle === 0) {
+          gadgetHeader.textContent = "☕ HASŁO NA KUBEK";
+          gadgetHeader.style.color = "#34d399";
+          gadgetText.textContent = mugSlogans[mIdx % mugSlogans.length];
+          mIdx++;
+        } else if (gadgetCycle === 1) {
+          gadgetHeader.textContent = "👕 HASŁO NA KOSZULKĘ";
+          gadgetHeader.style.color = "#60a5fa";
+          gadgetText.textContent = tshirtSlogans[tIdx % tshirtSlogans.length];
+          tIdx++;
+        } else {
+          gadgetHeader.textContent = "🔑 BRELOCZEK (1-2 SŁOWA)";
+          gadgetHeader.style.color = "#f59e0b";
+          gadgetText.textContent = keychainSlogans[kIdx % keychainSlogans.length];
+          kIdx++;
+        }
+        gadgetCycle = (gadgetCycle + 1) % 3;
       }
     }, 2800);
 
