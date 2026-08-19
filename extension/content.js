@@ -2408,9 +2408,9 @@
     // Primary Civilization Assignment & Legal Structure strictly based on Feliks Koneczny's Methodology
     const rawTextUpper = ((document.title || '') + ' ' + (window.konecznyResults.text || '') + ' ' + (data.civilization_diagnosis || '')).toUpperCase();
 
-    const spiritScore = data.spirit_supremacy_score !== undefined ? data.spirit_supremacy_score : -1.0;
-    const sacralScore = data.sacrality_score !== undefined ? data.sacrality_score : -1.0;
-    const ethicScore = data.ethical_coherence_score !== undefined ? data.ethical_coherence_score : -1.0;
+    const calcSpiritScore = data.spirit_supremacy_score !== undefined ? data.spirit_supremacy_score : -1.0;
+    const calcSacralScore = data.sacrality_score !== undefined ? data.sacrality_score : -1.0;
+    const calcEthicScore = data.ethical_coherence_score !== undefined ? data.ethical_coherence_score : -1.0;
 
     let activeCivKey = 'latin';
     let activeLegalKey = 'dualism';
@@ -2442,7 +2442,7 @@
                          rawTextUpper.includes('TALMUD') ||
                          rawTextUpper.includes('BRAMIN') ||
                          rawTextUpper.includes('KASTY') ||
-                         (sacralScore >= 0.40);
+                         (calcSacralScore >= 0.40);
 
     const isChineseText = rawTextUpper.includes('CHIŃSK') || rawTextUpper.includes('CHINA') || rawTextUpper.includes('KONFUCI');
     const isTuranianText = rawTextUpper.includes('TURAŃSK') || rawTextUpper.includes('DESPOCJA') || rawTextUpper.includes('CZYNGIS');
@@ -2468,14 +2468,14 @@
       } else {
         activeCivKey = 'byzantine';
       }
-    } else if (spiritScore >= 0 && spiritScore < 0.45) {
+    } else if (calcSpiritScore >= 0 && calcSpiritScore < 0.45) {
       // Low Spirit Supremacy (< 45%) -> CANNOT BE ŁACIŃSKA!
-      if (ethicScore >= 0 && ethicScore <= 3.0) {
+      if (calcEthicScore >= 0 && calcEthicScore <= 3.0) {
         activeCivKey = 'byzantine';
       } else {
         activeCivKey = 'syncretic';
       }
-    } else if (spiritScore >= 0.45 || (ethicScore >= 4.0 && !isCommunistOrTotalitarian)) {
+    } else if (calcSpiritScore >= 0.45 || (calcEthicScore >= 4.0 && !isCommunistOrTotalitarian)) {
       activeCivKey = 'latin';
     } else {
       activeCivKey = 'latin';
@@ -2508,13 +2508,13 @@
     // --- STEP B: LEGAL STRUCTURE ASSIGNMENT (DUALIZM VS MONIZM) ---
     if (isSacralText) {
       activeLegalKey = 'monism_sacral';
-    } else if (isCommunistOrTotalitarian || isByzantineText || (spiritScore >= 0 && spiritScore < 0.40)) {
+    } else if (isCommunistOrTotalitarian || isByzantineText || (calcSpiritScore >= 0 && calcSpiritScore < 0.40)) {
       if (rawTextUpper.includes('WŁADCA-WŁAŚCICIEL') || isTuranianText) {
         activeLegalKey = 'monism_private';
       } else {
         activeLegalKey = 'monism_public';
       }
-    } else if (activeCivKey === 'latin' || (spiritScore >= 0.45 && sacralScore < 0.40)) {
+    } else if (activeCivKey === 'latin' || (calcSpiritScore >= 0.45 && calcSacralScore < 0.40)) {
       activeLegalKey = 'dualism';
     } else {
       activeLegalKey = 'monism_public';
