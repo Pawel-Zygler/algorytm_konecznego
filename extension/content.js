@@ -2405,78 +2405,106 @@
       ${formatVector(lieVectors.sacrality_penalty, '5. Test Fanatyzmu i Sakralności (Coercion Penalty)', 'Odrzucenie zmuszania siłą/mieczem do wiary oraz fałszywego traktowania państwa jako świętości.')}
     `;
 
-    // Primary Civilization Assignment Determination
-    let assignedCiv = data.primary_civilization || '';
-    let civBadgeColor = '#8b5cf6';
-    let civIcon = '🏛️';
+    // Primary Civilization Assignment Determination & Chip System
+    let activeCivKey = 'latin';
+    let assignedCivTitle = 'Cywilizacja Łacińska (Personalizm / Dualizm Prawny / Prymat Etyki)';
+    let activeCivColor = '#8b5cf6';
 
     const rawTextUpper = ((document.title || '') + ' ' + (window.konecznyResults.text || '') + ' ' + (data.civilization_diagnosis || '')).toUpperCase();
-    if (!assignedCiv) {
-      if (rawTextUpper.includes('TALIB') || rawTextUpper.includes('ISLAM') || rawTextUpper.includes('SZARIAT') || rawTextUpper.includes('EMIRAT')) {
-        assignedCiv = 'Cywilizacja Arabska (Monizm Sakralny / Szariat)';
-        civBadgeColor = '#059669';
-        civIcon = '🌙';
-      } else if (rawTextUpper.includes('IZRAEL') || rawTextUpper.includes('ŻYDOWSK') || rawTextUpper.includes('TORA') || rawTextUpper.includes('TALMUD')) {
-        assignedCiv = 'Cywilizacja Żydowska (Monizm Sakralno-Legalistyczny)';
-        civBadgeColor = '#0284c7';
-        civIcon = '✡️';
-      } else if (rawTextUpper.includes('BRAMIN') || rawTextUpper.includes('KASTY') || rawTextUpper.includes('HINDU') || rawTextUpper.includes('WEDY')) {
-        assignedCiv = 'Cywilizacja Bramińska (Sakralizm Kastowy)';
-        civBadgeColor = '#d97706';
-        civIcon = '🕉️';
-      } else if (rawTextUpper.includes('CHIŃSK') || rawTextUpper.includes('CHINA') || rawTextUpper.includes('KONFUCI')) {
-        assignedCiv = 'Cywilizacja Chińska (Autonomia Rodów / Areliogijność)';
-        civBadgeColor = '#dc2626';
-        civIcon = '☯️';
-      } else if (rawTextUpper.includes('TURAŃSK') || rawTextUpper.includes('OBOZOWY') || rawTextUpper.includes('DESPOCJA')) {
-        assignedCiv = 'Cywilizacja Turańska (Ustrój Obozowy / Państwo Własnością Władcy)';
-        civBadgeColor = '#7c2d12';
-        civIcon = '⚔️';
-      } else if (data.sacrality_score >= 0.5) {
-        assignedCiv = 'Cywilizacja Sakralna (Monizm Religijny)';
-        civBadgeColor = '#d97706';
-        civIcon = '📜';
-      } else if (data.ethical_coherence_score >= 6.0 || data.quincunx_coherence_score >= 0.65) {
-        assignedCiv = 'Cywilizacja Łacińska (Personalizm / Dualizm Prawny / Etyka)';
-        civBadgeColor = '#8b5cf6';
-        civIcon = '⚖️';
-      } else if (data.ethical_coherence_score >= 0 && data.ethical_coherence_score < 6.0) {
-        assignedCiv = 'MIESZANKA TRUJĄCA (Stan Acywilizacyjny / Kołobłęd Etyczny)';
-        civBadgeColor = '#dc2626';
-        civIcon = '⚠️';
-      } else {
-        assignedCiv = 'Cywilizacja Łacińska (Przewaga Norm Personalistycznych)';
-        civBadgeColor = '#8b5cf6';
-        civIcon = '🏛️';
-      }
+    if (rawTextUpper.includes('TALIB') || rawTextUpper.includes('ISLAM') || rawTextUpper.includes('SZARIAT') || rawTextUpper.includes('EMIRAT')) {
+      activeCivKey = 'arab';
+      assignedCivTitle = 'Cywilizacja Arabska (Monizm Sakralny / Szariat)';
+      activeCivColor = '#059669';
+    } else if (rawTextUpper.includes('IZRAEL') || rawTextUpper.includes('ŻYDOWSK') || rawTextUpper.includes('TORA') || rawTextUpper.includes('TALMUD')) {
+      activeCivKey = 'jewish';
+      assignedCivTitle = 'Cywilizacja Żydowska (Monizm Sakralno-Legalistyczny)';
+      activeCivColor = '#0284c7';
+    } else if (rawTextUpper.includes('BRAMIN') || rawTextUpper.includes('KASTY') || rawTextUpper.includes('HINDU') || rawTextUpper.includes('WEDY')) {
+      activeCivKey = 'brahmin';
+      assignedCivTitle = 'Cywilizacja Bramińska (Sakralizm Kastowy)';
+      activeCivColor = '#d97706';
+    } else if (rawTextUpper.includes('CHIŃSK') || rawTextUpper.includes('CHINA') || rawTextUpper.includes('KONFUCI')) {
+      activeCivKey = 'chinese';
+      assignedCivTitle = 'Cywilizacja Chińska (Autonomia Rodów / Areliogijność)';
+      activeCivColor = '#eab308';
+    } else if (rawTextUpper.includes('TURAŃSK') || rawTextUpper.includes('OBOZOWY') || rawTextUpper.includes('DESPOCJA')) {
+      activeCivKey = 'turanian';
+      assignedCivTitle = 'Cywilizacja Turańska (Ustrój Obozowy / Państwo Własnością Władcy)';
+      activeCivColor = '#dc2626';
+    } else if (rawTextUpper.includes('BIZANTYŃSK') || rawTextUpper.includes('STATOLATRIA') || rawTextUpper.includes('BIUROKRACJA')) {
+      activeCivKey = 'byzantine';
+      assignedCivTitle = 'Cywilizacja Bizantyńska (Statolatria / Monizm Prawa Publicznego)';
+      activeCivColor = '#ef4444';
+    } else if (data.sacrality_score >= 0.5) {
+      activeCivKey = 'arab';
+      assignedCivTitle = 'Cywilizacja Sakralna (Monizm Religijny)';
+      activeCivColor = '#d97706';
+    } else if (data.ethical_coherence_score >= 0 && data.ethical_coherence_score < 6.0) {
+      activeCivKey = 'syncretic';
+      assignedCivTitle = 'MIESZANKA TRUJĄCA (Stan Acywilizacyjny / Kołobłęd Etyczny)';
+      activeCivColor = '#f43f5e';
+    } else {
+      activeCivKey = 'latin';
+      assignedCivTitle = 'Cywilizacja Łacińska (Przewaga Norm Personalistycznych)';
+      activeCivColor = '#8b5cf6';
     }
 
-    // Determine Legal Structure Attribute (Dualizm Prawny vs Monizm Prawny Państwowy / Władcy / Sakralny)
+    const civOptions = [
+      { key: 'latin', label: 'Cywilizacja Łacińska', icon: '🏛️', color: '#8b5cf6' },
+      { key: 'byzantine', label: 'Bizantyńska', icon: '👑', color: '#ef4444' },
+      { key: 'turanian', label: 'Turańska', icon: '⚔️', color: '#dc2626' },
+      { key: 'arab', label: 'Arabska', icon: '🌙', color: '#059669' },
+      { key: 'jewish', label: 'Żydowska', icon: '✡️', color: '#0284c7' },
+      { key: 'brahmin', label: 'Bramińska', icon: '🕉️', color: '#d97706' },
+      { key: 'chinese', label: 'Chińska', icon: '☯️', color: '#eab308' },
+      { key: 'syncretic', label: 'Acywilizacyjna', icon: '⚠️', color: '#f43f5e' }
+    ];
+
+    // Determine Legal Structure Attribute & Active Chip
+    let activeLegalKey = 'dualism';
     let legalStructureTitle = 'Dualizm Prawny (Rozdzielność Prawa Publicznego i Autonomia Prywatnego)';
-    let legalStructureBadge = 'Dualizm Prawny';
-    let legalBadgeColor = '#34d399';
-    let legalIcon = '⚖️';
 
     if (rawTextUpper.includes('TALIB') || rawTextUpper.includes('ISLAM') || rawTextUpper.includes('SZARIAT') || rawTextUpper.includes('EMIRAT') || rawTextUpper.includes('TORA') || rawTextUpper.includes('TALMUD') || rawTextUpper.includes('BRAMIN') || data.sacrality_score >= 0.5) {
+      activeLegalKey = 'monism_sacral';
       legalStructureTitle = 'Monizm Sakralny (Absolutne Podporządkowanie Prawa Religii)';
-      legalStructureBadge = 'Monizm Sakralny';
-      legalBadgeColor = '#f59e0b';
-      legalIcon = '📜';
     } else if (rawTextUpper.includes('BIZANTYŃSK') || rawTextUpper.includes('STATOLATRIA') || rawTextUpper.includes('BIUROKRACJA') || (data.public_law_monism_score && data.public_law_monism_score >= 0.5)) {
+      activeLegalKey = 'monism_public';
       legalStructureTitle = 'Monizm Prawa Publicznego (Statolatria / Wszechwładza Państwa)';
-      legalStructureBadge = 'Monizm Państwowy';
-      legalBadgeColor = '#ef4444';
-      legalIcon = '🏛️';
     } else if (rawTextUpper.includes('TURAŃSK') || rawTextUpper.includes('OBOZOWY') || rawTextUpper.includes('DESPOCJA') || rawTextUpper.includes('CHIŃSK') || rawTextUpper.includes('WŁADCA-WŁAŚCICIEL')) {
+      activeLegalKey = 'monism_private';
       legalStructureTitle = 'Monizm Prawa Prywatnego (Państwo Własnością Władcy / Ustrój Obozowy)';
-      legalStructureBadge = 'Monizm Władcy';
-      legalBadgeColor = '#dc2626';
-      legalIcon = '👑';
-    } else if (data.legal_dualism_score >= 0.5 || data.spirit_supremacy_score >= 0.5 || data.sacrality_score < 0.5) {
+    } else {
+      activeLegalKey = 'dualism';
       legalStructureTitle = 'Dualizm Prawny (Rozdzielność Prawa Publicznego i Autonomia Prywatnego)';
-      legalStructureBadge = 'Dualizm Prawny';
-      legalBadgeColor = '#34d399';
-      legalIcon = '⚖️';
+    }
+
+    const legalOptions = [
+      { key: 'dualism', label: 'Dualizm Prawny', icon: '⚖️', color: '#10b981' },
+      { key: 'monism_public', label: 'Monizm Prawa Publicznego (Państwowy)', icon: '🏛️', color: '#ef4444' },
+      { key: 'monism_private', label: 'Monizm Prawa Prywatnego (Władcy)', icon: '👑', color: '#dc2626' },
+      { key: 'monism_sacral', label: 'Monizm Sakralny (Religijny)', icon: '📜', color: '#f59e0b' }
+    ];
+
+    function renderChips(options, activeKey) {
+      return options.map(opt => {
+        const isActive = opt.key === activeKey;
+        if (isActive) {
+          return `
+            <div style="background: ${opt.color}28; border: 1.5px solid ${opt.color}; color: #f8fafc; padding: 4px 11px; border-radius: 18px; font-size: 11.5px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 0 10px ${opt.color}44;">
+              <span>${opt.icon}</span>
+              <span>${opt.label}</span>
+              <span style="font-size: 9.5px; background: ${opt.color}; color: #0f172a; padding: 1px 4px; border-radius: 8px; font-weight: 800; margin-left: 2px;">✓</span>
+            </div>
+          `;
+        } else {
+          return `
+            <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.07); color: #64748b; padding: 4px 10px; border-radius: 18px; font-size: 11px; font-weight: 500; opacity: 0.45; display: inline-flex; align-items: center; gap: 4px;">
+              <span style="filter: grayscale(100%); opacity: 0.7;">${opt.icon}</span>
+              <span>${opt.label}</span>
+            </div>
+          `;
+        }
+      }).join('');
     }
 
     const sacralityScoreVal = data.sacrality_score >= 0 ? `${Math.round(data.sacrality_score * 100)}%` : 'N/A';
@@ -2487,35 +2515,25 @@
 
     const dashboardHtml = `
       <div class="koneczny-dashboard" style="margin: 12px 20px 16px 20px; padding: 14px 16px; background: linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%); border: 1px solid rgba(139, 92, 246, 0.35); border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.35); backdrop-filter: blur(8px);">
-        <!-- Rząd 1: Klasyfikacja Bytu -->
-        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dashed rgba(255,255,255,0.12);">
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <span style="font-size: 24px;">${civIcon}</span>
-            <div>
-              <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8;">DASHBOARD PODSUMOWUJĄCY • PRZYPISANIE BYTU</div>
-              <div style="font-size: 16px; font-weight: 800; color: #f8fafc; margin-top: 1px;">
-                ${assignedCiv}
-              </div>
-            </div>
+        <!-- Rząd 1: Klasyfikacja Bytu i Chipy Cywilizacyjne -->
+        <div style="margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px dashed rgba(255,255,255,0.12);">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px;">
+            <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8;">DASHBOARD PODSUMOWUJĄCY • ROZPOZNANA CYWILIZACJA</div>
+            <div style="font-size: 12px; font-weight: 700; color: ${activeCivColor};">${assignedCivTitle}</div>
           </div>
-          <div style="background: ${civBadgeColor}22; border: 1px solid ${civBadgeColor}66; color: ${civBadgeColor}; padding: 4px 10px; border-radius: 16px; font-size: 11px; font-weight: 700; white-space: nowrap;">
-            Klasyfikacja Bytu
+          <div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">
+            ${renderChips(civOptions, activeCivKey)}
           </div>
         </div>
 
-        <!-- Rząd 2 (Pod linijką): Struktura Prawna (Dualizm / Monizm) -->
-        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px dashed rgba(255,255,255,0.12);">
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <span style="font-size: 22px;">${legalIcon}</span>
-            <div>
-              <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8;">STRUKTURA PRAWNA • STATUS DUALIZMU / MONIZMU</div>
-              <div style="font-size: 15.5px; font-weight: 800; color: #f8fafc; margin-top: 1px;">
-                ${legalStructureTitle}
-              </div>
-            </div>
+        <!-- Rząd 2: Struktura Prawna i Chipy Dualizmu/Monizmu -->
+        <div style="margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px dashed rgba(255,255,255,0.12);">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px;">
+            <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8;">STRUKTURA PRAWNA • STATUS DUALIZMU / MONIZMU</div>
+            <div style="font-size: 12px; font-weight: 700; color: ${activeLegalKey === 'dualism' ? '#34d399' : '#f8fafc'};">${legalStructureTitle}</div>
           </div>
-          <div style="background: ${legalBadgeColor}22; border: 1px solid ${legalBadgeColor}66; color: ${legalBadgeColor}; padding: 4px 10px; border-radius: 16px; font-size: 11px; font-weight: 700; white-space: nowrap;">
-            ${legalStructureBadge}
+          <div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">
+            ${renderChips(legalOptions, activeLegalKey)}
           </div>
         </div>
 
