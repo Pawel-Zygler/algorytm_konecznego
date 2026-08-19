@@ -2570,11 +2570,50 @@
       activeLegalKey = 'monism_public';
     }
 
-    const legalOptions = [
-      { key: 'dualism', label: 'Dualizm Prawny', icon: '⚖️', color: '#10b981' },
-      { key: 'monism_public', label: 'Monizm Prawa Publicznego (Państwowy)', icon: '🏛️', color: '#ef4444' },
-      { key: 'monism_private', label: 'Monizm Prawa Prywatnego (Władcy)', icon: '👑', color: '#dc2626' },
-      { key: 'monism_sacral', label: 'Monizm Sakralny (Religijny)', icon: '📜', color: '#f59e0b' }
+    // --- STEP C: RELIGION CATEGORY (ROW 3) ---
+    let activeRelKey = 'rel_universal';
+
+    if (rawTextUpper.includes('TALIB') || rawTextUpper.includes('ISLAM') || rawTextUpper.includes('SZARIAT') || rawTextUpper.includes('EMIRAT') || rawTextUpper.includes('KORAN')) {
+      activeRelKey = 'rel_state';
+    } else if (rawTextUpper.includes('IZRAEL') || rawTextUpper.includes('ŻYDOWSK') || rawTextUpper.includes('TORA') || rawTextUpper.includes('TALMUD')) {
+      activeRelKey = 'rel_tribal';
+    } else if (rawTextUpper.includes('BRAMIN') || rawTextUpper.includes('KASTY') || rawTextUpper.includes('HINDU') || rawTextUpper.includes('WEDY')) {
+      activeRelKey = 'rel_caste';
+    } else if (isChineseText || rawTextUpper.includes('ARELIGIJN') || rawTextUpper.includes('LAÏCITÉ') || rawTextUpper.includes('ŚWIECK') || isCommunistOrTotalitarian) {
+      activeRelKey = 'rel_areligious';
+    } else {
+      activeRelKey = 'rel_universal';
+    }
+
+    const relOptions = [
+      { key: 'rel_universal', label: 'Uniwersalna (Etyczna)', icon: '🕊️', color: '#8b5cf6' },
+      { key: 'rel_tribal', label: 'Plemienna / Narodowa', icon: '📜', color: '#0284c7' },
+      { key: 'rel_state', label: 'Państwowa / Sakralna', icon: '🌙', color: '#059669' },
+      { key: 'rel_caste', label: 'Kastowa / Monolatria', icon: '🕉️', color: '#d97706' },
+      { key: 'rel_areligious', label: 'Areligijność / Świeckość', icon: '☯️', color: '#eab308' }
+    ];
+
+    // --- STEP D: SOCIETY GOALS CATEGORY (ROW 4) ---
+    let activeGoalKey = 'goal_beyond_exist';
+
+    if (isCommunistOrTotalitarian || isTuranianText) {
+      activeGoalKey = 'goal_exist_struggle';
+    } else if (isByzantineText) {
+      activeGoalKey = 'goal_state_machine';
+    } else if (isSacralText) {
+      activeGoalKey = 'goal_religious_formalism';
+    } else if (isChineseText) {
+      activeGoalKey = 'goal_clan_tradition';
+    } else {
+      activeGoalKey = 'goal_beyond_exist';
+    }
+
+    const goalOptions = [
+      { key: 'goal_beyond_exist', label: 'Spoza Walki o Byt (Naród & Osoba)', icon: '🌸', color: '#8b5cf6' },
+      { key: 'goal_exist_struggle', label: 'Walka o Byt (Ustrój Obozowy)', icon: '⚔️', color: '#dc2626' },
+      { key: 'goal_state_machine', label: 'Machina Państwowa (Biurokracja)', icon: '🏛️', color: '#ef4444' },
+      { key: 'goal_religious_formalism', label: 'Formalizm Religijny / Rytuał', icon: '📜', color: '#f59e0b' },
+      { key: 'goal_clan_tradition', label: 'Kultywowanie Rodu', icon: '☯️', color: '#eab308' }
     ];
 
     function renderChips(options, activeKey) {
@@ -2608,18 +2647,34 @@
     const dashboardHtml = `
       <div class="koneczny-dashboard" style="margin: 12px 20px 16px 20px; padding: 14px 16px; background: linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%); border: 1px solid rgba(139, 92, 246, 0.35); border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.35); backdrop-filter: blur(8px);">
         <!-- Rząd 1: Cywilizacja -->
-        <div style="margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px dashed rgba(255,255,255,0.12);">
-          <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; margin-bottom: 6px;">Cywilizacja</div>
+        <div style="margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px dashed rgba(255,255,255,0.1);">
+          <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; margin-bottom: 5px;">Cywilizacja</div>
           <div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">
             ${renderChips(civOptions, activeCivKey)}
           </div>
         </div>
 
         <!-- Rząd 2: Prawo -->
-        <div style="margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px dashed rgba(255,255,255,0.12);">
-          <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; margin-bottom: 6px;">Prawo</div>
+        <div style="margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px dashed rgba(255,255,255,0.1);">
+          <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; margin-bottom: 5px;">Prawo</div>
           <div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">
             ${renderChips(legalOptions, activeLegalKey)}
+          </div>
+        </div>
+
+        <!-- Rząd 3: Religia -->
+        <div style="margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px dashed rgba(255,255,255,0.1);">
+          <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; margin-bottom: 5px;">Religia</div>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">
+            ${renderChips(relOptions, activeRelKey)}
+          </div>
+        </div>
+
+        <!-- Rząd 4: Cele społeczeństwa -->
+        <div style="margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px dashed rgba(255,255,255,0.1);">
+          <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; margin-bottom: 5px;">Cele społeczeństwa</div>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">
+            ${renderChips(goalOptions, activeGoalKey)}
           </div>
         </div>
 
