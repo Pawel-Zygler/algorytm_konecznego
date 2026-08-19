@@ -2515,23 +2515,17 @@
 
     const dashboardHtml = `
       <div class="koneczny-dashboard" style="margin: 12px 20px 16px 20px; padding: 14px 16px; background: linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%); border: 1px solid rgba(139, 92, 246, 0.35); border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.35); backdrop-filter: blur(8px);">
-        <!-- Rząd 1: Klasyfikacja Bytu i Chipy Cywilizacyjne -->
+        <!-- Rząd 1: Cywilizacja -->
         <div style="margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px dashed rgba(255,255,255,0.12);">
-          <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px;">
-            <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8;">DASHBOARD PODSUMOWUJĄCY • ROZPOZNANA CYWILIZACJA</div>
-            <div style="font-size: 12px; font-weight: 700; color: ${activeCivColor};">${assignedCivTitle}</div>
-          </div>
+          <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; margin-bottom: 6px;">Cywilizacja</div>
           <div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">
             ${renderChips(civOptions, activeCivKey)}
           </div>
         </div>
 
-        <!-- Rząd 2: Struktura Prawna i Chipy Dualizmu/Monizmu -->
+        <!-- Rząd 2: Prawo -->
         <div style="margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px dashed rgba(255,255,255,0.12);">
-          <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px;">
-            <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8;">STRUKTURA PRAWNA • STATUS DUALIZMU / MONIZMU</div>
-            <div style="font-size: 12px; font-weight: 700; color: ${activeLegalKey === 'dualism' ? '#34d399' : '#f8fafc'};">${legalStructureTitle}</div>
-          </div>
+          <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; margin-bottom: 6px;">Prawo</div>
           <div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">
             ${renderChips(legalOptions, activeLegalKey)}
           </div>
