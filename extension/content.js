@@ -2570,6 +2570,13 @@
       activeLegalKey = 'monism_public';
     }
 
+    const legalOptions = [
+      { key: 'dualism', label: 'Dualizm Prawny', icon: '⚖️', color: '#10b981' },
+      { key: 'monism_public', label: 'Monizm Prawa Publicznego (Państwowy)', icon: '🏛️', color: '#ef4444' },
+      { key: 'monism_private', label: 'Monizm Prawa Prywatnego (Władcy)', icon: '👑', color: '#dc2626' },
+      { key: 'monism_sacral', label: 'Monizm Sakralny (Religijny)', icon: '📜', color: '#f59e0b' }
+    ];
+
     // --- STEP C: RELIGION CATEGORY (ROW 3) ---
     let activeRelKey = 'rel_universal';
 
