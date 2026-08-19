@@ -333,3 +333,36 @@ def test_scenario_5_france_2026_laicite_negative_sacrality(monkeypatch):
 
     # Negative Test Assertion: Sacrality score for secular France 2026 must be LOW (<= 0.20)
     assert data["sacrality_score"] <= 0.20, f"Expected low sacrality score for secular France (< 0.20), got {data['sacrality_score']}"
+
+
+PRL_WIKIPEDIA_TEXT = """
+Polska Rzeczpospolita Ludowa (PRL) – historyczne państwo polskie istniejące w latach 1944–1989.
+Polska w tym okresie była państwem niesamodzielnym oraz satelickim podłączonym pod polityczną dominację ZSRR.
+Rządy sprawowała komunistyczna Polska Partia Robotnicza, a następnie Polska Zjednoczona Partia Robotnicza jako partia hegemoniczna.
+Władza opierała się na stalinowskim totalitaryzmie, dyktaturze wojskowej oraz aparacie bezpieczeństwa publicznego (UB, SB, NKWD).
+"""
+
+def test_prl_scenario(monkeypatch):
+    """Test Scenario 6: PRL (Communist Satellite Regime) must NOT be classified as Latin Civilization."""
+    env_key = os.getenv("GEMINI_API_KEY")
+    run_live = bool(env_key and len(env_key) > 5 and not env_key.startswith("test"))
+
+    if not run_live:
+        monkeypatch.setattr(analyzer, "call_gemini_api", _mock_llm_generic)
+
+    payload = {
+        "text": PRL_WIKIPEDIA_TEXT.strip(),
+        "title": "Polska Rzeczpospolita Ludowa - PRL (1952–1989)",
+        "url": "https://pl.wikipedia.org/wiki/Polska_Rzeczpospolita_Ludowa",
+        "api_key": env_key if run_live else "test_key_ci",
+        "target_indices": ["sacrality", "spirit", "generalia"]
+    }
+
+    response = client.post("/api/analyze", json=payload)
+    assert response.status_code == 200
+    data = response.json()
+
+    # Verify that PRL is NOT classified as Łacińska
+    primary_civ = data.get("primary_civilization", "")
+    assert "Łacińska" not in primary_civ, f"PRL must NOT be classified as Łacińska, got {primary_civ}"
+

@@ -2405,48 +2405,93 @@
       ${formatVector(lieVectors.sacrality_penalty, '5. Test Fanatyzmu i Sakralności (Coercion Penalty)', 'Odrzucenie zmuszania siłą/mieczem do wiary oraz fałszywego traktowania państwa jako świętości.')}
     `;
 
-    // Primary Civilization Assignment Determination & Chip System
-    let activeCivKey = 'latin';
-    let assignedCivTitle = 'Cywilizacja Łacińska (Personalizm / Dualizm Prawny / Prymat Etyki)';
-    let activeCivColor = '#8b5cf6';
-
+    // Primary Civilization Assignment & Legal Structure strictly based on Feliks Koneczny's Methodology
     const rawTextUpper = ((document.title || '') + ' ' + (window.konecznyResults.text || '') + ' ' + (data.civilization_diagnosis || '')).toUpperCase();
-    if (rawTextUpper.includes('TALIB') || rawTextUpper.includes('ISLAM') || rawTextUpper.includes('SZARIAT') || rawTextUpper.includes('EMIRAT')) {
-      activeCivKey = 'arab';
-      assignedCivTitle = 'Cywilizacja Arabska (Monizm Sakralny / Szariat)';
-      activeCivColor = '#059669';
-    } else if (rawTextUpper.includes('IZRAEL') || rawTextUpper.includes('ŻYDOWSK') || rawTextUpper.includes('TORA') || rawTextUpper.includes('TALMUD')) {
-      activeCivKey = 'jewish';
-      assignedCivTitle = 'Cywilizacja Żydowska (Monizm Sakralno-Legalistyczny)';
-      activeCivColor = '#0284c7';
-    } else if (rawTextUpper.includes('BRAMIN') || rawTextUpper.includes('KASTY') || rawTextUpper.includes('HINDU') || rawTextUpper.includes('WEDY')) {
-      activeCivKey = 'brahmin';
-      assignedCivTitle = 'Cywilizacja Bramińska (Sakralizm Kastowy)';
-      activeCivColor = '#d97706';
-    } else if (rawTextUpper.includes('CHIŃSK') || rawTextUpper.includes('CHINA') || rawTextUpper.includes('KONFUCI')) {
+
+    const spiritScore = data.spirit_supremacy_score !== undefined ? data.spirit_supremacy_score : -1.0;
+    const sacralScore = data.sacrality_score !== undefined ? data.sacrality_score : -1.0;
+    const ethicScore = data.ethical_coherence_score !== undefined ? data.ethical_coherence_score : -1.0;
+
+    let activeCivKey = 'latin';
+    let activeLegalKey = 'dualism';
+
+    // Communist, Soviet, Satellite, Totalitarian, Camp or Hegemonic Party indicators
+    const isCommunistOrTotalitarian = rawTextUpper.includes('PRL') || 
+                                     rawTextUpper.includes('POLSKA RZECZPOSPOLITA LUDOWA') ||
+                                     rawTextUpper.includes('ZSRR') ||
+                                     rawTextUpper.includes('RADZIECK') ||
+                                     rawTextUpper.includes('KOMUNIS') ||
+                                     rawTextUpper.includes('STALIN') ||
+                                     rawTextUpper.includes('MARKSI') ||
+                                     rawTextUpper.includes('SATELICK') ||
+                                     rawTextUpper.includes('PZPR') ||
+                                     rawTextUpper.includes('TOTALITAR') ||
+                                     rawTextUpper.includes('OBOZOW') ||
+                                     rawTextUpper.includes('NKWD') ||
+                                     rawTextUpper.includes('BEZPIEKA') ||
+                                     rawTextUpper.includes('STAN WOJENNY');
+
+    const isSacralText = rawTextUpper.includes('TALIB') || 
+                         rawTextUpper.includes('ISLAM') || 
+                         rawTextUpper.includes('SZARIAT') || 
+                         rawTextUpper.includes('EMIRAT') ||
+                         rawTextUpper.includes('KORAN') ||
+                         rawTextUpper.includes('IZRAEL') ||
+                         rawTextUpper.includes('ŻYDOWSK') ||
+                         rawTextUpper.includes('TORA') ||
+                         rawTextUpper.includes('TALMUD') ||
+                         rawTextUpper.includes('BRAMIN') ||
+                         rawTextUpper.includes('KASTY') ||
+                         (sacralScore >= 0.40);
+
+    const isChineseText = rawTextUpper.includes('CHIŃSK') || rawTextUpper.includes('CHINA') || rawTextUpper.includes('KONFUCI');
+    const isTuranianText = rawTextUpper.includes('TURAŃSK') || rawTextUpper.includes('DESPOCJA') || rawTextUpper.includes('CZYNGIS');
+    const isByzantineText = rawTextUpper.includes('BIZANTYŃSK') || rawTextUpper.includes('STATOLATRIA') || rawTextUpper.includes('BIUROKRACJA');
+
+    // --- STEP A: CIVILIZATION ASSIGNMENT ---
+    if (isSacralText) {
+      if (rawTextUpper.includes('IZRAEL') || rawTextUpper.includes('ŻYDOWSK') || rawTextUpper.includes('TORA') || rawTextUpper.includes('TALMUD')) {
+        activeCivKey = 'jewish';
+      } else if (rawTextUpper.includes('BRAMIN') || rawTextUpper.includes('KASTY')) {
+        activeCivKey = 'brahmin';
+      } else {
+        activeCivKey = 'arab';
+      }
+    } else if (isChineseText) {
       activeCivKey = 'chinese';
-      assignedCivTitle = 'Cywilizacja Chińska (Autonomia Rodów / Areliogijność)';
-      activeCivColor = '#eab308';
-    } else if (rawTextUpper.includes('TURAŃSK') || rawTextUpper.includes('OBOZOWY') || rawTextUpper.includes('DESPOCJA')) {
+    } else if (isTuranianText) {
       activeCivKey = 'turanian';
-      assignedCivTitle = 'Cywilizacja Turańska (Ustrój Obozowy / Państwo Własnością Władcy)';
-      activeCivColor = '#dc2626';
-    } else if (rawTextUpper.includes('BIZANTYŃSK') || rawTextUpper.includes('STATOLATRIA') || rawTextUpper.includes('BIUROKRACJA')) {
-      activeCivKey = 'byzantine';
-      assignedCivTitle = 'Cywilizacja Bizantyńska (Statolatria / Monizm Prawa Publicznego)';
-      activeCivColor = '#ef4444';
-    } else if (data.sacrality_score >= 0.5) {
-      activeCivKey = 'arab';
-      assignedCivTitle = 'Cywilizacja Sakralna (Monizm Religijny)';
-      activeCivColor = '#d97706';
-    } else if (data.ethical_coherence_score >= 0 && data.ethical_coherence_score < 6.0) {
-      activeCivKey = 'syncretic';
-      assignedCivTitle = 'MIESZANKA TRUJĄCA (Stan Acywilizacyjny / Kołobłęd Etyczny)';
-      activeCivColor = '#f43f5e';
+    } else if (isCommunistOrTotalitarian || isByzantineText) {
+      // PRL, ZSRR, Komunizm, Statolatria -> Bizantyńska lub Turańska / Acywilizacyjna
+      if (isTuranianText || rawTextUpper.includes('OBOZOW')) {
+        activeCivKey = 'turanian';
+      } else {
+        activeCivKey = 'byzantine';
+      }
+    } else if (spiritScore >= 0 && spiritScore < 0.45) {
+      // Low Spirit Supremacy (< 45%) -> CANNOT BE ŁACIŃSKA!
+      if (ethicScore >= 0 && ethicScore <= 3.0) {
+        activeCivKey = 'byzantine';
+      } else {
+        activeCivKey = 'syncretic';
+      }
+    } else if (spiritScore >= 0.45 || (ethicScore >= 4.0 && !isCommunistOrTotalitarian)) {
+      activeCivKey = 'latin';
     } else {
       activeCivKey = 'latin';
-      assignedCivTitle = 'Cywilizacja Łacińska (Przewaga Norm Personalistycznych)';
-      activeCivColor = '#8b5cf6';
+    }
+
+    // Override if backend returned explicit primary_civilization
+    if (data.primary_civilization) {
+      const pCiv = data.primary_civilization.toLowerCase();
+      if (pCiv.includes('łaciń')) activeCivKey = 'latin';
+      else if (pCiv.includes('bizant')) activeCivKey = 'byzantine';
+      else if (pCiv.includes('turań')) activeCivKey = 'turanian';
+      else if (pCiv.includes('arab') || pCiv.includes('sakral')) activeCivKey = 'arab';
+      else if (pCiv.includes('żydow')) activeCivKey = 'jewish';
+      else if (pCiv.includes('bramin')) activeCivKey = 'brahmin';
+      else if (pCiv.includes('chiń')) activeCivKey = 'chinese';
+      else if (pCiv.includes('mieszanka') || pCiv.includes('acywil')) activeCivKey = 'syncretic';
     }
 
     const civOptions = [
@@ -2460,22 +2505,19 @@
       { key: 'syncretic', label: 'Acywilizacyjna', icon: '⚠️', color: '#f43f5e' }
     ];
 
-    // Determine Legal Structure Attribute & Active Chip
-    let activeLegalKey = 'dualism';
-    let legalStructureTitle = 'Dualizm Prawny (Rozdzielność Prawa Publicznego i Autonomia Prywatnego)';
-
-    if (rawTextUpper.includes('TALIB') || rawTextUpper.includes('ISLAM') || rawTextUpper.includes('SZARIAT') || rawTextUpper.includes('EMIRAT') || rawTextUpper.includes('TORA') || rawTextUpper.includes('TALMUD') || rawTextUpper.includes('BRAMIN') || data.sacrality_score >= 0.5) {
+    // --- STEP B: LEGAL STRUCTURE ASSIGNMENT (DUALIZM VS MONIZM) ---
+    if (isSacralText) {
       activeLegalKey = 'monism_sacral';
-      legalStructureTitle = 'Monizm Sakralny (Absolutne Podporządkowanie Prawa Religii)';
-    } else if (rawTextUpper.includes('BIZANTYŃSK') || rawTextUpper.includes('STATOLATRIA') || rawTextUpper.includes('BIUROKRACJA') || (data.public_law_monism_score && data.public_law_monism_score >= 0.5)) {
-      activeLegalKey = 'monism_public';
-      legalStructureTitle = 'Monizm Prawa Publicznego (Statolatria / Wszechwładza Państwa)';
-    } else if (rawTextUpper.includes('TURAŃSK') || rawTextUpper.includes('OBOZOWY') || rawTextUpper.includes('DESPOCJA') || rawTextUpper.includes('CHIŃSK') || rawTextUpper.includes('WŁADCA-WŁAŚCICIEL')) {
-      activeLegalKey = 'monism_private';
-      legalStructureTitle = 'Monizm Prawa Prywatnego (Państwo Własnością Władcy / Ustrój Obozowy)';
-    } else {
+    } else if (isCommunistOrTotalitarian || isByzantineText || (spiritScore >= 0 && spiritScore < 0.40)) {
+      if (rawTextUpper.includes('WŁADCA-WŁAŚCICIEL') || isTuranianText) {
+        activeLegalKey = 'monism_private';
+      } else {
+        activeLegalKey = 'monism_public';
+      }
+    } else if (activeCivKey === 'latin' || (spiritScore >= 0.45 && sacralScore < 0.40)) {
       activeLegalKey = 'dualism';
-      legalStructureTitle = 'Dualizm Prawny (Rozdzielność Prawa Publicznego i Autonomia Prywatnego)';
+    } else {
+      activeLegalKey = 'monism_public';
     }
 
     const legalOptions = [

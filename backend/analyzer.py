@@ -616,6 +616,28 @@ def calculate_koneczny_metrics(llm_data: Dict[str, Any]) -> Dict[str, Any]:
         result["civilizational_lie_diagnosis"] = "Brak danych dla Wskaźnika Kłamstwa"
         result["civilizational_lie_vectors"] = {}
 
+    # Determine Primary Civilization according to Koneczny's Methodology
+    spirit_val = result.get("spirit_supremacy_score", -1.0)
+    sacral_val = result.get("sacrality_score", -1.0)
+    ethic_val = result.get("ethical_coherence_score", -1.0)
+
+    if sacral_val >= 0.5:
+        result["primary_civilization"] = "Arabska / Sakralna"
+        result["civilization_diagnosis"] = "Monizm Prawno-Religijny (Sakralizm)"
+    elif spirit_val >= 0.50 and (ethic_val < 0 or ethic_val >= 4.0):
+        result["primary_civilization"] = "Łacińska"
+        result["civilization_diagnosis"] = "Dominacja norm personalistycznych i dualizm prawny"
+    elif spirit_val >= 0 and spirit_val < 0.50:
+        if ethic_val >= 0 and ethic_val <= 3.0:
+            result["primary_civilization"] = "Bizantyńska / Turańska"
+            result["civilization_diagnosis"] = "Dominacja prawa publicznego/ustroju obozowego, monizm państwowy"
+        else:
+            result["primary_civilization"] = "Mieszanka Acywilizacyjna"
+            result["civilization_diagnosis"] = "Stan synkretyczny (Niska supremacja ducha)"
+    else:
+        result["primary_civilization"] = "Mieszanka Acywilizacyjna"
+        result["civilization_diagnosis"] = "Brak pełnej spójności cywilizacyjnej wedle metodyki Konecznego"
+
     result["raw_ratings"] = llm_data
     return result
 
