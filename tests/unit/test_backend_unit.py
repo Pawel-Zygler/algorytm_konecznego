@@ -213,7 +213,7 @@ def test_analyze_sample_lite_mock(monkeypatch):
     assert res["mode"] == "lite"
     assert res["sacrality_score"] == 0.1
     assert res["spirit_supremacy_score"] == 0.95
-    assert captured_indices == ["sacrality", "spirit", "generalia", "quincunx"]
+    assert captured_indices == ["sacrality", "dualism", "aposteriori", "family", "church", "generalia", "quincunx"]
 
 def test_fastapi_lite_endpoint_mock(monkeypatch):
     """Test 15: Verify /api/analyze/lite endpoint returns 200 OK and Lite schema."""

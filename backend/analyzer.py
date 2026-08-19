@@ -760,13 +760,13 @@ schema_9 = {
 
 def analyze_sample_lite(text: str, api_key: str = None) -> Dict[str, Any]:
     """
-    Szybka i niskotokenowa analiza cywilizacyjna w oparciu o 4 istniejące kluczowe indeksy Konecznego:
+    Szybka i niskotokenowa analiza cywilizacyjna w oparciu o wybrane kluczowe indeksy Konecznego:
     - Sakralność (sacrality)
-    - Supremacja Ducha (spirit)
+    - Supremacja Ducha w wersji Lite (dualism, aposteriori, family, church)
     - Szereg Personalistyczny / 7 Generaliów Etyki (generalia)
     - Współmierność Pięciomianu Bytu (quincunx)
     """
-    lite_indices = ["sacrality", "spirit", "generalia", "quincunx"]
+    lite_indices = ["sacrality", "dualism", "aposteriori", "family", "church", "generalia", "quincunx"]
     result = analyze_sample(text, api_key=api_key, target_indices=lite_indices)
     result["mode"] = "lite"
     return result
