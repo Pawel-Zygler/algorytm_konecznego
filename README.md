@@ -2,6 +2,8 @@
 
 Dzieła i teoria Konecznego zamienione w cyfrowe narzędzie, praktyczny pomost od monografij do metody indukcyjnej umożliwiający badanie quincunxa, trójprawa oraz ścierania się cywilizacyj i etyk w tekstach.
 
+![Przykładowa analiza wtyczki - Nakładka z wynikiem](extension/1.4.6.png)
+
 ![Screenshot z działania wtyczki](extension/screenshot.png)
 ![Screenshot z analizy artykułu Wikipedia](extension/screenshot2.png)
 
