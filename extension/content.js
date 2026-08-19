@@ -2451,6 +2451,34 @@
       }
     }
 
+    // Determine Legal Structure Attribute (Dualizm Prawny vs Monizm Prawny Państwowy / Władcy / Sakralny)
+    let legalStructureTitle = 'Dualizm Prawny (Rozdzielność Prawa Publicznego i Autonomia Prywatnego)';
+    let legalStructureBadge = 'Dualizm Prawny';
+    let legalBadgeColor = '#34d399';
+    let legalIcon = '⚖️';
+
+    if (rawTextUpper.includes('TALIB') || rawTextUpper.includes('ISLAM') || rawTextUpper.includes('SZARIAT') || rawTextUpper.includes('EMIRAT') || rawTextUpper.includes('TORA') || rawTextUpper.includes('TALMUD') || rawTextUpper.includes('BRAMIN') || data.sacrality_score >= 0.5) {
+      legalStructureTitle = 'Monizm Sakralny (Absolutne Podporządkowanie Prawa Religii)';
+      legalStructureBadge = 'Monizm Sakralny';
+      legalBadgeColor = '#f59e0b';
+      legalIcon = '📜';
+    } else if (rawTextUpper.includes('BIZANTYŃSK') || rawTextUpper.includes('STATOLATRIA') || rawTextUpper.includes('BIUROKRACJA') || (data.public_law_monism_score && data.public_law_monism_score >= 0.5)) {
+      legalStructureTitle = 'Monizm Prawa Publicznego (Statolatria / Wszechwładza Państwa)';
+      legalStructureBadge = 'Monizm Państwowy';
+      legalBadgeColor = '#ef4444';
+      legalIcon = '🏛️';
+    } else if (rawTextUpper.includes('TURAŃSK') || rawTextUpper.includes('OBOZOWY') || rawTextUpper.includes('DESPOCJA') || rawTextUpper.includes('CHIŃSK') || rawTextUpper.includes('WŁADCA-WŁAŚCICIEL')) {
+      legalStructureTitle = 'Monizm Prawa Prywatnego (Państwo Własnością Władcy / Ustrój Obozowy)';
+      legalStructureBadge = 'Monizm Władcy';
+      legalBadgeColor = '#dc2626';
+      legalIcon = '👑';
+    } else if (data.legal_dualism_score >= 0.5 || data.spirit_supremacy_score >= 0.5 || data.sacrality_score < 0.5) {
+      legalStructureTitle = 'Dualizm Prawny (Rozdzielność Prawa Publicznego i Autonomia Prywatnego)';
+      legalStructureBadge = 'Dualizm Prawny';
+      legalBadgeColor = '#34d399';
+      legalIcon = '⚖️';
+    }
+
     const sacralityScoreVal = data.sacrality_score >= 0 ? `${Math.round(data.sacrality_score * 100)}%` : 'N/A';
     const spiritScoreVal = data.spirit_supremacy_score >= 0 ? `${Math.round(data.spirit_supremacy_score * 100)}%` : 'N/A';
     const generaliaScoreVal = data.ethical_coherence_score >= 0 ? `${data.ethical_coherence_score.toFixed(1)} / 7.0` : 'N/A';
@@ -2459,7 +2487,8 @@
 
     const dashboardHtml = `
       <div class="koneczny-dashboard" style="margin: 12px 20px 16px 20px; padding: 14px 16px; background: linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%); border: 1px solid rgba(139, 92, 246, 0.35); border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.35); backdrop-filter: blur(8px);">
-        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px dashed rgba(255,255,255,0.12);">
+        <!-- Rząd 1: Klasyfikacja Bytu -->
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dashed rgba(255,255,255,0.12);">
           <div style="display: flex; align-items: center; gap: 10px;">
             <span style="font-size: 24px;">${civIcon}</span>
             <div>
@@ -2471,6 +2500,22 @@
           </div>
           <div style="background: ${civBadgeColor}22; border: 1px solid ${civBadgeColor}66; color: ${civBadgeColor}; padding: 4px 10px; border-radius: 16px; font-size: 11px; font-weight: 700; white-space: nowrap;">
             Klasyfikacja Bytu
+          </div>
+        </div>
+
+        <!-- Rząd 2 (Pod linijką): Struktura Prawna (Dualizm / Monizm) -->
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px dashed rgba(255,255,255,0.12);">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 22px;">${legalIcon}</span>
+            <div>
+              <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8;">STRUKTURA PRAWNA • STATUS DUALIZMU / MONIZMU</div>
+              <div style="font-size: 15.5px; font-weight: 800; color: #f8fafc; margin-top: 1px;">
+                ${legalStructureTitle}
+              </div>
+            </div>
+          </div>
+          <div style="background: ${legalBadgeColor}22; border: 1px solid ${legalBadgeColor}66; color: ${legalBadgeColor}; padding: 4px 10px; border-radius: 16px; font-size: 11px; font-weight: 700; white-space: nowrap;">
+            ${legalStructureBadge}
           </div>
         </div>
 
