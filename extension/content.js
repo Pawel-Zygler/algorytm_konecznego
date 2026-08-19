@@ -2623,6 +2623,28 @@
       { key: 'goal_clan_tradition', label: 'Kultywowanie Rodu', icon: '☯️', color: '#eab308' }
     ];
 
+    // --- STEP E: FAMILY EMANCIPATION CATEGORY (ROW 5) ---
+    let activeFamKey = 'fam_full_emanc';
+
+    if (isCommunistOrTotalitarian || isByzantineText) {
+      activeFamKey = 'fam_state_collectivism';
+    } else if (rawTextUpper.includes('POLIGAM') || isSacralText || rawTextUpper.includes('HAREM')) {
+      activeFamKey = 'fam_polygamy';
+    } else if (isChineseText || rawTextUpper.includes('RODOW') || rawTextUpper.includes('KLAN') || rawTextUpper.includes('BRAMIN')) {
+      activeFamKey = 'fam_clan_system';
+    } else if (calcSpiritScore >= 0.45 || activeCivKey === 'latin') {
+      activeFamKey = 'fam_full_emanc';
+    } else {
+      activeFamKey = 'fam_full_emanc';
+    }
+
+    const famOptions = [
+      { key: 'fam_full_emanc', label: 'Pełna Emancypacja (Monogamia & Własność Indywidualna)', icon: '👨‍👩‍👧', color: '#10b981' },
+      { key: 'fam_clan_system', label: 'Ustrój Rodowy / Klany (Ekonomia Rodowa)', icon: '🪢', color: '#eab308' },
+      { key: 'fam_polygamy', label: 'Poligamia / Brak Emancypacji', icon: '📜', color: '#dc2626' },
+      { key: 'fam_state_collectivism', label: 'Statolatria / Kolektywizm Państwowy', icon: '🏛️', color: '#ef4444' }
+    ];
+
     function renderChips(options, activeKey) {
       return options.map(opt => {
         const isActive = opt.key === activeKey;
@@ -2678,10 +2700,18 @@
         </div>
 
         <!-- Rząd 4: Cele społeczeństwa -->
-        <div style="margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px dashed rgba(255,255,255,0.1);">
+        <div style="margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px dashed rgba(255,255,255,0.1);">
           <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; margin-bottom: 5px;">Cele społeczeństwa</div>
           <div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">
             ${renderChips(goalOptions, activeGoalKey)}
+          </div>
+        </div>
+
+        <!-- Rząd 5: Emancypacja rodziny -->
+        <div style="margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px dashed rgba(255,255,255,0.1);">
+          <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; margin-bottom: 5px;">Emancypacja rodziny</div>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">
+            ${renderChips(famOptions, activeFamKey)}
           </div>
         </div>
 
