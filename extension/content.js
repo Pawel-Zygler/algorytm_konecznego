@@ -785,18 +785,32 @@
     if (trigger) trigger.classList.add('spinning');
 
     content.innerHTML = `
-      <div class="loader" style="padding: 45px 20px; text-align: center;">
+      <div class="loader" style="padding: 40px 15px; text-align: center;">
         <style>
           @keyframes spinGlowRing { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
           @keyframes pulsePortrait { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }
         </style>
-        <div style="position: relative; width: 105px; height: 105px; margin: 0 auto 25px auto;">
-          <div style="position: absolute; inset: -7px; border-radius: 50%; background: conic-gradient(from 0deg, #3b82f6, #8b5cf6, #ec4899, #3b82f6); animation: spinGlowRing 2.5s linear infinite; filter: blur(3px);"></div>
-          <div style="position: absolute; inset: 0; border-radius: 50%; background: #0f172a; padding: 4px; display: flex; align-items: center; justify-content: center; z-index: 2; animation: pulsePortrait 3s ease-in-out infinite;">
-            <img src="${konecznyImg}" alt="Profesor Feliks Koneczny" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,0.2);">
+        <div style="display: flex; align-items: center; justify-content: center; gap: 14px; max-width: 780px; margin: 0 auto;">
+          <!-- Bubble Left: Historiosophical statements (Po lewej: te co teraz) -->
+          <div style="flex: 1; min-width: 190px; background: rgba(30, 41, 59, 0.85); border: 1px solid rgba(139, 92, 246, 0.4); border-radius: 14px; padding: 12px 14px; text-align: right; box-shadow: 0 4px 16px rgba(0,0,0,0.3); backdrop-filter: blur(6px);">
+            <div style="font-size: 9.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #a78bfa; margin-bottom: 4px;">📜 PROFESOR BADA TEKST</div>
+            <div id="loader-label-text" style="font-size: 12.5px; font-weight: 600; color: #f1f5f9; line-height: 1.4;">Profesor analizuje strukturę cywilizacyjną...</div>
+          </div>
+
+          <!-- Avatar Center (Głowa Konecznego) -->
+          <div style="position: relative; width: 100px; height: 100px; flex-shrink: 0;">
+            <div style="position: absolute; inset: -7px; border-radius: 50%; background: conic-gradient(from 0deg, #3b82f6, #8b5cf6, #ec4899, #3b82f6); animation: spinGlowRing 2.5s linear infinite; filter: blur(3px);"></div>
+            <div style="position: absolute; inset: 0; border-radius: 50%; background: #0f172a; padding: 4px; display: flex; align-items: center; justify-content: center; z-index: 2; animation: pulsePortrait 3s ease-in-out infinite;">
+              <img src="${konecznyImg}" alt="Profesor Feliks Koneczny" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,0.2);">
+            </div>
+          </div>
+
+          <!-- Bubble Right: Mug slogans (Po prawej: pomysły na napisy na kubki dla userów) -->
+          <div style="flex: 1; min-width: 190px; background: rgba(30, 41, 59, 0.85); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 14px; padding: 12px 14px; text-align: left; box-shadow: 0 4px 16px rgba(0,0,0,0.3); backdrop-filter: blur(6px);">
+            <div style="font-size: 9.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #34d399; margin-bottom: 4px;">☕ HASŁO NA KUBEK USERA</div>
+            <div id="loader-mug-text" style="font-size: 12.5px; font-weight: 600; color: #f1f5f9; line-height: 1.4; font-style: italic;">"Etyka przed ustawą — kawę piję z prawa prywatnego."</div>
           </div>
         </div>
-        <div class="loader-label" id="loader-label-text" style="font-size: 15px; font-weight: 600; color: #1e293b; max-width: 380px; margin: 0 auto; line-height: 1.5; text-shadow: none;">Profesor analizuje tekst…</div>
       </div>
     `;
 
@@ -924,6 +938,33 @@
       "Czy media strumieniowe zniosły pojęcie ery historycznej?"
     ];
 
+    const mugSlogans = [
+      "\"Etyka przed ustawą — kawę piję z prawa prywatnego.\"",
+      "\"Nie budź mnie bez dualizmu prawnego.\"",
+      "\"Mój kubek, moja autonomia rodziny.\"",
+      "\"Stres to objaw cywilizacji turańskiej.\"",
+      "\"Prawda obiektywna i czarna kawa bez cukru.\"",
+      "\"Statolatrii mówimy stanowcze NIE.\"",
+      "\"Kawa z rana, quincunx poukładany.\"",
+      "\"W tym domu obowiązuje cywilizacja łacińska.\"",
+      "\"Precz z monizmem państwowym i zimną kawą!\"",
+      "\"Sumienie autonomiczne, espresso bezkompromisowe.\"",
+      "\"Moja chyżość historyczna: 100% po pierwszej kawie.\"",
+      "\"Salus animarum suprema lex.\"",
+      "\"Prawo aposterioryczne — sprawdzam temperaturę łyka.\"",
+      "\"Etyka nie zna dwóch sumień, ani dwóch rodzajów kawy.\"",
+      "\"Wypity łyk to kapitalizacja dorobku pokoleń.\"",
+      "\"Nie dla acywilizacyjnego kołobłędu przed 9:00!\"",
+      "\"Prymat etyki nad poniedziałkowym biurem.\"",
+      "\"Personalizm w każdej kropli.\"",
+      "\"Ten kubek chroni autonomia prawa własności.\"",
+      "\"Turańskie obozownictwo zwalczam ciepłą melisą.\"",
+      "\"Wolność osoby zaczyna się od porannej kawy.\"",
+      "\"Zanim wydasz okólnik, daj mi wypić espresso.\"",
+      "\"Słuszność etyczna ponad sztywną literą przepisu.\"",
+      "\"Zero gromadności w moim biurze!\""
+    ];
+
     function shuffle(array) {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -934,9 +975,11 @@
 
     shuffle(statements);
     shuffle(questions);
+    shuffle(mugSlogans);
 
     let statIdx = 0;
     let questIdx = 0;
+    let mugIdx = 0;
     let sequenceCounter = 0;
     let sequenceTarget = Math.floor(Math.random() * 2) + 2; // 2 or 3
 
@@ -944,6 +987,8 @@
 
     window.konecznyLoadingInterval = setInterval(() => {
       const label = content.querySelector('#loader-label-text');
+      const mugLabel = content.querySelector('#loader-mug-text');
+
       if (label) {
         let text = "";
         if (sequenceCounter < sequenceTarget) {
@@ -958,7 +1003,12 @@
         }
         label.textContent = text;
       }
-    }, 3000);
+
+      if (mugLabel) {
+        mugLabel.textContent = mugSlogans[mugIdx % mugSlogans.length];
+        mugIdx++;
+      }
+    }, 2800);
 
     try {
       const config = await getStorageData();
