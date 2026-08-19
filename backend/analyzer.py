@@ -23,7 +23,7 @@ INDEX_DEV_FLAGS = {
     "health": True,
     "truth_science": True,
     "beauty_art": True,
-    "civilizational_lie": True,
+    "civilizational_lie": False,
     "dualism": True,
     "pluralism": True,
     "aposteriori": True,
@@ -50,6 +50,14 @@ indicator_item = {
 
 # Cache indices context at module load - not per request!
 _INDICES_CONTEXT_CACHE: str = ""
+
+# Set of disabled/deprecated Gemini models (404 Not Found) to prevent querying them again
+_DISABLED_GEMINI_MODELS: set = set()
+
+def reset_disabled_gemini_models():
+    """Resets blacklisted Gemini models set."""
+    global _DISABLED_GEMINI_MODELS
+    _DISABLED_GEMINI_MODELS.clear()
 
 def get_indices_context() -> str:
     """Reads index files once and caches them in memory."""
@@ -204,6 +212,8 @@ def call_gemini_api(prompt: str, system_instruction: str, api_key: str, schema: 
 
     for current_key in key_pool:
         for model_name in config.GEMINI_MODELS:
+            if model_name in _DISABLED_GEMINI_MODELS:
+                continue
             url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={current_key}"
             
             # Allow up to 2 retry attempts per (key, model) if 429 retryDelay is reasonable
@@ -249,17 +259,23 @@ def call_gemini_api(prompt: str, system_instruction: str, api_key: str, schema: 
                         else:
                             print(f"⚠️ Quota 429 on {model_name}. Rotating key/model...")
                             break  # Move to next model
+
+                    elif response.status_code == 404:
+                        _DISABLED_GEMINI_MODELS.add(model_name)
+                        last_error = f"Model {model_name} is no longer available (404). Added to disabled models list."
+                        print(f"⛔ {last_error}")
+                        break  # Move to next model
+
                     elif response.status_code in [400, 403]:
                         last_error = f"Key ...{current_key[-4:]} invalid for Gemini ({response.status_code}): {response.text}"
                         print(f"⚠️ {last_error}. Skipping key...")
                         key_invalid = True
                         break  # Break out of model attempts, move to next key
 
-                    elif response.status_code in [404, 500, 503]:
-                        last_error = f"Model {model_name} error ({response.status_code}): {response.text}"
+                    elif response.status_code in [500, 503]:
+                        last_error = f"Model {model_name} server error ({response.status_code}): {response.text}"
                         print(f"⚠️ {last_error}. Trying next model...")
-                        if response.status_code in [500, 503]:
-                            time.sleep(2)
+                        time.sleep(2)
                         break  # Move to next model
 
                 except requests.exceptions.RequestException as e:
@@ -741,6 +757,19 @@ schema_9 = {
         "inheritance_news_1", "inheritance_news_2", "inheritance_news_3", "inheritance_justification"
     ]
 }
+
+def analyze_sample_lite(text: str, api_key: str = None) -> Dict[str, Any]:
+    """
+    Szybka i niskotokenowa analiza cywilizacyjna w oparciu o 4 istniejące kluczowe indeksy Konecznego:
+    - Sakralność (sacrality)
+    - Supremacja Ducha (spirit)
+    - Szereg Personalistyczny / 7 Generaliów Etyki (generalia)
+    - Współmierność Pięciomianu Bytu (quincunx)
+    """
+    lite_indices = ["sacrality", "spirit", "generalia", "quincunx"]
+    result = analyze_sample(text, api_key=api_key, target_indices=lite_indices)
+    result["mode"] = "lite"
+    return result
 
 def analyze_sample(text: str, api_key: str = None, target_indices: list = None) -> Dict[str, Any]:
     """

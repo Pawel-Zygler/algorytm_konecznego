@@ -9,13 +9,38 @@ document.addEventListener('DOMContentLoaded', () => {
   const statusText = document.getElementById('statusText');
   const versionTag = document.getElementById('versionTag');
 
+  const btnTabLite = document.getElementById('btnTabLite');
+  const btnTabFull = document.getElementById('btnTabFull');
+  const tabContentLite = document.getElementById('tabContentLite');
+  const tabContentFull = document.getElementById('tabContentFull');
+
+  let activeMode = 'lite';
+
   if (versionTag && typeof chrome !== 'undefined' && chrome.runtime?.getManifest) {
     const ver = chrome.runtime.getManifest()?.version;
     if (ver) versionTag.textContent = `v${ver}`;
   }
 
+  function switchTab(mode) {
+    activeMode = mode;
+    if (mode === 'lite') {
+      btnTabLite.classList.add('active');
+      btnTabFull.classList.remove('active');
+      tabContentLite.style.display = 'block';
+      tabContentFull.style.display = 'none';
+    } else {
+      btnTabFull.classList.add('active');
+      btnTabLite.classList.remove('active');
+      tabContentFull.style.display = 'block';
+      tabContentLite.style.display = 'none';
+    }
+  }
+
+  if (btnTabLite) btnTabLite.addEventListener('click', () => switchTab('lite'));
+  if (btnTabFull) btnTabFull.addEventListener('click', () => switchTab('full'));
+
   // Load configuration from Chrome local storage
-  chrome.storage.local.get(['backendUrl', 'apiKey', 'selectedIndices'], (res) => {
+  chrome.storage.local.get(['backendUrl', 'apiKey', 'selectedIndices', 'analysisMode'], (res) => {
     let url = res?.backendUrl || DEFAULT_BACKEND_URL;
     if (url.includes(':8000')) {
       url = url.replace(':8000', ':8005');
@@ -24,10 +49,12 @@ document.addEventListener('DOMContentLoaded', () => {
     backendUrlInput.value = url;
     apiKeyInput.value = res?.apiKey || '';
 
-    // Default indices if not previously saved (preserve empty array [] when deselectAll / Czystość is saved)
+    const savedMode = res?.analysisMode || 'lite';
+    switchTab(savedMode);
+
     const savedIndices = (res && Array.isArray(res.selectedIndices))
       ? res.selectedIndices
-      : ['duty_source', 'motivation', 'justice_nature', 'conscience_status', 'time_mastery', 'work_ethos', 'quincunx', 'health', 'truth_science', 'beauty_art', 'civilizational_lie'];
+      : ['duty_source', 'motivation', 'justice_nature', 'conscience_status', 'time_mastery', 'work_ethos', 'quincunx', 'health', 'truth_science', 'beauty_art'];
     const checkboxes = document.querySelectorAll('input[name="selectedIndices"]');
     checkboxes.forEach(cb => {
       cb.checked = savedIndices.includes(cb.value);
@@ -60,12 +87,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const checkedBoxes = document.querySelectorAll('input[name="selectedIndices"]:checked');
     const selectedIndices = Array.from(checkedBoxes).map(cb => cb.value);
 
-    chrome.storage.local.set({ backendUrl: url, apiKey: key, selectedIndices: selectedIndices }, () => {
+    chrome.storage.local.set({
+      backendUrl: url,
+      apiKey: key,
+      selectedIndices: selectedIndices,
+      analysisMode: activeMode
+    }, () => {
       saveBtn.textContent = 'Zapisano!';
       saveBtn.classList.add('btn-saved');
 
       setTimeout(() => {
-        saveBtn.textContent = 'Zapisz ustawienia';
+        saveBtn.textContent = 'Zapisz';
         saveBtn.classList.remove('btn-saved');
       }, 1500);
 
@@ -73,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Async server health check with Guard Clauses and IPv6/IPv4 fallback
+  // Async server health check
   async function checkServerHealth(url) {
     statusDot.className = 'status-dot';
     statusText.textContent = 'Sprawdzanie...';
@@ -88,7 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
           signal: AbortSignal.timeout(5000)
         });
       } catch (err) {
-        // Fallback between localhost and 127.0.0.1 for macOS IPv6 resolution
         if (cleanUrl.includes('localhost')) {
           const fallbackUrl = cleanUrl.replace('localhost', '127.0.0.1');
           response = await fetch(`${fallbackUrl}/api/health`, {

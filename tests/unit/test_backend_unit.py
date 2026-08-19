@@ -1,3 +1,4 @@
+import json
 import pytest
 from fastapi.testclient import TestClient
 from backend.main import app
@@ -191,6 +192,90 @@ def test_ollama_prompt_sample_text_preservation(monkeypatch):
     res = call_ollama_api(long_prompt, "System instruction", "ollama:glm4")
     assert res == '{"sacrality_law": {"score": 0.9}}'
     assert "Unikalny tekst polski do analizy" in captured_payload["prompt"]
+
+def test_analyze_sample_lite_mock(monkeypatch):
+    """Test 14: Verify analyze_sample_lite calls analyze_sample with existing core indices."""
+    from backend import analyzer
+
+    captured_indices = []
+    def mock_analyze_sample(text, api_key=None, target_indices=None):
+        captured_indices.extend(target_indices or [])
+        return {
+            "sacrality_score": 0.1,
+            "spirit_supremacy_score": 0.95,
+            "ethical_coherence_score": 7.0,
+            "quincunx_coherence_score": 0.85
+        }
+
+    monkeypatch.setattr("backend.analyzer.analyze_sample", mock_analyze_sample)
+
+    res = analyzer.analyze_sample_lite("Przykładowy tekst o prawie prywatnym.", api_key="test_key")
+    assert res["mode"] == "lite"
+    assert res["sacrality_score"] == 0.1
+    assert res["spirit_supremacy_score"] == 0.95
+    assert captured_indices == ["sacrality", "spirit", "generalia", "quincunx"]
+
+def test_fastapi_lite_endpoint_mock(monkeypatch):
+    """Test 15: Verify /api/analyze/lite endpoint returns 200 OK and Lite schema."""
+    def mock_analyze_sample_lite(text, api_key=None):
+        return {
+            "mode": "lite",
+            "sacrality_score": 0.0,
+            "spirit_supremacy_score": 0.9,
+            "primary_civilization": "Łacińska",
+            "civilization_diagnosis": "Cywilizacja Łacińska",
+            "explanation": "Test",
+            "raw_ratings": {}
+        }
+
+    monkeypatch.setattr("backend.analyzer.analyze_sample_lite", mock_analyze_sample_lite)
+
+    response = client.post("/api/analyze/lite", json={"text": "Testowe prawo prywatne", "api_key": "test_key"})
+    assert response.status_code == 200
+    data = response.json()
+    assert data["mode"] == "lite"
+    assert data["primary_civilization"] == "Łacińska"
+
+def test_blacklisted_model_404_skipped(monkeypatch):
+    """Test 16: Verify 404 models are blacklisted in _DISABLED_GEMINI_MODELS and skipped on future requests."""
+    from backend import analyzer, config
+
+    analyzer.reset_disabled_gemini_models()
+    requested_urls = []
+
+    def mock_post(url, headers=None, json=None, timeout=None):
+        requested_urls.append(url)
+        class MockResp:
+            def json(self): return {}
+        # First model returns 404
+        if "gemini-3.6-flash" in url:
+            MockResp.status_code = 404
+            MockResp.text = "Model no longer available"
+        else:
+            MockResp.status_code = 200
+            MockResp.text = "OK"
+            def json_ok(self):
+                return {
+                    "candidates": [{
+                        "content": {"parts": [{"text": '{"sacrality_score": 0.0, "personalism_dualism_score": 0.9, "public_law_monism_score": 0.1, "family_law_emancipation_score": 0.9, "primary_civilization": "Łacińska", "civilization_diagnosis": "OK", "explanation": "OK"}'}]}
+                    }]
+                }
+            MockResp.json = json_ok
+        return MockResp()
+
+    monkeypatch.setattr("requests.post", mock_post)
+
+    # First call triggers 404 on gemini-3.6-flash and blacklists it
+    res1 = analyzer.call_gemini_api("test", "sys", "key1", {})
+    assert "gemini-3.6-flash" in analyzer._DISABLED_GEMINI_MODELS
+    assert len([u for u in requested_urls if "gemini-3.6-flash" in u]) == 1
+
+    # Second call should skip gemini-3.6-flash completely
+    requested_urls.clear()
+    res2 = analyzer.call_gemini_api("test", "sys", "key1", {})
+    assert len([u for u in requested_urls if "gemini-3.6-flash" in u]) == 0
+
+
 
 
 

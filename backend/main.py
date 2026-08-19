@@ -42,6 +42,7 @@ class AnalysisRequest(BaseModel):
     title: Optional[str] = None
     api_key: Optional[str] = None
     target_indices: Optional[list[str]] = None
+    mode: Optional[str] = None  # "lite" or "full" (defaults to "lite" unless target_indices is provided)
 
 class AnalysisResponse(BaseModel):
     sacrality_score: float
@@ -62,6 +63,10 @@ class AnalysisResponse(BaseModel):
     civilizational_lie_percentage: float = 0.0
     civilizational_lie_diagnosis: str = ""
     civilizational_lie_vectors: Dict[str, float] = {}
+    mode: Optional[str] = "full"
+    primary_civilization: Optional[str] = None
+    civilization_diagnosis: Optional[str] = None
+    explanation: Optional[str] = None
     raw_ratings: Dict[str, Any] = {}
     history_stats: Dict[str, Any] = {}
 
@@ -86,7 +91,6 @@ async def analyze_text(request: AnalysisRequest, x_gemini_api_key: Optional[str]
     if not text_to_analyze.strip():
         raise HTTPException(status_code=400, detail="Tekst wejściowy lub zawartość PDF nie może być pusta.")
         
-    # Determine API key: first check Request body, then Header, then environment (strip empty strings)
     req_key = (request.api_key or "").strip()
     hdr_key = (x_gemini_api_key or "").strip()
     env_key = (os.environ.get("GEMINI_API_KEY") or "").strip()
@@ -100,10 +104,13 @@ async def analyze_text(request: AnalysisRequest, x_gemini_api_key: Optional[str]
         )
         
     try:
-        # Run analysis
-        result = analyzer.analyze_sample(text_to_analyze, api_key=api_key, target_indices=request.target_indices)
+        req_mode = (request.mode or "").lower()
+        if req_mode == "full" or (not req_mode and request.target_indices and len(request.target_indices) > 0):
+            result = analyzer.analyze_sample(text_to_analyze, api_key=api_key, target_indices=request.target_indices)
+            result["mode"] = "full"
+        else:
+            result = analyzer.analyze_sample_lite(text_to_analyze, api_key=api_key)
         
-        # Save analysis to history database if URL is provided
         target_url = request.url or request.pdf_url
         if target_url:
             history.save_analysis(target_url, request.title, result)
@@ -121,6 +128,11 @@ async def analyze_text(request: AnalysisRequest, x_gemini_api_key: Optional[str]
                 detail="⚠️ Przekroczono limit zapytań Gemini API (Quota Exceeded / 429). Darmowy limit został tymczasowo wyczerpany. Poczekaj około 30–60 sekund i spróbuj ponownie."
             )
         raise HTTPException(status_code=500, detail=f"Błąd analizy: {err_msg}")
+
+@app.post("/api/analyze/lite", response_model=AnalysisResponse)
+async def analyze_text_lite(request: AnalysisRequest, x_gemini_api_key: Optional[str] = Header(None)):
+    request.mode = "lite"
+    return await analyze_text(request, x_gemini_api_key=x_gemini_api_key)
 
 @app.get("/api/history")
 async def get_url_history(url: str):

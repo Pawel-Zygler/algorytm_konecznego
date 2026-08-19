@@ -974,16 +974,17 @@
       let reqBody;
 
       const selectedIndices = targetIndexStr ? [targetIndexStr] : (config.selectedIndices && config.selectedIndices.length > 0 ? config.selectedIndices : null);
+      const mode = config.analysisMode || 'lite';
 
       if (pageData && pageData.pdf_url) {
-        reqBody = { pdf_url: pageData.pdf_url, url: window.location.href, title: document.title };
-        if (selectedIndices) reqBody.target_indices = selectedIndices;
+        reqBody = { pdf_url: pageData.pdf_url, url: window.location.href, title: document.title, mode: mode };
+        if (selectedIndices && mode === 'full') reqBody.target_indices = selectedIndices;
       } else {
         if (!pageData || pageData.length < 50) {
           throw new Error('Niewystarczająca ilość tekstu na stronie.');
         }
-        reqBody = { text: pageData.substring(0, 8000), url: window.location.href, title: document.title };
-        if (selectedIndices) reqBody.target_indices = selectedIndices;
+        reqBody = { text: pageData.substring(0, 8000), url: window.location.href, title: document.title, mode: mode };
+        if (selectedIndices && mode === 'full') reqBody.target_indices = selectedIndices;
       }
 
       const response = await fetch(`${backendUrl}/api/analyze`, {
@@ -2404,7 +2405,111 @@
       ${formatVector(lieVectors.sacrality_penalty, '5. Test Fanatyzmu i Sakralności (Coercion Penalty)', 'Odrzucenie zmuszania siłą/mieczem do wiary oraz fałszywego traktowania państwa jako świętości.')}
     `;
 
+    // Primary Civilization Assignment Determination
+    let assignedCiv = data.primary_civilization || '';
+    let civBadgeColor = '#8b5cf6';
+    let civIcon = '🏛️';
+
+    const rawTextUpper = ((document.title || '') + ' ' + (window.konecznyResults.text || '') + ' ' + (data.civilization_diagnosis || '')).toUpperCase();
+    if (!assignedCiv) {
+      if (rawTextUpper.includes('TALIB') || rawTextUpper.includes('ISLAM') || rawTextUpper.includes('SZARIAT') || rawTextUpper.includes('EMIRAT')) {
+        assignedCiv = 'Cywilizacja Arabska (Monizm Sakralny / Szariat)';
+        civBadgeColor = '#059669';
+        civIcon = '🌙';
+      } else if (rawTextUpper.includes('IZRAEL') || rawTextUpper.includes('ŻYDOWSK') || rawTextUpper.includes('TORA') || rawTextUpper.includes('TALMUD')) {
+        assignedCiv = 'Cywilizacja Żydowska (Monizm Sakralno-Legalistyczny)';
+        civBadgeColor = '#0284c7';
+        civIcon = '✡️';
+      } else if (rawTextUpper.includes('BRAMIN') || rawTextUpper.includes('KASTY') || rawTextUpper.includes('HINDU') || rawTextUpper.includes('WEDY')) {
+        assignedCiv = 'Cywilizacja Bramińska (Sakralizm Kastowy)';
+        civBadgeColor = '#d97706';
+        civIcon = '🕉️';
+      } else if (rawTextUpper.includes('CHIŃSK') || rawTextUpper.includes('CHINA') || rawTextUpper.includes('KONFUCI')) {
+        assignedCiv = 'Cywilizacja Chińska (Autonomia Rodów / Areliogijność)';
+        civBadgeColor = '#dc2626';
+        civIcon = '☯️';
+      } else if (rawTextUpper.includes('TURAŃSK') || rawTextUpper.includes('OBOZOWY') || rawTextUpper.includes('DESPOCJA')) {
+        assignedCiv = 'Cywilizacja Turańska (Ustrój Obozowy / Państwo Własnością Władcy)';
+        civBadgeColor = '#7c2d12';
+        civIcon = '⚔️';
+      } else if (data.sacrality_score >= 0.5) {
+        assignedCiv = 'Cywilizacja Sakralna (Monizm Religijny)';
+        civBadgeColor = '#d97706';
+        civIcon = '📜';
+      } else if (data.ethical_coherence_score >= 6.0 || data.quincunx_coherence_score >= 0.65) {
+        assignedCiv = 'Cywilizacja Łacińska (Personalizm / Dualizm Prawny / Etyka)';
+        civBadgeColor = '#8b5cf6';
+        civIcon = '⚖️';
+      } else if (data.ethical_coherence_score >= 0 && data.ethical_coherence_score < 6.0) {
+        assignedCiv = 'MIESZANKA TRUJĄCA (Stan Acywilizacyjny / Kołobłęd Etyczny)';
+        civBadgeColor = '#dc2626';
+        civIcon = '⚠️';
+      } else {
+        assignedCiv = 'Cywilizacja Łacińska (Przewaga Norm Personalistycznych)';
+        civBadgeColor = '#8b5cf6';
+        civIcon = '🏛️';
+      }
+    }
+
+    const sacralityScoreVal = data.sacrality_score >= 0 ? `${Math.round(data.sacrality_score * 100)}%` : 'N/A';
+    const spiritScoreVal = data.spirit_supremacy_score >= 0 ? `${Math.round(data.spirit_supremacy_score * 100)}%` : 'N/A';
+    const generaliaScoreVal = data.ethical_coherence_score >= 0 ? `${data.ethical_coherence_score.toFixed(1)} / 7.0` : 'N/A';
+    const chyznoscScoreVal = data.time_mastery_efficiency_score >= 0 ? `${Math.round(data.time_mastery_efficiency_score * 100)}%` : (data.time_mastery_history_score >= 0 ? `${Math.round(data.time_mastery_history_score * 100)}%` : 'N/A');
+    const quincunxScoreVal = data.quincunx_coherence_score >= 0 ? `${data.quincunx_coherence_score.toFixed(2)}` : 'N/A';
+
+    const dashboardHtml = `
+      <div class="koneczny-dashboard" style="margin: 12px 20px 16px 20px; padding: 14px 16px; background: linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%); border: 1px solid rgba(139, 92, 246, 0.35); border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.35); backdrop-filter: blur(8px);">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px dashed rgba(255,255,255,0.12);">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 24px;">${civIcon}</span>
+            <div>
+              <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8;">DASHBOARD PODSUMOWUJĄCY • PRZYPISANIE BYTU</div>
+              <div style="font-size: 16px; font-weight: 800; color: #f8fafc; margin-top: 1px;">
+                ${assignedCiv}
+              </div>
+            </div>
+          </div>
+          <div style="background: ${civBadgeColor}22; border: 1px solid ${civBadgeColor}66; color: ${civBadgeColor}; padding: 4px 10px; border-radius: 16px; font-size: 11px; font-weight: 700; white-space: nowrap;">
+            Klasyfikacja Bytu
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px;">
+          <div style="background: rgba(15, 23, 42, 0.6); padding: 8px 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); text-align: center;">
+            <div style="font-size: 9.5px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Krok 1: Sakralność</div>
+            <div style="font-size: 15px; font-weight: 800; color: ${data.sacrality_score >= 0.5 ? '#ef4444' : '#34d399'}; margin-top: 2px;">${sacralityScoreVal}</div>
+            <div style="font-size: 9px; color: #cbd5e1; margin-top: 1px;">Score: ${data.sacrality_score >= 0 ? data.sacrality_score.toFixed(2) : 'N/A'}</div>
+          </div>
+
+          <div style="background: rgba(15, 23, 42, 0.6); padding: 8px 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); text-align: center;">
+            <div style="font-size: 9.5px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Krok 2: Ducha</div>
+            <div style="font-size: 15px; font-weight: 800; color: #60a5fa; margin-top: 2px;">${spiritScoreVal}</div>
+            <div style="font-size: 9px; color: #cbd5e1; margin-top: 1px;">Score: ${data.spirit_supremacy_score >= 0 ? data.spirit_supremacy_score.toFixed(2) : 'N/A'}</div>
+          </div>
+
+          <div style="background: rgba(15, 23, 42, 0.6); padding: 8px 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); text-align: center;">
+            <div style="font-size: 9.5px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Krok 3: Etyka</div>
+            <div style="font-size: 15px; font-weight: 800; color: #34d399; margin-top: 2px;">${generaliaScoreVal}</div>
+            <div style="font-size: 9px; color: #cbd5e1; margin-top: 1px;">Siedem Niewiadomych</div>
+          </div>
+
+          <div style="background: rgba(15, 23, 42, 0.6); padding: 8px 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); text-align: center;">
+            <div style="font-size: 9.5px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Krok 4: Chyżość</div>
+            <div style="font-size: 15px; font-weight: 800; color: #f59e0b; margin-top: 2px;">${chyznoscScoreVal}</div>
+            <div style="font-size: 9px; color: #cbd5e1; margin-top: 1px;">Wydajność czasu</div>
+          </div>
+
+          <div style="background: rgba(15, 23, 42, 0.6); padding: 8px 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); text-align: center;">
+            <div style="font-size: 9.5px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Krok 5: Quincunx</div>
+            <div style="font-size: 15px; font-weight: 800; color: #a78bfa; margin-top: 2px;">${quincunxScoreVal}</div>
+            <div style="font-size: 9px; color: #cbd5e1; margin-top: 1px;">Współmierność</div>
+          </div>
+        </div>
+      </div>
+    `;
+
     content.innerHTML = `
+      ${dashboardHtml}
       <div class="tab-bar">
         <button class="tab-btn ${activeTabId === 'tab-sacrality' ? 'active' : ''}" id="tab-sacrality">Indeks Sakralności</button>
         <button class="tab-btn ${activeTabId === 'tab-spirit' ? 'active' : ''}" id="tab-spirit">Supremacja Ducha</button>
@@ -2597,7 +2702,7 @@
 
   function getStorageData() {
     return new Promise(resolve => {
-      chrome.storage.local.get(['backendUrl', 'apiKey', 'selectedIndices'], data => {
+      chrome.storage.local.get(['backendUrl', 'apiKey', 'selectedIndices', 'analysisMode'], data => {
         let backendUrl = data ? data.backendUrl || 'http://localhost:8005' : 'http://localhost:8005';
         if (backendUrl.includes(':8000')) {
           backendUrl = backendUrl.replace(':8000', ':8005');

@@ -4,6 +4,16 @@ Wszystkie znaczące zmiany w projekcie **Algorytm Konecznego** (metoda historioz
 
 Format opiera się na zasadach [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
+## [1.5.0] - 2026-08-19
+
+### Dodano (Added)
+- **Wdrożenie Trybu Koneczny Lite (4-Krokowe Drzewo Decyzyjne)**: Dodano szybką, nisko-tokenową analizę cywilizacyjną opartą na 4 istniejących filarach (Sakralność, Supremacja Ducha, Szereg Personalistyczny, Quincunx).
+- **Dashboard Podsumowujący w nakładce strony (`content.js`)**: Dodano wyeksponowaną sekcję na górze nakładki wyświetlającą rozpoznaną cywilizację oraz podsumowanie wyników liczbowych i procentowych dla wszystkich 5 kroków.
+- **Wtyczka dwuzakładkowa i nagłówek z przyciskiem Zapisz**: Wprowadzono zakładki `⚡ Wersja Lite (Podstawowa)` oraz `📊 Pełna Wersja (28 Indeksów)` w `popup.html` i przeniesiono przycisk `Zapisz` do górnego nagłówka.
+- **Dynamiczna czarna lista modeli Gemini (404 Blacklisting)**: Wprowadzono wykluczanie modeli zwracających kod `404` (`_DISABLED_GEMINI_MODELS`) oraz uporządkowano listę modeli w `config.py`.
+
+---
+
 ## [1.4.6] - 2026-08-12
 
 ### Naprawione (Fixed)
