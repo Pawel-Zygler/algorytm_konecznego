@@ -306,39 +306,31 @@
     /* ── Tabs Navigation ── */
     .tab-bar {
       display: flex;
-      gap: 6px;
+      width: 100%;
+      gap: 4px;
       margin-bottom: 14px;
       background: #f4f4f5;
-      padding: 6px 8px;
+      padding: 4px;
       border-radius: 10px;
-      overflow-x: auto;
+      overflow: hidden;
       align-items: center;
-      min-height: 48px;
-    }
-    .tab-bar::-webkit-scrollbar {
-      height: 4px;
-    }
-    .tab-bar::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    .tab-bar::-webkit-scrollbar-thumb {
-      background: #d4d4d8;
-      border-radius: 4px;
     }
     .tab-btn {
-      flex: 0 0 auto;
-      padding: 8px 14px;
+      flex: 1 1 0px;
+      min-width: 0;
+      padding: 7px 2px;
       white-space: nowrap;
-      font-size: 11.5px;
-      font-weight: 600;
+      font-size: 11px;
+      font-weight: 700;
       color: #71717a;
       background: transparent;
       border: none;
-      border-radius: 8px;
+      border-radius: 7px;
       cursor: pointer;
-      transition: all .2s ease;
       text-align: center;
-      min-height: 32px;
+      transition: all 0.2s ease;
+      overflow: hidden;
+      text-overflow: ellipsis;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -2903,12 +2895,12 @@
     content.innerHTML = `
       ${dashboardHtml}
       <div class="tab-bar">
-        <button class="tab-btn ${activeTabId === 'tab-sacrality' ? 'active' : ''}" id="tab-sacrality">Indeks Sakralności</button>
-        <button class="tab-btn ${activeTabId === 'tab-spirit' ? 'active' : ''}" id="tab-spirit">Supremacja Ducha</button>
-        <button class="tab-btn ${activeTabId === 'tab-generalia' ? 'active' : ''}" id="tab-generalia">Szereg Personalistyczny</button>
-        <button class="tab-btn ${activeTabId === 'tab-chyznosc' ? 'active' : ''}" id="tab-chyznosc">Krok 4: Chyżość</button>
-        <button class="tab-btn ${activeTabId === 'tab-quincunx' ? 'active' : ''}" id="tab-quincunx">Krok 5: Quincunx</button>
-        <button class="tab-btn ${activeTabId === 'tab-lie' ? 'active' : ''}" id="tab-lie">Wskaźnik Kłamstwa</button>
+        <button class="tab-btn ${activeTabId === 'tab-sacrality' ? 'active' : ''}" id="tab-sacrality" title="Krok 1: Indeks Sakralności">1. Sakralność</button>
+        <button class="tab-btn ${activeTabId === 'tab-spirit' ? 'active' : ''}" id="tab-spirit" title="Krok 2: Supremacja Ducha">2. Supremacja Ducha</button>
+        <button class="tab-btn ${activeTabId === 'tab-generalia' ? 'active' : ''}" id="tab-generalia" title="Krok 3: Szereg Personalistyczny / Generalia Etyki">3. Personalizm</button>
+        <button class="tab-btn ${activeTabId === 'tab-chyznosc' ? 'active' : ''}" id="tab-chyznosc" title="Krok 4: Chyżość Historyczna">4. Chyżość</button>
+        <button class="tab-btn ${activeTabId === 'tab-quincunx' ? 'active' : ''}" id="tab-quincunx" title="Krok 5: Quincunx Bytu">5. Quincunx</button>
+        <button class="tab-btn ${activeTabId === 'tab-lie' ? 'active' : ''}" id="tab-lie" title="Wskaźnik Kłamstwa Cywilizacyjnego">6. Test Kłamstwa</button>
       </div>
 
       <div id="view-sacrality" style="${activeTabId === 'tab-sacrality' ? '' : 'display:none'}">
