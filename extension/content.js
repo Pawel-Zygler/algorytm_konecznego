@@ -2908,9 +2908,9 @@
       {
         num: "01",
         name: "Gromadztwo",
-        title: "01. Bezimienna Gromada",
-        quote: "Brak nazwisk, pierwotny kolektywizm",
-        desc: "Ludzie żyją w bezimiennym stadzie. Brak ciągłości genealogicznej i własności prywatnej. Człowiek nie ma imienia rodowego ani świadomości przeszłości.",
+        title: "01. Gromadztwo Bezimienne (Pierwotne)",
+        quote: "Brak nazwisk, pierwotny kolektywizm stada",
+        desc: "Brak nazwisk dziedzicznych, brak świadomości genealogicznej. Człowiek nie istnieje jako jednostka ani rodzina – jest tylko bezimiennym ogniwem stada/gromady.",
         achievement: "Brak dziedziczenia i brak pamiątek przeszłości",
         roleHeader: "🔑 Rola Nazwiska Dziedzicznego:",
         roleDesc: "Koneczny podkreślał, że dopóki ludność nie posiada dziedzicznych nazwisk rodowych, dopóty nie istnieje prawo majątkowe ani świadomość dziejowa.",
@@ -2919,57 +2919,57 @@
       {
         num: "02",
         name: "Ród Imienny",
-        title: "02. Ustrój Rodowy",
-        quote: "Pojawienie się przydomka i wspólnoty krwi",
-        desc: "Wytworzenie zrzeszenia rodowego. Ród staje się podmiotem prawnym i gospodarczym. Jednostka nie ma jeszcze niezależności majątkowej od wspólnoty rodowej.",
-        achievement: "Początek tradycji rodowej i obrony krwi",
-        roleHeader: "🔑 Solidarność Rodowa:",
-        roleDesc: "Odpowiedzialność zbiorowa wewnątrz rodu. Prawo krwawej zemsty i wspólny majątek uniemożliwiają wyodrębnienie wolnego sumienia jednostki.",
-        roleExample: "Przykład: Klany szkockie, arabskie plemiona Beduinów czy rzymskie gentes przed reformami prawa pretorskiego."
+        title: "02. Ród Imienny (Pojawienie się Nazwisk)",
+        quote: "Ciągłość pokoleniowa i początek prawa majątkowego",
+        desc: "Kluczowy krok cywilizacyjny. Wprowadzenie dziedzicznego miana rodowego umożliwia: ciągłość pokoleniową (pamięć o przodkach), prawo dziedziczenia własności oraz ochronę prawną (ród odpowiada za swoich członków i żąda zadośćuczynienia za ich krzywdy).",
+        achievement: "Dziedziczne nazwiska rodowe i prawo spadkowe",
+        roleHeader: "🔑 Solidarność i Odpowiedzialność Rodowa:",
+        roleDesc: "Ród staje się podmiotem prawnym i gospodarczym. Członkowie rodu są złączeni wspólnym mianem i wspólną odpowiedzialnością prawno-majątkową.",
+        roleExample: "Przykład: Klany szkockie, arabskie plemiona Beduinów czy rzymskie gentes w początkowej fazie prawa kwirytarnego."
       },
       {
         num: "03",
         name: "Monizm",
-        title: "03. Monizm Państwowy",
-        quote: "Wchłonięcie rodu przez machinę państwową",
-        desc: "Władza państwowa lub sakralna narzuca absolutny prymat ustawodawstwa publicznego. Ustrój obozowy lub biurokracja zastępuje autonomię zrzeszeń oddolnych.",
-        achievement: "Centralizacja siły kosztem wolności prywatnej",
+        title: "03. Pętla Monizmu / Cezaryzmu",
+        quote: "Próba absorpcji rodu przez machinę państwową",
+        desc: "W cywilizacjach turańskiej czy bizantyńskiej państwo lub samowładca próbuje zniszczyć lub podporządkować ród, zamieniając ludzi w poddanych/urzędników bez praw prywatnych.",
+        achievement: "Centralizacja aparatu przymusu kosztem wolności prywatnej",
         roleHeader: "🔑 Zagrożenie Statolatrią:",
-        roleDesc: "Prawo publiczne pochłania prawo prywatne. Obywatel staje się poddanym państwa, a etyka zostaje zredukowana do posłuszeństwa władcy.",
-        roleExample: "Przykład: Cywilizacja bizantyńska (cezaropapizm), carska Rosja, ustrój obozowy państw totalitarnych i komunistycznych."
+        roleDesc: "Prawo publiczne pochłania prawo prywatne. Etyka zostaje zredukowana do posłuszeństwa władcy i racji stanu.",
+        roleExample: "Przykład: Cezaropapizm bizantyński, carski absolutyzm oraz ustrój obozowy państw totalitarnych i komunistycznych."
       },
       {
         num: "04",
         name: "Rodzina",
-        title: "04. Emancypacja Rodziny",
-        quote: "Monogamia warunkiem własności indywidualnej",
-        desc: "Przejście z ustroju rodowego do rodzinnego. Niezależność syna za życia ojca, swoboda testamentowa i nienaruszalność ogniska domowego.",
-        achievement: "Wyodrębnienie własności prywatnej i podmiotowości rodziny",
+        title: "04. Emancypacja Rodziny z Rodu",
+        quote: "Monogamia dożywotnia fundamentem własności indywidualnej",
+        desc: "W cywilizacji łacińskiej dochodzi do przełomu – mała rodzina (ojciec, matka, dzieci) wyodrębnia się z wielkiego klanu rodowego dzięki ścisłej monogamii dożywotniej.",
+        achievement: "Wyodrębnienie małej rodziny i niezależność syna za życia ojca",
         roleHeader: "🔑 Emancypacja z Ekonomii Rodowej:",
-        roleDesc: "Monogamia stanowi fundament własności indywidualnej. Poligamia uniemożliwia emancypację rodziny i zawsze cofa ustrój do poziomu klanowego.",
-        roleExample: "Przykład: Przełom prawa rzymskiego w chrześcijańskiej Europie — rozbicie rodowładztwa na rzecz suwerennych małżeństw."
+        roleDesc: "Monogamia jest warunkiem wstępnym własności indywidualnej. Poligamia zawsze uderza we własność prywatną i cofa ustrój do poziomu klanowego.",
+        roleExample: "Przykład: Przełom prawa zachodniego — rozbicie rodowładztwa na rzecz nienaruszalności ogniska domowego."
       },
       {
         num: "05",
         name: "Personalizm",
-        title: "05. Personalizm i Dualizm",
-        quote: "Prymat etyki nad prawem i autonomia osoby",
-        desc: "Człowiek staje się autonomicznym podmiotem moralnym. Współistnienie prawa prywatnego i publicznego (Dualizm Prawny) chroni osobę przed omnipotencją państwa.",
-        achievement: "Autonomia sumienia, aequitas i wolność zrzeszania się",
-        roleHeader: "🔑 Rdzeń Cywilizacji Łacińskiej:",
-        roleDesc: "Państwo nie stwarza etyki, lecz podlega normom etycznym. Wolna praca, samorządność i nadrzędność prawdy nad racją stanu.",
-        roleExample: "Przykład: Tradycja I Rzeczypospolitej (Neminem captivabimus, Nihil Novi) oraz klasyczna zachodnia filozofia tomistyczna."
+        title: "05. Personalizm (Emancypacja Osoby Ludzkiej)",
+        quote: "Osoba podmiotem prawa i autonomia sumienia",
+        desc: "Szczytowe osiągnięcie łacińskie. Osoba ludzka staje się niezależnym podmiotem prawa. Człowiek odpowiada osobiście za swoje czyny (zniesienie odpowiedzialności zbiorowej rodu), ma autonomię sumienia i wolną wolę.",
+        achievement: "Dualizm Prawny (Rozdzielność prawa prywatnego i publicznego)",
+        roleHeader: "🔑 Prymat Etyki nad Ustawą:",
+        roleDesc: "Państwo nie stwarza etyki, lecz podlega normom moralnym. Człowiek posiada przyrodzoną godność i wolną wolę.",
+        roleExample: "Przykład: Zasada Neminem captivabimus, aequitas oraz tomistyczna filozofia prawa naturalnego."
       },
       {
         num: "06",
         name: "Naród",
-        title: "06. Naród Wolnych Osób",
-        quote: "Dobrowolne zrzeszenie kulturowe ponad walką o byt",
-        desc: "Najwyższy szczebel rozwoju społecznego w ujęciu Konecznego. Naród to zrzeszenie wolnych osób połączonych wspólną tradycją dziejową i aspiracjami duchowymi.",
-        achievement: "Społeczeństwo spoza walki o byt oparte na miłości ojczyzny",
-        roleHeader: "🔑 Naród a Państwo:",
-        roleDesc: "Naród jest wyższy od państwa. Państwo jest jedynie narzędziem organizacyjnym służącym dobru wspólnemu zorganizowanego narodu.",
-        roleExample: "Przykład: Dojrzała polska świadomość narodowa epoki Konstytucji 3 Maja i walki o wolność bez agresywnego szowinizmu."
+        title: "06. Zrzeszenie Obywatelskie (Naród Organiczny)",
+        quote: "Hegemonia etyki i dobrowolny ład organiczny",
+        desc: "Wolne osoby łączą się w dobrowolne stowarzyszenia i naród oparty na hegemonii etyki, a nie na przymusie aparatu państwowego. Państwo staje się tylko narzędziem służebnym wobec spójnego etycznie społeczeństwa.",
+        achievement: "Organy Dobrowolnego Ładu i Społeczeństwo Obywatelskie",
+        roleHeader: "🔑 Naród Ponad Państwem:",
+        roleDesc: "Naród to zrzeszenie wolnych osób połączonych wspólną tradycją dziejową i aspiracjami duchowymi, działających bez przymusu państwowego.",
+        roleExample: "Przykład: Dojrzała polska świadomość republikańska (Rzeczpospolita) oraz wolne narody oparte na prymacie dobra wspólnego."
       }
     ];
 
@@ -2980,7 +2980,7 @@
           <div style="flex: 1 1 280px; min-width: 260px; display: flex; flex-direction: column; justify-content: space-between;">
             <div>
               <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
-                <span style="font-size: 9px; font-weight: 800; background: #0284c7; color: #ffffff; padding: 2px 6px; border-radius: 4px; text-transform: uppercase;">KROK ${parseInt(stage.num)} Z 6</span>
+                <span style="font-size: 9px; font-weight: 800; background: #0284c7; color: #ffffff; padding: 2px 6px; border-radius: 4px; text-transform: uppercase;">SZCZEBEL ${parseInt(stage.num)} Z 6</span>
                 <span style="font-size: 13px; font-weight: 800; color: #f8fafc;">${stage.title}</span>
               </div>
               <div style="font-size: 11.5px; font-weight: 700; color: #38bdf8; font-style: italic; margin-bottom: 6px;">
@@ -3029,16 +3029,27 @@
       defaultStageIdx = 4;
     }
 
+    // Mountain climber descending order (Level 06 at the top, down to Level 01 at the bottom)
+    const mountainOrder = [5, 4, 3, 2, 1, 0];
+    const mountainWidths = {
+      5: "100%",
+      4: "91%",
+      3: "82%",
+      2: "73%",
+      1: "64%",
+      0: "55%"
+    };
+
     const civTimelineHtml = `
-      <div class="civ-timeline-box" style="margin-top: 10px; padding: 12px 14px; background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.3);">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 7px; flex-wrap: wrap; gap: 6px;">
+      <div class="civ-timeline-box" style="margin-top: 10px; padding: 14px 16px; background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.3);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 8px; flex-wrap: wrap; gap: 6px;">
           <div>
-            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #38bdf8; display: flex; align-items: center; gap: 6px;">
-              <span style="font-size: 13px;">👣</span>
-              <span>ROZWOJOWA OŚ EWOLUCJI USTROJOWO-RODZINNEJ KONECZNEGO</span>
+            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: #38bdf8; display: flex; align-items: center; gap: 6px;">
+              <span style="font-size: 13px;">🏔️</span>
+              <span>ZAAWANSOWANIE CYWILIZACYJNE ZRZESZENIA</span>
             </div>
             <div style="font-size: 10px; color: #94a3b8; margin-top: 1px;">
-              Kliknij na dowolny krok, aby zbadać przejście od bezimiennej gromady do personalizmu
+              Trójkątne schody wspinaczki od gromadztwa po naród (Ewolucja od bezimiennej gromady po personalizm i nazwiska)
             </div>
           </div>
           <div id="civ-stage-badge" style="font-size: 10.5px; font-weight: 800; background: rgba(56, 189, 248, 0.15); border: 1px solid #38bdf8; color: #38bdf8; padding: 3px 9px; border-radius: 6px;">
@@ -3046,16 +3057,29 @@
           </div>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 6px; margin-bottom: 10px;">
-          ${civStagesData.map((stg, idx) => `
-            <button class="civ-stage-btn" data-stage="${idx}" style="background: ${idx === defaultStageIdx ? 'rgba(56, 189, 248, 0.15)' : 'rgba(15, 23, 42, 0.6)'}; border: 1.5px solid ${idx === defaultStageIdx ? '#38bdf8' : 'rgba(255, 255, 255, 0.1)'}; border-radius: 8px; padding: 8px 6px; cursor: pointer; text-align: left; transition: all 0.2s ease; position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 2px;">
-              <div class="stg-num" style="font-size: 9.5px; font-weight: 800; color: ${idx === defaultStageIdx ? '#38bdf8' : '#64748b'};">${stg.num}.</div>
-              <div class="stg-name" style="font-size: 10.5px; font-weight: 700; color: ${idx === defaultStageIdx ? '#ffffff' : '#94a3b8'}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${stg.name}</div>
-              <div class="stg-bar" style="width: 100%; height: 3px; background: ${idx === defaultStageIdx ? '#38bdf8' : (idx < defaultStageIdx ? '#10b981' : 'rgba(255,255,255,0.06)')}; border-radius: 2px; margin-top: 4px;"></div>
-            </button>
-          `).join('')}
+        <!-- Mountain Climber Stairs -->
+        <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px;">
+          ${mountainOrder.map(idx => {
+            const stg = civStagesData[idx];
+            const isInitialActive = idx === defaultStageIdx;
+            const w = mountainWidths[idx];
+            return `
+              <button class="civ-stage-btn" data-stage="${idx}" style="width: ${w}; background: ${isInitialActive ? 'rgba(56, 189, 248, 0.14)' : 'rgba(15, 23, 42, 0.6)'}; border: 1.5px solid ${isInitialActive ? '#38bdf8' : 'rgba(255, 255, 255, 0.08)'}; border-radius: 7px; padding: 7px 12px; cursor: pointer; text-align: left; transition: all 0.2s ease; display: flex; justify-content: space-between; align-items: center; box-shadow: ${isInitialActive ? '0 0 10px rgba(56, 189, 248, 0.25)' : 'none'};">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span class="stg-num" style="font-size: 9.5px; font-weight: 800; color: #38bdf8; letter-spacing: 0.04em;">POZIOM ${stg.num}</span>
+                  <span class="stg-name" style="font-size: 11.5px; font-weight: 700; color: ${isInitialActive ? '#ffffff' : '#cbd5e1'};">${stg.name}</span>
+                </div>
+                <div class="stg-badge-wrap">
+                  ${idx === defaultStageIdx ? `
+                    <span class="stg-curr-pill" style="font-size: 9px; font-weight: 800; background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; color: #34d399; padding: 2px 7px; border-radius: 4px; text-transform: uppercase;">OBECNY POZIOM</span>
+                  ` : ''}
+                </div>
+              </button>
+            `;
+          }).join('')}
         </div>
 
+        <!-- Dynamic Detail Container -->
         <div id="civ-stage-details-container" style="background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px; padding: 12px 14px;">
           ${renderStageDetail(civStagesData[defaultStageIdx])}
         </div>
@@ -3420,23 +3444,21 @@
     });
 
 
-    // Bind Stepper Timeline Stage buttons
+    // Bind Stepper Timeline Stage buttons (Mountain Climber Steps)
     content.querySelectorAll('.civ-stage-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const sIdx = parseInt(btn.getAttribute('data-stage'), 10);
         const stage = civStagesData[sIdx];
         if (!stage) return;
 
-        content.querySelectorAll('.civ-stage-btn').forEach((b, idx) => {
-          const isActive = idx === sIdx;
-          b.style.background = isActive ? 'rgba(56, 189, 248, 0.15)' : 'rgba(15, 23, 42, 0.6)';
-          b.style.borderColor = isActive ? '#38bdf8' : 'rgba(255, 255, 255, 0.1)';
-          const numEl = b.querySelector('.stg-num');
+        content.querySelectorAll('.civ-stage-btn').forEach(b => {
+          const bIdx = parseInt(b.getAttribute('data-stage'), 10);
+          const isActive = bIdx === sIdx;
+          b.style.background = isActive ? 'rgba(56, 189, 248, 0.14)' : 'rgba(15, 23, 42, 0.6)';
+          b.style.border = isActive ? '1.5px solid #38bdf8' : '1.5px solid rgba(255, 255, 255, 0.08)';
+          b.style.boxShadow = isActive ? '0 0 10px rgba(56, 189, 248, 0.25)' : 'none';
           const nameEl = b.querySelector('.stg-name');
-          const barEl = b.querySelector('.stg-bar');
-          if (numEl) numEl.style.color = isActive ? '#38bdf8' : '#64748b';
-          if (nameEl) nameEl.style.color = isActive ? '#ffffff' : '#94a3b8';
-          if (barEl) barEl.style.background = isActive ? '#38bdf8' : (idx < sIdx ? '#10b981' : 'rgba(255,255,255,0.06)');
+          if (nameEl) nameEl.style.color = isActive ? '#ffffff' : '#cbd5e1';
         });
 
         const badge = content.querySelector('#civ-stage-badge');
