@@ -2904,6 +2904,164 @@
       </div>
     `;
 
+    const civStagesData = [
+      {
+        num: "01",
+        name: "Gromadztwo",
+        title: "01. Bezimienna Gromada",
+        quote: "Brak nazwisk, pierwotny kolektywizm",
+        desc: "Ludzie żyją w bezimiennym stadzie. Brak ciągłości genealogicznej i własności prywatnej. Człowiek nie ma imienia rodowego ani świadomości przeszłości.",
+        achievement: "Brak dziedziczenia i brak pamiątek przeszłości",
+        roleHeader: "🔑 Rola Nazwiska Dziedzicznego:",
+        roleDesc: "Koneczny podkreślał, że dopóki ludność nie posiada dziedzicznych nazwisk rodowych, dopóty nie istnieje prawo majątkowe ani świadomość dziejowa.",
+        roleExample: "Przykład: W cywilizacji turańskiej lub starożytnych gromadach ludzie posiadali tylko imiona przydomkowe, co uniemożliwiało trwały samorząd."
+      },
+      {
+        num: "02",
+        name: "Ród Imienny",
+        title: "02. Ustrój Rodowy",
+        quote: "Pojawienie się przydomka i wspólnoty krwi",
+        desc: "Wytworzenie zrzeszenia rodowego. Ród staje się podmiotem prawnym i gospodarczym. Jednostka nie ma jeszcze niezależności majątkowej od wspólnoty rodowej.",
+        achievement: "Początek tradycji rodowej i obrony krwi",
+        roleHeader: "🔑 Solidarność Rodowa:",
+        roleDesc: "Odpowiedzialność zbiorowa wewnątrz rodu. Prawo krwawej zemsty i wspólny majątek uniemożliwiają wyodrębnienie wolnego sumienia jednostki.",
+        roleExample: "Przykład: Klany szkockie, arabskie plemiona Beduinów czy rzymskie gentes przed reformami prawa pretorskiego."
+      },
+      {
+        num: "03",
+        name: "Monizm",
+        title: "03. Monizm Państwowy",
+        quote: "Wchłonięcie rodu przez machinę państwową",
+        desc: "Władza państwowa lub sakralna narzuca absolutny prymat ustawodawstwa publicznego. Ustrój obozowy lub biurokracja zastępuje autonomię zrzeszeń oddolnych.",
+        achievement: "Centralizacja siły kosztem wolności prywatnej",
+        roleHeader: "🔑 Zagrożenie Statolatrią:",
+        roleDesc: "Prawo publiczne pochłania prawo prywatne. Obywatel staje się poddanym państwa, a etyka zostaje zredukowana do posłuszeństwa władcy.",
+        roleExample: "Przykład: Cywilizacja bizantyńska (cezaropapizm), carska Rosja, ustrój obozowy państw totalitarnych i komunistycznych."
+      },
+      {
+        num: "04",
+        name: "Rodzina",
+        title: "04. Emancypacja Rodziny",
+        quote: "Monogamia warunkiem własności indywidualnej",
+        desc: "Przejście z ustroju rodowego do rodzinnego. Niezależność syna za życia ojca, swoboda testamentowa i nienaruszalność ogniska domowego.",
+        achievement: "Wyodrębnienie własności prywatnej i podmiotowości rodziny",
+        roleHeader: "🔑 Emancypacja z Ekonomii Rodowej:",
+        roleDesc: "Monogamia stanowi fundament własności indywidualnej. Poligamia uniemożliwia emancypację rodziny i zawsze cofa ustrój do poziomu klanowego.",
+        roleExample: "Przykład: Przełom prawa rzymskiego w chrześcijańskiej Europie — rozbicie rodowładztwa na rzecz suwerennych małżeństw."
+      },
+      {
+        num: "05",
+        name: "Personalizm",
+        title: "05. Personalizm i Dualizm",
+        quote: "Prymat etyki nad prawem i autonomia osoby",
+        desc: "Człowiek staje się autonomicznym podmiotem moralnym. Współistnienie prawa prywatnego i publicznego (Dualizm Prawny) chroni osobę przed omnipotencją państwa.",
+        achievement: "Autonomia sumienia, aequitas i wolność zrzeszania się",
+        roleHeader: "🔑 Rdzeń Cywilizacji Łacińskiej:",
+        roleDesc: "Państwo nie stwarza etyki, lecz podlega normom etycznym. Wolna praca, samorządność i nadrzędność prawdy nad racją stanu.",
+        roleExample: "Przykład: Tradycja I Rzeczypospolitej (Neminem captivabimus, Nihil Novi) oraz klasyczna zachodnia filozofia tomistyczna."
+      },
+      {
+        num: "06",
+        name: "Naród",
+        title: "06. Naród Wolnych Osób",
+        quote: "Dobrowolne zrzeszenie kulturowe ponad walką o byt",
+        desc: "Najwyższy szczebel rozwoju społecznego w ujęciu Konecznego. Naród to zrzeszenie wolnych osób połączonych wspólną tradycją dziejową i aspiracjami duchowymi.",
+        achievement: "Społeczeństwo spoza walki o byt oparte na miłości ojczyzny",
+        roleHeader: "🔑 Naród a Państwo:",
+        roleDesc: "Naród jest wyższy od państwa. Państwo jest jedynie narzędziem organizacyjnym służącym dobru wspólnemu zorganizowanego narodu.",
+        roleExample: "Przykład: Dojrzała polska świadomość narodowa epoki Konstytucji 3 Maja i walki o wolność bez agresywnego szowinizmu."
+      }
+    ];
+
+    function renderStageDetail(stage) {
+      return `
+        <div style="display: flex; flex-wrap: wrap; gap: 14px; align-items: stretch;">
+          <!-- Left Column -->
+          <div style="flex: 1 1 280px; min-width: 260px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                <span style="font-size: 9px; font-weight: 800; background: #0284c7; color: #ffffff; padding: 2px 6px; border-radius: 4px; text-transform: uppercase;">KROK ${parseInt(stage.num)} Z 6</span>
+                <span style="font-size: 13px; font-weight: 800; color: #f8fafc;">${stage.title}</span>
+              </div>
+              <div style="font-size: 11.5px; font-weight: 700; color: #38bdf8; font-style: italic; margin-bottom: 6px;">
+                "${stage.quote}"
+              </div>
+              <div style="font-size: 11.5px; color: #cbd5e1; line-height: 1.45;">
+                ${stage.desc}
+              </div>
+            </div>
+            <div style="margin-top: 8px; font-size: 11px; font-weight: 700; color: #34d399; display: flex; align-items: center; gap: 5px;">
+              <span>✓</span>
+              <span>Kluczowe Osiągnięcie: ${stage.achievement}</span>
+            </div>
+          </div>
+
+          <!-- Right Column (Role & Example Box) -->
+          <div style="flex: 1 1 260px; min-width: 240px; background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="font-size: 11px; font-weight: 800; color: #f59e0b; margin-bottom: 4px;">
+                ${stage.roleHeader}
+              </div>
+              <div style="font-size: 11px; color: #94a3b8; line-height: 1.4; margin-bottom: 8px;">
+                ${stage.roleDesc}
+              </div>
+            </div>
+            <div style="background: rgba(0, 0, 0, 0.35); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 6px; padding: 6px 8px; font-size: 10.5px; color: #cbd5e1; line-height: 1.35;">
+              ${stage.roleExample}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    let defaultStageIdx = 4;
+    if (rawTextUpper.includes('BEZIMIEN') || rawTextUpper.includes('STAD')) {
+      defaultStageIdx = 0;
+    } else if (activeFamKey === 'fam_clan_system' || isChineseText || rawTextUpper.includes('RODOW') || rawTextUpper.includes('KLAN')) {
+      defaultStageIdx = 1;
+    } else if (isCommunistOrTotalitarian || isTuranianText || isByzantineText || activeLegalKey === 'monism_public' || activeLegalKey === 'monism_sacral') {
+      defaultStageIdx = 2;
+    } else if (activeFamKey === 'fam_full_emanc' && calcSpiritScore < 0.50) {
+      defaultStageIdx = 3;
+    } else if (activeCivKey === 'latin' && (rawTextUpper.includes('NARÓD') || rawTextUpper.includes('NARODOW') || rawTextUpper.includes('RZECZPOSPOLIT'))) {
+      defaultStageIdx = 5;
+    } else if (activeCivKey === 'latin' || calcSpiritScore >= 0.50) {
+      defaultStageIdx = 4;
+    }
+
+    const civTimelineHtml = `
+      <div class="civ-timeline-box" style="margin-top: 10px; padding: 12px 14px; background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.3);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 7px; flex-wrap: wrap; gap: 6px;">
+          <div>
+            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #38bdf8; display: flex; align-items: center; gap: 6px;">
+              <span style="font-size: 13px;">👣</span>
+              <span>ROZWOJOWA OŚ EWOLUCJI USTROJOWO-RODZINNEJ KONECZNEGO</span>
+            </div>
+            <div style="font-size: 10px; color: #94a3b8; margin-top: 1px;">
+              Kliknij na dowolny krok, aby zbadać przejście od bezimiennej gromady do personalizmu
+            </div>
+          </div>
+          <div id="civ-stage-badge" style="font-size: 10.5px; font-weight: 800; background: rgba(56, 189, 248, 0.15); border: 1px solid #38bdf8; color: #38bdf8; padding: 3px 9px; border-radius: 6px;">
+            Obecny Szczebel: Stage #${civStagesData[defaultStageIdx].num}
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 6px; margin-bottom: 10px;">
+          ${civStagesData.map((stg, idx) => `
+            <button class="civ-stage-btn" data-stage="${idx}" style="background: ${idx === defaultStageIdx ? 'rgba(56, 189, 248, 0.15)' : 'rgba(15, 23, 42, 0.6)'}; border: 1.5px solid ${idx === defaultStageIdx ? '#38bdf8' : 'rgba(255, 255, 255, 0.1)'}; border-radius: 8px; padding: 8px 6px; cursor: pointer; text-align: left; transition: all 0.2s ease; position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 2px;">
+              <div class="stg-num" style="font-size: 9.5px; font-weight: 800; color: ${idx === defaultStageIdx ? '#38bdf8' : '#64748b'};">${stg.num}.</div>
+              <div class="stg-name" style="font-size: 10.5px; font-weight: 700; color: ${idx === defaultStageIdx ? '#ffffff' : '#94a3b8'}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${stg.name}</div>
+              <div class="stg-bar" style="width: 100%; height: 3px; background: ${idx === defaultStageIdx ? '#38bdf8' : (idx < defaultStageIdx ? '#10b981' : 'rgba(255,255,255,0.06)')}; border-radius: 2px; margin-top: 4px;"></div>
+            </button>
+          `).join('')}
+        </div>
+
+        <div id="civ-stage-details-container" style="background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px; padding: 12px 14px;">
+          ${renderStageDetail(civStagesData[defaultStageIdx])}
+        </div>
+      </div>
+    `;
+
     function renderChips(options, activeKey) {
       return options.map(opt => {
         const isActive = opt.key === activeKey;
@@ -3075,6 +3233,7 @@
             ${renderChips(civOptions, activeCivKey)}
           </div>
           ${spectrumBarHtml}
+          ${civTimelineHtml}
         </div>
 
         <!-- Rząd 2: Prawo -->
@@ -3260,6 +3419,33 @@
       });
     });
 
+
+    // Bind Stepper Timeline Stage buttons
+    content.querySelectorAll('.civ-stage-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const sIdx = parseInt(btn.getAttribute('data-stage'), 10);
+        const stage = civStagesData[sIdx];
+        if (!stage) return;
+
+        content.querySelectorAll('.civ-stage-btn').forEach((b, idx) => {
+          const isActive = idx === sIdx;
+          b.style.background = isActive ? 'rgba(56, 189, 248, 0.15)' : 'rgba(15, 23, 42, 0.6)';
+          b.style.borderColor = isActive ? '#38bdf8' : 'rgba(255, 255, 255, 0.1)';
+          const numEl = b.querySelector('.stg-num');
+          const nameEl = b.querySelector('.stg-name');
+          const barEl = b.querySelector('.stg-bar');
+          if (numEl) numEl.style.color = isActive ? '#38bdf8' : '#64748b';
+          if (nameEl) nameEl.style.color = isActive ? '#ffffff' : '#94a3b8';
+          if (barEl) barEl.style.background = isActive ? '#38bdf8' : (idx < sIdx ? '#10b981' : 'rgba(255,255,255,0.06)');
+        });
+
+        const badge = content.querySelector('#civ-stage-badge');
+        if (badge) badge.innerText = `Obecny Szczebel: Stage #${stage.num}`;
+
+        const container = content.querySelector('#civ-stage-details-container');
+        if (container) container.innerHTML = renderStageDetail(stage);
+      });
+    });
 
     const activeTabBtn = content.querySelector(`#${activeTabId}`);
     if (activeTabBtn) {
