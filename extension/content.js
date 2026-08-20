@@ -2799,6 +2799,111 @@
       { key: 'fam_state_collectivism', label: 'Statolatria / Kolektywizm Państwowy', icon: '🏛️', color: '#ef4444' }
     ];
 
+    function calculateCivSpectrum(data, rawTextUpper) {
+      if (data.civilization_spectrum && Array.isArray(data.civilization_spectrum) && data.civilization_spectrum.length > 0) {
+        return data.civilization_spectrum;
+      }
+
+      const spirit = data.spirit_supremacy_score !== undefined && data.spirit_supremacy_score >= 0 ? data.spirit_supremacy_score : 0.5;
+      const sacral = data.sacrality_score !== undefined && data.sacrality_score >= 0 ? data.sacrality_score : 0.1;
+      const ethic = data.ethical_coherence_score !== undefined && data.ethical_coherence_score >= 0 ? (data.ethical_coherence_score / 7.0) : 0.5;
+
+      let latinWeight = 0;
+      let byzantineWeight = 0;
+      let turanianWeight = 0;
+      let arabWeight = 0;
+      let jewishWeight = 0;
+      let brahminWeight = 0;
+      let chineseWeight = 0;
+
+      if (rawTextUpper.includes('TALIB') || rawTextUpper.includes('SZARIAT') || rawTextUpper.includes('EMIRAT') || rawTextUpper.includes('ISLAM') || sacral >= 0.5) {
+        arabWeight += 85;
+        turanianWeight += 10;
+        byzantineWeight += 5;
+      } else if (rawTextUpper.includes('IZRAEL') || rawTextUpper.includes('ŻYDOWSK') || rawTextUpper.includes('TORA') || rawTextUpper.includes('TALMUD')) {
+        jewishWeight += 80;
+        byzantineWeight += 12;
+        latinWeight += 8;
+      } else if (isCommunistOrTotalitarian) {
+        byzantineWeight += 70;
+        turanianWeight += 22;
+        latinWeight += 8;
+      } else if (isChineseText) {
+        chineseWeight += 85;
+        byzantineWeight += 10;
+        latinWeight += 5;
+      } else if (rawTextUpper.includes('BRAMIN') || rawTextUpper.includes('KASTY')) {
+        brahminWeight += 85;
+        jewishWeight += 10;
+        latinWeight += 5;
+      } else if (isTuranianText) {
+        turanianWeight += 85;
+        byzantineWeight += 10;
+        latinWeight += 5;
+      } else {
+        latinWeight = Math.round((spirit * 0.50 + ethic * 0.35 + (1 - sacral) * 0.15) * 100);
+        if (sacral >= 0.3) {
+          arabWeight = Math.round(sacral * 35);
+          jewishWeight = Math.round(sacral * 25);
+        }
+        if (spirit < 0.45) {
+          byzantineWeight = Math.round((0.45 - spirit) * 90);
+          turanianWeight = Math.round((0.45 - spirit) * 40);
+        } else {
+          byzantineWeight = Math.round((1 - ethic) * 20);
+        }
+      }
+
+      const total = latinWeight + byzantineWeight + turanianWeight + arabWeight + jewishWeight + brahminWeight + chineseWeight || 100;
+
+      const spectrum = [
+        { key: 'latin', label: 'Łacińska', color: '#10b981', pct: Math.round((latinWeight / total) * 100) },
+        { key: 'byzantine', label: 'Bizantyńska', color: '#8b5cf6', pct: Math.round((byzantineWeight / total) * 100) },
+        { key: 'turanian', label: 'Turańska', color: '#dc2626', pct: Math.round((turanianWeight / total) * 100) },
+        { key: 'arab', label: 'Arabska', color: '#059669', pct: Math.round((arabWeight / total) * 100) },
+        { key: 'jewish', label: 'Żydowska', color: '#ec4899', pct: Math.round((jewishWeight / total) * 100) },
+        { key: 'brahmin', label: 'Bramińska', color: '#d97706', pct: Math.round((brahminWeight / total) * 100) },
+        { key: 'chinese', label: 'Chińska', color: '#eab308', pct: Math.round((chineseWeight / total) * 100) }
+      ].filter(item => item.pct > 0);
+
+      const currentSum = spectrum.reduce((acc, curr) => acc + curr.pct, 0);
+      if (spectrum.length > 0 && currentSum !== 100) {
+        spectrum[0].pct += (100 - currentSum);
+      }
+
+      return spectrum;
+    }
+
+    const spectrumItems = calculateCivSpectrum(data, rawTextUpper);
+
+    const spectrumBarHtml = `
+      <div style="margin-top: 10px; margin-bottom: 6px; padding: 10px 14px; background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px;">
+          <div style="font-size: 11px; font-weight: 700; color: #cbd5e1; letter-spacing: 0.02em; display: flex; align-items: center; gap: 6px;">
+            <span style="width: 7px; height: 7px; border-radius: 50%; background: #38bdf8; display: inline-block;"></span>
+            <span>Spektrum Wpływów Cywilizacyjnych w Tekście:</span>
+          </div>
+          <div style="font-size: 10.5px; font-weight: 800; color: #38bdf8;">
+            Łącznie: 100%
+          </div>
+        </div>
+
+        <div style="width: 100%; height: 10px; background: rgba(255,255,255,0.06); border-radius: 6px; overflow: hidden; display: flex; margin-bottom: 9px; box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);">
+          ${spectrumItems.map(item => `<div style="width: ${item.pct}%; height: 100%; background: ${item.color}; transition: width 0.6s ease;" title="${item.label}: ${item.pct}%"></div>`).join('')}
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; font-size: 11px;">
+          ${spectrumItems.map(item => `
+            <div style="display: flex; align-items: center; gap: 5px; color: #e2e8f0; font-weight: 600;">
+              <span style="width: 8px; height: 8px; border-radius: 50%; background: ${item.color}; display: inline-block;"></span>
+              <span>${item.label}:</span>
+              <span style="font-weight: 800; color: #ffffff;">${item.pct}%</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+
     function renderChips(options, activeKey) {
       return options.map(opt => {
         const isActive = opt.key === activeKey;
@@ -2835,6 +2940,7 @@
           <div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">
             ${renderChips(civOptions, activeCivKey)}
           </div>
+          ${spectrumBarHtml}
         </div>
 
         <!-- Rząd 2: Prawo -->

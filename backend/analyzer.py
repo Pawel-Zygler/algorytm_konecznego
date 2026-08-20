@@ -638,6 +638,32 @@ def calculate_koneczny_metrics(llm_data: Dict[str, Any]) -> Dict[str, Any]:
         result["primary_civilization"] = "Mieszanka Acywilizacyjna"
         result["civilization_diagnosis"] = "Brak pełnej spójności cywilizacyjnej wedle metodyki Konecznego"
 
+    # Calculate Civilization Spectrum (Proporcje Wpływów Cywilizacyjnych)
+    s_val = max(0.0, spirit_val) if spirit_val >= 0 else 0.5
+    sac_val = max(0.0, sacral_val) if sacral_val >= 0 else 0.1
+    eth_val = max(0.0, ethic_val / 7.0) if ethic_val >= 0 else 0.5
+
+    lat_w = round((s_val * 0.45 + eth_val * 0.35 + (1.0 - sac_val) * 0.20) * 100)
+    biz_w = round((1.0 - s_val) * 60 + (1.0 - eth_val) * 20) if s_val < 0.5 else round((1.0 - eth_val) * 15)
+    tur_w = round((1.0 - s_val) * 35) if s_val < 0.4 else 5
+    arab_w = round(sac_val * 60) if sac_val >= 0.3 else 0
+    jew_w = round(sac_val * 35) if sac_val >= 0.3 else 0
+
+    tot_w = lat_w + biz_w + tur_w + arab_w + jew_w or 100
+    spec = [
+        {"key": "latin", "label": "Łacińska", "color": "#10b981", "pct": round((lat_w / tot_w) * 100)},
+        {"key": "byzantine", "label": "Bizantyńska", "color": "#ef4444", "pct": round((biz_w / tot_w) * 100)},
+        {"key": "turanian", "label": "Turańska", "color": "#dc2626", "pct": round((tur_w / tot_w) * 100)},
+        {"key": "arab", "label": "Arabska", "color": "#059669", "pct": round((arab_w / tot_w) * 100)},
+        {"key": "jewish", "label": "Żydowska", "color": "#0284c7", "pct": round((jew_w / tot_w) * 100)}
+    ]
+    spec = [x for x in spec if x["pct"] > 0]
+    tot_pct = sum(x["pct"] for x in spec)
+    if spec and tot_pct != 100:
+        spec[0]["pct"] += (100 - tot_pct)
+
+    result["civilization_spectrum"] = spec
+
     result["raw_ratings"] = llm_data
     return result
 
