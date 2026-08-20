@@ -307,38 +307,49 @@
     .tab-bar {
       display: flex;
       width: 100%;
-      gap: 4px;
-      margin-bottom: 14px;
-      background: #f4f4f5;
-      padding: 4px;
-      border-radius: 10px;
+      gap: 6px;
+      margin: 16px 0;
+      background: #f1f5f9;
+      padding: 6px;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.03);
       overflow: hidden;
       align-items: center;
+      min-height: 50px;
     }
     .tab-btn {
       flex: 1 1 0px;
       min-width: 0;
-      padding: 7px 2px;
+      height: 38px;
+      padding: 0 6px;
       white-space: nowrap;
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 700;
-      color: #71717a;
+      color: #64748b;
       background: transparent;
       border: none;
-      border-radius: 7px;
+      border-radius: 8px;
       cursor: pointer;
       text-align: center;
-      transition: all 0.2s ease;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       overflow: hidden;
       text-overflow: ellipsis;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
+      user-select: none;
+    }
+    .tab-btn:hover {
+      color: #1e293b;
+      background: rgba(255, 255, 255, 0.5);
     }
     .tab-btn.active {
-      background: #fff;
-      color: #18181b;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      background: #ffffff;
+      color: #0f172a;
+      font-weight: 800;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+      border: 1px solid rgba(0,0,0,0.04);
     }
 
     /* ── Hero Card (Dark background matching screenshot) ── */
