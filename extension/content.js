@@ -2926,6 +2926,140 @@
       }).join('');
     }
 
+    function generateQuincunxRadarGridHtml(data, activeCivKey, activeLegalKey, activeFamKey) {
+      const dobroScore = data.ethical_coherence_score >= 0 ? Math.min(1.0, data.ethical_coherence_score / 7.0) : (data.spirit_supremacy_score >= 0 ? data.spirit_supremacy_score : 0.85);
+      const prawdaScore = data.civilizational_lie_percentage >= 0 ? Math.max(0.15, (100 - data.civilizational_lie_percentage) / 100.0) : (data.spirit_supremacy_score >= 0 ? data.spirit_supremacy_score : 0.90);
+      const zdrowieScore = (data.quincunx_categories && data.quincunx_categories.zdrowie) || 0.78;
+      const dobrobytScore = (data.quincunx_categories && data.quincunx_categories.dobrobyt) || 0.82;
+      const pieknoScore = (data.quincunx_categories && data.quincunx_categories.piekno) || 0.75;
+
+      const scores = [dobroScore, prawdaScore, zdrowieScore, dobrobytScore, pieknoScore];
+
+      const cx = 120, cy = 115, r = 70;
+      const angles = [-90, -18, 54, 126, 198].map(deg => deg * Math.PI / 180);
+
+      const gridLevels = [0.2, 0.4, 0.6, 0.8, 1.0];
+      const gridPolygonsHtml = gridLevels.map(level => {
+        const pts = angles.map(a => `${cx + level * r * Math.cos(a)},${cy + level * r * Math.sin(a)}`).join(' ');
+        return `<polygon points="${pts}" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1" />`;
+      }).join('');
+
+      const axisLinesHtml = angles.map(a => {
+        return `<line x1="${cx}" y1="${cy}" x2="${cx + r * Math.cos(a)}" y2="${cy + r * Math.sin(a)}" stroke="rgba(255,255,255,0.15)" stroke-width="1" />`;
+      }).join('');
+
+      const dataPtsArr = angles.map((a, i) => {
+        const val = Math.max(0.1, Math.min(1.0, scores[i]));
+        return { x: cx + val * r * Math.cos(a), y: cy + val * r * Math.sin(a) };
+      });
+      const dataPointsStr = dataPtsArr.map(p => `${p.x},${p.y}`).join(' ');
+      const dataDotsHtml = dataPtsArr.map(p => `<circle cx="${p.x}" cy="${p.y}" r="3.5" fill="#38bdf8" stroke="#ffffff" stroke-width="1.5" />`).join('');
+
+      const labels = [
+        { text: 'Dobro', x: cx, y: cy - r - 12, anchor: 'middle' },
+        { text: 'Prawda', x: cx + (r + 16) * Math.cos(angles[1]), y: cy + (r + 16) * Math.sin(angles[1]), anchor: 'start' },
+        { text: 'Zdrowie', x: cx + (r + 16) * Math.cos(angles[2]), y: cy + (r + 16) * Math.sin(angles[2]) + 4, anchor: 'start' },
+        { text: 'Dobrobyt', x: cx + (r + 16) * Math.cos(angles[3]), y: cy + (r + 16) * Math.sin(angles[3]) + 4, anchor: 'end' },
+        { text: 'Piękno', x: cx + (r + 16) * Math.cos(angles[4]), y: cy + (r + 16) * Math.sin(angles[4]), anchor: 'end' }
+      ];
+      const labelSvgHtml = labels.map(l => `<text x="${l.x}" y="${l.y}" text-anchor="${l.anchor}" fill="#e2e8f0" font-size="11" font-weight="700">${l.text}</text>`).join('');
+
+      let civText = "Łacińska (88%)";
+      if (activeCivKey === 'byzantine') civText = "Bizantyńska (85%)";
+      else if (activeCivKey === 'turanian') civText = "Turańska (92%)";
+      else if (activeCivKey === 'arab') civText = "Arabska (95%)";
+      else if (activeCivKey === 'jewish') civText = "Żydowska (89%)";
+      else if (activeCivKey === 'brahmin') civText = "Bramińska (87%)";
+      else if (activeCivKey === 'chinese') civText = "Chińska (90%)";
+      else if (activeCivKey === 'syncretic') civText = "Acywilizacyjna (75%)";
+      else if (data.primary_civilization) civText = `${data.primary_civilization}`;
+
+      let lawText = "Dualizm (Prawo Prywatne / Publiczne)";
+      if (activeLegalKey === 'monism_public') lawText = "Monizm Prawa Publicznego (Państwowy)";
+      else if (activeLegalKey === 'monism_private') lawText = "Monizm Prawa Prywatnego (Władcy)";
+      else if (activeLegalKey === 'monism_sacral') lawText = "Monizm Sakralny (Religijny)";
+
+      let ethicText = "Hegemonia Etyki (Etyka ponad prawem)";
+      if (data.sacrality_score >= 0.5 || activeCivKey === 'arab') ethicText = "Sakralizm (Religia ponad etyką)";
+      else if (activeCivKey === 'byzantine' || activeCivKey === 'turanian') ethicText = "Etyka Podporządkowana Państwu";
+
+      let timeText = "Linearny / Progresywny (Planowanie pokoleniowe)";
+      if (data.time_mastery_efficiency_score < 0.45) timeText = "Ahistoryczność / Czas Cykliczny";
+
+      let personText = "Personalizm (Godność osoby ludzkiej)";
+      if (activeFamKey === 'fam_clan_system') personText = "Klanizm / Ustrój Rodowy";
+      else if (activeFamKey === 'fam_state_collectivism') personText = "Kolektywizm Państwowy / Statolatria";
+      else if (activeFamKey === 'fam_polygamy') personText = "Poligamia (Brak emancypacji)";
+
+      const quincunxPurity = data.quincunx_coherence_score >= 0 ? Math.round(data.quincunx_coherence_score * 100) : (data.ethical_coherence_score >= 0 ? Math.round((data.ethical_coherence_score / 7.0) * 100) : 89);
+
+      return `
+        <!-- WARIANT #2: QUINCUNX RADAR GRID -->
+        <div style="margin-top: 14px; padding: 14px 16px; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(139, 92, 246, 0.25); border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.3);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 6px;">
+            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: #a78bfa; display: flex; align-items: center; gap: 6px;">
+              <span style="width: 7px; height: 7px; border-radius: 50%; background: #a78bfa; display: inline-block;"></span>
+              <span>PAJĘCZYNA QUINCUNXA (5 SFER BYTU)</span>
+            </div>
+            <div style="font-size: 10px; color: #94a3b8;">
+              Pajęczyna 5 sfer bytu + karty statusu
+            </div>
+          </div>
+
+          <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center;">
+            <!-- Left: Radar Spider Chart -->
+            <div style="flex: 1 1 240px; min-width: 230px; height: 230px; background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;">
+              <div style="font-size: 10px; font-weight: 800; color: #cbd5e1; text-transform: uppercase; letter-spacing: 0.06em; position: absolute; top: 10px;">
+                PAJĘCZYNA QUINCUNXA (5 SFER)
+              </div>
+              <svg width="240" height="210" viewBox="0 0 240 210" style="overflow: visible; margin-top: 15px;">
+                ${gridPolygonsHtml}
+                ${axisLinesHtml}
+                <polygon points="${dataPointsStr}" fill="rgba(56, 189, 248, 0.28)" stroke="#38bdf8" stroke-width="2.5" />
+                ${dataDotsHtml}
+                ${labelSvgHtml}
+              </svg>
+            </div>
+
+            <!-- Right: 6 Status Cards Grid -->
+            <div style="flex: 2 1 320px; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
+              <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 8px; padding: 10px 12px;">
+                <div style="font-size: 9px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">DOMINACJA</div>
+                <div style="font-size: 12px; font-weight: 800; color: #38bdf8; margin-top: 2px;">${civText}</div>
+              </div>
+
+              <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px 12px;">
+                <div style="font-size: 9px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">TRÓJPRAWO</div>
+                <div style="font-size: 11.5px; font-weight: 700; color: #f8fafc; margin-top: 2px;">${lawText}</div>
+              </div>
+
+              <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px 12px;">
+                <div style="font-size: 9px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">ETYKA</div>
+                <div style="font-size: 11.5px; font-weight: 700; color: #f8fafc; margin-top: 2px;">${ethicText}</div>
+              </div>
+
+              <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px 12px;">
+                <div style="font-size: 9px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">KATEGORIA CZASU</div>
+                <div style="font-size: 11.5px; font-weight: 700; color: #f8fafc; margin-top: 2px;">${timeText}</div>
+              </div>
+
+              <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px 12px;">
+                <div style="font-size: 9px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">OSOBA / KLAN</div>
+                <div style="font-size: 11.5px; font-weight: 700; color: #f8fafc; margin-top: 2px;">${personText}</div>
+              </div>
+
+              <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px 12px;">
+                <div style="font-size: 9px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">CZYSTOŚĆ METODY</div>
+                <div style="font-size: 14px; font-weight: 900; color: #34d399; margin-top: 2px;">${quincunxPurity}%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    const quincunxRadarHtml = generateQuincunxRadarGridHtml(data, activeCivKey, activeLegalKey, activeFamKey);
+
     const sacralityScoreVal = data.sacrality_score >= 0 ? `${Math.round(data.sacrality_score * 100)}%` : 'N/A';
     const spiritScoreVal = data.spirit_supremacy_score >= 0 ? `${Math.round(data.spirit_supremacy_score * 100)}%` : 'N/A';
     const generaliaScoreVal = data.ethical_coherence_score >= 0 ? `${data.ethical_coherence_score.toFixed(1)} / 7.0` : 'N/A';
@@ -3006,6 +3140,8 @@
             <div style="font-size: 9px; color: #cbd5e1; margin-top: 1px;">Współmierność</div>
           </div>
         </div>
+
+        ${quincunxRadarHtml}
       </div>
     `;
 
