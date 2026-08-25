@@ -130,23 +130,22 @@ Silnik analityczny wspiera trzy komplementarne profile przetwarzania:
          [Niska < 0.40]                 [Wysoka >= 0.40]
   (Łac / Biz / Tur / CHIŃSKA)          (Arab / Żyd / Bram)
                  │                              │
- 2. LEGAL_DUALISM_INDEX         6. PUBLIC_MORALITY_TOTALITY
- (Dualizm vs Monizm Prawa)      (Etyka podwójna vs jednolita)
-        ┌────────┴────────┐             ┌───────┴───────┐
-   [Dualizm]          [Monizm]      [Monizm Prawa]   [Etyka Podwójna]
-       │                  │                │                │
-       ▼                  │                ▼                ▼
-   ŁACIŃSKA               │             ARABSKA         ŻYDOWSKA
-                          │
-  3. RELACJA WŁADZA - DUCH - SPOŁECZEŃSTWO
+ 2. LEGAL_DUALISM_INDEX                         │
+ (Dualizm vs Monizm Prawa)                      │
+        ┌────────┴────────┐                     │
+   [Dualizm]          [Monizm]                  │
+       │                  │                     │
+       ▼                  │                     │
+   ŁACIŃSKA               │                     │
+                          │                     │
+  3. RELACJA WŁADZA - DUCH - SPOŁECZEŃSTWO      │
          ┌────────────────┼─────────────────────┐
   [Cezaropapizm]    [Monizm Siły]      [Areligijność / Kult Rodu]
          │                │                     │
-  4. CONSCIENCE     5. PERSONALISM        7. RYTUAŁ & RÓD
-  (Dwoistość)       (Ustrój Obozowy)   (Konfucjanizm, Rytuał 'Li')
-         │                │                     │
-         ▼                ▼                     ▼
-    BIZANTYŃSKA        TURAŃSKA              CHIŃSKA
+  4. BIZANTYŃSKA    5. TURAŃSKA           7. CHIŃSKA
+  (Statolatria)     (Ustrój Obozowy)   (Konfucjanizm, Rytuał 'Li',
+                                        Kultywowanie Rodu)
+
 ```
 
 ```mermaid

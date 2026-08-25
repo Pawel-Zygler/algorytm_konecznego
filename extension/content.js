@@ -581,73 +581,6 @@
       border-color: #10b981;
       color: #34d399;
     }
-
-    /* ── Last 5 Results History Tabs Bar ── */
-    .results-history-bar {
-      display: flex;
-      gap: 6px;
-      padding: 7px 16px;
-      margin: 0 20px 6px 20px;
-      background: rgba(15, 23, 42, 0.75);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 10px;
-      overflow-x: auto;
-      align-items: center;
-      scrollbar-width: thin;
-      box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
-    }
-    .results-history-bar::-webkit-scrollbar {
-      height: 4px;
-    }
-    .results-history-bar::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 2px;
-    }
-    .history-tab-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 4px 9px;
-      border-radius: 7px;
-      font-size: 11px;
-      font-weight: 600;
-      color: #94a3b8;
-      background: rgba(30, 41, 59, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.2s ease;
-      user-select: none;
-      font-family: inherit;
-    }
-    .history-tab-btn:hover {
-      background: rgba(51, 65, 85, 0.8);
-      color: #f1f5f9;
-      border-color: rgba(255, 255, 255, 0.2);
-    }
-    .history-tab-btn.active {
-      background: linear-gradient(135deg, rgba(139, 92, 246, 0.3) 0%, rgba(59, 130, 246, 0.3) 100%);
-      color: #ffffff;
-      border: 1px solid #8b5cf6;
-      box-shadow: 0 0 10px rgba(139, 92, 246, 0.35);
-      font-weight: 700;
-    }
-    .history-tab-btn .badge-curr {
-      font-size: 9.5px;
-      background: #10b981;
-      color: #ffffff;
-      padding: 1px 5px;
-      border-radius: 4px;
-      font-weight: 700;
-    }
-    .history-tab-btn .badge-civ {
-      font-size: 9.5px;
-      background: rgba(255, 255, 255, 0.12);
-      color: #cbd5e1;
-      padding: 1px 5px;
-      border-radius: 4px;
-      font-weight: 600;
-    }
   `;
 
   let lastAnalysisResultData = null;
@@ -1289,8 +1222,6 @@
           ...(newData.raw_ratings || {})
         }
       };
-      await pushToHistoryStore(window.konecznyResults);
-      window.activeHistoryViewId = 'current';
       renderResults();
 
     } catch (err) {
@@ -1327,68 +1258,12 @@
     }
   }
 
-  function getCivIcon(civName) {
-    if (!civName) return '🏛️';
-    const c = civName.toLowerCase();
-    if (c.includes('łaciń')) return '🏛️';
-    if (c.includes('bizant')) return '👑';
-    if (c.includes('turań')) return '⚔️';
-    if (c.includes('arab') || c.includes('sakral')) return '🌙';
-    if (c.includes('żydow')) return '✡️';
-    if (c.includes('bramin')) return '🕉️';
-    if (c.includes('chiń')) return '☯️';
-    return '🏛️';
-  }
-
-  window.konecznyHistoryStore = [];
-  window.activeHistoryViewId = 'current';
-
-  chrome.storage.local.get(['konecznyHistoryStore'], res => {
-    if (res.konecznyHistoryStore && Array.isArray(res.konecznyHistoryStore)) {
-      window.konecznyHistoryStore = res.konecznyHistoryStore;
-    }
-  });
-
-  async function pushToHistoryStore(resultData) {
-    if (!resultData) return;
-    try {
-      const stored = await new Promise(resolve => chrome.storage.local.get(['konecznyHistoryStore'], res => resolve(res.konecznyHistoryStore || [])));
-      const rawTitle = (document.title || 'Analiza').trim();
-      const cleanTitle = rawTitle.length > 22 ? rawTitle.substring(0, 22) + '...' : rawTitle;
-      const now = new Date();
-      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      const dateStr = now.toLocaleDateString([], { day: '2-digit', month: '2-digit' }) + ' ' + timeStr;
-
-      const newItem = {
-        id: 'hist_' + Date.now(),
-        title: rawTitle,
-        shortTitle: cleanTitle,
-        url: window.location.href,
-        timestamp: Date.now(),
-        timeStr: timeStr,
-        dateStr: dateStr,
-        primaryCiv: resultData.primary_civilization || 'Łacińska',
-        civIcon: getCivIcon(resultData.primary_civilization),
-        mode: resultData.mode || 'jmantis',
-        data: JSON.parse(JSON.stringify(resultData))
-      };
-
-      const filtered = stored.filter(item => item.url !== window.location.href && item.title !== rawTitle);
-      const updated = [newItem, ...filtered].slice(0, 5);
-      window.konecznyHistoryStore = updated;
-      chrome.storage.local.set({ konecznyHistoryStore: updated });
-    } catch (e) {
-      console.warn('History store error:', e);
-    }
-  }
-
   function getTabForIndexKey(key) {
     if (!key) return null;
     const k = key.toLowerCase().trim();
     if (k === 'sacrality') return 'tab-sacrality';
     if (k === 'quincunx') return 'tab-quincunx';
     if (k === 'time_mastery' || k === 'chyznosc') return 'tab-chyznosc';
-    if (k === 'lie' || k === 'lie_index' || k === 'civilizational_lie') return 'tab-lie';
     if (['generalia', 'duty_source', 'motivation', 'justice_nature', 'conscience_status', 'work_ethos'].includes(k)) {
       return 'tab-generalia';
     }
@@ -1403,21 +1278,7 @@
   // ── Render ─────────────────────────────────────────────
   function renderResults() {
     if (trigger) trigger.classList.remove('spinning');
-    
-    // Choose active data source (current search vs historical tab)
-    let isCurrentActive = true;
-    let activeHistItem = null;
-    let data = window.konecznyResults;
-
-    if (window.activeHistoryViewId && window.activeHistoryViewId !== 'current') {
-      activeHistItem = (window.konecznyHistoryStore || []).find(h => h.id === window.activeHistoryViewId);
-      if (activeHistItem && activeHistItem.data) {
-        data = activeHistItem.data;
-        isCurrentActive = false;
-      } else {
-        window.activeHistoryViewId = 'current';
-      }
-    }
+    const data = window.konecznyResults;
 
     // Determine active tab dynamically based on requested index or calculated/selected indices
     let activeTabId = null;
@@ -3415,51 +3276,7 @@
       </div>
     `;
 
-    // Build Last 5 Results History Tabs Bar
-    const currTitle = (document.title || 'Bieżąca strona').trim();
-    const currShortTitle = currTitle.length > 20 ? currTitle.substring(0, 20) + '...' : currTitle;
-    const historyList = window.konecznyHistoryStore || [];
-
-    const historyTabsHtml = `
-      <div class="results-history-bar">
-        <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: #64748b; letter-spacing: 0.05em; display: flex; align-items: center; gap: 4px; padding-right: 6px; border-right: 1px solid rgba(255,255,255,0.1); flex-shrink: 0;">
-          <span>Historia:</span>
-        </div>
-
-        <!-- Tab 1: Current Search Tab (Focused by default) -->
-        <button class="history-tab-btn ${isCurrentActive ? 'active' : ''}" id="hist-tab-current" title="Bieżąca analiza (Aktywna)">
-          <span class="badge-curr">Bieżąca</span>
-          <span style="font-weight: 700;">${currShortTitle}</span>
-        </button>
-
-        <!-- Tabs 2..N: Last 5 Historical Tabs (Unfocused by default) -->
-        ${historyList.map((hItem) => `
-          <button class="history-tab-btn ${window.activeHistoryViewId === hItem.id ? 'active' : ''}" data-hist-id="${hItem.id}" title="${hItem.title} (${hItem.dateStr})">
-            <span>${hItem.shortTitle}</span>
-            <span class="badge-civ">${(hItem.primaryCiv || '').split('/')[0].trim()}</span>
-            <span style="font-size: 9.5px; opacity: 0.65;">${hItem.timeStr}</span>
-          </button>
-        `).join('')}
-      </div>
-    `;
-
-    let histNoticeBanner = '';
-    if (!isCurrentActive && activeHistItem) {
-      histNoticeBanner = `
-        <div style="margin: 0 20px 8px 20px; padding: 7px 12px; background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.4); border-radius: 8px; font-size: 11.5px; color: #93c5fd; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
-          <div style="display: flex; align-items: center; gap: 6px;">
-            <span>Podgląd z historii: <strong>${activeHistItem.title}</strong> <span style="opacity:0.75;">(${activeHistItem.dateStr})</span></span>
-          </div>
-          <button id="btn-back-to-current" style="background: #3b82f6; color: #ffffff; border: none; padding: 3px 9px; border-radius: 5px; font-size: 11px; font-weight: 700; cursor: pointer; transition: background 0.15s ease;">
-            Wróć do bieżącej ➔
-          </button>
-        </div>
-      `;
-    }
-
     content.innerHTML = `
-      ${historyTabsHtml}
-      ${histNoticeBanner}
       ${dashboardHtml}
       <div class="tab-bar">
         <button class="tab-btn ${activeTabId === 'tab-sacrality' ? 'active' : ''}" id="tab-sacrality" title="Krok 1: Indeks Sakralności">1. Sakralność</button>
@@ -3520,23 +3337,6 @@
         </button>
       </div>
     `;
-
-    // Bind History tab click events
-    content.querySelectorAll('.history-tab-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const histId = btn.getAttribute('data-hist-id') || 'current';
-        window.activeHistoryViewId = histId;
-        renderResults();
-      });
-    });
-
-    const backToCurrentBtn = content.querySelector('#btn-back-to-current');
-    if (backToCurrentBtn) {
-      backToCurrentBtn.addEventListener('click', () => {
-        window.activeHistoryViewId = 'current';
-        renderResults();
-      });
-    }
 
     const tabSacrality = content.querySelector('#tab-sacrality');
     const tabSpirit = content.querySelector('#tab-spirit');
