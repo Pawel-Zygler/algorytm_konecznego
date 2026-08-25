@@ -9,12 +9,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const statusText = document.getElementById('statusText');
   const versionTag = document.getElementById('versionTag');
 
+  const btnTabMantis = document.getElementById('btnTabMantis');
   const btnTabLite = document.getElementById('btnTabLite');
   const btnTabFull = document.getElementById('btnTabFull');
+  const tabContentMantis = document.getElementById('tabContentMantis');
   const tabContentLite = document.getElementById('tabContentLite');
   const tabContentFull = document.getElementById('tabContentFull');
 
-  let activeMode = 'lite';
+  let activeMode = 'mantis';
 
   if (versionTag && typeof chrome !== 'undefined' && chrome.runtime?.getManifest) {
     const ver = chrome.runtime.getManifest()?.version;
@@ -22,20 +24,23 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function switchTab(mode) {
-    activeMode = mode;
-    if (mode === 'lite') {
-      btnTabLite.classList.add('active');
-      btnTabFull.classList.remove('active');
-      tabContentLite.style.display = 'block';
-      tabContentFull.style.display = 'none';
-    } else {
-      btnTabFull.classList.add('active');
-      btnTabLite.classList.remove('active');
-      tabContentFull.style.display = 'block';
-      tabContentLite.style.display = 'none';
-    }
+    activeMode = (mode === 'jmantis') ? 'mantis' : mode;
+    [btnTabMantis, btnTabLite, btnTabFull].forEach(btn => {
+      if (btn) {
+        if (btn.dataset.tab === activeMode || (btn.dataset.tab === 'mantis' && activeMode === 'jmantis')) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      }
+    });
+
+    if (tabContentMantis) tabContentMantis.style.display = (activeMode === 'jmantis' || activeMode === 'mantis') ? 'block' : 'none';
+    if (tabContentLite) tabContentLite.style.display = activeMode === 'lite' ? 'block' : 'none';
+    if (tabContentFull) tabContentFull.style.display = activeMode === 'full' ? 'block' : 'none';
   }
 
+  if (btnTabMantis) btnTabMantis.addEventListener('click', () => switchTab('mantis'));
   if (btnTabLite) btnTabLite.addEventListener('click', () => switchTab('lite'));
   if (btnTabFull) btnTabFull.addEventListener('click', () => switchTab('full'));
 
@@ -49,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     backendUrlInput.value = url;
     apiKeyInput.value = res?.apiKey || '';
 
-    const savedMode = res?.analysisMode || 'lite';
+    const savedMode = res?.analysisMode || 'mantis';
     switchTab(savedMode);
 
     const savedIndices = (res && Array.isArray(res.selectedIndices))

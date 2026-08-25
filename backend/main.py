@@ -42,7 +42,7 @@ class AnalysisRequest(BaseModel):
     title: Optional[str] = None
     api_key: Optional[str] = None
     target_indices: Optional[list[str]] = None
-    mode: Optional[str] = None  # "lite" or "full" (defaults to "lite" unless target_indices is provided)
+    mode: Optional[str] = None  # "jmantis", "lite" or "full"
 
 class AnalysisResponse(BaseModel):
     sacrality_score: float
@@ -67,6 +67,7 @@ class AnalysisResponse(BaseModel):
     primary_civilization: Optional[str] = None
     civilization_diagnosis: Optional[str] = None
     explanation: Optional[str] = None
+    mantis_gates: Optional[list[Dict[str, Any]]] = None
     raw_ratings: Dict[str, Any] = {}
     history_stats: Dict[str, Any] = {}
 
@@ -105,7 +106,10 @@ async def analyze_text(request: AnalysisRequest, x_gemini_api_key: Optional[str]
         
     try:
         req_mode = (request.mode or "").lower()
-        if req_mode == "full" or (not req_mode and request.target_indices and len(request.target_indices) > 0):
+        if req_mode in ["jmantis", "mantis"]:
+            result = analyzer.analyze_sample_jmantis(text_to_analyze, api_key=api_key)
+            result["mode"] = "jmantis"
+        elif req_mode == "full" or (not req_mode and request.target_indices and len(request.target_indices) > 0):
             result = analyzer.analyze_sample(text_to_analyze, api_key=api_key, target_indices=request.target_indices)
             result["mode"] = "full"
         else:
@@ -128,6 +132,12 @@ async def analyze_text(request: AnalysisRequest, x_gemini_api_key: Optional[str]
                 detail="⚠️ Przekroczono limit zapytań Gemini API (Quota Exceeded / 429). Darmowy limit został tymczasowo wyczerpany. Poczekaj około 30–60 sekund i spróbuj ponownie."
             )
         raise HTTPException(status_code=500, detail=f"Błąd analizy: {err_msg}")
+
+@app.post("/api/analyze/mantis", response_model=AnalysisResponse)
+@app.post("/api/analyze/jmantis", response_model=AnalysisResponse)
+async def analyze_text_mantis(request: AnalysisRequest, x_gemini_api_key: Optional[str] = Header(None)):
+    request.mode = "jmantis"
+    return await analyze_text(request, x_gemini_api_key=x_gemini_api_key)
 
 @app.post("/api/analyze/lite", response_model=AnalysisResponse)
 async def analyze_text_lite(request: AnalysisRequest, x_gemini_api_key: Optional[str] = Header(None)):

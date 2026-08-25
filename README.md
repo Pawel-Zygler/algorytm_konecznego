@@ -44,9 +44,13 @@ GEMINI_API_KEY=twój_działający_klucz_api
 > Wejdź na stronę [Google AI Studio](https://aistudio.google.com/app/apikey), zaloguj się swoim kontem Google i kliknij **"Create API key"**. Wygenerowany ciąg znaków to Twój darmowy klucz API.
 
 ### Krok 3: Uruchomienie serwera backendowego
-Z poziomu głównego folderu uruchom serwer FastAPI:
+Wystarczy wpisać w terminalu jedną z prostych komend:
 ```bash
-python3 -m uvicorn backend.main:app --port 8005 --reload
+make start
+# lub:
+./start.sh
+# lub:
+python3 start.py
 ```
 Backend wystartuje pod adresem `http://127.0.0.1:8005`.
 
@@ -62,38 +66,6 @@ Backend wystartuje pod adresem `http://127.0.0.1:8005`.
 3. Zaznacz wybrane indeksy analityczne za pomocą checkboxów.
 4. Kliknij przycisk **Zapisz Ustawienia**. Wtyczka połączy się z backendem i zapisze Twoje preferencje.
 5. **Kliknij w głowę profesora w prawym dolnym rogu ekranu na dowolnej stronie, aby rozpocząć analizę jej tekstu.**
-
-</details>
-
-<details>
-<summary><b>Lokalny Dostawca LLM (Ollama) – Brak Opłat i Brak Quota 429</b></summary>
-
-Aby całkowicie wyeliminować opóźnienia i limity darmowego API Gemini (Quota 429), możesz uruchamiać analizy w 100% lokalnie na własnym komputerze przy użyciu usługi **Ollama**.
-
-### 1. Instalacja Ollama
-Pobierz i zainstaluj darmową aplikację: [ollama.com](https://ollama.com).
-
-### 2. Pobranie i uruchomienie modelu
-Wystarczy uruchomić w terminalu komendę dla wybranego modelu:
-
-* **GLM-5.2 / GLM-4 (Rekomendowane)**:
-  ```bash
-  ollama run glm-5.2:cloud
-  # lub w pełni lokalna wersja GLM-4:
-  ollama run glm4
-  ```
-* **Szybki i lekki model Qwen 2.5 (1.9 GB)**:
-  ```bash
-  ollama run qwen2.5:3b
-  ```
-
-### 3. Konfiguracja we wtyczce
-W oknie ustawień wtyczki w polu **Klucz API** wpisz nazwę modelu z prefiksem `ollama:`, np.:
-* `ollama:glm-5.2`
-* `ollama:glm4`
-* `ollama:qwen2.5:3b`
-
-Po zapisaniu ustawień backend automatycznie przełączy się na lokalny serwer Ollama (`http://localhost:11434`).
 
 </details>
 
@@ -138,8 +110,93 @@ Algorytm analizuje tekst chronologicznie w 5 krokach historiozoficznych Feliksa 
 
 </details>
 
+<details>
+<summary><b>Tryby Pracy Silnika: Full, Lite oraz Mantis (Drapieżna Modliszka Decyzyjna)</b></summary>
+
+System *Algorytm Konecznego* wspiera trzy komplementarne tryby ewaluacji tekstu, zoptymalizowane pod kątem głębokości historiozoficznej, zużycia tokenów oraz szybkości:
+
+### 1. 🦗 Wersja Mantis (Drapieżna Modliszka — Reguła Pareto 80/20)
+*Mantis* to drapieżny, ultra-precyzyjny silnik klasyfikacji o wysokiej wydajności. Zamiast analizować wszystkie 27 indeksów naraz, **wykorzystuje Zasadę Pareto (20% kluczowych indeksów rozstrzyga 80%+ przypadków)**. 
+
+Działa jak polująca modliszka: przechodzi sekwencyjnie przez logiczne bramki decyzyjne (*Information Gain Decision Gates*), błyskawicznie identyfikując cywilizację badanego tekstu przy minimalnym zużyciu zapytań LLM.
+
+```text
+                       [CAŁY KOSMOS TEKSTU]
+                                │
+          1. SACRALITY_INDEX (Sakralność vs Świeckość)
+                 ┌──────────────┴──────────────┐
+         [Niska < 0.40]                 [Wysoka >= 0.40]
+  (Łac / Biz / Tur / CHIŃSKA)          (Arab / Żyd / Bram)
+                 │                              │
+ 2. LEGAL_DUALISM_INDEX         6. PUBLIC_MORALITY_TOTALITY
+ (Dualizm vs Monizm Prawa)      (Etyka podwójna vs jednolita)
+        ┌────────┴────────┐             ┌───────┴───────┐
+   [Dualizm]          [Monizm]      [Monizm Prawa]   [Etyka Podwójna]
+       │                  │                │                │
+       ▼                  │                ▼                ▼
+   ŁACIŃSKA               │             ARABSKA         ŻYDOWSKA
+                          │
+  3. RELACJA WŁADZA - DUCH - SPOŁECZEŃSTWO
+         ┌────────────────┼─────────────────────┐
+  [Cezaropapizm]    [Monizm Siły]      [Areligijność / Kult Rodu]
+         │                │                     │
+  4. CONSCIENCE     5. PERSONALISM        7. RYTUAŁ & RÓD
+  (Dwoistość)       (Ustrój Obozowy)   (Konfucjanizm, Rytuał 'Li')
+         │                │                     │
+         ▼                ▼                     ▼
+    BIZANTYŃSKA        TURAŃSKA              CHIŃSKA
+```
+
+```mermaid
+flowchart TD
+    Start([📄 Cały Kosmos Tekstu]) --> B1{1. Sakralność vs Świeckość\nSACRALITY_INDEX}
+    
+    B1 -- "Wysoka (>= 0.40)\nŚcieżka Sakralna" --> B6{6. Moralność Publiczna\nPUBLIC_MORALITY_TOTALITY}
+    B1 -- "Niska (< 0.40)\nŚcieżka Świecko-Rozumowa" --> B2{2. Dualizm Prawny\nLEGAL_DUALISM_INDEX}
+    
+    B2 -- "Dualizm Prawny\nPrymat Etyki nad Prawem" --> CivLatin["🏛️ CYWILIZACJA ŁACIŃSKA\n(Autonomia prawa prywatnego, wolność, sumienie)"]
+    B2 -- "Monizm Prawny\nWładza pochłania prawo prywatne" --> B3{3. Relacja Władza-Religia-Duch\nCHURCH_INDEPENDENCE}
+    
+    B3 -- "Cezaropapizm / Etatyzm\nBiurokracja Państwowa" --> B4{4. Status Sumienia\nCONSCIENCE_STATUS}
+    B3 -- "Monizm Siły / Wodza\nWładca właścicielem wszystkiego" --> B5{5. Podmiotowość Jednostki\nPERSONALISM_INDEX}
+    B3 -- "Areligijność / Kult Przodków\nUstrój Rodowy i Konfucjanizm" --> CivChina["☯️ CYWILIZACJA CHIŃSKA\n(Monizm Etykietalno-Rodowy / Rytuał Li)"]
+    
+    B4 -- "Dwoistość Sumienia\n(Etyka prywatna vs racja stanu)" --> CivByz["👑 CYWILIZACJA BIZANTYŃSKA\n(Monizm Prawa Publicznego / Etatyzm)"]
+    
+    B5 -- "Ustrój Obozowy / Brak Własności\nCzłowiek narzędziem wodza" --> CivTur["🏹 CYWILIZACJA TURAŃSKA\n(Monizm Prawa Prywatnego Władcy)"]
+    
+    B6 -- "Monizm Prawa Sakralnego (Umma)\nTeokracja powszechna" --> CivArab["🌙 CYWILIZACJA ARABSKA\n(Monizm Szariatu / Poligamia)"]
+    B6 -- "Etyka Podwójna / Partykularna\nPartykularyzm rodowo-narodowy" --> CivJew["📜 CYWILIZACJA ŻYDOWSKA\n(Monizm Rodowo-Sakralny / Monogamia)"]
+```
+
+#### Kluczowe Bramki Decyzyjne Mantisa (Złota 6-tka Pareto):
+1. **`SACRALITY_INDEX`** – Rozcina rzeczywistość na cywilizacje sakralne (Arabska, Żydowska, Bramińska) i świecko-rozumowe (Łacińska, Bizantyńska, Turańska, Chińska).
+2. **`LEGAL_DUALISM_INDEX`** – Skalpel wyróżniający cywilizację łacińską (rozdział i autonomia prawa prywatnego wobec publicznego).
+3. **`CHURCH_INDEPENDENCE_INDEX`** – Weryfikuje cezaropapizm i etatyzm (Bizancjum) vs dominację siły fizycznej (Turan) vs areligijny kult rodu i etykietę konfucjańską (Chiny) vs niezależność sumienia (Łacina).
+4. **`CONSCIENCE_STATUS_INDEX`** – Bada jedność moralną sumienia vs podwójną moralność (inne zasady prywatnie, inne dla „racji stanu”).
+5. **`PERSONALISM_INDEX`** – Wykrywa ustrój obozowy, brak stabilnej własności i redukcję człowieka do roli żołnierza/narzędzia wodza (Turańszczyzna).
+6. **`PUBLIC_MORALITY_TOTALITY_INDEX`** – Weryfikuje powszechny monizm sakralny (Arabska/Umma) vs podwójną etykę rodowo-narodową (Żydowska/Halacha).
+
 ---
 
-> **Uwaga dotycząca limitów zapytań (Quota 429 w darmowym planie Gemini API):** Pełna wersja analizy (ze wszystkimi włączonymi checkboxami) wysyła równolegle **24 zapytania (prompty)** do modelu LLM. Łącznie w ramach jednej analizy tekstu ewaluowane są aż **352 szczegółowe pytania/kryteria** dla pod-wskaźników.
-> - **W darmowej wersji Google Gemini API (Free Tier)** obowiązuje limit RPM/RPD, przez co serwer może nakładać kilkusekundowe opóźnienia retrujące (Quota 429).
-> - **Dla nielimitowanych zapytań bez opłat i bez limitów:** Zaznaczaj wybrane pojedyncze indeksy we wtyczce lub uruchom lokalnego dostawcę **Ollama** (`ollama:glm-5.2`).
+### 2. ⚡ Wersja Lite (Szybka Eksploracja)
+* Tryb zoptymalizowany pod kątem natychmiastowej orientacji w treści artykułu.
+* Ewaluuje **3 nadrzędne indeksy agregujące**: Ogólną Sakralność, Ogólną Supremację Ducha oraz Wskaźnik Spójności Etycznej.
+* Wykorzystuje 3-4 zwięzłe zapytania promptowe, zwracając szybki orientacyjny profil cywilizacyjny w kilka sekund.
+
+---
+
+### 3. 🏛️ Wersja Full (Pełna Synteza Historiozoficzna)
+* Kompletne, bezkompromisowe cyfrowe odwzorowanie metodologii Feliksa Konecznego.
+* Bada wszystkie **27 indeksów analitycznych** rozbitych na **352 szczegółowe pytania kwalifikacyjne**:
+  * Pełna pajęczyna **Quincunxa (Pięciomianu Bytu)** z wyliczeniem średniej geometrycznej i współmierności sfer.
+  * Pełna dekompozycja **Siedmiu Niewiadomych (Szereg Personalistyczny)**.
+  * Weryfikacja **Wskaźnika Kłamstwa Cywilizacyjnego** (5 wektorów rozkładu).
+  * Dokładne spektrum procentowe wpływów cywilizacyjnych i weryfikacja synkretyzmu.
+
+</details>
+
+---
+
+> **Uwaga dotycząca limitów zapytań (Quota 429 w darmowym planie Gemini API):** Pełna wersja analizy (Full) wysyła równolegle **24 zapytania (prompty)** do modelu LLM, ewaluując aż **352 szczegółowe kryteria**.
+> - **Dla szybkiej analizy z zachowaniem precyzji:** Wybierz tryb **Mantis** (Pareto 80/20) lub **Lite**.

@@ -27,16 +27,37 @@
 
       <!-- Tab Navigation -->
       <div class="tab-nav">
-        <button type="button" class="tab-btn active" id="btnTabLite" data-tab="lite">⚡ Wersja Lite (Podstawowa)</button>
-        <button type="button" class="tab-btn" id="btnTabFull" data-tab="full">📊 Pełna Wersja (28 Indeksów)</button>
+        <button type="button" class="tab-btn active" id="btnTabMantis" data-tab="mantis">Mantis (Pareto 80/20)</button>
+        <button type="button" class="tab-btn" id="btnTabLite" data-tab="lite">Lite (Podstawowa)</button>
+        <button type="button" class="tab-btn" id="btnTabFull" data-tab="full">Pełna Wersja (28 Indeksów)</button>
       </div>
 
-      <!-- Tab 1: Lite Version -->
-      <div id="tabContentLite" class="tab-content active">
-        <div class="lite-info-card">
-          <div class="lite-title">Drzewo Decyzyjne 4-Krokowe</div>
+      <!-- Tab 1: Mantis Version (Pareto 80/20) -->
+      <div id="tabContentMantis" class="tab-content active">
+        <div class="lite-info-card mantis-card">
+          <div class="lite-title" style="color: #38bdf8; display: flex; align-items: center; gap: 6px;">
+            <span>Drapieżna Modliszka Decyzyjna (Mantis Engine)</span>
+          </div>
           <p class="lite-desc">
-            Błyskawiczna i niskotokenowa klasyfikacja oparta na 4 istniejących kluczowych indeksach Konecznego:
+            Ultra-precyzyjny silnik klasyfikacji oparty na <strong>Zasadzie Pareto (20% indeksów rozstrzyga 80%+ przypadków)</strong>. Sekwencyjne bramki decyzyjne <em>Information Gain</em>:
+          </p>
+          <ul class="lite-steps">
+            <li><strong>1. Sakralność</strong> (sacrality) &rarr; Rozcięcie Sakralne vs Świeckie</li>
+            <li><strong>2. Dualizm Prawny</strong> (dualism) &rarr; Skalpel Cywilizacji Łacińskiej</li>
+            <li><strong>3. Niezależność Kościoła</strong> (church) &rarr; Cezaropapizm vs Teokracja</li>
+            <li><strong>4. Status Sumienia</strong> (conscience) &rarr; Dwoistość moralna vs Jedność</li>
+            <li><strong>5. Personalizm</strong> (personalism) &rarr; Ustrój obozowy Turańszczyzny</li>
+            <li><strong>6. Moralność Publiczna</strong> (public_morality) &rarr; Etyka powszechna vs Plemienna</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Tab 2: Lite Version -->
+      <div id="tabContentLite" class="tab-content" style="display: none;">
+        <div class="lite-info-card">
+          <div class="lite-title">Drzewo Decyzyjne 4-Krokowe (Lite)</div>
+          <p class="lite-desc">
+            Klasyfikacja oparta na 4 kluczowych indeksach Konecznego:
           </p>
           <ul class="lite-steps">
             <li><strong>1. Indeks Sakralności</strong> (sacrality)</li>
@@ -44,11 +65,10 @@
             <li><strong>3. Szereg Personalistyczny</strong> (generalia - 7 generaliów etyki)</li>
             <li><strong>4. Współmierność Pięciomianu Bytu</strong> (quincunx)</li>
           </ul>
-          <div class="lite-badge">⚡ Czas odpowiedzi: ~1.5 - 3s | 🟢 ~80% mniejsze zużycie tokenów</div>
         </div>
       </div>
 
-      <!-- Tab 2: Full Version -->
+      <!-- Tab 3: Full Version -->
       <div id="tabContentFull" class="tab-content" style="display: none;">
         <div class="form-group" style="margin-bottom: 0;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.375rem;">

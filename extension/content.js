@@ -581,6 +581,73 @@
       border-color: #10b981;
       color: #34d399;
     }
+
+    /* ── Last 5 Results History Tabs Bar ── */
+    .results-history-bar {
+      display: flex;
+      gap: 6px;
+      padding: 7px 16px;
+      margin: 0 20px 6px 20px;
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      overflow-x: auto;
+      align-items: center;
+      scrollbar-width: thin;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
+    }
+    .results-history-bar::-webkit-scrollbar {
+      height: 4px;
+    }
+    .results-history-bar::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 2px;
+    }
+    .history-tab-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 9px;
+      border-radius: 7px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #94a3b8;
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      user-select: none;
+      font-family: inherit;
+    }
+    .history-tab-btn:hover {
+      background: rgba(51, 65, 85, 0.8);
+      color: #f1f5f9;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    .history-tab-btn.active {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.3) 0%, rgba(59, 130, 246, 0.3) 100%);
+      color: #ffffff;
+      border: 1px solid #8b5cf6;
+      box-shadow: 0 0 10px rgba(139, 92, 246, 0.35);
+      font-weight: 700;
+    }
+    .history-tab-btn .badge-curr {
+      font-size: 9.5px;
+      background: #10b981;
+      color: #ffffff;
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+    .history-tab-btn .badge-civ {
+      font-size: 9.5px;
+      background: rgba(255, 255, 255, 0.12);
+      color: #cbd5e1;
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
   `;
 
   let lastAnalysisResultData = null;
@@ -1188,7 +1255,7 @@
       let reqBody;
 
       const selectedIndices = targetIndexStr ? [targetIndexStr] : (config.selectedIndices && config.selectedIndices.length > 0 ? config.selectedIndices : null);
-      const mode = config.analysisMode || 'lite';
+      const mode = config.analysisMode || 'mantis';
 
       if (pageData && pageData.pdf_url) {
         reqBody = { pdf_url: pageData.pdf_url, url: window.location.href, title: document.title, mode: mode };
@@ -1222,6 +1289,8 @@
           ...(newData.raw_ratings || {})
         }
       };
+      await pushToHistoryStore(window.konecznyResults);
+      window.activeHistoryViewId = 'current';
       renderResults();
 
     } catch (err) {
@@ -1258,6 +1327,60 @@
     }
   }
 
+  function getCivIcon(civName) {
+    if (!civName) return '🏛️';
+    const c = civName.toLowerCase();
+    if (c.includes('łaciń')) return '🏛️';
+    if (c.includes('bizant')) return '👑';
+    if (c.includes('turań')) return '⚔️';
+    if (c.includes('arab') || c.includes('sakral')) return '🌙';
+    if (c.includes('żydow')) return '✡️';
+    if (c.includes('bramin')) return '🕉️';
+    if (c.includes('chiń')) return '☯️';
+    return '🏛️';
+  }
+
+  window.konecznyHistoryStore = [];
+  window.activeHistoryViewId = 'current';
+
+  chrome.storage.local.get(['konecznyHistoryStore'], res => {
+    if (res.konecznyHistoryStore && Array.isArray(res.konecznyHistoryStore)) {
+      window.konecznyHistoryStore = res.konecznyHistoryStore;
+    }
+  });
+
+  async function pushToHistoryStore(resultData) {
+    if (!resultData) return;
+    try {
+      const stored = await new Promise(resolve => chrome.storage.local.get(['konecznyHistoryStore'], res => resolve(res.konecznyHistoryStore || [])));
+      const rawTitle = (document.title || 'Analiza').trim();
+      const cleanTitle = rawTitle.length > 22 ? rawTitle.substring(0, 22) + '...' : rawTitle;
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const dateStr = now.toLocaleDateString([], { day: '2-digit', month: '2-digit' }) + ' ' + timeStr;
+
+      const newItem = {
+        id: 'hist_' + Date.now(),
+        title: rawTitle,
+        shortTitle: cleanTitle,
+        url: window.location.href,
+        timestamp: Date.now(),
+        timeStr: timeStr,
+        dateStr: dateStr,
+        primaryCiv: resultData.primary_civilization || 'Łacińska',
+        civIcon: getCivIcon(resultData.primary_civilization),
+        mode: resultData.mode || 'jmantis',
+        data: JSON.parse(JSON.stringify(resultData))
+      };
+
+      const filtered = stored.filter(item => item.url !== window.location.href && item.title !== rawTitle);
+      const updated = [newItem, ...filtered].slice(0, 5);
+      window.konecznyHistoryStore = updated;
+      chrome.storage.local.set({ konecznyHistoryStore: updated });
+    } catch (e) {
+      console.warn('History store error:', e);
+    }
+  }
 
   function getTabForIndexKey(key) {
     if (!key) return null;
@@ -1280,7 +1403,21 @@
   // ── Render ─────────────────────────────────────────────
   function renderResults() {
     if (trigger) trigger.classList.remove('spinning');
-    const data = window.konecznyResults;
+    
+    // Choose active data source (current search vs historical tab)
+    let isCurrentActive = true;
+    let activeHistItem = null;
+    let data = window.konecznyResults;
+
+    if (window.activeHistoryViewId && window.activeHistoryViewId !== 'current') {
+      activeHistItem = (window.konecznyHistoryStore || []).find(h => h.id === window.activeHistoryViewId);
+      if (activeHistItem && activeHistItem.data) {
+        data = activeHistItem.data;
+        isCurrentActive = false;
+      } else {
+        window.activeHistoryViewId = 'current';
+      }
+    }
 
     // Determine active tab dynamically based on requested index or calculated/selected indices
     let activeTabId = null;
@@ -2625,77 +2762,12 @@
     const calcSpiritScore = data.spirit_supremacy_score !== undefined ? data.spirit_supremacy_score : -1.0;
     const calcSacralScore = data.sacrality_score !== undefined ? data.sacrality_score : -1.0;
     const calcEthicScore = data.ethical_coherence_score !== undefined ? data.ethical_coherence_score : -1.0;
+    const calcDualScore = data.legal_dualism_score !== undefined ? data.legal_dualism_score : -1.0;
+    const calcPersScore = data.personalism_score !== undefined ? data.personalism_score : -1.0;
 
     let activeCivKey = 'latin';
-    let activeLegalKey = 'dualism';
 
-    // Communist, Soviet, Satellite, Totalitarian, Camp or Hegemonic Party indicators
-    const isCommunistOrTotalitarian = rawTextUpper.includes('PRL') || 
-                                     rawTextUpper.includes('POLSKA RZECZPOSPOLITA LUDOWA') ||
-                                     rawTextUpper.includes('ZSRR') ||
-                                     rawTextUpper.includes('RADZIECK') ||
-                                     rawTextUpper.includes('KOMUNIS') ||
-                                     rawTextUpper.includes('STALIN') ||
-                                     rawTextUpper.includes('MARKSI') ||
-                                     rawTextUpper.includes('SATELICK') ||
-                                     rawTextUpper.includes('PZPR') ||
-                                     rawTextUpper.includes('TOTALITAR') ||
-                                     rawTextUpper.includes('OBOZOW') ||
-                                     rawTextUpper.includes('NKWD') ||
-                                     rawTextUpper.includes('BEZPIEKA') ||
-                                     rawTextUpper.includes('STAN WOJENNY');
-
-    const isSacralText = rawTextUpper.includes('TALIB') || 
-                         rawTextUpper.includes('ISLAM') || 
-                         rawTextUpper.includes('SZARIAT') || 
-                         rawTextUpper.includes('EMIRAT') ||
-                         rawTextUpper.includes('KORAN') ||
-                         rawTextUpper.includes('IZRAEL') ||
-                         rawTextUpper.includes('ŻYDOWSK') ||
-                         rawTextUpper.includes('TORA') ||
-                         rawTextUpper.includes('TALMUD') ||
-                         rawTextUpper.includes('BRAMIN') ||
-                         rawTextUpper.includes('KASTY') ||
-                         (calcSacralScore >= 0.40);
-
-    const isChineseText = rawTextUpper.includes('CHIŃSK') || rawTextUpper.includes('CHINA') || rawTextUpper.includes('KONFUCI');
-    const isTuranianText = rawTextUpper.includes('TURAŃSK') || rawTextUpper.includes('DESPOCJA') || rawTextUpper.includes('CZYNGIS');
-    const isByzantineText = rawTextUpper.includes('BIZANTYŃSK') || rawTextUpper.includes('STATOLATRIA') || rawTextUpper.includes('BIUROKRACJA');
-
-    // --- STEP A: CIVILIZATION ASSIGNMENT ---
-    if (isSacralText) {
-      if (rawTextUpper.includes('IZRAEL') || rawTextUpper.includes('ŻYDOWSK') || rawTextUpper.includes('TORA') || rawTextUpper.includes('TALMUD')) {
-        activeCivKey = 'jewish';
-      } else if (rawTextUpper.includes('BRAMIN') || rawTextUpper.includes('KASTY')) {
-        activeCivKey = 'brahmin';
-      } else {
-        activeCivKey = 'arab';
-      }
-    } else if (isChineseText) {
-      activeCivKey = 'chinese';
-    } else if (isTuranianText) {
-      activeCivKey = 'turanian';
-    } else if (isCommunistOrTotalitarian || isByzantineText) {
-      // PRL, ZSRR, Komunizm, Statolatria -> Bizantyńska lub Turańska / Acywilizacyjna
-      if (isTuranianText || rawTextUpper.includes('OBOZOW')) {
-        activeCivKey = 'turanian';
-      } else {
-        activeCivKey = 'byzantine';
-      }
-    } else if (calcSpiritScore >= 0 && calcSpiritScore < 0.45) {
-      // Low Spirit Supremacy (< 45%) -> CANNOT BE ŁACIŃSKA!
-      if (calcEthicScore >= 0 && calcEthicScore <= 3.0) {
-        activeCivKey = 'byzantine';
-      } else {
-        activeCivKey = 'syncretic';
-      }
-    } else if (calcSpiritScore >= 0.45 || (calcEthicScore >= 4.0 && !isCommunistOrTotalitarian)) {
-      activeCivKey = 'latin';
-    } else {
-      activeCivKey = 'latin';
-    }
-
-    // Override if backend returned explicit primary_civilization
+    // 1. First priority: Use backend primary_civilization if present
     if (data.primary_civilization) {
       const pCiv = data.primary_civilization.toLowerCase();
       if (pCiv.includes('łaciń')) activeCivKey = 'latin';
@@ -2706,107 +2778,129 @@
       else if (pCiv.includes('bramin')) activeCivKey = 'brahmin';
       else if (pCiv.includes('chiń')) activeCivKey = 'chinese';
       else if (pCiv.includes('mieszanka') || pCiv.includes('acywil')) activeCivKey = 'syncretic';
+    } else {
+      // Fallback: Score-driven determination
+      if (calcSacralScore >= 0.45) {
+        if (rawTextUpper.includes('TORA') || rawTextUpper.includes('TALMUD') || rawTextUpper.includes('HALACHA')) {
+          activeCivKey = 'jewish';
+        } else if (rawTextUpper.includes('BRAMIN') || rawTextUpper.includes('KASTY') || rawTextUpper.includes('WEDY')) {
+          activeCivKey = 'brahmin';
+        } else {
+          activeCivKey = 'arab';
+        }
+      } else {
+        // Non-sacral
+        if (calcDualScore >= 0.48 || (calcSpiritScore >= 0.48 && calcEthicScore >= 4.0)) {
+          activeCivKey = 'latin';
+        } else {
+          if (calcPersScore >= 0 && calcPersScore < 0.25) {
+            activeCivKey = 'turanian';
+          } else {
+            activeCivKey = 'byzantine';
+          }
+        }
+      }
     }
 
     const civOptions = [
-      { key: 'latin', label: 'Cywilizacja Łacińska', icon: '🏛️', color: '#8b5cf6' },
-      { key: 'byzantine', label: 'Bizantyńska', icon: '👑', color: '#ef4444' },
-      { key: 'turanian', label: 'Turańska', icon: '⚔️', color: '#dc2626' },
-      { key: 'arab', label: 'Arabska', icon: '🌙', color: '#059669' },
-      { key: 'jewish', label: 'Żydowska', icon: '✡️', color: '#0284c7' },
-      { key: 'brahmin', label: 'Bramińska', icon: '🕉️', color: '#d97706' },
-      { key: 'chinese', label: 'Chińska', icon: '☯️', color: '#eab308' },
-      { key: 'syncretic', label: 'Acywilizacyjna', icon: '⚠️', color: '#f43f5e' }
+      { key: 'latin', label: 'Cywilizacja Łacińska', color: '#8b5cf6' },
+      { key: 'byzantine', label: 'Bizantyńska', color: '#ef4444' },
+      { key: 'turanian', label: 'Turańska', color: '#dc2626' },
+      { key: 'arab', label: 'Arabska', color: '#059669' },
+      { key: 'jewish', label: 'Żydowska', color: '#0284c7' },
+      { key: 'brahmin', label: 'Bramińska', color: '#d97706' },
+      { key: 'chinese', label: 'Chińska', color: '#eab308' },
+      { key: 'syncretic', label: 'Acywilizacyjna', color: '#f43f5e' }
     ];
 
     // --- STEP B: LEGAL STRUCTURE ASSIGNMENT (DUALIZM VS MONIZM) ---
-    if (isSacralText) {
+    let activeLegalKey = 'dualism';
+    if (calcSacralScore >= 0.45 || activeCivKey === 'arab' || activeCivKey === 'jewish' || activeCivKey === 'brahmin') {
       activeLegalKey = 'monism_sacral';
-    } else if (isCommunistOrTotalitarian || isByzantineText || (calcSpiritScore >= 0 && calcSpiritScore < 0.40)) {
-      if (rawTextUpper.includes('WŁADCA-WŁAŚCICIEL') || isTuranianText) {
-        activeLegalKey = 'monism_private';
-      } else {
-        activeLegalKey = 'monism_public';
-      }
-    } else if (activeCivKey === 'latin' || (calcSpiritScore >= 0.45 && calcSacralScore < 0.40)) {
+    } else if (calcDualScore >= 0.48 || activeCivKey === 'latin') {
       activeLegalKey = 'dualism';
+    } else if (activeCivKey === 'turanian') {
+      activeLegalKey = 'monism_private';
     } else {
       activeLegalKey = 'monism_public';
     }
 
     const legalOptions = [
-      { key: 'dualism', label: 'Dualizm Prawny', icon: '⚖️', color: '#10b981' },
-      { key: 'monism_public', label: 'Monizm Prawa Publicznego (Państwowy)', icon: '🏛️', color: '#ef4444' },
-      { key: 'monism_private', label: 'Monizm Prawa Prywatnego (Władcy)', icon: '👑', color: '#dc2626' },
-      { key: 'monism_sacral', label: 'Monizm Sakralny (Religijny)', icon: '📜', color: '#f59e0b' }
+      { key: 'dualism', label: 'Dualizm Prawny', color: '#10b981' },
+      { key: 'monism_public', label: 'Monizm Prawa Publicznego (Państwowy)', color: '#ef4444' },
+      { key: 'monism_private', label: 'Monizm Prawa Prywatnego (Władcy)', color: '#dc2626' },
+      { key: 'monism_sacral', label: 'Monizm Sakralny (Religijny)', color: '#f59e0b' }
     ];
 
     // --- STEP C: RELIGION CATEGORY (ROW 3) ---
     let activeRelKey = 'rel_universal';
-
-    if (rawTextUpper.includes('TALIB') || rawTextUpper.includes('ISLAM') || rawTextUpper.includes('SZARIAT') || rawTextUpper.includes('EMIRAT') || rawTextUpper.includes('KORAN')) {
+    if (calcSacralScore >= 0.45 && activeCivKey === 'arab') {
       activeRelKey = 'rel_state';
-    } else if (rawTextUpper.includes('IZRAEL') || rawTextUpper.includes('ŻYDOWSK') || rawTextUpper.includes('TORA') || rawTextUpper.includes('TALMUD')) {
+    } else if (calcSacralScore >= 0.45 && activeCivKey === 'jewish') {
       activeRelKey = 'rel_tribal';
-    } else if (rawTextUpper.includes('BRAMIN') || rawTextUpper.includes('KASTY') || rawTextUpper.includes('HINDU') || rawTextUpper.includes('WEDY')) {
+    } else if (calcSacralScore >= 0.45 && activeCivKey === 'brahmin') {
       activeRelKey = 'rel_caste';
-    } else if (isChineseText || rawTextUpper.includes('ARELIGIJN') || rawTextUpper.includes('LAÏCITÉ') || rawTextUpper.includes('ŚWIECK') || isCommunistOrTotalitarian) {
+    } else if (activeCivKey === 'latin') {
+      activeRelKey = 'rel_universal';
+    } else if (activeCivKey === 'byzantine') {
+      activeRelKey = 'rel_state';
+    } else if (activeCivKey === 'turanian' || activeCivKey === 'chinese') {
       activeRelKey = 'rel_areligious';
     } else {
       activeRelKey = 'rel_universal';
     }
 
     const relOptions = [
-      { key: 'rel_universal', label: 'Uniwersalna (Etyczna)', icon: '🕊️', color: '#8b5cf6' },
-      { key: 'rel_tribal', label: 'Plemienna / Narodowa', icon: '📜', color: '#0284c7' },
-      { key: 'rel_state', label: 'Państwowa / Sakralna', icon: '🌙', color: '#059669' },
-      { key: 'rel_caste', label: 'Kastowa / Monolatria', icon: '🕉️', color: '#d97706' },
-      { key: 'rel_areligious', label: 'Areligijność / Świeckość', icon: '☯️', color: '#eab308' }
+      { key: 'rel_universal', label: 'Uniwersalna (Etyczna)', color: '#8b5cf6' },
+      { key: 'rel_tribal', label: 'Plemienna / Narodowa', color: '#0284c7' },
+      { key: 'rel_state', label: 'Państwowa / Sakralna', color: '#059669' },
+      { key: 'rel_caste', label: 'Kastowa / Monolatria', color: '#d97706' },
+      { key: 'rel_areligious', label: 'Areligijność / Świeckość', color: '#eab308' }
     ];
 
     // --- STEP D: SOCIETY GOALS CATEGORY (ROW 4) ---
     let activeGoalKey = 'goal_beyond_exist';
-
-    if (isCommunistOrTotalitarian || isTuranianText) {
-      activeGoalKey = 'goal_exist_struggle';
-    } else if (isByzantineText) {
-      activeGoalKey = 'goal_state_machine';
-    } else if (isSacralText) {
+    if (calcSacralScore >= 0.45 || activeCivKey === 'arab' || activeCivKey === 'jewish' || activeCivKey === 'brahmin') {
       activeGoalKey = 'goal_religious_formalism';
-    } else if (isChineseText) {
-      activeGoalKey = 'goal_clan_tradition';
+    } else if (activeCivKey === 'latin') {
+      activeGoalKey = 'goal_beyond_exist';
+    } else if (activeCivKey === 'byzantine') {
+      activeGoalKey = 'goal_state_machine';
+    } else if (activeCivKey === 'turanian') {
+      activeGoalKey = 'goal_exist_struggle';
     } else {
       activeGoalKey = 'goal_beyond_exist';
     }
 
     const goalOptions = [
-      { key: 'goal_beyond_exist', label: 'Spoza Walki o Byt (Naród & Osoba)', icon: '🌸', color: '#8b5cf6' },
-      { key: 'goal_exist_struggle', label: 'Walka o Byt (Ustrój Obozowy)', icon: '⚔️', color: '#dc2626' },
-      { key: 'goal_state_machine', label: 'Machina Państwowa (Biurokracja)', icon: '🏛️', color: '#ef4444' },
-      { key: 'goal_religious_formalism', label: 'Formalizm Religijny / Rytuał', icon: '📜', color: '#f59e0b' },
-      { key: 'goal_clan_tradition', label: 'Kultywowanie Rodu', icon: '☯️', color: '#eab308' }
+      { key: 'goal_beyond_exist', label: 'Spoza Walki o Byt (Naród & Osoba)', color: '#8b5cf6' },
+      { key: 'goal_exist_struggle', label: 'Walka o Byt (Ustrój Obozowy)', color: '#dc2626' },
+      { key: 'goal_state_machine', label: 'Machina Państwowa (Biurokracja)', color: '#ef4444' },
+      { key: 'goal_religious_formalism', label: 'Formalizm Religijny / Rytuał', color: '#f59e0b' },
+      { key: 'goal_clan_tradition', label: 'Kultywowanie Rodu', color: '#eab308' }
     ];
 
     // --- STEP E: FAMILY EMANCIPATION CATEGORY (ROW 5) ---
     let activeFamKey = 'fam_full_emanc';
-
-    if (isCommunistOrTotalitarian || isByzantineText) {
-      activeFamKey = 'fam_state_collectivism';
-    } else if (rawTextUpper.includes('POLIGAM') || isSacralText || rawTextUpper.includes('HAREM')) {
+    if (calcSacralScore >= 0.45 && activeCivKey === 'arab') {
       activeFamKey = 'fam_polygamy';
-    } else if (isChineseText || rawTextUpper.includes('RODOW') || rawTextUpper.includes('KLAN') || rawTextUpper.includes('BRAMIN')) {
+    } else if (calcSacralScore >= 0.45 && (activeCivKey === 'jewish' || activeCivKey === 'brahmin')) {
       activeFamKey = 'fam_clan_system';
-    } else if (calcSpiritScore >= 0.45 || activeCivKey === 'latin') {
+    } else if (activeCivKey === 'latin') {
       activeFamKey = 'fam_full_emanc';
+    } else if (activeCivKey === 'byzantine') {
+      activeFamKey = 'fam_state_collectivism';
+    } else if (activeCivKey === 'turanian') {
+      activeFamKey = 'fam_state_collectivism';
     } else {
       activeFamKey = 'fam_full_emanc';
     }
 
     const famOptions = [
-      { key: 'fam_full_emanc', label: 'Pełna Emancypacja (Monogamia & Własność Indywidualna)', icon: '👨‍👩‍👧', color: '#10b981' },
-      { key: 'fam_clan_system', label: 'Ustrój Rodowy / Klany (Ekonomia Rodowa)', icon: '🪢', color: '#eab308' },
-      { key: 'fam_polygamy', label: 'Poligamia / Brak Emancypacji', icon: '📜', color: '#dc2626' },
-      { key: 'fam_state_collectivism', label: 'Statolatria / Kolektywizm Państwowy', icon: '🏛️', color: '#ef4444' }
+      { key: 'fam_full_emanc', label: 'Pełna Emancypacja (Monogamia & Własność Indywidualna)', color: '#10b981' },
+      { key: 'fam_clan_system', label: 'Ustrój Rodowy / Klany (Ekonomia Rodowa)', color: '#eab308' },
+      { key: 'fam_polygamy', label: 'Poligamia / Brak Emancypacji', color: '#dc2626' },
+      { key: 'fam_state_collectivism', label: 'Statolatria / Kolektywizm Państwowy', color: '#ef4444' }
     ];
 
     function calculateCivSpectrum(data, rawTextUpper) {
@@ -2815,73 +2909,33 @@
       }
 
       const spirit = data.spirit_supremacy_score !== undefined && data.spirit_supremacy_score >= 0 ? data.spirit_supremacy_score : 0.5;
-      const sacral = data.sacrality_score !== undefined && data.sacrality_score >= 0 ? data.sacrality_score : 0.1;
+      const sacral = data.sacrality_score !== undefined && data.sacrality_score >= 0 ? data.sacrality_score : 0.05;
       const ethic = data.ethical_coherence_score !== undefined && data.ethical_coherence_score >= 0 ? (data.ethical_coherence_score / 7.0) : 0.5;
+      const dual = data.legal_dualism_score !== undefined && data.legal_dualism_score >= 0 ? data.legal_dualism_score : spirit;
 
-      let latinWeight = 0;
-      let byzantineWeight = 0;
-      let turanianWeight = 0;
-      let arabWeight = 0;
-      let jewishWeight = 0;
-      let brahminWeight = 0;
-      let chineseWeight = 0;
+      const latW = Math.round((dual * 0.45 + ethic * 0.35 + Math.max(0, 1.0 - sacral) * 0.20) * 100);
+      const bizW = (dual < 0.48) ? Math.round((1.0 - dual) * 60 + (1.0 - ethic) * 20) : Math.round((1.0 - ethic) * 15);
+      const turW = (dual < 0.40) ? Math.round((1.0 - dual) * 35) : 5;
+      const arabW = sacral >= 0.35 ? Math.round(sacral * 60) : 0;
+      const jewW = sacral >= 0.35 ? Math.round(sacral * 35) : 0;
 
-      if (rawTextUpper.includes('TALIB') || rawTextUpper.includes('SZARIAT') || rawTextUpper.includes('EMIRAT') || rawTextUpper.includes('ISLAM') || sacral >= 0.5) {
-        arabWeight += 85;
-        turanianWeight += 10;
-        byzantineWeight += 5;
-      } else if (rawTextUpper.includes('IZRAEL') || rawTextUpper.includes('ŻYDOWSK') || rawTextUpper.includes('TORA') || rawTextUpper.includes('TALMUD')) {
-        jewishWeight += 80;
-        byzantineWeight += 12;
-        latinWeight += 8;
-      } else if (isCommunistOrTotalitarian) {
-        byzantineWeight += 70;
-        turanianWeight += 22;
-        latinWeight += 8;
-      } else if (isChineseText) {
-        chineseWeight += 85;
-        byzantineWeight += 10;
-        latinWeight += 5;
-      } else if (rawTextUpper.includes('BRAMIN') || rawTextUpper.includes('KASTY')) {
-        brahminWeight += 85;
-        jewishWeight += 10;
-        latinWeight += 5;
-      } else if (isTuranianText) {
-        turanianWeight += 85;
-        byzantineWeight += 10;
-        latinWeight += 5;
-      } else {
-        latinWeight = Math.round((spirit * 0.50 + ethic * 0.35 + (1 - sacral) * 0.15) * 100);
-        if (sacral >= 0.3) {
-          arabWeight = Math.round(sacral * 35);
-          jewishWeight = Math.round(sacral * 25);
-        }
-        if (spirit < 0.45) {
-          byzantineWeight = Math.round((0.45 - spirit) * 90);
-          turanianWeight = Math.round((0.45 - spirit) * 40);
-        } else {
-          byzantineWeight = Math.round((1 - ethic) * 20);
-        }
+      const chinW = (dual < 0.48 && (rawTextUpper.includes('CHIŃSK') || rawTextUpper.includes('CHINY') || rawTextUpper.includes('CHINA') || rawTextUpper.includes('KONFUCI') || rawTextUpper.includes('TAO') || rawTextUpper.includes('DAO'))) ? Math.round((1.0 - dual) * 55) : 0;
+      const tot = latW + bizW + turW + chinW + arabW + jewW || 100;
+      const spec = [
+        { key: 'latin', label: 'Łacińska', color: '#10b981', pct: Math.round((latW / tot) * 100) },
+        { key: 'byzantine', label: 'Bizantyńska', color: '#ef4444', pct: Math.round((bizW / tot) * 100) },
+        { key: 'turanian', label: 'Turańska', color: '#dc2626', pct: Math.round((turW / tot) * 100) },
+        { key: 'chinese', label: 'Chińska', color: '#eab308', pct: Math.round((chinW / tot) * 100) },
+        { key: 'arab', label: 'Arabska', color: '#059669', pct: Math.round((arabW / tot) * 100) },
+        { key: 'jewish', label: 'Żydowska', color: '#0284c7', pct: Math.round((jewW / tot) * 100) }
+      ].filter(x => x.pct > 0);
+
+      const currentSum = spec.reduce((acc, curr) => acc + curr.pct, 0);
+      if (spec.length > 0 && currentSum !== 100) {
+        spec[0].pct += (100 - currentSum);
       }
 
-      const total = latinWeight + byzantineWeight + turanianWeight + arabWeight + jewishWeight + brahminWeight + chineseWeight || 100;
-
-      const spectrum = [
-        { key: 'latin', label: 'Łacińska', color: '#10b981', pct: Math.round((latinWeight / total) * 100) },
-        { key: 'byzantine', label: 'Bizantyńska', color: '#8b5cf6', pct: Math.round((byzantineWeight / total) * 100) },
-        { key: 'turanian', label: 'Turańska', color: '#dc2626', pct: Math.round((turanianWeight / total) * 100) },
-        { key: 'arab', label: 'Arabska', color: '#059669', pct: Math.round((arabWeight / total) * 100) },
-        { key: 'jewish', label: 'Żydowska', color: '#ec4899', pct: Math.round((jewishWeight / total) * 100) },
-        { key: 'brahmin', label: 'Bramińska', color: '#d97706', pct: Math.round((brahminWeight / total) * 100) },
-        { key: 'chinese', label: 'Chińska', color: '#eab308', pct: Math.round((chineseWeight / total) * 100) }
-      ].filter(item => item.pct > 0);
-
-      const currentSum = spectrum.reduce((acc, curr) => acc + curr.pct, 0);
-      if (spectrum.length > 0 && currentSum !== 100) {
-        spectrum[0].pct += (100 - currentSum);
-      }
-
-      return spectrum;
+      return spec;
     }
 
     const spectrumItems = calculateCivSpectrum(data, rawTextUpper);
@@ -3027,9 +3081,9 @@
     let defaultStageIdx = 4;
     if (rawTextUpper.includes('BEZIMIEN') || rawTextUpper.includes('STAD')) {
       defaultStageIdx = 0;
-    } else if (activeFamKey === 'fam_clan_system' || isChineseText || rawTextUpper.includes('RODOW') || rawTextUpper.includes('KLAN')) {
+    } else if (activeFamKey === 'fam_clan_system' || activeCivKey === 'chinese' || activeCivKey === 'jewish' || rawTextUpper.includes('RODOW') || rawTextUpper.includes('KLAN')) {
       defaultStageIdx = 1;
-    } else if (isCommunistOrTotalitarian || isTuranianText || isByzantineText || activeLegalKey === 'monism_public' || activeLegalKey === 'monism_sacral') {
+    } else if (activeCivKey === 'byzantine' || activeCivKey === 'turanian' || activeCivKey === 'arab' || activeLegalKey === 'monism_public' || activeLegalKey === 'monism_sacral' || activeLegalKey === 'monism_private') {
       defaultStageIdx = 2;
     } else if (activeFamKey === 'fam_full_emanc' && calcSpiritScore < 0.50) {
       defaultStageIdx = 3;
@@ -3102,7 +3156,6 @@
         if (isActive) {
           return `
             <div style="background: ${opt.color}28; border: 1.5px solid ${opt.color}; color: #f8fafc; padding: 4px 11px; border-radius: 18px; font-size: 11.5px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 0 10px ${opt.color}44;">
-              <span>${opt.icon}</span>
               <span>${opt.label}</span>
               <span style="font-size: 9.5px; background: ${opt.color}; color: #0f172a; padding: 1px 4px; border-radius: 8px; font-weight: 800; margin-left: 2px;">✓</span>
             </div>
@@ -3110,7 +3163,6 @@
         } else {
           return `
             <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.07); color: #64748b; padding: 4px 10px; border-radius: 18px; font-size: 11px; font-weight: 500; opacity: 0.45; display: inline-flex; align-items: center; gap: 4px;">
-              <span style="filter: grayscale(100%); opacity: 0.7;">${opt.icon}</span>
               <span>${opt.label}</span>
             </div>
           `;
@@ -3258,6 +3310,30 @@
     const chyznoscScoreVal = data.time_mastery_efficiency_score >= 0 ? `${Math.round(data.time_mastery_efficiency_score * 100)}%` : (data.time_mastery_history_score >= 0 ? `${Math.round(data.time_mastery_history_score * 100)}%` : 'N/A');
     const quincunxScoreVal = data.quincunx_coherence_score >= 0 ? `${data.quincunx_coherence_score.toFixed(2)}` : 'N/A';
 
+    let mantisGatesHtml = '';
+    if (data.mantis_gates && Array.isArray(data.mantis_gates) && data.mantis_gates.length > 0) {
+      mantisGatesHtml = `
+        <div style="margin-top: 10px; padding: 10px 14px; background: rgba(14, 165, 233, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 8px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <div style="font-size: 10.5px; font-weight: 800; color: #38bdf8; text-transform: uppercase; display: flex; align-items: center; gap: 5px;">
+              <span>Ścieżka Decyzyjna Mantis (Bramki Pareto 80/20)</span>
+            </div>
+            <span style="font-size: 9.5px; background: rgba(56, 189, 248, 0.2); color: #38bdf8; padding: 2px 6px; border-radius: 4px; font-weight: 700;">
+              ${data.mantis_gates.length} Bramki
+            </span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            ${data.mantis_gates.map(g => `
+              <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; padding: 4px 8px; background: rgba(0,0,0,0.25); border-radius: 4px; flex-wrap: wrap; gap: 4px;">
+                <span style="color: #cbd5e1; font-weight: 600;">${g.name}</span>
+                <span style="color: #38bdf8; font-weight: 700; font-size: 10.5px;">&rarr; ${g.decision} ${g.score >= 0 ? `(${Math.round(g.score * 100)}%)` : ''}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
     const dashboardHtml = `
       <div class="koneczny-dashboard" style="margin: 12px 20px 16px 20px; padding: 14px 16px; background: linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%); border: 1px solid rgba(139, 92, 246, 0.35); border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.35); backdrop-filter: blur(8px);">
         <!-- Rząd 1: Cywilizacja -->
@@ -3267,6 +3343,7 @@
             ${renderChips(civOptions, activeCivKey)}
           </div>
           ${spectrumBarHtml}
+          ${mantisGatesHtml}
           ${civTimelineHtml}
         </div>
 
@@ -3338,7 +3415,51 @@
       </div>
     `;
 
+    // Build Last 5 Results History Tabs Bar
+    const currTitle = (document.title || 'Bieżąca strona').trim();
+    const currShortTitle = currTitle.length > 20 ? currTitle.substring(0, 20) + '...' : currTitle;
+    const historyList = window.konecznyHistoryStore || [];
+
+    const historyTabsHtml = `
+      <div class="results-history-bar">
+        <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: #64748b; letter-spacing: 0.05em; display: flex; align-items: center; gap: 4px; padding-right: 6px; border-right: 1px solid rgba(255,255,255,0.1); flex-shrink: 0;">
+          <span>Historia:</span>
+        </div>
+
+        <!-- Tab 1: Current Search Tab (Focused by default) -->
+        <button class="history-tab-btn ${isCurrentActive ? 'active' : ''}" id="hist-tab-current" title="Bieżąca analiza (Aktywna)">
+          <span class="badge-curr">Bieżąca</span>
+          <span style="font-weight: 700;">${currShortTitle}</span>
+        </button>
+
+        <!-- Tabs 2..N: Last 5 Historical Tabs (Unfocused by default) -->
+        ${historyList.map((hItem) => `
+          <button class="history-tab-btn ${window.activeHistoryViewId === hItem.id ? 'active' : ''}" data-hist-id="${hItem.id}" title="${hItem.title} (${hItem.dateStr})">
+            <span>${hItem.shortTitle}</span>
+            <span class="badge-civ">${(hItem.primaryCiv || '').split('/')[0].trim()}</span>
+            <span style="font-size: 9.5px; opacity: 0.65;">${hItem.timeStr}</span>
+          </button>
+        `).join('')}
+      </div>
+    `;
+
+    let histNoticeBanner = '';
+    if (!isCurrentActive && activeHistItem) {
+      histNoticeBanner = `
+        <div style="margin: 0 20px 8px 20px; padding: 7px 12px; background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.4); border-radius: 8px; font-size: 11.5px; color: #93c5fd; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span>Podgląd z historii: <strong>${activeHistItem.title}</strong> <span style="opacity:0.75;">(${activeHistItem.dateStr})</span></span>
+          </div>
+          <button id="btn-back-to-current" style="background: #3b82f6; color: #ffffff; border: none; padding: 3px 9px; border-radius: 5px; font-size: 11px; font-weight: 700; cursor: pointer; transition: background 0.15s ease;">
+            Wróć do bieżącej ➔
+          </button>
+        </div>
+      `;
+    }
+
     content.innerHTML = `
+      ${historyTabsHtml}
+      ${histNoticeBanner}
       ${dashboardHtml}
       <div class="tab-bar">
         <button class="tab-btn ${activeTabId === 'tab-sacrality' ? 'active' : ''}" id="tab-sacrality" title="Krok 1: Indeks Sakralności">1. Sakralność</button>
@@ -3346,7 +3467,6 @@
         <button class="tab-btn ${activeTabId === 'tab-generalia' ? 'active' : ''}" id="tab-generalia" title="Krok 3: Szereg Personalistyczny / Generalia Etyki">3. Personalizm</button>
         <button class="tab-btn ${activeTabId === 'tab-chyznosc' ? 'active' : ''}" id="tab-chyznosc" title="Krok 4: Chyżość Historyczna">4. Chyżość</button>
         <button class="tab-btn ${activeTabId === 'tab-quincunx' ? 'active' : ''}" id="tab-quincunx" title="Krok 5: Quincunx Bytu">5. Quincunx</button>
-        <button class="tab-btn ${activeTabId === 'tab-lie' ? 'active' : ''}" id="tab-lie" title="Wskaźnik Kłamstwa Cywilizacyjnego">6. Test Kłamstwa</button>
       </div>
 
       <div id="view-sacrality" style="${activeTabId === 'tab-sacrality' ? '' : 'display:none'}">
@@ -3394,17 +3514,6 @@
         <div class="section-title">11 Wskaźników Pięciomianu Bytu (Quincunx)</div>
         ${quincunxCards}
       </div>
-      <div id="view-lie" style="${activeTabId === 'tab-lie' ? '' : 'display:none'}">
-        ${lieHero}
-        <div style="font-size: 13px; color: #9ca3af; padding: 0 20px; margin-bottom: 15px; line-height: 1.5; text-align: center;">
-           Baseline: Celem istnienia człowieka jest zbawienie duszy (salus animarum), a prawo ma służyć Dobru i Dekalogowi.
-           Współczynnik Kłamstwa bada odchylenie próbki na rzecz zbawienia zbiorowego, dwoistości sumienia lub statolatrii.
-        </div>
-        <div class="section-title">5 Wektorów Składowych Kłamstwa Cywilizacyjnego</div>
-        <div style="padding: 0 20px;">
-          ${lieBreakdownHtml}
-        </div>
-      </div>
       <div style="padding: 15px 20px 25px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.08); margin-top: 20px;">
         <button class="download-btn download-action-btn" style="padding: 8px 18px; font-size: 12.5px;">
           Pobierz Raport Wyników (JSON)
@@ -3412,22 +3521,37 @@
       </div>
     `;
 
+    // Bind History tab click events
+    content.querySelectorAll('.history-tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const histId = btn.getAttribute('data-hist-id') || 'current';
+        window.activeHistoryViewId = histId;
+        renderResults();
+      });
+    });
+
+    const backToCurrentBtn = content.querySelector('#btn-back-to-current');
+    if (backToCurrentBtn) {
+      backToCurrentBtn.addEventListener('click', () => {
+        window.activeHistoryViewId = 'current';
+        renderResults();
+      });
+    }
+
     const tabSacrality = content.querySelector('#tab-sacrality');
     const tabSpirit = content.querySelector('#tab-spirit');
     const tabGeneralia = content.querySelector('#tab-generalia');
     const tabChyznosc = content.querySelector('#tab-chyznosc');
     const tabQuincunx = content.querySelector('#tab-quincunx');
-    const tabLie = content.querySelector('#tab-lie');
     const viewSacrality = content.querySelector('#view-sacrality');
     const viewSpirit = content.querySelector('#view-spirit');
     const viewGeneralia = content.querySelector('#view-generalia');
     const viewChyznosc = content.querySelector('#view-chyznosc');
     const viewQuincunx = content.querySelector('#view-quincunx');
-    const viewLie = content.querySelector('#view-lie');
 
     function switchTab(tabBtn, viewDiv) {
-      [tabSacrality, tabSpirit, tabGeneralia, tabChyznosc, tabQuincunx, tabLie].forEach(t => t && t.classList.remove('active'));
-      [viewSacrality, viewSpirit, viewGeneralia, viewChyznosc, viewQuincunx, viewLie].forEach(v => v && (v.style.display = 'none'));
+      [tabSacrality, tabSpirit, tabGeneralia, tabChyznosc, tabQuincunx].forEach(t => t && t.classList.remove('active'));
+      [viewSacrality, viewSpirit, viewGeneralia, viewChyznosc, viewQuincunx].forEach(v => v && (v.style.display = 'none'));
       if (tabBtn) tabBtn.classList.add('active');
       if (viewDiv) viewDiv.style.display = 'block';
     }
@@ -3437,7 +3561,6 @@
     if (tabGeneralia) tabGeneralia.addEventListener('click', () => switchTab(tabGeneralia, viewGeneralia));
     if (tabChyznosc) tabChyznosc.addEventListener('click', () => switchTab(tabChyznosc, viewChyznosc));
     if (tabQuincunx) tabQuincunx.addEventListener('click', () => switchTab(tabQuincunx, viewQuincunx));
-    if (tabLie) tabLie.addEventListener('click', () => switchTab(tabLie, viewLie));
 
     // Bind Download JSON action buttons
     content.querySelectorAll('.download-action-btn').forEach(btn => {

@@ -108,6 +108,69 @@ classDiagram
     Krok4_Chyzosc_Historyczna --> Krok5_Quincunx
 ```
 
+### 3.2. Profile Wykonawcze Silnika (Execution Tiers)
+
+Silnik analityczny wspiera trzy komplementarne profile przetwarzania:
+
+1. **Wersja Full (Pełna historiozoficzna - 27 Indeksów / 352 Kryteria)**:
+   - Całościowa indukcja: Quincunx (5 sfer), 7 Niewiadomych, Wskaźnik Kłamstwa, 12 indeksów supremacji ducha.
+   - Generuje pełne wielowymiarowe spektrum wpływów cywilizacyjnych oraz dogłębną diagnozę synkretyzmu.
+
+2. **Wersja Lite (Szybka eksploracja - 3 Prompty Agregujące)**:
+   - Zorientowana na błyskawiczny orientacyjny profiling tekstu przy minimalnym zużyciu zasobów.
+
+3. **Wersja Mantis (Drapieżna Modliszka — Reguła Pareto 80/20 & Information Gain Pipeline)**:
+   - Ewaluuje sekwencyjnie **6 węzłowych indeksów bramek decyzyjnych (20% zbioru)**, determinując przynależność cywilizacyjną z dokładnością >80% przy redukcji zapytań LLM o 75%.
+
+```text
+                       [CAŁY KOSMOS TEKSTU]
+                                │
+          1. SACRALITY_INDEX (Sakralność vs Świeckość)
+                 ┌──────────────┴──────────────┐
+         [Niska < 0.40]                 [Wysoka >= 0.40]
+  (Łac / Biz / Tur / CHIŃSKA)          (Arab / Żyd / Bram)
+                 │                              │
+ 2. LEGAL_DUALISM_INDEX         6. PUBLIC_MORALITY_TOTALITY
+ (Dualizm vs Monizm Prawa)      (Etyka podwójna vs jednolita)
+        ┌────────┴────────┐             ┌───────┴───────┐
+   [Dualizm]          [Monizm]      [Monizm Prawa]   [Etyka Podwójna]
+       │                  │                │                │
+       ▼                  │                ▼                ▼
+   ŁACIŃSKA               │             ARABSKA         ŻYDOWSKA
+                          │
+  3. RELACJA WŁADZA - DUCH - SPOŁECZEŃSTWO
+         ┌────────────────┼─────────────────────┐
+  [Cezaropapizm]    [Monizm Siły]      [Areligijność / Kult Rodu]
+         │                │                     │
+  4. CONSCIENCE     5. PERSONALISM        7. RYTUAŁ & RÓD
+  (Dwoistość)       (Ustrój Obozowy)   (Konfucjanizm, Rytuał 'Li')
+         │                │                     │
+         ▼                ▼                     ▼
+    BIZANTYŃSKA        TURAŃSKA              CHIŃSKA
+```
+
+```mermaid
+flowchart TD
+    Start([📄 Cały Kosmos Tekstu]) --> B1{1. Sakralność vs Świeckość\nSACRALITY_INDEX}
+    
+    B1 -- "Wysoka (>= 0.40)\nŚcieżka Sakralna" --> B6{6. Moralność Publiczna\nPUBLIC_MORALITY_TOTALITY}
+    B1 -- "Niska (< 0.40)\nŚcieżka Świecko-Rozumowa" --> B2{2. Dualizm Prawny\nLEGAL_DUALISM_INDEX}
+    
+    B2 -- "Dualizm Prawny\nPrymat Etyki nad Prawem" --> CivLatin["🏛️ CYWILIZACJA ŁACIŃSKA\n(Autonomia prawa prywatnego, wolność, sumienie)"]
+    B2 -- "Monizm Prawny\nWładza pochłania prawo prywatne" --> B3{3. Relacja Władza-Religia-Duch\nCHURCH_INDEPENDENCE}
+    
+    B3 -- "Cezaropapizm / Etatyzm\nBiurokracja Państwowa" --> B4{4. Status Sumienia\nCONSCIENCE_STATUS}
+    B3 -- "Monizm Siły / Wodza\nWładca właścicielem wszystkiego" --> B5{5. Podmiotowość Jednostki\nPERSONALISM_INDEX}
+    B3 -- "Areligijność / Kult Przodków\nUstrój Rodowy i Konfucjanizm" --> CivChina["☯️ CYWILIZACJA CHIŃSKA\n(Monizm Etykietalno-Rodowy / Rytuał Li)"]
+    
+    B4 -- "Dwoistość Sumienia\n(Etyka prywatna vs racja stanu)" --> CivByz["👑 CYWILIZACJA BIZANTYŃSKA\n(Monizm Prawa Publicznego / Etatyzm)"]
+    
+    B5 -- "Ustrój Obozowy / Brak Własności\nCzłowiek narzędziem wodza" --> CivTur["🏹 CYWILIZACJA TURAŃSKA\n(Monizm Prawa Prywatnego Władcy)"]
+    
+    B6 -- "Monizm Prawa Sakralnego (Umma)\nTeokracja powszechna" --> CivArab["🌙 CYWILIZACJA ARABSKA\n(Monizm Szariatu / Poligamia)"]
+    B6 -- "Etyka Podwójna / Partykularna\nPartykularyzm rodowo-narodowy" --> CivJew["📜 CYWILIZACJA ŻYDOWSKA\n(Monizm Rodowo-Sakralny / Monogamia)"]
+```
+
 ---
 
 ## 4. Architektura UI Dashboardu i Modułów Wizualnych

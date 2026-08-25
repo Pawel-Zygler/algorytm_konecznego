@@ -2,6 +2,7 @@ import json
 import pytest
 from fastapi.testclient import TestClient
 from backend.main import app
+from backend import analyzer
 from backend.analyzer import calculate_koneczny_metrics, get_indices_context
 
 client = TestClient(app)
@@ -274,6 +275,104 @@ def test_blacklisted_model_404_skipped(monkeypatch):
     requested_urls.clear()
     res2 = analyzer.call_gemini_api("test", "sys", "key1", {})
     assert len([u for u in requested_urls if "gemini-3.6-flash" in u]) == 0
+
+def test_analyze_sample_jmantis(monkeypatch):
+    """Test 17: Verify analyze_sample_jmantis uses 6 Pareto indices and constructs mantis_gates."""
+    captured_indices = []
+    def mock_analyze_sample(text, api_key=None, target_indices=None):
+        captured_indices.extend(target_indices or [])
+        return {
+            "sacrality_score": 0.05,
+            "legal_dualism_score": 0.90,
+            "church_independence_score": 0.85,
+            "conscience_status_score": 0.80,
+            "personalism_score": 0.90,
+            "public_morality_totality_score": 0.88
+        }
+
+    monkeypatch.setattr("backend.analyzer.analyze_sample", mock_analyze_sample)
+
+    res = analyzer.analyze_sample_jmantis("Tekst o personalizmie i prawie prywatnym.", api_key="test_key")
+    assert res["mode"] == "jmantis"
+    assert captured_indices == ["sacrality", "dualism", "church", "conscience_status", "personalism", "public_morality"]
+    assert res["primary_civilization"] == "Łacińska"
+    assert "mantis_gates" in res
+    assert len(res["mantis_gates"]) >= 2
+    assert res["mantis_gates"][0]["gate"] == 1
+    assert res["mantis_gates"][1]["gate"] == 2
+
+def test_fastapi_mantis_endpoints_mock(monkeypatch):
+    """Test 18: Verify /api/analyze/mantis and /api/analyze/jmantis endpoints."""
+    def mock_analyze_sample_jmantis(text, api_key=None):
+        return {
+            "mode": "jmantis",
+            "sacrality_score": 0.1,
+            "spirit_supremacy_score": 0.85,
+            "legal_dualism_score": 0.90,
+            "primary_civilization": "Łacińska",
+            "civilization_diagnosis": "Cywilizacja Łacińska",
+            "explanation": "Test",
+            "mantis_gates": [{"gate": 1, "name": "Bramka 1", "decision": "Świeckość"}],
+            "raw_ratings": {}
+        }
+
+    monkeypatch.setattr("backend.analyzer.analyze_sample_jmantis", mock_analyze_sample_jmantis)
+
+    res1 = client.post("/api/analyze/mantis", json={"text": "Testowy tekst Mantis", "api_key": "test_key"})
+    assert res1.status_code == 200
+    assert res1.json()["mode"] == "jmantis"
+    assert res1.json()["primary_civilization"] == "Łacińska"
+    assert len(res1.json()["mantis_gates"]) == 1
+
+    res2 = client.post("/api/analyze/jmantis", json={"text": "Testowy tekst jMantis", "api_key": "test_key"})
+    assert res2.status_code == 200
+    assert res2.json()["mode"] == "jmantis"
+
+def test_analyze_sample_jmantis_taliban(monkeypatch):
+    """Test 19: Verify Taliban/Islamic text in jMantis gets classified as Arabska with 5 gates."""
+    def mock_analyze_sample(text, api_key=None, target_indices=None):
+        return {
+            "sacrality_score": 0.95,
+            "legal_dualism_score": 0.05,
+            "church_independence_score": 0.05,
+            "conscience_status_score": 0.05,
+            "personalism_score": 0.05,
+            "public_morality_totality_score": 0.05
+        }
+
+    monkeypatch.setattr("backend.analyzer.analyze_sample", mock_analyze_sample)
+
+    res = analyzer.analyze_sample_jmantis("Talibowie wprowadzają prawo szariatu w Afganistanie.", api_key="test_key")
+    assert res["mode"] == "jmantis"
+    assert "Arabska" in res["primary_civilization"]
+    assert res["mantis_gates"][0]["gate"] == 1
+    assert "Sakralna" in res["mantis_gates"][0]["decision"]
+    assert "Arabska" in res["mantis_gates"][1]["decision"]
+
+def test_analyze_sample_jmantis_chinese(monkeypatch):
+    """Test 20: Verify Chinese text in jMantis gets classified as Chińska with 5 gates."""
+    def mock_analyze_sample(text, api_key=None, target_indices=None):
+        return {
+            "sacrality_score": 0.05,
+            "legal_dualism_score": 0.10,
+            "church_independence_score": 0.50,
+            "conscience_status_score": 0.50,
+            "personalism_score": 0.50,
+            "public_morality_totality_score": 0.30
+        }
+
+    monkeypatch.setattr("backend.analyzer.analyze_sample", mock_analyze_sample)
+
+    res = analyzer.analyze_sample_jmantis("Tekst o konfucjanizmie, kulcie przodków i etykiecie Li w Chinach.", api_key="test_key")
+    assert res["mode"] == "jmantis"
+    assert "Chińska" in res["primary_civilization"]
+    assert "mantis_gates" in res
+    assert len(res["mantis_gates"]) == 5
+    assert res["mantis_gates"][0]["gate"] == 1
+    assert "Świecko" in res["mantis_gates"][0]["decision"]
+    assert "Chińska" in res["mantis_gates"][2]["decision"]
+
+
 
 
 

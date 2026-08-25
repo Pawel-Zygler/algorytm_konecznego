@@ -649,11 +649,13 @@ def calculate_koneczny_metrics(llm_data: Dict[str, Any]) -> Dict[str, Any]:
     arab_w = round(sac_val * 60) if sac_val >= 0.3 else 0
     jew_w = round(sac_val * 35) if sac_val >= 0.3 else 0
 
-    tot_w = lat_w + biz_w + tur_w + arab_w + jew_w or 100
+    chin_w = round((1.0 - sac_val) * 40 + (1.0 - s_val) * 30) if (s_val < 0.45 and any(k in (result.get("text", "") or "").upper() for k in ["CHIŃSK", "CHINY", "CHINA", "KONFUCI", "TAO", "DAO"])) else 0
+    tot_w = lat_w + biz_w + tur_w + chin_w + arab_w + jew_w or 100
     spec = [
         {"key": "latin", "label": "Łacińska", "color": "#10b981", "pct": round((lat_w / tot_w) * 100)},
         {"key": "byzantine", "label": "Bizantyńska", "color": "#ef4444", "pct": round((biz_w / tot_w) * 100)},
         {"key": "turanian", "label": "Turańska", "color": "#dc2626", "pct": round((tur_w / tot_w) * 100)},
+        {"key": "chinese", "label": "Chińska", "color": "#eab308", "pct": round((chin_w / tot_w) * 100)},
         {"key": "arab", "label": "Arabska", "color": "#059669", "pct": round((arab_w / tot_w) * 100)},
         {"key": "jewish", "label": "Żydowska", "color": "#0284c7", "pct": round((jew_w / tot_w) * 100)}
     ]
@@ -805,6 +807,173 @@ schema_9 = {
         "inheritance_news_1", "inheritance_news_2", "inheritance_news_3", "inheritance_justification"
     ]
 }
+
+def analyze_sample_jmantis(text: str, api_key: str = None) -> Dict[str, Any]:
+    """
+    Szybka, drapieżna klasyfikacja jMantis (Reguła Pareto 80/20 & Information Gain).
+    Ewaluuje 6 węzłowych indeksów bramek decyzyjnych:
+    - 1. sacrality (Indeks Sakralności)
+    - 2. dualism (Dualizm Prawny)
+    - 3. church (Niezależność Kościoła od Państwa)
+    - 4. conscience_status (Status Sumienia / Dwoistość)
+    - 5. personalism (Personalizm / Ustrój Obozowy)
+    - 6. public_morality (Totalność i Uniwersalizm Moralności)
+    """
+    mantis_indices = ["sacrality", "dualism", "church", "conscience_status", "personalism", "public_morality"]
+    result = analyze_sample(text, api_key=api_key, target_indices=mantis_indices)
+    result["mode"] = "jmantis"
+
+    sac_score = result.get("sacrality_score", -1.0)
+    dual_score = result.get("legal_dualism_score", -1.0)
+    church_score = result.get("church_independence_score", -1.0)
+    conscience_score = result.get("conscience_status_score", -1.0)
+    if conscience_score < 0 and "conscience_autonomous_score" in result:
+        conscience_score = result.get("conscience_autonomous_score", -1.0)
+    pers_score = result.get("personalism_score", -1.0)
+    pub_moral_score = result.get("public_morality_totality_score", -1.0)
+
+    # 1. BRAMKA 1: CZYSTE KRYTERIUM SAKRALNOŚCI
+    # Sakralność w metodzie Konecznego to stan, gdy prawo i ustrój są oparte na religijnym dogmacie/piśmie.
+    is_sacral = sac_score >= 0.40
+
+    gate_steps = []
+    gate_steps.append({
+        "gate": 1,
+        "name": "Bramka 1: Sakralność vs Świeckość (SACRALITY_INDEX)",
+        "score": sac_score,
+        "decision": "Ścieżka Sakralna (Monizm Prawno-Religijny)" if is_sacral else "Ścieżka Świecko-Rozumowa (Łacińska / Bizantyńska / Turańska)"
+    })
+
+    if is_sacral:
+        # ŚCIEŻKA SAKRALNA (Islam / Judaizm / Braminizm)
+        text_upper = (text or "").upper()
+        is_jewish_sacral = any(k in text_upper for k in ["IZRAEL", "ŻYDOWSK", "TORA", "TALMUD", "HALACHA", "JUDAIZM", "RABIN"]) and not any(k in text_upper for k in ["SZARIAT", "ISLAM", "KORAN", "ALLAH", "TALIB"])
+        is_brahmin_sacral = any(k in text_upper for k in ["BRAMIN", "KASTY", "HINDU", "WEDY", "MANU"])
+
+        if is_jewish_sacral:
+            primary_civ = "Żydowska"
+            diag = "Monizm Prawno-Sakralny (Etyka partykularno-rodowa, kazuistyka talmudyczna)"
+            sub_type_decision = "Etyka Partykularna i Kazuistyka Rodowa (Cywilizacja Żydowska)"
+            scope_decision = "Partykularyzm Rodowo-Narodowy / Naród Wybrany (Etyka podwójna)"
+            fam_decision = "Monogamia Rodowa i Prawo Majątkowe Rodu"
+        elif is_brahmin_sacral:
+            primary_civ = "Bramińska"
+            diag = "Monizm Kastowo-Rytualny (Brak pojęcia osoby, podział kastowy)"
+            sub_type_decision = "Ustrój Kastowo-Rytualny (Cywilizacja Bramińska)"
+            scope_decision = "Hierarchia Kastowa / Karma i Reinkarnacja"
+            fam_decision = "Ustrój Wielorodzinny i Brak Indywidualizmu"
+        else:
+            primary_civ = "Arabska / Sakralna"
+            diag = "Monizm Prawno-Religijny (Teokracja, Szariat, ustrój obozowo-religijny)"
+            sub_type_decision = "Państwowy Monizm Szariatu i Władza Teokratyczna (Cywilizacja Arabska)"
+            scope_decision = "Powszechny Zasięg Prawa Sakralnego / Umma"
+            fam_decision = "Poligamia i Ustrój Obozowo-Religijny"
+
+        gate_steps.append({
+            "gate": 2,
+            "name": "Bramka 2: Typ Monizmu Sakralnego",
+            "score": sac_score,
+            "decision": sub_type_decision
+        })
+        gate_steps.append({
+            "gate": 3,
+            "name": "Bramka 3: Zasięg Etyki Sakralnej (Umma vs Ród vs Kasty)",
+            "score": pub_moral_score,
+            "decision": scope_decision
+        })
+        gate_steps.append({
+            "gate": 4,
+            "name": "Bramka 4: Emancypacja Rodziny & Ustrój Małżeński",
+            "score": pers_score,
+            "decision": fam_decision
+        })
+        gate_steps.append({
+            "gate": 5,
+            "name": "Bramka 5: Weryfikacja Dualizmu Prawnego (LEGAL_DUALISM_INDEX)",
+            "score": dual_score,
+            "decision": "Całkowity brak dualizmu świeckiego — Czysty Monizm Teokratyczny" if dual_score < 0.35 else "Szczątkowy Dualizm"
+        })
+
+    else:
+        # ŚCIEŻKA ŚWIECKO-ROZUMOWA (Łacińska vs Bizantyńska vs Turańska)
+        is_dual = dual_score >= 0.48
+
+        gate_steps.append({
+            "gate": 2,
+            "name": "Bramka 2: Dualizm Prawny vs Monizm (LEGAL_DUALISM_INDEX)",
+            "score": dual_score,
+            "decision": "Dualizm Prawny — Rozdział prawa prywatnego i publicznego (Łacińska)" if is_dual else "Monizm Prawny — Pochłonięcie prawa przez państwo lub władcę (Bizantyńska / Turańska)"
+        })
+
+        if is_dual:
+            primary_civ = "Łacińska"
+            diag = "Dominacja norm personalistycznych i dualizm prawny (Prymat etyki nad ustawą)"
+
+            gate_steps.append({
+                "gate": 3,
+                "name": "Bramka 3: Niezależność Religii od Państwa (CHURCH_INDEPENDENCE)",
+                "score": church_score,
+                "decision": "Autonomia Kościoła i Sumienia (Prymat Etyki nad Władzą)"
+            })
+            gate_steps.append({
+                "gate": 4,
+                "name": "Bramka 4: Status Sumienia (CONSCIENCE_STATUS)",
+                "score": conscience_score,
+                "decision": "Jednolita moralność w życiu prywatnym i publicznym (Brak dwóch sumień)"
+            })
+            gate_steps.append({
+                "gate": 5,
+                "name": "Bramka 5: Podmiotowość Jednostki (PERSONALISM_INDEX)",
+                "score": pers_score,
+                "decision": "Personalizm — Osoba ludzka niezależnym podmiotem prawa i wolnej woli"
+            })
+        else:
+            # Monizm: rozróżnienie Bizantynizm vs Turańszczyzna vs Chińska
+            is_chinese = any(k in (text or "").upper() for k in ["CHIŃSK", "CHINY", "CHINA", "KONFUCI", "DAO", "TAO", "RYTUAŁ LI", "KULT PRZODKÓW", "MANDAT NIEBIOS", "PAŃSTWO ŚRODKA"])
+            is_camp_regime = (pers_score >= 0 and pers_score < 0.25) or (church_score >= 0 and church_score < 0.20 and pers_score < 0.30)
+
+            if is_chinese:
+                primary_civ = "Chińska"
+                diag = "Monizm Etykietalno-Rodowy (Konfucjanizm, kult przodków, aczasowość, prymat rodu)"
+                b3_dec = "Areligijność / Kult Przodków i Rytuał Li (Cywilizacja Chińska)"
+                b4_dec = "Etykieta i Konwenans Społeczny zamiast dogmatu sumienia"
+                b5_dec = "Ustrój Rodowy — Jednostka podporządkowana ciągłości rodu i tradycji"
+            elif is_camp_regime:
+                primary_civ = "Turańska"
+                diag = "Monizm Prawa Prywatnego Władcy (Ustrój obozowy, brak stabilnej własności)"
+                b3_dec = "Monizm Władcy / Czysta Siła Fizyczna (Cywilizacja Turańska)"
+                b4_dec = "Brak etyki w prawie — Decyduje bezwzględna wola wodza i dyscyplina"
+                b5_dec = "Ustrój Obozowy — Człowiek zredukowany do żołnierza / narzędzia wodza"
+            else:
+                primary_civ = "Bizantyńska"
+                diag = "Monizm Prawa Publicznego (Cezaropapizm, biurokracja, dwoistość sumienia)"
+                b3_dec = "Cezaropapizm / Podporządkowanie Religii Państwu (Bizantynizm)"
+                b4_dec = "Dwoistość Sumienia — Etyka prywatna vs Racja Stanu"
+                b5_dec = "Statolatria — Obywatel zredukowany do funkcji w machinie państwowej"
+
+            gate_steps.append({
+                "gate": 3,
+                "name": "Bramka 3: Relacja Władza-Religia (CHURCH_INDEPENDENCE)",
+                "score": church_score,
+                "decision": b3_dec
+            })
+            gate_steps.append({
+                "gate": 4,
+                "name": "Bramka 4: Status Sumienia (CONSCIENCE_STATUS)",
+                "score": conscience_score,
+                "decision": b4_dec
+            })
+            gate_steps.append({
+                "gate": 5,
+                "name": "Bramka 5: Podmiotowość Jednostki (PERSONALISM_INDEX)",
+                "score": pers_score,
+                "decision": b5_dec
+            })
+
+    result["primary_civilization"] = primary_civ
+    result["civilization_diagnosis"] = diag
+    result["mantis_gates"] = gate_steps
+    return result
 
 def analyze_sample_lite(text: str, api_key: str = None) -> Dict[str, Any]:
     """
