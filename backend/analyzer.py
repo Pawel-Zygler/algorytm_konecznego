@@ -2,11 +2,14 @@ import os
 import json
 import time
 import re
+import logging
 import requests
 import json_repair
 from typing import Dict, Any
 from backend import config
 from backend import rag
+
+logger = logging.getLogger("backend.analyzer")
 
 INDEX_DEV_FLAGS = {
     "sacrality": True,
@@ -76,7 +79,7 @@ def get_indices_context() -> str:
                         content = f.read(2000)
                     context_parts.append(f"=== {filename} ===\n{content}\n")
                 except Exception as e:
-                    print(f"Error reading index file {filename}: {e}")
+                    logger.error(f"Error reading index file {filename}: {e}")
 
     _INDICES_CONTEXT_CACHE = "\n".join(context_parts)
     return _INDICES_CONTEXT_CACHE
@@ -232,7 +235,7 @@ def call_gemini_api(prompt: str, system_instruction: str, api_key: str, schema: 
                             else:
                                 finish_reason = cand.get('finishReason', 'UNKNOWN')
                                 last_error = f"Gemini model {model_name} response missing text (finishReason: {finish_reason})"
-                                print(f"⚠️ {last_error}")
+                                logger.warning(f"⚠️ {last_error}")
                                 continue
                         else:
                             last_error = f"Gemini model {model_name} returned empty candidates"
@@ -253,34 +256,34 @@ def call_gemini_api(prompt: str, system_instruction: str, api_key: str, schema: 
                             
                         if retry_secs <= 25 and attempt == 0:
                             wait_time = min(retry_secs + 0.5, 25)
-                            print(f"⚠️ Quota 429 hit on {model_name} (Key: ...{current_key[-4:]}). Waiting {wait_time:.1f}s before retry...")
+                            logger.warning(f"⚠️ Quota 429 hit on {model_name} (Key: ...{current_key[-4:]}). Waiting {wait_time:.1f}s before retry...")
                             time.sleep(wait_time)
                             continue  # Retry attempt 1
                         else:
-                            print(f"⚠️ Quota 429 on {model_name}. Rotating key/model...")
+                            logger.warning(f"⚠️ Quota 429 on {model_name}. Rotating key/model...")
                             break  # Move to next model
 
                     elif response.status_code == 404:
                         _DISABLED_GEMINI_MODELS.add(model_name)
                         last_error = f"Model {model_name} is no longer available (404). Added to disabled models list."
-                        print(f"⛔ {last_error}")
+                        logger.error(f"⛔ {last_error}")
                         break  # Move to next model
 
                     elif response.status_code in [400, 403]:
                         last_error = f"Key ...{current_key[-4:]} invalid for Gemini ({response.status_code}): {response.text}"
-                        print(f"⚠️ {last_error}. Skipping key...")
+                        logger.warning(f"⚠️ {last_error}. Skipping key...")
                         key_invalid = True
                         break  # Break out of model attempts, move to next key
 
                     elif response.status_code in [500, 503]:
                         last_error = f"Model {model_name} server error ({response.status_code}): {response.text}"
-                        print(f"⚠️ {last_error}. Trying next model...")
+                        logger.warning(f"⚠️ {last_error}. Trying next model...")
                         time.sleep(2)
                         break  # Move to next model
 
                 except requests.exceptions.RequestException as e:
                     last_error = f"Network error on {model_name}: {str(e)}"
-                    print(f"⚠️ {last_error}. Trying next model...")
+                    logger.warning(f"⚠️ {last_error}. Trying next model...")
                     break
             
             if 'key_invalid' in locals() and key_invalid:
@@ -1177,7 +1180,7 @@ def analyze_sample(text: str, api_key: str = None, target_indices: list = None) 
     try:
         book_passages = rag.retrieve_relevant_passages(text, n_results=3)
     except Exception as e:
-        print(f"RAG retrieval warning: {e}")
+        logger.warning(f"RAG retrieval warning: {e}")
 
     rag_context = rag.format_passages_for_prompt(book_passages) if book_passages else ""
 
@@ -2484,7 +2487,7 @@ Zwróć JSON."""
                         llm_data.update(res)
                 except Exception as exc:
                     last_exception = exc
-                    print(f"Task generated an exception: {exc}")
+                    logger.error(f"Task generated an exception: {exc}")
 
     if tasks and not llm_data and last_exception:
         raise last_exception

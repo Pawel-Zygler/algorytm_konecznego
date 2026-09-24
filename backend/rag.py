@@ -7,10 +7,13 @@ then retrieves relevant passages to augment LLM prompts.
 import os
 import json
 import hashlib
+import logging
 import chromadb
 from chromadb.config import Settings
 from typing import List, Tuple
 from backend import config
+
+logger = logging.getLogger("backend.rag")
 
 # Paths
 BOOKS_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "books")
@@ -105,7 +108,7 @@ def build_index(force: bool = False) -> dict:
     stats = {"indexed": 0, "skipped": 0, "failed": 0, "total_chunks": 0}
     
     if not os.path.exists(BOOKS_DIR):
-        print(f"Books directory not found: {BOOKS_DIR}")
+        logger.warning(f"Books directory not found: {BOOKS_DIR}")
         return stats
     
     pdf_files = [f for f in os.listdir(BOOKS_DIR) if f.lower().endswith(".pdf")]
@@ -117,14 +120,14 @@ def build_index(force: bool = False) -> dict:
         # Skip if already indexed and unchanged
         if not force and index_state.get(filename) == file_hash:
             stats["skipped"] += 1
-            print(f"  Pominięto (bez zmian): {filename}")
+            logger.info(f"  Pominięto (bez zmian): {filename}")
             continue
         
-        print(f"  Indeksuję: {filename}...")
+        logger.info(f"  Indeksuję: {filename}...")
         try:
             text = extract_text_from_pdf(pdf_path)
             if not text.strip():
-                print(f"    Ostrzeżenie: Brak tekstu w pliku {filename} (może być skan bez OCR)")
+                logger.warning(f"    Ostrzeżenie: Brak tekstu w pliku {filename} (może być skan bez OCR)")
                 stats["failed"] += 1
                 continue
             
@@ -160,10 +163,10 @@ def build_index(force: bool = False) -> dict:
             index_state[filename] = file_hash
             stats["indexed"] += 1
             stats["total_chunks"] += len(chunks)
-            print(f"    OK: {len(chunks)} fragmentów")
+            logger.info(f"    OK: {len(chunks)} fragmentów")
             
         except Exception as e:
-            print(f"    Błąd przy indeksowaniu {filename}: {e}")
+            logger.error(f"    Błąd przy indeksowaniu {filename}: {e}")
             stats["failed"] += 1
     
     save_index_state(index_state)

@@ -3163,6 +3163,361 @@
       `;
     }
 
+    const CIVILIZATIONS_TREE = [
+      {
+        id: 'lacinska',
+        key: 'latin',
+        name: 'ŁACIŃSKA',
+        tag: 'Statolatria / Wolność',
+        subtag: 'Personalizm / Wolność',
+        sacrality: 'Niska (< 0.40)',
+        isSacral: false,
+        legalDualism: 'Dualizm Prawny',
+        powerRelation: 'Autonomia / Hegemonia Etyki',
+        desc: 'Prymat osoby ludzkiej, dualizm prawa publicznego i prywatnego, etyka ponad państwem.',
+        pathNodes: ['root', 'sacral_low', 'dualism_yes', 'civ_lacinska'],
+        breadcrumbs: ['Kosmos Tekstu', 'Sakralność Niska (<0.40)', 'Dualizm Prawny', 'CYWILIZACJA ŁACIŃSKA']
+      },
+      {
+        id: 'bizantynska',
+        key: 'byzantine',
+        name: 'BIZANTYŃSKA',
+        tag: 'Statolatria',
+        subtag: 'Cezaropapizm',
+        sacrality: 'Niska (< 0.40)',
+        isSacral: false,
+        legalDualism: 'Monizm Prawny',
+        powerRelation: 'Cezaropapizm',
+        desc: 'Biurokracja, podporządkowanie Kościoła państwu, brak etyki w życiu publicznym.',
+        pathNodes: ['root', 'sacral_low', 'dualism_no', 'rel_cezar', 'civ_bizantynska'],
+        breadcrumbs: ['Kosmos Tekstu', 'Sakralność Niska (<0.40)', 'Monizm Prawny', 'Cezaropapizm', 'CYWILIZACJA BIZANTYŃSKA']
+      },
+      {
+        id: 'turanska',
+        key: 'turanian',
+        name: 'TURAŃSKA',
+        tag: 'Ustrój Obozowy',
+        subtag: 'Monizm Siły',
+        sacrality: 'Niska (< 0.40)',
+        isSacral: false,
+        legalDualism: 'Monizm Prawny',
+        powerRelation: 'Monizm Siły',
+        desc: 'Władza wodza, obozowa organizacja społeczeństwa, bezetyczność państwowa.',
+        pathNodes: ['root', 'sacral_low', 'dualism_no', 'rel_sila', 'civ_turanska'],
+        breadcrumbs: ['Kosmos Tekstu', 'Sakralność Niska (<0.40)', 'Monizm Prawny', 'Monizm Siły', 'CYWILIZACJA TURAŃSKA']
+      },
+      {
+        id: 'chinska',
+        key: 'chinese',
+        name: 'CHIŃSKA',
+        tag: 'Konfucjanizm, Rytuał "Li", Kult Rodu',
+        subtag: 'Kult Rodu "Li"',
+        sacrality: 'Niska (< 0.40)',
+        isSacral: false,
+        legalDualism: 'Monizm Prawny',
+        powerRelation: 'Areligijność / Kult Rodu',
+        desc: 'Cesarz jako ojciec rodu, rytuał Konfucjański "Li", państwo jako wyolbrzymiona rodzina.',
+        pathNodes: ['root', 'sacral_low', 'dualism_no', 'rel_rod', 'civ_chinska'],
+        breadcrumbs: ['Kosmos Tekstu', 'Sakralność Niska (<0.40)', 'Monizm Prawny', 'Areligijność / Kult Rodu', 'CYWILIZACJA CHIŃSKA']
+      },
+      {
+        id: 'arabska',
+        key: 'arab',
+        name: 'ARABSKA',
+        tag: 'Teokracja Koraniczna',
+        subtag: 'Teokracja',
+        sacrality: 'Wysoka (>= 0.40)',
+        isSacral: true,
+        legalDualism: 'Monizm Sakralny',
+        powerRelation: 'Szariat / Teokracja',
+        desc: 'Prawo publiczne wywiedzione z prywatnego (Koran), brak samorządności społeczeństwa.',
+        pathNodes: ['root', 'sacral_high', 'sac_quran', 'civ_arabska'],
+        breadcrumbs: ['Kosmos Tekstu', 'Sakralność Wysoka (>=0.40)', 'Prawo Szariatu', 'CYWILIZACJA ARABSKA']
+      },
+      {
+        id: 'zydowska',
+        key: 'jewish',
+        name: 'ŻYDOWSKA',
+        tag: 'Monizm Talmudyczny',
+        subtag: 'Obrzędowość',
+        sacrality: 'Wysoka (>= 0.40)',
+        isSacral: true,
+        legalDualism: 'Monizm Sakralny',
+        powerRelation: 'Nacjonalizm Sakralny / Talmud',
+        desc: 'Aprioryczny sakralizm talmudyczny, drobiazgowa obrzędowość, monizm rodowo-religijny.',
+        pathNodes: ['root', 'sacral_high', 'sac_talmud', 'civ_zydowska'],
+        breadcrumbs: ['Kosmos Tekstu', 'Sakralność Wysoka (>=0.40)', 'Kult Talmudyczny', 'CYWILIZACJA ŻYDOWSKA']
+      },
+      {
+        id: 'braminska',
+        key: 'brahmin',
+        name: 'BRAMIŃSKA',
+        tag: 'System Kastowy & Karma',
+        subtag: 'Kasty',
+        sacrality: 'Wysoka (>= 0.40)',
+        isSacral: true,
+        legalDualism: 'Monizm Kastowy',
+        powerRelation: 'Kasty / Vedy / Karma',
+        desc: 'Sakralna struktura kastowa, bezetyczność polityczna, ścisły podział społeczny.',
+        pathNodes: ['root', 'sacral_high', 'sac_kasty', 'civ_braminska'],
+        breadcrumbs: ['Kosmos Tekstu', 'Sakralność Wysoka (>=0.40)', 'Podział Kastowy', 'CYWILIZACJA BRAMIŃSKA']
+      }
+    ];
+
+    let defaultCivTreeId = 'lacinska';
+    if (activeCivKey === 'byzantine' || (data.primary_civilization && data.primary_civilization.toLowerCase().includes('bizant'))) defaultCivTreeId = 'bizantynska';
+    else if (activeCivKey === 'turanian' || (data.primary_civilization && data.primary_civilization.toLowerCase().includes('turan'))) defaultCivTreeId = 'turanska';
+    else if (activeCivKey === 'chinese' || (data.primary_civilization && data.primary_civilization.toLowerCase().includes('chiń'))) defaultCivTreeId = 'chinska';
+    else if (activeCivKey === 'arab' || (data.primary_civilization && data.primary_civilization.toLowerCase().includes('arab'))) defaultCivTreeId = 'arabska';
+    else if (activeCivKey === 'jewish' || (data.primary_civilization && data.primary_civilization.toLowerCase().includes('żyd'))) defaultCivTreeId = 'zydowska';
+    else if (activeCivKey === 'brahmin' || (data.primary_civilization && data.primary_civilization.toLowerCase().includes('bram'))) defaultCivTreeId = 'braminska';
+    else if (activeCivKey === 'latin' || (data.primary_civilization && data.primary_civilization.toLowerCase().includes('łac'))) defaultCivTreeId = 'lacinska';
+
+    function generateDecisionTreeFlowchartHtml(civId) {
+      const selectedCiv = CIVILIZATIONS_TREE.find(c => c.id === civId || c.key === civId) || CIVILIZATIONS_TREE[0];
+      const isNodeActive = (nodeId) => selectedCiv.pathNodes.includes(nodeId);
+      const isPathActive = (nodeA, nodeB) => isNodeActive(nodeA) && isNodeActive(nodeB);
+
+      return `
+        <!-- DRZEWO DECYZYJNE KLASYFIKACJI (PARETO 80/20 & BRAMKI INFORMACYJNE) -->
+        <div style="background: rgba(7, 11, 20, 0.95); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 12px; padding: 14px 16px; margin-top: 10px; box-shadow: 0 8px 30px rgba(0,0,0,0.5); overflow-x: auto;">
+          
+          <!-- NAGŁÓWEK DIAGRAMU -->
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 8px; margin-bottom: 10px; flex-wrap: wrap; gap: 6px;">
+            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #38bdf8; display: flex; align-items: center; gap: 6px;">
+              <span style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 4px; background: rgba(56, 189, 248, 0.15); color: #38bdf8; font-size: 11px;">🌿</span>
+              <span>DRZEWO DECYZYJNE KLASYFIKACJI Z PODŚWIETLANYMI LINIAMI ŁĄCZĄCYMI</span>
+            </div>
+            <div style="font-size: 10px; color: #94a3b8; font-family: monospace;">
+              AKTYWNA CYWILIZACJA: <strong id="dt-civ-name-badge" style="color: #38bdf8; font-weight: 800;">${selectedCiv.name}</strong>
+            </div>
+          </div>
+
+          <!-- PASEK OKRUSZKÓW AKTYWNEJ ŚCIEŻKI -->
+          <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 6px 10px; margin-bottom: 14px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px;">
+            <div style="display: flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 800; color: #94a3b8; text-transform: uppercase;">
+              <span>⚡</span>
+              <span>Aktywny Ślad:</span>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px; font-family: monospace; font-size: 10px;">
+              ${selectedCiv.breadcrumbs.map((crumb, idx) => `
+                <span style="padding: 2px 7px; border-radius: 4px; font-weight: 700; ${
+                  idx === selectedCiv.breadcrumbs.length - 1
+                    ? 'background: #38bdf8; color: #020617; box-shadow: 0 0 10px rgba(56,189,248,0.4);'
+                    : 'background: rgba(15, 23, 42, 0.9); color: #7dd3fc; border: 1px solid rgba(56,189,248,0.25);'
+                }">${crumb}</span>
+                ${idx < selectedCiv.breadcrumbs.length - 1 ? '<span style="color: #475569; font-size: 10px;">&gt;</span>' : ''}
+              `).join('')}
+            </div>
+          </div>
+
+          <!-- SIATKA DRZEWA -->
+          <div style="min-width: 680px; display: flex; flex-direction: column; align-items: center;">
+            
+            <!-- KROK 0: CAŁY KOSMOS TEKSTU -->
+            <div style="padding: 6px 18px; border-radius: 10px; font-size: 11px; font-weight: 900; font-family: monospace; transition: all 0.3s ease; ${
+              isNodeActive('root')
+                ? 'background: #06b6d4; color: #020617; border: 1.5px solid #67e8f9; box-shadow: 0 0 16px rgba(6,182,212,0.5);'
+                : 'background: rgba(15, 23, 42, 0.9); color: #64748b; border: 1px solid rgba(255,255,255,0.08);'
+            }">
+              [CAŁY KOSMOS TEKSTU]
+            </div>
+
+            <!-- Pionowa linia z Root do Krok 1 -->
+            <div style="width: 2px; height: 16px; background: ${
+              isPathActive('root', 'sacral_low') || isPathActive('root', 'sacral_high')
+                ? '#38bdf8; box-shadow: 0 0 8px rgba(56,189,248,0.8);'
+                : 'rgba(255,255,255,0.1);'
+            } transition: all 0.4s ease;"></div>
+
+            <!-- KROK 1: SACRALITY INDEX -->
+            <div style="text-align: center; font-weight: 700; font-size: 11px; color: #e2e8f0; text-transform: uppercase; letter-spacing: 0.04em; background: rgba(15, 23, 42, 0.95); padding: 5px 14px; border-radius: 8px; border: 1px solid rgba(56, 189, 248, 0.3); box-shadow: 0 2px 8px rgba(0,0,0,0.4); display: flex; align-items: center; gap: 6px;">
+              <span style="color: #38bdf8; font-size: 12px;">📊</span>
+              <span>1. SACRALITY_INDEX (Sakralność vs Świeckość)</span>
+            </div>
+
+            <!-- Poziomy łącznik rozgałęzienia Krok 1 -->
+            <div style="width: 58%; height: 2px; position: relative; margin: 6px 0; background: rgba(255,255,255,0.08);">
+              ${isNodeActive('sacral_low') ? `
+                <div style="position: absolute; left: 0; width: 50%; height: 100%; background: #38bdf8; box-shadow: 0 0 8px rgba(56,189,248,0.8);"></div>
+              ` : ''}
+              ${isNodeActive('sacral_high') ? `
+                <div style="position: absolute; right: 0; width: 50%; height: 100%; background: #818cf8; box-shadow: 0 0 8px rgba(129,140,248,0.8);"></div>
+              ` : ''}
+            </div>
+
+            <!-- GŁÓWNY PODZIAŁ 2 KOLUMN (NISKA vs WYSOKA SAKRALNOŚĆ) -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; width: 100%; max-width: 820px; align-items: start;">
+              
+              <!-- LEWA GAŁĄŹ: NISKA SAKRALNOŚĆ -->
+              <div style="display: flex; flex-direction: column; align-items: center;">
+                <div style="width: 100%; padding: 8px 10px; border-radius: 10px; text-align: center; transition: all 0.3s ease; ${
+                  isNodeActive('sacral_low')
+                    ? 'background: rgba(8, 51, 68, 0.9); border: 1.5px solid #38bdf8; color: #7dd3fc; box-shadow: 0 0 14px rgba(56, 189, 248, 0.35);'
+                    : 'background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.08); color: #64748b;'
+                }">
+                  <span style="font-family: monospace; font-size: 10.5px; font-weight: 800; display: block; color: ${isNodeActive('sacral_low') ? '#38bdf8' : '#94a3b8'};">[Niska &lt; 0.40]</span>
+                  <span style="font-size: 10px; font-weight: 600; display: block; margin-top: 1px;">(Łac / Biz / Tur / CHIŃSKA)</span>
+                </div>
+
+                <!-- Linia pionowa do Krok 2 -->
+                <div style="width: 2px; height: 14px; background: ${
+                  isNodeActive('sacral_low') ? '#38bdf8; box-shadow: 0 0 8px rgba(56,189,248,0.8);' : 'rgba(255,255,255,0.1);'
+                }"></div>
+
+                <!-- KROK 2: LEGAL DUALISM INDEX -->
+                <div style="width: 100%; text-align: center; background: rgba(15, 23, 42, 0.9); padding: 6px 8px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08);">
+                  <span style="font-size: 10px; font-weight: 800; color: #38bdf8; text-transform: uppercase; display: block;">2. LEGAL_DUALISM_INDEX</span>
+                  <span style="font-size: 9px; color: #94a3b8; display: block;">(Dualizm vs Monizm Prawa)</span>
+                </div>
+
+                <!-- Poziomy łącznik dla Dualizmu i Monizmu -->
+                <div style="width: 76%; height: 2px; position: relative; margin: 6px 0; background: rgba(255,255,255,0.08);">
+                  ${isNodeActive('dualism_yes') ? `
+                    <div style="position: absolute; left: 0; width: 50%; height: 100%; background: #10b981; box-shadow: 0 0 8px rgba(16,185,129,0.8);"></div>
+                  ` : ''}
+                  ${isNodeActive('dualism_no') ? `
+                    <div style="position: absolute; right: 0; width: 50%; height: 100%; background: #38bdf8; box-shadow: 0 0 8px rgba(56,189,248,0.8);"></div>
+                  ` : ''}
+                </div>
+
+                <!-- Pod-gałęzie: Dualizm vs Monizm -->
+                <div style="display: grid; grid-template-columns: 1fr 1.6fr; gap: 8px; width: 100%;">
+                  
+                  <!-- DUALIZM -> ŁACIŃSKA -->
+                  <div style="display: flex; flex-direction: column; align-items: center;">
+                    <div style="width: 100%; padding: 5px; border-radius: 6px; text-align: center; transition: all 0.2s ease; ${
+                      isNodeActive('dualism_yes')
+                        ? 'background: rgba(6, 78, 59, 0.9); border: 1.5px solid #10b981; color: #a7f3d0; font-weight: 800;'
+                        : 'background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.06); color: #64748b;'
+                    }">
+                      <span style="font-size: 9px; font-family: monospace; text-transform: uppercase; display: block;">[Dualizm]</span>
+                    </div>
+
+                    <!-- Strzałka do Łacińskiej -->
+                    <div style="width: 2px; height: 10px; background: ${isNodeActive('dualism_yes') ? '#10b981; box-shadow: 0 0 8px rgba(16,185,129,0.8);' : 'rgba(255,255,255,0.1);'}"></div>
+                    <span style="font-size: 11px; margin-top: -4px; color: ${isNodeActive('dualism_yes') ? '#10b981' : '#475569'};">&darr;</span>
+
+                    <button class="civ-tree-btn" data-civ="lacinska" style="margin-top: 2px; width: 100%; padding: 7px 6px; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
+                      selectedCiv.id === 'lacinska'
+                        ? 'background: #10b981; color: #020617; font-weight: 900; border: 1.5px solid #6ee7b7; box-shadow: 0 0 16px rgba(16, 185, 129, 0.4);'
+                        : 'background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
+                    }">
+                      <span style="font-size: 11px; font-weight: 800; display: block;">ŁACIŃSKA</span>
+                      <span style="font-size: 8px; display: block; opacity: 0.85; margin-top: 1px;">Personalizm / Wolność</span>
+                    </button>
+                  </div>
+
+                  <!-- MONIZM -> KROK 3 RELACJA WŁADZA -->
+                  <div style="display: flex; flex-direction: column; align-items: center;">
+                    <div style="width: 100%; padding: 5px; border-radius: 6px; text-align: center; transition: all 0.2s ease; ${
+                      isNodeActive('dualism_no')
+                        ? 'background: rgba(8, 51, 68, 0.9); border: 1.5px solid #38bdf8; color: #bae6fd; font-weight: 800;'
+                        : 'background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.06); color: #64748b;'
+                    }">
+                      <span style="font-size: 9px; font-family: monospace; text-transform: uppercase; display: block;">[Monizm]</span>
+                    </div>
+
+                    <div style="width: 2px; height: 10px; background: ${isNodeActive('dualism_no') ? '#38bdf8; box-shadow: 0 0 8px rgba(56,189,248,0.8);' : 'rgba(255,255,255,0.1);'}"></div>
+
+                    <div style="width: 100%; background: rgba(15, 23, 42, 0.9); padding: 5px 6px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.08); text-align: center;">
+                      <span style="font-size: 8.5px; font-weight: 800; color: #cbd5e1; display: block; text-transform: uppercase;">3. RELACJA WŁADZA - DUCH</span>
+                    </div>
+
+                    <!-- 3 Cywilizacje Monizmu Świeckiego -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; width: 100%; margin-top: 5px;">
+                      <button class="civ-tree-btn" data-civ="bizantynska" style="padding: 5px 3px; border-radius: 6px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
+                        selectedCiv.id === 'bizantynska'
+                          ? 'background: #a855f7; color: #ffffff; font-weight: 900; border: 1.5px solid #d8b4fe; box-shadow: 0 0 12px rgba(168, 85, 247, 0.4);'
+                          : 'background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
+                      }">
+                        <span style="font-size: 7.5px; display: block; opacity: 0.8;">Cezaryzm</span>
+                        <span style="font-size: 8.5px; font-weight: 800; display: block;">BIZANTYŃSKA</span>
+                      </button>
+
+                      <button class="civ-tree-btn" data-civ="turanska" style="padding: 5px 3px; border-radius: 6px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
+                        selectedCiv.id === 'turanska'
+                          ? 'background: #f59e0b; color: #020617; font-weight: 900; border: 1.5px solid #fde68a; box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);'
+                          : 'background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
+                      }">
+                        <span style="font-size: 7.5px; display: block; opacity: 0.8;">Siła</span>
+                        <span style="font-size: 8.5px; font-weight: 800; display: block;">TURAŃSKA</span>
+                      </button>
+
+                      <button class="civ-tree-btn" data-civ="chinska" style="padding: 5px 3px; border-radius: 6px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
+                        selectedCiv.id === 'chinska'
+                          ? 'background: #f43f5e; color: #ffffff; font-weight: 900; border: 1.5px solid #fecdd3; box-shadow: 0 0 12px rgba(244, 63, 94, 0.4);'
+                          : 'background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
+                      }">
+                        <span style="font-size: 7.5px; display: block; opacity: 0.8;">Kult Rodu</span>
+                        <span style="font-size: 8.5px; font-weight: 800; display: block;">CHIŃSKA</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PRAWA GAŁĄŹ: WYSOKA SAKRALNOŚĆ -->
+              <div style="display: flex; flex-direction: column; align-items: center;">
+                <div style="width: 100%; padding: 8px 10px; border-radius: 10px; text-align: center; transition: all 0.3s ease; ${
+                  isNodeActive('sacral_high')
+                    ? 'background: rgba(30, 27, 75, 0.9); border: 1.5px solid #818cf8; color: #c7d2fe; box-shadow: 0 0 14px rgba(129, 140, 248, 0.35);'
+                    : 'background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.08); color: #64748b;'
+                }">
+                  <span style="font-family: monospace; font-size: 10.5px; font-weight: 800; display: block; color: ${isNodeActive('sacral_high') ? '#818cf8' : '#94a3b8'};">[Wysoka &gt;= 0.40]</span>
+                  <span style="font-size: 10px; font-weight: 600; display: block; margin-top: 1px;">(Arab / Żyd / Bram)</span>
+                </div>
+
+                <div style="width: 2px; height: 14px; background: ${
+                  isNodeActive('sacral_high') ? '#818cf8; box-shadow: 0 0 8px rgba(129,140,248,0.8);' : 'rgba(255,255,255,0.1);'
+                }"></div>
+
+                <div style="width: 100%; text-align: center; background: rgba(15, 23, 42, 0.9); padding: 6px 8px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08);">
+                  <span style="font-size: 9.5px; font-weight: 800; color: #818cf8; text-transform: uppercase; display: block;">STRUKTURA MONIZMU SAKRALNEGO</span>
+                  <span style="font-size: 9px; color: #94a3b8; display: block;">(Objawienie / Obowiązek Obrzędowy)</span>
+                </div>
+
+                <!-- 3 Gałęzie Sakralne -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; width: 100%; margin-top: 10px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.08);">
+                  
+                  <button class="civ-tree-btn" data-civ="arabska" style="padding: 7px 4px; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
+                    selectedCiv.id === 'arabska'
+                      ? 'background: #0284c7; color: #ffffff; font-weight: 900; border: 1.5px solid #7dd3fc; box-shadow: 0 0 14px rgba(2, 132, 199, 0.4);'
+                      : 'background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
+                  }">
+                    <span style="font-size: 8px; font-family: monospace; display: block; color: ${selectedCiv.id === 'arabska' ? '#ffffff' : '#38bdf8'}; text-transform: uppercase;">[KORAN]</span>
+                    <span style="font-size: 9.5px; font-weight: 800; display: block; margin: 2px 0;">ARABSKA</span>
+                    <span style="font-size: 8px; opacity: 0.8; display: block;">Teokracja</span>
+                  </button>
+
+                  <button class="civ-tree-btn" data-civ="zydowska" style="padding: 7px 4px; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
+                    selectedCiv.id === 'zydowska'
+                      ? 'background: #ec4899; color: #ffffff; font-weight: 900; border: 1.5px solid #fbcfe8; box-shadow: 0 0 14px rgba(236, 72, 153, 0.4);'
+                      : 'background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
+                  }">
+                    <span style="font-size: 8px; font-family: monospace; display: block; color: ${selectedCiv.id === 'zydowska' ? '#ffffff' : '#f472b6'}; text-transform: uppercase;">[TALMUD]</span>
+                    <span style="font-size: 9.5px; font-weight: 800; display: block; margin: 2px 0;">ŻYDOWSKA</span>
+                    <span style="font-size: 8px; opacity: 0.8; display: block;">Obrzędowość</span>
+                  </button>
+
+                  <button class="civ-tree-btn" data-civ="braminska" style="padding: 7px 4px; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
+                    selectedCiv.id === 'braminska'
+                      ? 'background: #8b5cf6; color: #ffffff; font-weight: 900; border: 1.5px solid #c4b5fd; box-shadow: 0 0 14px rgba(139, 92, 246, 0.4);'
+                      : 'background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
+                  }">
+                    <span style="font-size: 8px; font-family: monospace; display: block; color: ${selectedCiv.id === 'braminska' ? '#ffffff' : '#a78bfa'}; text-transform: uppercase;">[VEDY]</span>
+                    <span style="font-size: 9.5px; font-weight: 800; display: block; margin: 2px 0;">BRAMIŃSKA</span>
+                    <span style="font-size: 8px; opacity: 0.8; display: block;">Kasty</span>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
     const quincunxRadarHtml = generateQuincunxRadarGridHtml(data, activeCivKey, activeLegalKey, activeFamKey);
 
     const sacralityScoreVal = data.sacrality_score >= 0 ? `${Math.round(data.sacrality_score * 100)}%` : 'N/A';
@@ -3170,30 +3525,6 @@
     const generaliaScoreVal = data.ethical_coherence_score >= 0 ? `${data.ethical_coherence_score.toFixed(1)} / 7.0` : 'N/A';
     const chyznoscScoreVal = data.time_mastery_efficiency_score >= 0 ? `${Math.round(data.time_mastery_efficiency_score * 100)}%` : (data.time_mastery_history_score >= 0 ? `${Math.round(data.time_mastery_history_score * 100)}%` : 'N/A');
     const quincunxScoreVal = data.quincunx_coherence_score >= 0 ? `${data.quincunx_coherence_score.toFixed(2)}` : 'N/A';
-
-    let mantisGatesHtml = '';
-    if (data.mantis_gates && Array.isArray(data.mantis_gates) && data.mantis_gates.length > 0) {
-      mantisGatesHtml = `
-        <div style="margin-top: 10px; padding: 10px 14px; background: rgba(14, 165, 233, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 8px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-            <div style="font-size: 10.5px; font-weight: 800; color: #38bdf8; text-transform: uppercase; display: flex; align-items: center; gap: 5px;">
-              <span>Ścieżka Decyzyjna Mantis (Bramki Pareto 80/20)</span>
-            </div>
-            <span style="font-size: 9.5px; background: rgba(56, 189, 248, 0.2); color: #38bdf8; padding: 2px 6px; border-radius: 4px; font-weight: 700;">
-              ${data.mantis_gates.length} Bramki
-            </span>
-          </div>
-          <div style="display: flex; flex-direction: column; gap: 4px;">
-            ${data.mantis_gates.map(g => `
-              <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; padding: 4px 8px; background: rgba(0,0,0,0.25); border-radius: 4px; flex-wrap: wrap; gap: 4px;">
-                <span style="color: #cbd5e1; font-weight: 600;">${g.name}</span>
-                <span style="color: #38bdf8; font-weight: 700; font-size: 10.5px;">&rarr; ${g.decision} ${g.score >= 0 ? `(${Math.round(g.score * 100)}%)` : ''}</span>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-      `;
-    }
 
     const dashboardHtml = `
       <div class="koneczny-dashboard" style="margin: 12px 20px 16px 20px; padding: 14px 16px; background: linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%); border: 1px solid rgba(139, 92, 246, 0.35); border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.35); backdrop-filter: blur(8px);">
@@ -3204,7 +3535,9 @@
             ${renderChips(civOptions, activeCivKey)}
           </div>
           ${spectrumBarHtml}
-          ${mantisGatesHtml}
+          <div id="decision-tree-container">
+            ${generateDecisionTreeFlowchartHtml(defaultCivTreeId)}
+          </div>
           ${civTimelineHtml}
         </div>
 
@@ -3376,6 +3709,21 @@
       });
     });
 
+    // Bind Decision Tree Flowchart civilization buttons
+    function bindDecisionTreeEvents() {
+      content.querySelectorAll('.civ-tree-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const civId = btn.getAttribute('data-civ');
+          const container = content.querySelector('#decision-tree-container');
+          if (container && civId) {
+            container.innerHTML = generateDecisionTreeFlowchartHtml(civId);
+            bindDecisionTreeEvents();
+          }
+        });
+      });
+    }
+    bindDecisionTreeEvents();
 
     // Bind Stepper Timeline Stage buttons (Mountain Climber Steps)
     content.querySelectorAll('.civ-stage-btn').forEach(btn => {

@@ -1,4 +1,5 @@
 import os
+import logging
 from fastapi import FastAPI, HTTPException, Header, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -6,9 +7,14 @@ from typing import Optional, Dict, Any
 import requests
 import fitz
 import io
+from backend.logging_config import setup_logging, get_uvicorn_log_config
 from backend import analyzer
 from backend import rag
 from backend import history
+
+# Initialize timestamped logging
+setup_logging()
+logger = logging.getLogger("backend.main")
 
 app = FastAPI(
     title="Algorytm Konecznego API",
@@ -27,13 +33,14 @@ app.add_middleware(
 
 @app.on_event("startup")
 async def startup_event():
-    """Warm up ChromaDB collection on startup."""
+    """Warm up ChromaDB collection and ensure logging with timestamps on startup."""
+    setup_logging()
     try:
         rag.get_chroma_collection()
         status = rag.get_index_status()
-        print(f"RAG gotowy: {status.get('indexed_files', 0)} plików, {status.get('total_chunks', 0)} fragmentów")
+        logger.info(f"RAG gotowy: {status.get('indexed_files', 0)} plików, {status.get('total_chunks', 0)} fragmentów")
     except Exception as e:
-        print(f"RAG startup warning: {e}")
+        logger.warning(f"RAG startup warning: {e}")
 
 class AnalysisRequest(BaseModel):
     text: Optional[str] = None
@@ -123,8 +130,7 @@ async def analyze_text(request: AnalysisRequest, x_gemini_api_key: Optional[str]
             
         return result
     except Exception as e:
-        import traceback
-        traceback.print_exc()
+        logger.exception(f"Błąd podczas analizy: {e}")
         err_msg = str(e)
         if any(keyword in err_msg for keyword in ["429", "RESOURCE_EXHAUSTED", "Quota exceeded", "rate limit", "QuotaExceeded"]):
             raise HTTPException(
@@ -171,9 +177,9 @@ async def health_check():
 async def index_books(background_tasks: BackgroundTasks, force: bool = False):
     """Triggers indexing of all PDF books into ChromaDB. Runs in the background."""
     def do_index():
-        print("=== Rozpoczynam indeksowanie ksiąg Konecznego ===")
+        logger.info("=== Rozpoczynam indeksowanie ksiąg Konecznego ===")
         stats = rag.build_index(force=force)
-        print(f"=== Indeksowanie zakończone: {stats} ===")
+        logger.info(f"=== Indeksowanie zakończone: {stats} ===")
     
     background_tasks.add_task(do_index)
     return {
@@ -188,4 +194,4 @@ async def rag_status():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("backend.main:app", host="127.0.0.1", port=8000, reload=True)
+    uvicorn.run("backend.main:app", host="127.0.0.1", port=8000, reload=True, log_config=get_uvicorn_log_config())

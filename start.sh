@@ -2,4 +2,4 @@
 # 🏛️ Start script for Algorytm Konecznego Backend
 
 echo "🏛️ Uruchamianie serwera Algorytmu Konecznego..."
-python3 -m uvicorn backend.main:app --port 8005 --reload
+python3 -m uvicorn backend.main:app --port 8005 --reload --log-config backend/log_config.json
