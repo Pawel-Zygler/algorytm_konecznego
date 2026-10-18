@@ -54,7 +54,8 @@
       position: fixed;
       bottom: 88px;
       right: 24px;
-      width: 780px;
+      width: 897px;
+      max-width: calc(100vw - 48px);
       max-height: 94vh;
       background: #ffffff;
       border: 1px solid #e4e4e7;
@@ -800,7 +801,7 @@
           @keyframes spinGlowRing { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
           @keyframes pulsePortrait { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }
         </style>
-        <div style="display: flex; align-items: center; justify-content: center; gap: 14px; max-width: 780px; margin: 0 auto;">
+        <div style="display: flex; align-items: center; justify-content: center; gap: 14px; max-width: 897px; margin: 0 auto;">
           <!-- Bubble Left: Historiosophical statements (Po lewej: te co teraz) -->
           <div style="flex: 1; min-width: 190px; background: rgba(30, 41, 59, 0.85); border: 1px solid rgba(139, 92, 246, 0.4); border-radius: 14px; padding: 12px 14px; text-align: right; box-shadow: 0 4px 16px rgba(0,0,0,0.3); backdrop-filter: blur(6px);">
             <div style="font-size: 9.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #a78bfa; margin-bottom: 4px;">📜 PROFESOR BADA TEKST</div>
@@ -2675,10 +2676,10 @@
     }
 
     const goalOptions = [
-      { key: 'goal_beyond_exist', label: 'Spoza Walki o Byt (Naród & Osoba)', color: '#8b5cf6' },
+      { key: 'goal_beyond_exist', label: 'Spoza Walki o Byt (Osoba & Naród)', color: '#8b5cf6' },
       { key: 'goal_exist_struggle', label: 'Walka o Byt (Ustrój Obozowy)', color: '#dc2626' },
       { key: 'goal_state_machine', label: 'Machina Państwowa (Biurokracja)', color: '#ef4444' },
-      { key: 'goal_religious_formalism', label: 'Formalizm Religijny / Rytuał', color: '#f59e0b' },
+      { key: 'goal_religious_formalism', label: 'Formalizm / Rytuał', color: '#f59e0b' },
       { key: 'goal_clan_tradition', label: 'Kultywowanie Rodu', color: '#eab308' }
     ];
 
@@ -2699,10 +2700,10 @@
     }
 
     const famOptions = [
-      { key: 'fam_full_emanc', label: 'Pełna Emancypacja (Monogamia & Własność Indywidualna)', color: '#10b981' },
-      { key: 'fam_clan_system', label: 'Ustrój Rodowy / Klany (Ekonomia Rodowa)', color: '#eab308' },
+      { key: 'fam_full_emanc', label: 'Pełna Emancypacja (Monogamia & Własność)', color: '#10b981' },
+      { key: 'fam_clan_system', label: 'Ustrój Rodowy / Klany', color: '#eab308' },
       { key: 'fam_polygamy', label: 'Poligamia / Brak Emancypacji', color: '#dc2626' },
-      { key: 'fam_state_collectivism', label: 'Statolatria / Kolektywizm Państwowy', color: '#ef4444' }
+      { key: 'fam_state_collectivism', label: 'Statolatria / Kolektywizm', color: '#ef4444' }
     ];
 
     function calculateCivSpectrum(data, rawTextUpper) {
@@ -2957,14 +2958,14 @@
         const isActive = opt.key === activeKey;
         if (isActive) {
           return `
-            <div style="background: ${opt.color}28; border: 1.5px solid ${opt.color}; color: #f8fafc; padding: 4px 11px; border-radius: 18px; font-size: 11.5px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 0 10px ${opt.color}44;">
+            <div style="background: ${opt.color}28; border: 1.5px solid ${opt.color}; color: #f8fafc; padding: 4px 10px; border-radius: 18px; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 0 10px ${opt.color}44; white-space: nowrap; flex-shrink: 0;" title="${opt.label}">
               <span>${opt.label}</span>
-              <span style="font-size: 9.5px; background: ${opt.color}; color: #0f172a; padding: 1px 4px; border-radius: 8px; font-weight: 800; margin-left: 2px;">✓</span>
+              <span style="font-size: 9px; background: ${opt.color}; color: #0f172a; padding: 1px 4px; border-radius: 8px; font-weight: 800; margin-left: 2px;">✓</span>
             </div>
           `;
         } else {
           return `
-            <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.07); color: #64748b; padding: 4px 10px; border-radius: 18px; font-size: 11px; font-weight: 500; opacity: 0.45; display: inline-flex; align-items: center; gap: 4px;">
+            <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.07); color: #64748b; padding: 4px 9px; border-radius: 18px; font-size: 11px; font-weight: 500; opacity: 0.55; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; flex-shrink: 0;" title="${opt.label}">
               <span>${opt.label}</span>
             </div>
           `;
@@ -3468,11 +3469,11 @@
     const quincunxScoreVal = data.quincunx_coherence_score >= 0 ? `${data.quincunx_coherence_score.toFixed(2)}` : 'N/A';
 
     const dashboardHtml = `
-      <div class="koneczny-dashboard" style="margin: 12px 20px 16px 20px; padding: 14px 16px; background: linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%); border: 1px solid rgba(139, 92, 246, 0.35); border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.35); backdrop-filter: blur(8px);">
+      <div class="koneczny-dashboard" style="margin: 12px 16px 16px 16px; padding: 14px 14px; background: linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%); border: 1px solid rgba(139, 92, 246, 0.35); border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.35); backdrop-filter: blur(8px);">
         <!-- Rząd 1: Cywilizacja -->
         <div style="margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px dashed rgba(255,255,255,0.1);">
           <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; margin-bottom: 5px;">Cywilizacja</div>
-          <div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">
+          <div style="display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: 5px; align-items: center; padding-bottom: 2px;">
             ${renderChips(civOptions, activeCivKey)}
           </div>
           ${spectrumBarHtml}
@@ -3485,7 +3486,7 @@
         <!-- Rząd 2: Prawo -->
         <div style="margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px dashed rgba(255,255,255,0.1);">
           <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; margin-bottom: 5px;">Prawo</div>
-          <div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">
+          <div style="display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: 5px; align-items: center; padding-bottom: 2px;">
             ${renderChips(legalOptions, activeLegalKey)}
           </div>
         </div>
@@ -3493,7 +3494,7 @@
         <!-- Rząd 3: Religia -->
         <div style="margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px dashed rgba(255,255,255,0.1);">
           <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; margin-bottom: 5px;">Religia</div>
-          <div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">
+          <div style="display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: 5px; align-items: center; padding-bottom: 2px;">
             ${renderChips(relOptions, activeRelKey)}
           </div>
         </div>
@@ -3501,7 +3502,7 @@
         <!-- Rząd 4: Cele społeczeństwa -->
         <div style="margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px dashed rgba(255,255,255,0.1);">
           <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; margin-bottom: 5px;">Cele społeczeństwa</div>
-          <div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">
+          <div style="display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: 5px; align-items: center; padding-bottom: 2px;">
             ${renderChips(goalOptions, activeGoalKey)}
           </div>
         </div>
@@ -3509,7 +3510,7 @@
         <!-- Rząd 5: Emancypacja rodziny -->
         <div style="margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px dashed rgba(255,255,255,0.1);">
           <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; margin-bottom: 5px;">Emancypacja rodziny</div>
-          <div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">
+          <div style="display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: 5px; align-items: center; padding-bottom: 2px;">
             ${renderChips(famOptions, activeFamKey)}
           </div>
         </div>
