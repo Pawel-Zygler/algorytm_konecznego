@@ -3,6 +3,7 @@
 Teoria podziału na cywilizacje ujęta w dziełach historyka i filozofa Feliksa Konecznego zamieniona w aplikację.
 
 ![Analiza Algorytmem Konecznego - Dashboard i Szczebel Cywilizacyjny](extension/dasz4.png)
+![Analiza Algorytmem Konecznego - Drzewo Decyzyjne Mantis i Profil Cywilizacyjny](extension/dasz9.png)
 
 <details>
 <summary><b>Instalacja wtyczki (Tryb Online)</b></summary>
