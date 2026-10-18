@@ -4,6 +4,7 @@ Teoria podziału na cywilizacje ujęta w dziełach historyka i filozofa Feliksa 
 
 ![Analiza Algorytmem Konecznego - Dashboard i Szczebel Cywilizacyjny](extension/dasz4.png)
 ![Analiza Algorytmem Konecznego - Drzewo Decyzyjne Mantis i Profil Cywilizacyjny](extension/dasz9.png)
+![Analiza Algorytmem Konecznego - Panel Analityczny i Aura Silnika](extension/dasz13.png)
 
 <details>
 <summary><b>Instalacja wtyczki (Tryb Online)</b></summary>

@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aury i Tła Trzech Wersji Silnika - Algorytm Konecznego</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    pre, code {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    @keyframes pulse-lite {
+      0%, 100% { transform: scale(0.96); opacity: 0.65; }
+      50% { transform: scale(1.08); opacity: 0.95; }
+    }
+    @keyframes pulse-mantis {
+      0% { transform: scale(0.98); opacity: 0.7; filter: drop-shadow(0 0 16px rgba(34,197,94,0.6)); }
+      100% { transform: scale(1.14); opacity: 1; filter: drop-shadow(0 0 32px rgba(163,230,53,0.9)); }
+    }
+    @keyframes spin-aura {
+      0% { transform: rotate(0deg) scale(1.02); }
+      50% { transform: rotate(180deg) scale(1.12); }
+      100% { transform: rotate(360deg) scale(1.02); }
+    }
+    @keyframes spin-slow {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes reverse-spin {
+      0% { transform: rotate(360deg); }
+      100% { transform: rotate(0deg); }
+    }
+
+    .aura-lite {
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.75) 0%, rgba(14, 165, 233, 0.4) 45%, transparent 70%);
+      box-shadow: 0 0 25px rgba(56, 189, 248, 0.5);
+      animation: pulse-lite 2.5s infinite ease-in-out;
+    }
+    .aura-mantis {
+      background: radial-gradient(circle, rgba(34, 197, 94, 0.85) 0%, rgba(163, 230, 53, 0.5) 48%, transparent 72%);
+      box-shadow: 0 0 32px rgba(34, 197, 94, 0.7), 0 0 12px rgba(163, 230, 53, 0.8);
+      animation: pulse-mantis 1.4s infinite alternate ease-in-out;
+    }
+    .aura-full {
+      background: conic-gradient(from 180deg at 50% 50%, #ec4899 0deg, #8b5cf6 120deg, #fbbf24 240deg, #ec4899 360deg);
+      filter: blur(14px);
+      opacity: 0.85;
+      animation: spin-aura 6s linear infinite;
+    }
+    .ring-lite {
+      border: 2px dashed rgba(56, 189, 248, 0.85);
+      animation: spin-slow 8s linear infinite;
+    }
+    .ring-mantis {
+      border: 2px dashed rgba(34, 197, 94, 0.85);
+      animation: spin-slow 8s linear infinite;
+    }
+    .ring-full-pink {
+      border: 2px dashed rgba(236, 72, 153, 0.85);
+      animation: spin-slow 8s linear infinite;
+    }
+    .ring-full-gold {
+      border: 2px dashed rgba(251, 191, 36, 0.85);
+      animation: reverse-spin 10s linear infinite;
+    }
+    .animate-spin-slow {
+      animation: spin-slow 8s linear infinite;
+    }
+    .animate-reverse-spin {
+      animation: reverse-spin 10s linear infinite;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-[#070b14] text-slate-100 p-4 sm:p-8 flex flex-col items-center justify-center font-sans selection:bg-cyan-500 selection:text-slate-950">
+
+  <!-- 1. SELEKTOR TRYBÓW Z JEDNOLITYMI PRZYCISKAMI -->
+  <div class="w-full max-w-3xl mb-5 bg-slate-900/90 border border-slate-800 rounded-2xl p-3 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-3">
+    <div class="flex items-center gap-2 text-xs font-bold text-slate-300 uppercase tracking-wider pl-1">
+      <svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+      <span>Wybierz aktywny tryb w tle:</span>
+    </div>
+
+    <!-- Trzy przyciski o identycznych, zunifikowanych wymiarach -->
+    <div class="grid grid-cols-3 gap-2 w-full sm:w-auto" id="engine-btn-group">
+      <button id="btn-mode-lite" onclick="switchEngine('lite')" class="w-full sm:w-36 h-10 px-3 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center gap-2 border bg-slate-950 text-slate-400 hover:text-slate-200 hover:bg-slate-900 border-slate-800 shadow-sm">
+        <svg class="w-3.5 h-3.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path><line x1="16" y1="8" x2="2" y2="22"></line><line x1="17.5" y1="15" x2="9" y2="15"></line></svg>
+        <span class="tracking-wide truncate">LITE SCAN</span>
+      </button>
+
+      <button id="btn-mode-mantis" onclick="switchEngine('mantis')" class="w-full sm:w-36 h-10 px-3 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center gap-2 border bg-slate-950 text-slate-400 hover:text-slate-200 hover:bg-slate-900 border-slate-800 shadow-sm">
+        <svg class="w-3.5 h-3.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+        <span class="tracking-wide truncate">MANTIS AI</span>
+      </button>
+
+      <button id="btn-mode-full" onclick="switchEngine('full')" class="w-full sm:w-36 h-10 px-3 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center gap-2 border bg-gradient-to-r from-pink-500 via-purple-600 to-amber-400 text-slate-950 border-amber-300 shadow-md shadow-purple-500/30 font-black">
+        <svg class="w-3.5 h-3.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path></svg>
+        <span class="tracking-wide truncate">FULL KOSMOS</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 2. GŁÓWNA KARTA ANALITYCZNA Z JEDNOLITYMI WYMIARAMI -->
+  <div class="w-full max-w-3xl bg-white rounded-3xl p-5 sm:p-6 shadow-2xl relative border border-slate-200 text-slate-900 overflow-hidden">
+    
+    <!-- Pasek Tytułowy Okna z jednolitymi wysokościami elementów -->
+    <div class="flex justify-between items-center pb-4 mb-4 border-b border-slate-100">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-slate-200 overflow-hidden ring-2 ring-slate-300/80 shadow-sm flex-shrink-0">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Feliks_Koneczny.jpg/480px-Feliks_Koneczny.jpg"
+            alt="Prof. Koneczny mini"
+            class="w-full h-full object-cover grayscale"
+          />
+        </div>
+        <div>
+          <div class="flex flex-wrap items-center gap-2">
+            <h2 class="text-sm sm:text-base font-extrabold text-slate-900 tracking-tight">
+              Analiza Algorytmem Konecznego
+            </h2>
+            <span class="px-2 py-0.5 text-[10px] font-mono font-bold bg-slate-100 text-slate-600 rounded">
+              v1.4.6
+            </span>
+            <span id="title-badge" class="px-2.5 py-0.5 text-[9px] font-extrabold tracking-wider uppercase rounded-full border bg-purple-950/90 text-purple-300 border-purple-500/50">
+              ● FULL KOSMOS
+            </span>
+          </div>
+          <p class="text-[11px] text-slate-500 font-medium">Metoda Historiozoficzna</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button class="h-8 px-3 text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg shadow-md shadow-emerald-600/20 transition flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+          <span>Zapisz wyniki</span>
+        </button>
+        <button class="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- 3. ROW Z MODUŁAMI O ZUNIFIKOWANYCH WYMIARACH (h-32) -->
+    <div class="relative flex flex-col md:flex-row items-center justify-between gap-3 py-3">
+      
+      <!-- Lewy Moduł: PROFESOR BADA TEKST (Wymiar zunifikowany: flex-1, h-32) -->
+      <div class="w-full md:flex-1 h-32 bg-[#252e42] text-white p-4 rounded-2xl shadow-md border border-slate-700/50 flex flex-col justify-between">
+        <div class="flex items-center gap-1.5 text-[10px] font-extrabold uppercase text-[#818cf8] tracking-wider">
+          <span>📜</span>
+          <span>PROFESOR BADA TEKST</span>
+        </div>
+        <p id="left-statement" class="text-xs sm:text-sm font-bold text-slate-100 leading-snug line-clamp-2">
+          Badam poziom suwerenności rodziny w wychowaniu...
+        </p>
+        <div id="left-subdesc" class="text-[10px] text-slate-400 font-medium">
+          Ewaluacja relacji rodzina vs państwo
+        </div>
+      </div>
+
+      <!-- Centralny Portret Profesora z Aurą (Wymiar zunifikowany: w-32 h-32) -->
+      <div class="relative z-10 flex-shrink-0 flex items-center justify-center w-32 h-32 my-1 md:my-0">
+        
+        <!-- 1. Tło aury -->
+        <div id="avatar-aura" class="absolute inset-0 rounded-full aura-full"></div>
+
+        <!-- 2. Zewnętrzne pierścienie dynamiczne z przerywanymi liniami -->
+        <div id="avatar-rings" class="contents">
+          <!-- Wewnętrzny różowy przerywany pierścień -->
+          <div class="absolute -inset-2 rounded-full border-2 border-dashed border-pink-400/85 animate-spin-slow pointer-events-none"></div>
+          <!-- Zewnętrzny złoty przerywany pierścień kręcący się przeciwbieżnie -->
+          <div class="absolute -inset-3.5 rounded-full border-2 border-dashed border-amber-300/85 animate-reverse-spin pointer-events-none"></div>
+        </div>
+
+        <!-- 3. Główny portret -->
+        <div class="relative w-24 h-24 rounded-full overflow-hidden border-2 border-white/95 shadow-2xl bg-slate-900 z-10">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Feliks_Koneczny.jpg/480px-Feliks_Koneczny.jpg"
+            alt="Profesor Feliks Koneczny"
+            class="w-full h-full object-cover grayscale contrast-125"
+          />
+        </div>
+
+        <!-- 4. Pigułka identyfikacyjna pod głową -->
+        <div class="absolute -bottom-2 z-20">
+          <span id="avatar-pill" class="px-2.5 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider shadow-lg border bg-gradient-to-r from-pink-500 via-purple-600 to-amber-400 text-white border-white/40 shadow-purple-500/40">
+            full
+          </span>
+        </div>
+      </div>
+
+      <!-- Prawy Moduł: BRELOCZEK (3 SŁOWA) (Wymiar zunifikowany: flex-1, h-32) -->
+      <div class="w-full md:flex-1 h-32 bg-[#252e42] text-white p-4 rounded-2xl shadow-md border border-slate-700/50 flex flex-col justify-between">
+        <div class="flex items-center gap-1.5 text-[10px] font-extrabold uppercase text-[#fbbf24] tracking-wider">
+          <span>🔑</span>
+          <span>BRELOCZEK (3 SŁOWA)</span>
+        </div>
+        <p id="right-slogan" class="text-xs sm:text-sm font-bold text-slate-100 italic leading-snug line-clamp-2">
+          Emancypacja Małej Rodziny
+        </p>
+        <div id="right-subdesc" class="text-[10px] text-slate-400 font-medium">
+          Klucz do tożsamości cywilizacyjnej
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- 5. ZUNIFIKOWANE OKNA ŚCIĄGI CSS (SIATKA 3 IDENTYCZNYCH KAFELKÓW) -->
+  <div class="w-full max-w-3xl mt-6 bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl">
+    <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+      <div class="flex items-center gap-2">
+        <svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+        <span class="text-xs font-bold text-slate-200 uppercase tracking-wider">
+          Zunifikowane Karty Stylów CSS
+        </span>
+      </div>
+      <span class="text-[10px] text-slate-400">
+        Gotowe do użycia w `content.js`
+      </span>
+    </div>
+
+    <!-- Siatka 3 okienek o identycznej wysokości i szerokości -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+      
+      <!-- Card Lite -->
+      <div id="css-card-lite" class="h-56 p-3 rounded-xl border flex flex-col justify-between transition-all bg-slate-950/70 border-slate-800">
+        <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
+          <div class="flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full" style="background-color: #38bdf8;"></span>
+            <span class="text-xs font-bold text-slate-200">LITE SCAN</span>
+          </div>
+          <button onclick="copySnippet('lite')" class="p-1 text-slate-400 hover:text-slate-100 hover:bg-slate-800 rounded transition" title="Kopiuj CSS">
+            <span id="copy-icon-lite">📋</span>
+          </button>
+        </div>
+        <pre class="h-32 my-2 p-2 bg-[#050811] text-[10px] font-mono text-slate-300 rounded-lg border border-slate-800/70 overflow-x-auto overflow-y-auto leading-relaxed">/* Aura & Przerywany Pierścień LITE */
+.aura-lite {
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.75) 0%, rgba(14, 165, 233, 0.4) 45%, transparent 70%);
+  box-shadow: 0 0 25px rgba(56, 189, 248, 0.5);
+  animation: pulse-lite 2.5s infinite ease-in-out;
+}
+.ring-lite {
+  border: 2px dashed rgba(56, 189, 248, 0.85);
+  animation: spin-slow 8s linear infinite;
+}</pre>
+        <p class="text-[10px] text-slate-400 truncate pt-1 border-t border-slate-900">
+          Krystaliczny błękit z obracającym się przerywanym pierścieniem radaru.
+        </p>
+      </div>
+
+      <!-- Card Mantis -->
+      <div id="css-card-mantis" class="h-56 p-3 rounded-xl border flex flex-col justify-between transition-all bg-slate-950/70 border-slate-800">
+        <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
+          <div class="flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full" style="background-color: #22c55e;"></span>
+            <span class="text-xs font-bold text-slate-200">MANTIS AI</span>
+          </div>
+          <button onclick="copySnippet('mantis')" class="p-1 text-slate-400 hover:text-slate-100 hover:bg-slate-800 rounded transition" title="Kopiuj CSS">
+            <span id="copy-icon-mantis">📋</span>
+          </button>
+        </div>
+        <pre class="h-32 my-2 p-2 bg-[#050811] text-[10px] font-mono text-slate-300 rounded-lg border border-slate-800/70 overflow-x-auto overflow-y-auto leading-relaxed">/* Aura & Przerywany Pierścień MANTIS */
+.aura-mantis {
+  background: radial-gradient(circle, rgba(34, 197, 94, 0.85) 0%, rgba(163, 230, 53, 0.5) 48%, transparent 72%);
+  box-shadow: 0 0 32px rgba(34, 197, 94, 0.7), 0 0 12px rgba(163, 230, 53, 0.8);
+  animation: pulse-mantis 1.4s infinite alternate ease-in-out;
+}
+.ring-mantis {
+  border: 2px dashed rgba(34, 197, 94, 0.85);
+  animation: spin-slow 8s linear infinite;
+}</pre>
+        <p class="text-[10px] text-slate-400 truncate pt-1 border-t border-slate-900">
+          Neonowy szmaragd i limonka z obracającym się przerywanym pierścieniem radaru.
+        </p>
+      </div>
+
+      <!-- Card Full -->
+      <div id="css-card-full" class="h-56 p-3 rounded-xl border flex flex-col justify-between transition-all bg-slate-950 border-cyan-500/60 ring-1 ring-cyan-500/30">
+        <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
+          <div class="flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full" style="background-color: #ec4899;"></span>
+            <span class="text-xs font-bold text-slate-200">FULL KOSMOS</span>
+          </div>
+          <button onclick="copySnippet('full')" class="p-1 text-slate-400 hover:text-slate-100 hover:bg-slate-800 rounded transition" title="Kopiuj CSS">
+            <span id="copy-icon-full">📋</span>
+          </button>
+        </div>
+        <pre class="h-32 my-2 p-2 bg-[#050811] text-[10px] font-mono text-slate-300 rounded-lg border border-slate-800/70 overflow-x-auto overflow-y-auto leading-relaxed">/* Aura & Podwójny Przerywany Pierścień FULL */
+.aura-full {
+  background: conic-gradient(from 180deg at 50% 50%, #ec4899 0deg, #8b5cf6 120deg, #fbbf24 240deg, #ec4899 360deg);
+  filter: blur(14px);
+  animation: spin-aura 6s linear infinite;
+}
+.ring-full-pink {
+  border: 2px dashed rgba(236, 72, 153, 0.85);
+  animation: spin-slow 8s linear infinite;
+}
+.ring-full-gold {
+  border: 2px dashed rgba(251, 191, 36, 0.85);
+  animation: reverse-spin 10s linear infinite;
+}</pre>
+        <p class="text-[10px] text-slate-400 truncate pt-1 border-t border-slate-900">
+          Supernowa Quincunxa z podwójnym, przeciwbieżnym przerywanym pierścieniem.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="mt-6 text-center text-xs text-slate-500">
+    <a href="index.html" class="text-cyan-400 hover:underline">← Powrót do listy mockupów UI</a>
+  </div>
+
+  <script>
+    const ENGINES = {
+      lite: {
+        id: 'lite',
+        shortLabel: 'LITE SCAN',
+        label: 'LITE SCAN',
+        tag: 'Błyskawiczny (Qwen / 1 prompt)',
+        color: '#38bdf8',
+        desc: 'Krystaliczny błękit z obracającym się przerywanym pierścieniem radaru.',
+        auraClass: 'aura-lite',
+        badgeClass: 'bg-sky-950/90 text-sky-300 border-sky-500/50',
+        activeBtnClass: 'bg-sky-500 text-slate-950 border-sky-400 shadow-md shadow-sky-500/30 font-bold',
+        pillClass: 'bg-sky-500 text-slate-950 border-sky-300 shadow-sky-500/40',
+        ringsHtml: '<div class="absolute -inset-2 rounded-full border-2 border-dashed border-sky-400/85 animate-spin-slow pointer-events-none"></div>',
+        cssSnippet: `/* Aura & Przerywany Pierścień LITE */\n.aura-lite {\n  background: radial-gradient(circle, rgba(56, 189, 248, 0.75) 0%, rgba(14, 165, 233, 0.4) 45%, transparent 70%);\n  box-shadow: 0 0 25px rgba(56, 189, 248, 0.5);\n  animation: pulse-lite 2.5s infinite ease-in-out;\n}\n.ring-lite {\n  border: 2px dashed rgba(56, 189, 248, 0.85);\n  animation: spin-slow 8s linear infinite;\n}`
+      },
+      mantis: {
+        id: 'mantis',
+        shortLabel: 'MANTIS AI',
+        label: 'MANTIS AI',
+        tag: 'Zwinna Modliszka (GLM-5 / Ollama)',
+        color: '#22c55e',
+        desc: 'Neonowy szmaragd i limonka z obracającym się przerywanym pierścieniem radaru.',
+        auraClass: 'aura-mantis',
+        badgeClass: 'bg-emerald-950/90 text-emerald-300 border-emerald-500/50',
+        activeBtnClass: 'bg-emerald-500 text-slate-950 border-emerald-400 shadow-md shadow-emerald-500/30 font-bold',
+        pillClass: 'bg-emerald-500 text-slate-950 border-emerald-300 shadow-emerald-500/40',
+        ringsHtml: '<div class="absolute -inset-2 rounded-full border-2 border-dashed border-emerald-400/85 animate-spin-slow pointer-events-none"></div>',
+        cssSnippet: `/* Aura & Przerywany Pierścień MANTIS */\n.aura-mantis {\n  background: radial-gradient(circle, rgba(34, 197, 94, 0.85) 0%, rgba(163, 230, 53, 0.5) 48%, transparent 72%);\n  box-shadow: 0 0 32px rgba(34, 197, 94, 0.7), 0 0 12px rgba(163, 230, 53, 0.8);\n  animation: pulse-mantis 1.4s infinite alternate ease-in-out;\n}\n.ring-mantis {\n  border: 2px dashed rgba(34, 197, 94, 0.85);\n  animation: spin-slow 8s linear infinite;\n}`
+      },
+      full: {
+        id: 'full',
+        shortLabel: 'FULL KOSMOS',
+        label: 'FULL KOSMOS',
+        tag: 'Pełna Historiozofia (24 prompty / 352 pytania)',
+        color: '#ec4899',
+        desc: 'Supernowa Quincunxa z podwójnym, przeciwbieżnym przerywanym pierścieniem.',
+        auraClass: 'aura-full',
+        badgeClass: 'bg-purple-950/90 text-purple-300 border-purple-500/50',
+        activeBtnClass: 'bg-gradient-to-r from-pink-500 via-purple-600 to-amber-400 text-slate-950 border-amber-300 shadow-md shadow-purple-500/30 font-black',
+        pillClass: 'bg-gradient-to-r from-pink-500 via-purple-600 to-amber-400 text-white border-white/40 shadow-purple-500/40',
+        ringsHtml: '<div class="absolute -inset-2 rounded-full border-2 border-dashed border-pink-400/85 animate-spin-slow pointer-events-none"></div><div class="absolute -inset-3.5 rounded-full border-2 border-dashed border-amber-300/85 animate-reverse-spin pointer-events-none"></div>',
+        cssSnippet: `/* Aura & Podwójny Przerywany Pierścień FULL */\n.aura-full {\n  background: conic-gradient(from 180deg at 50% 50%, #ec4899 0deg, #8b5cf6 120deg, #fbbf24 240deg, #ec4899 360deg);\n  filter: blur(14px);\n  animation: spin-aura 6s linear infinite;\n}\n.ring-full-pink {\n  border: 2px dashed rgba(236, 72, 153, 0.85);\n  animation: spin-slow 8s linear infinite;\n}\n.ring-full-gold {\n  border: 2px dashed rgba(251, 191, 36, 0.85);\n  animation: reverse-spin 10s linear infinite;\n}`
+      }
+    };
+
+    let activeEngine = 'full';
+
+    function switchEngine(mode) {
+      activeEngine = mode;
+      const cur = ENGINES[mode];
+
+      // Update switcher buttons
+      ['lite', 'mantis', 'full'].forEach(m => {
+        const btn = document.getElementById(`btn-mode-${m}`);
+        const card = document.getElementById(`css-card-${m}`);
+        if (m === mode) {
+          btn.className = `w-full sm:w-36 h-10 px-3 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center gap-2 border ${cur.activeBtnClass}`;
+          card.className = "h-56 p-3 rounded-xl border flex flex-col justify-between transition-all bg-slate-950 border-cyan-500/60 ring-1 ring-cyan-500/30";
+        } else {
+          btn.className = "w-full sm:w-36 h-10 px-3 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center gap-2 border bg-slate-950 text-slate-400 hover:text-slate-200 hover:bg-slate-900 border-slate-800 shadow-sm";
+          card.className = "h-56 p-3 rounded-xl border flex flex-col justify-between transition-all bg-slate-950/70 border-slate-800";
+        }
+      });
+
+      // Update Title Badge
+      const badge = document.getElementById('title-badge');
+      badge.className = `px-2.5 py-0.5 text-[9px] font-extrabold tracking-wider uppercase rounded-full border ${cur.badgeClass}`;
+      badge.textContent = `● ${cur.label}`;
+
+      // Update Aura
+      const aura = document.getElementById('avatar-aura');
+      aura.className = `absolute inset-0 rounded-full ${cur.auraClass}`;
+
+      // Update Rings
+      const rings = document.getElementById('avatar-rings');
+      rings.innerHTML = cur.ringsHtml;
+
+      // Update Pill
+      const pill = document.getElementById('avatar-pill');
+      pill.className = `px-2.5 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider shadow-lg border ${cur.pillClass}`;
+      pill.textContent = mode;
+    }
+
+    function copySnippet(mode) {
+      const code = ENGINES[mode].cssSnippet;
+      navigator.clipboard?.writeText(code);
+      const icon = document.getElementById(`copy-icon-${mode}`);
+      if (icon) {
+        icon.textContent = "✅";
+        setTimeout(() => { icon.textContent = "📋"; }, 1500);
+      }
+    }
+  </script>
+</body>
+</html>

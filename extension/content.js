@@ -146,6 +146,61 @@
       to { transform: rotate(360deg); }
     }
 
+    /* ── Professor Avatar Auras (3 Wersje Silnika) ── */
+    @keyframes pulse-lite {
+      0%, 100% { transform: scale(0.96); opacity: 0.65; }
+      50% { transform: scale(1.08); opacity: 0.95; }
+    }
+    @keyframes pulse-mantis {
+      0% { transform: scale(0.98); opacity: 0.7; filter: drop-shadow(0 0 16px rgba(34,197,94,0.6)); }
+      100% { transform: scale(1.14); opacity: 1; filter: drop-shadow(0 0 32px rgba(163,230,53,0.9)); }
+    }
+    @keyframes spin-aura {
+      0% { transform: rotate(0deg) scale(1.02); }
+      50% { transform: rotate(180deg) scale(1.12); }
+      100% { transform: rotate(360deg) scale(1.02); }
+    }
+    @keyframes spin-slow {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes reverse-spin {
+      0% { transform: rotate(360deg); }
+      100% { transform: rotate(0deg); }
+    }
+    .aura-lite {
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.75) 0%, rgba(14, 165, 233, 0.4) 45%, transparent 70%);
+      box-shadow: 0 0 25px rgba(56, 189, 248, 0.5);
+      animation: pulse-lite 2.5s infinite ease-in-out;
+    }
+    .aura-mantis {
+      background: radial-gradient(circle, rgba(34, 197, 94, 0.85) 0%, rgba(163, 230, 53, 0.5) 48%, transparent 72%);
+      box-shadow: 0 0 32px rgba(34, 197, 94, 0.7), 0 0 12px rgba(163, 230, 53, 0.8);
+      animation: pulse-mantis 1.4s infinite alternate ease-in-out;
+    }
+    .aura-full {
+      background: conic-gradient(from 180deg at 50% 50%, #ec4899 0deg, #8b5cf6 120deg, #fbbf24 240deg, #ec4899 360deg);
+      filter: blur(14px);
+      opacity: 0.85;
+      animation: spin-aura 6s linear infinite;
+    }
+    .ring-lite {
+      border: 2px dashed rgba(56, 189, 248, 0.85);
+      animation: spin-slow 8s linear infinite;
+    }
+    .ring-mantis {
+      border: 2px dashed rgba(34, 197, 94, 0.85);
+      animation: spin-slow 8s linear infinite;
+    }
+    .ring-full-pink {
+      border: 2px dashed rgba(236, 72, 153, 0.85);
+      animation: spin-slow 8s linear infinite;
+    }
+    .ring-full-gold {
+      border: 2px dashed rgba(251, 191, 36, 0.85);
+      animation: reverse-spin 10s linear infinite;
+    }
+
     /* ── Loading Tank Arena ── */
     .loader {
       display: flex;
@@ -587,8 +642,7 @@
   let lastAnalysisResultData = null;
   const konecznyImg = chrome.runtime.getURL('koneczny.jpg');
 
-  const container = document.createElement('div');
-  container.innerHTML = `
+  shadow.innerHTML = `
     <style>${css}</style>
 
     <button class="fab" id="koneczny-trigger" title="Analizuj cywilizacyjnie">
@@ -623,7 +677,13 @@
     </div>
   `;
 
-  shadow.appendChild(container);
+  let currentEngineMode = 'mantis';
+
+  getStorageData().then(cfg => {
+    if (cfg && cfg.analysisMode) {
+      currentEngineMode = cfg.analysisMode;
+    }
+  });
 
   const trigger = shadow.getElementById('koneczny-trigger');
   const panel = shadow.getElementById('koneczny-panel');
@@ -631,18 +691,22 @@
   const downloadBtn = shadow.getElementById('koneczny-download-header');
   const content = shadow.getElementById('koneczny-content');
 
-  closeBtn.addEventListener('click', () => panel.classList.remove('open'));
+  if (closeBtn && panel) {
+    closeBtn.addEventListener('click', () => panel.classList.remove('open'));
+  }
   if (downloadBtn) {
     downloadBtn.addEventListener('click', () => downloadResultsJson(lastAnalysisResultData));
   }
-  trigger.addEventListener('click', () => {
-    if (panel.classList.contains('open')) {
-      panel.classList.remove('open');
-    } else {
-      panel.classList.add('open');
-      runAnalysis();
-    }
-  });
+  if (trigger && panel) {
+    trigger.addEventListener('click', () => {
+      if (panel.classList.contains('open')) {
+        panel.classList.remove('open');
+      } else {
+        panel.classList.add('open');
+        runAnalysis();
+      }
+    });
+  }
 
   function downloadResultsJson(data) {
     if (!data) data = window.konecznyResults || lastAnalysisResultData;
@@ -790,36 +854,96 @@
     for (let i = 0; i < 2; i++) setTimeout(spawnPositive, i * 650);
   }
 
+  const ENGINES_META = {
+    lite: {
+      id: 'lite',
+      shortLabel: 'LITE SCAN',
+      label: 'LITE SCAN',
+      tag: 'Błyskawiczny (Qwen / 1 prompt)',
+      color: '#38bdf8',
+      desc: 'Krystaliczny błękit z obracającym się przerywanym pierścieniem radaru.',
+      auraClass: 'aura-lite',
+      ringsHtml: '<div class="ring-lite" style="position: absolute; inset: -8px; border-radius: 50%; pointer-events: none;"></div>',
+      pillHtml: '<div style="position: absolute; bottom: -8px; z-index: 20;"><span style="padding: 2px 10px; border-radius: 9999px; font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em; background: #38bdf8; color: #020617; border: 1px solid #7dd3fc; box-shadow: 0 4px 14px rgba(56,189,248,0.4);">LITE</span></div>'
+    },
+    mantis: {
+      id: 'mantis',
+      shortLabel: 'MANTIS AI',
+      label: 'MANTIS AI',
+      tag: 'Zwinna Modliszka (GLM-5 / Ollama)',
+      color: '#22c55e',
+      desc: 'Neonowy szmaragd i limonka z obracającym się przerywanym pierścieniem radaru.',
+      auraClass: 'aura-mantis',
+      ringsHtml: '<div class="ring-mantis" style="position: absolute; inset: -8px; border-radius: 50%; pointer-events: none;"></div>',
+      pillHtml: '<div style="position: absolute; bottom: -8px; z-index: 20;"><span style="padding: 2px 10px; border-radius: 9999px; font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em; background: #22c55e; color: #020617; border: 1px solid #86efac; box-shadow: 0 4px 14px rgba(34,197,94,0.4);">MANTIS</span></div>'
+    },
+    full: {
+      id: 'full',
+      shortLabel: 'FULL KOSMOS',
+      label: 'FULL KOSMOS',
+      tag: 'Pełna Historiozofia (24 prompty / 352 pytania)',
+      color: '#ec4899',
+      desc: 'Supernowa Quincunxa z podwójnym, przeciwbieżnym przerywanym pierścieniem.',
+      auraClass: 'aura-full',
+      ringsHtml: '<div class="ring-full-pink" style="position: absolute; inset: -8px; border-radius: 50%; pointer-events: none;"></div><div class="ring-full-gold" style="position: absolute; inset: -14px; border-radius: 50%; pointer-events: none;"></div>',
+      pillHtml: '<div style="position: absolute; bottom: -8px; z-index: 20;"><span style="padding: 2px 10px; border-radius: 9999px; font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em; background: linear-gradient(135deg, #ec4899, #8b5cf6, #fbbf24); color: #020617; border: 1px solid #fde68a; box-shadow: 0 4px 14px rgba(236,72,153,0.4);">FULL</span></div>'
+    }
+  };
+
   // ── Analysis ──────────────────────────────────────────
   async function runAnalysis(targetIndexStr = null) {
     window.lastAnalysisTargetIndex = targetIndexStr;
     if (trigger) trigger.classList.add('spinning');
 
-    content.innerHTML = `
-      <div class="loader" style="padding: 40px 15px; text-align: center;">
-        <style>
-          @keyframes spinGlowRing { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-          @keyframes pulsePortrait { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }
-        </style>
-        <div style="display: flex; align-items: center; justify-content: center; gap: 14px; max-width: 897px; margin: 0 auto;">
-          <!-- Bubble Left: Historiosophical statements (Po lewej: te co teraz) -->
-          <div style="flex: 1; min-width: 190px; background: rgba(30, 41, 59, 0.85); border: 1px solid rgba(139, 92, 246, 0.4); border-radius: 14px; padding: 12px 14px; text-align: right; box-shadow: 0 4px 16px rgba(0,0,0,0.3); backdrop-filter: blur(6px);">
-            <div style="font-size: 9.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #a78bfa; margin-bottom: 4px;">📜 PROFESOR BADA TEKST</div>
-            <div id="loader-label-text" style="font-size: 12.5px; font-weight: 600; color: #f1f5f9; line-height: 1.4;">Profesor analizuje strukturę cywilizacyjną...</div>
-          </div>
+    const config = await getStorageData().catch(() => ({}));
+    window.konecznyConfig = config;
+    const mode = config.analysisMode || currentEngineMode || 'mantis';
+    currentEngineMode = mode;
 
-          <!-- Avatar Center (Głowa Konecznego) -->
-          <div style="position: relative; width: 100px; height: 100px; flex-shrink: 0;">
-            <div style="position: absolute; inset: -7px; border-radius: 50%; background: conic-gradient(from 0deg, #3b82f6, #8b5cf6, #ec4899, #3b82f6); animation: spinGlowRing 2.5s linear infinite; filter: blur(3px);"></div>
-            <div style="position: absolute; inset: 0; border-radius: 50%; background: #0f172a; padding: 4px; display: flex; align-items: center; justify-content: center; z-index: 2; animation: pulsePortrait 3s ease-in-out infinite;">
-              <img src="${konecznyImg}" alt="Profesor Feliks Koneczny" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,0.2);">
+    const curEngine = ENGINES_META[mode] || ENGINES_META.mantis;
+
+    content.innerHTML = `
+      <div class="loader" style="padding: 30px 15px; text-align: center;">
+        <div style="display: flex; align-items: center; justify-content: center; gap: 14px; max-width: 897px; margin: 0 auto;">
+          <!-- Bubble Left: Historiosophical statements (Wymiar zunifikowany: flex-1, h-32) -->
+          <div style="flex: 1; min-width: 190px; height: 110px; background: #252e42; color: #ffffff; padding: 12px 14px; border-radius: 14px; box-shadow: 0 4px 16px rgba(0,0,0,0.3); border: 1px solid rgba(139, 92, 246, 0.4); display: flex; flex-direction: column; justify-content: space-between; text-align: right;">
+            <div style="display: flex; align-items: center; justify-content: flex-end; gap: 6px; font-size: 9.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #818cf8;">
+              <span>📜</span>
+              <span>PROFESOR BADA TEKST</span>
+            </div>
+            <div id="loader-label-text" style="font-size: 12px; font-weight: 700; color: #f1f5f9; line-height: 1.35; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">Profesor bada strukturę cywilizacyjną...</div>
+            <div style="font-size: 10px; color: #94a3b8; font-weight: 500;">
+              Ewaluacja relacji rodzina vs państwo
             </div>
           </div>
 
-          <!-- Bubble Right: Gadget slogans (Kubek / Koszulka / Breloczek) -->
-          <div style="flex: 1; min-width: 190px; background: rgba(30, 41, 59, 0.85); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 14px; padding: 12px 14px; text-align: left; box-shadow: 0 4px 16px rgba(0,0,0,0.3); backdrop-filter: blur(6px);">
-            <div id="loader-gadget-header" style="font-size: 9.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #34d399; margin-bottom: 4px;">☕ HASŁO NA KUBEK</div>
-            <div id="loader-gadget-text" style="font-size: 12.5px; font-weight: 600; color: #f1f5f9; line-height: 1.4; font-style: italic;">"Etyka przed ustawą — kawę piję z prawa prywatnego."</div>
+          <!-- Centralny Portret Profesora z Aurą (Wymiar zunifikowany: 116px x 116px) -->
+          <div style="position: relative; z-index: 10; flex-shrink: 0; display: flex; align-items: center; justify-content: center; width: 116px; height: 116px; margin: 0 6px;">
+            <!-- 1. Tło aury -->
+            <div class="${curEngine.auraClass}" style="position: absolute; inset: 0; border-radius: 50%;"></div>
+
+            <!-- 2. Zewnętrzne pierścienie dynamiczne z przerywanymi liniami -->
+            ${curEngine.ringsHtml}
+
+            <!-- 3. Główny portret -->
+            <div style="position: relative; width: 88px; height: 88px; border-radius: 50%; overflow: hidden; border: 2.5px solid rgba(255, 255, 255, 0.95); box-shadow: 0 16px 32px rgba(0,0,0,0.6); background: #0f172a; z-index: 10;">
+              <img src="${konecznyImg}" alt="Profesor Feliks Koneczny" style="width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%) contrast(125%); display: block;">
+            </div>
+
+            <!-- 4. Pigułka identyfikacyjna pod głową -->
+            ${curEngine.pillHtml}
+          </div>
+
+          <!-- Prawy Moduł: BRELOCZEK / GADŻET (Wymiar zunifikowany: flex-1, h-32) -->
+          <div style="flex: 1; min-width: 190px; height: 110px; background: #252e42; color: #ffffff; padding: 12px 14px; border-radius: 14px; box-shadow: 0 4px 16px rgba(0,0,0,0.3); border: 1px solid rgba(16, 185, 129, 0.4); display: flex; flex-direction: column; justify-content: space-between; text-align: left;">
+            <div style="display: flex; align-items: center; gap: 6px; font-size: 9.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #fbbf24;">
+              <span id="loader-gadget-icon">☕</span>
+              <span id="loader-gadget-header">HASŁO NA KUBEK</span>
+            </div>
+            <div id="loader-gadget-text" style="font-size: 12px; font-weight: 700; color: #f1f5f9; line-height: 1.35; font-style: italic; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">"Etyka przed ustawą — kawę piję z prawa prywatnego."</div>
+            <div style="font-size: 10px; color: #94a3b8; font-weight: 500;">
+              Klucz do tożsamości cywilizacyjnej
+            </div>
           </div>
         </div>
       </div>
