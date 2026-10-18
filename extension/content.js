@@ -675,10 +675,7 @@
         diagnoza_generaliów: data.generalia_diagnosis || "",
         chyżość_historyczna_oponowanie_czasu: data.time_mastery_efficiency_score !== undefined ? data.time_mastery_efficiency_score : (data.time_mastery_history_score !== undefined ? data.time_mastery_history_score : null),
         quincunx_pięciomian_bytu: data.quincunx_coherence_score !== undefined ? data.quincunx_coherence_score : null,
-        diagnoza_quincunxa: data.quincunx_diagnosis || "",
-        kłamstwo_cywilizacyjne_procent: data.civilizational_lie_percentage !== undefined ? data.civilizational_lie_percentage : null,
-        diagnoza_kłamstwa: data.civilizational_lie_diagnosis || "",
-        wektory_kłamstwa: data.civilizational_lie_vectors || {}
+        diagnoza_quincunxa: data.quincunx_diagnosis || ""
       },
       kategorie_pięciomianu_quincunx: data.quincunx_categories || {},
       surowe_oceny_indeksów: data.raw_ratings || {},
@@ -2187,7 +2184,6 @@
       health: isIdxEnabled('health'),
       truth_science: isIdxEnabled('truth_science'),
       beauty_art: isIdxEnabled('beauty_art'),
-      civilizational_lie: isIdxEnabled('civilizational_lie'),
       dualism: isIdxEnabled('dualism'),
       pluralism: isIdxEnabled('pluralism'),
       aposteriori: isIdxEnabled('aposteriori'),
@@ -2561,61 +2557,6 @@
           Zapytaj (Pobierz dane)
         </button>` : `<div style="color:#666; font-size:14px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px;">Indeks obecnie wyłączony</div>`}
       </div>`;
-
-    const liePct = typeof data.civilizational_lie_percentage === 'number' ? data.civilizational_lie_percentage : -1;
-    const lieDiagnosis = data.civilizational_lie_diagnosis || (
-      liePct < 0 ? 'Brak danych dla Wskaźnika Kłamstwa' :
-        liePct <= 15 ? 'PRAWDA OBIEKTYWNA I PERSONALIZM (Civitas Dei)' :
-          liePct <= 40 ? 'UMIARKOWANA MANIPULACJA / PRAGMATYZM' :
-            liePct <= 70 ? 'ZAKŁAMANIE SYSTEMOWE (Dwoistość Sumienia / Statolatria)' :
-              'KŁAMSTWO FUNDAMENTALNE (Zbawienie Zbiorowe / Acywilizacyjny Kołobłęd)'
-    );
-
-    const lieHero = buildDarkHero(
-      'EKSPERYMENTALNY WSKAŹNIK KŁAMSTWA CYWILIZACYJNEGO',
-      liePct >= 0 ? liePct : 0,
-      lieDiagnosis,
-      liePct >= 0 ? `${liePct}% Kłamstwa` : null,
-      'Mierzy odchylenie próbki od Prawdy i zbawienia duszy (salus animarum) na rzecz fałszywego zbawienia zbiorowego, dwoistości sumienia lub statolatrii.'
-    );
-
-    const lieVectors = data.civilizational_lie_vectors || {};
-    const formatVector = (score, name, desc) => {
-      if (typeof score !== 'number' || score < 0) {
-        return `
-          <div style="margin-bottom: 12px; padding: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-              <strong style="color:#e5e7eb; font-size:13px;">${name}</strong>
-              <span style="color:#6b7280; font-size:12px;">Brak danych</span>
-            </div>
-            <div style="color:#9ca3af; font-size:12px; line-height:1.4;">${desc}</div>
-          </div>
-        `;
-      }
-      const truthPct = Math.round(score * 100);
-      const liePctVal = 100 - truthPct;
-      const barColor = truthPct >= 70 ? '#10b981' : truthPct >= 40 ? '#f59e0b' : '#ef4444';
-      return `
-        <div style="margin-bottom: 12px; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-            <strong style="color:#f3f4f6; font-size:13px;">${name}</strong>
-            <span style="font-weight:700; color:${barColor}; font-size:12px;">Prawda: ${truthPct}% | Kłamstwo: ${liePctVal}%</span>
-          </div>
-          <div style="width:100%; height:6px; background:rgba(255,255,255,0.1); border-radius:3px; overflow:hidden; margin-bottom:6px;">
-            <div style="width:${truthPct}%; height:100%; background:${barColor}; border-radius:3px;"></div>
-          </div>
-          <div style="color:#9ca3af; font-size:12px; line-height:1.4;">${desc}</div>
-        </div>
-      `;
-    };
-
-    const lieBreakdownHtml = `
-      ${formatVector(lieVectors.spirit_supremacy, '1. Supremacja Ducha (Spirit Supremacy)', 'Wyższość celów duchowych nad państwem, siłą militarną i bogactwem.')}
-      ${formatVector(lieVectors.morality_supremacy, '2. Hegemonia Moralności (Morality Supremacy)', 'Prawo złe jest bezprawiem. Sprzeciw wobec bezprawnej władzy nakazującej zło.')}
-      ${formatVector(lieVectors.personalism, '3. Personalizm vs Zbawienie Zbiorowe', 'Osobista odpowiedzialność za zbawienie duszy vs ułuda zbawienia zbiorowego (socjalizm/totalitaryzm).')}
-      ${formatVector(lieVectors.public_morality_totality, '4. Totalność Etyki (Brak Dwóch Sumień)', 'Jedna etyka w życiu prywatnym i publicznym – zakaz hipokryzji politycznej.')}
-      ${formatVector(lieVectors.sacrality_penalty, '5. Test Fanatyzmu i Sakralności (Coercion Penalty)', 'Odrzucenie zmuszania siłą/mieczem do wiary oraz fałszywego traktowania państwa jako świętości.')}
-    `;
 
     // Primary Civilization Assignment & Legal Structure strictly based on Feliks Koneczny's Methodology
     const rawTextUpper = ((document.title || '') + ' ' + (window.konecznyResults.text || '') + ' ' + (data.civilization_diagnosis || '')).toUpperCase();
@@ -3033,7 +2974,7 @@
 
     function generateQuincunxRadarGridHtml(data, activeCivKey, activeLegalKey, activeFamKey) {
       const dobroScore = data.ethical_coherence_score >= 0 ? Math.min(1.0, data.ethical_coherence_score / 7.0) : (data.spirit_supremacy_score >= 0 ? data.spirit_supremacy_score : 0.85);
-      const prawdaScore = data.civilizational_lie_percentage >= 0 ? Math.max(0.15, (100 - data.civilizational_lie_percentage) / 100.0) : (data.spirit_supremacy_score >= 0 ? data.spirit_supremacy_score : 0.90);
+      const prawdaScore = (data.quincunx_categories && typeof data.quincunx_categories.prawda === 'number') ? data.quincunx_categories.prawda : (data.spirit_supremacy_score >= 0 ? data.spirit_supremacy_score : 0.90);
       const zdrowieScore = (data.quincunx_categories && data.quincunx_categories.zdrowie) || 0.78;
       const dobrobytScore = (data.quincunx_categories && data.quincunx_categories.dobrobyt) || 0.82;
       const pieknoScore = (data.quincunx_categories && data.quincunx_categories.piekno) || 0.75;

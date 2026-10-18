@@ -5,7 +5,7 @@
 
 ## 1. Wprowadzenie i Cel Systemu
 
-**Algorytm Konecznego** to zaawansowany system analityczny oparty na metodzie historiozoficznej profesora Feliksa Konecznego (1862–1949). Narzędzie przekształca teoretyczne monografie badacza w indukcję cyfrową: analizuje dowolny tekst źródłowy (artykuły, ustawy, konstytucje, orzeczenia sądowe, manifesty, transkrypcje) i określa jego profil cywilizacyjny, stopień sakralizacji, supremację ducha, spójność etyczną (Siedem Niewiadomych), wydajność historyczną, współmierność Pięciomianu Bytu (Quincunx) oraz obecność kłamstwa cywilizacyjnego.
+**Algorytm Konecznego** to zaawansowany system analityczny oparty na metodzie historiozoficznej profesora Feliksa Konecznego (1862–1949). Narzędzie przekształca teoretyczne monografie badacza w indukcję cyfrową: analizuje dowolny tekst źródłowy (artykuły, ustawy, konstytucje, orzeczenia sądowe, manifesty, transkrypcje) i określa jego profil cywilizacyjny, stopień sakralizacji, supremację ducha, spójność etyczną (Siedem Niewiadomych), wydajność historyczną oraz współmierność Pięciomianu Bytu (Quincunx).
 
 ---
 
@@ -50,8 +50,7 @@ flowchart LR
     Step2 --> Step3[Krok 3: Szereg Personalistyczny\n7 Generaliów Etycznych]
     Step3 --> Step4[Krok 4: Oponowanie Czasu\nChyżość Historyczna]
     Step4 --> Step5[Krok 5: Quincunx Bytu\nWspółmierność 5 Sfer]
-    Step5 --> Step6[Krok 6: Test Kłamstwa\n5 Wektorów Rozkładu]
-    Step6 --> Synthesis[Synteza Dziejowa & Klasyfikacja]
+    Step5 --> Synthesis[Synteza Dziejowa & Klasyfikacja]
 ```
 
 ### Szczegółowa specyfikacja kroków:
@@ -113,7 +112,7 @@ classDiagram
 Silnik analityczny wspiera trzy komplementarne profile przetwarzania:
 
 1. **Wersja Full (Pełna historiozoficzna - 27 Indeksów / 352 Kryteria)**:
-   - Całościowa indukcja: Quincunx (5 sfer), 7 Niewiadomych, Wskaźnik Kłamstwa, 12 indeksów supremacji ducha.
+   - Całościowa indukcja: Quincunx (5 sfer), 7 Niewiadomych, 12 indeksów supremacji ducha.
    - Generuje pełne wielowymiarowe spektrum wpływów cywilizacyjnych oraz dogłębną diagnozę synkretyzmu.
 
 2. **Wersja Lite (Szybka eksploracja - 3 Prompty Agregujące)**:
@@ -245,8 +244,7 @@ Przycisk **`💾 Zapisz wyniki`** w nagłówku eksportuje raport w poniższym fo
     "supremacja_ducha": 0.88,
     "etyka_7_generaliów": 6.8,
     "chyżość_historyczna_oponowanie_czasu": 0.85,
-    "quincunx_pięciomian_bytu": 0.92,
-    "kłamstwo_cywilizacyjne_procent": 4.0
+    "quincunx_pięciomian_bytu": 0.92
   },
   "spektrum_cywilizacyjne": [
     { "key": "latin", "label": "Łacińska", "color": "#10b981", "pct": 88 },
@@ -265,8 +263,7 @@ Przycisk **`💾 Zapisz wyniki`** w nagłówku eksportuje raport w poniższym fo
     "spirit_scores": {},
     "generalia_scores": {},
     "chyznosc_scores": {},
-    "quincunx_scores": {},
-    "lie_scores": {}
+    "quincunx_scores": {}
   }
 }
 ```

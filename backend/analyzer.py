@@ -26,7 +26,6 @@ INDEX_DEV_FLAGS = {
     "health": True,
     "truth_science": True,
     "beauty_art": True,
-    "civilizational_lie": False,
     "dualism": True,
     "pluralism": True,
     "aposteriori": True,
@@ -529,95 +528,6 @@ def calculate_koneczny_metrics(llm_data: Dict[str, Any]) -> Dict[str, Any]:
     else:
         result["quincunx_coherence_score"] = -1.0
         result["quincunx_diagnosis"] = "Brak danych dla Kroku 5 w tekście"
-
-    # Calculate Experimental Meta-Index: CIVILIZATIONAL_LIE_INDEX (Współczynnik Kłamstwa Cywilizacyjnego)
-    # Baseline: Salus animarum suprema lex, Civitas Dei, Hegemony of Morality & Personalism.
-    
-    # 1. SPIRIT SUPREMACY VECTOR
-    v_spirit = _extract_avg([
-        llm_data.get("spirit_supremacy_scores", {}),
-        llm_data.get("organism_mechanism_scores", {}),
-        {k: v for k, v in q_data.items() if k in ["natural_truth_pure_science", "beauty_allegory_of_good"]}
-    ])
-    if v_spirit < 0 and result.get("spirit_supremacy_score", -1.0) >= 0:
-        v_spirit = result["spirit_supremacy_score"]
-
-    # 2. MORALITY SUPREMACY VECTOR
-    v_morality = _extract_avg([
-        llm_data.get("morality_supremacy_scores", {}),
-        llm_data.get("duty_source_scores", {}),
-        llm_data.get("conscience_status_scores", {}),
-        llm_data.get("justice_nature_scores", {}),
-        {k: v for k, v in q_data.items() if k in ["good_above_law_force", "personal_moral_accountability"]}
-    ])
-    if v_morality < 0 and result.get("ethical_coherence_score", -1.0) >= 0:
-        v_morality = min(1.0, max(0.0, result["ethical_coherence_score"] / 7.0))
-    elif v_morality < 0 and d_score >= 0:
-        v_morality = d_score
-
-    # 3. PERSONALISM VECTOR
-    v_personalism = _extract_avg([
-        llm_data.get("personalism_scores", {}),
-        llm_data.get("property_rights_stability_scores", {}),
-        llm_data.get("inheritance_continuity_scores", {}),
-        llm_data.get("family_law_autonomy_scores", {}),
-        {k: v for k, v in q_data.items() if k in ["individual_hereditary_property", "personal_moral_accountability"]}
-    ])
-    if v_personalism < 0 and result.get("personalism_score", -1.0) >= 0:
-        v_personalism = result["personalism_score"]
-
-    # 4. PUBLIC MORALITY TOTALITY VECTOR
-    v_totality = _extract_avg([
-        llm_data.get("public_morality_totality_scores", {}),
-        llm_data.get("conscience_status_scores", {}),
-        {k: v for k, v in q_data.items() if k in ["ethics_totality_public_private", "good_above_law_force"]}
-    ])
-    if v_totality < 0 and result.get("public_morality_totality_score", -1.0) >= 0:
-        v_totality = result["public_morality_totality_score"]
-
-    # 5. SACRALITY / FANATICISM VECTOR
-    v_sacrality = _extract_avg([
-        llm_data.get("sacrality_scores", {}),
-        {k: v for k, v in q_data.items() if k in ["academic_educational_freedom", "full_artistic_freedom"]}
-    ])
-    if v_sacrality < 0 and result.get("sacrality_score", -1.0) >= 0:
-        v_sacrality = result["sacrality_score"]
-
-    lie_vectors = [v for v in [v_spirit, v_morality, v_personalism, v_totality] if v >= 0]
-
-    if lie_vectors:
-        truth_score = sum(lie_vectors) / float(len(lie_vectors))
-        
-        # Fanaticism / Forced Sacrality Penalty
-        if v_sacrality > 0.65:
-            truth_score *= max(0.2, 1.0 - (v_sacrality - 0.65))
-
-        lie_score = max(0.0, min(1.0, 1.0 - truth_score))
-        lie_pct = round(lie_score * 100, 1)
-
-        result["civilizational_lie_score"] = round(lie_score, 2)
-        result["civilizational_lie_percentage"] = lie_pct
-        result["civilizational_lie_vectors"] = {
-            "spirit_supremacy": round(v_spirit, 2) if v_spirit >= 0 else -1.0,
-            "morality_supremacy": round(v_morality, 2) if v_morality >= 0 else -1.0,
-            "personalism": round(v_personalism, 2) if v_personalism >= 0 else -1.0,
-            "public_morality_totality": round(v_totality, 2) if v_totality >= 0 else -1.0,
-            "sacrality_penalty": round(1.0 - v_sacrality, 2) if v_sacrality >= 0 else -1.0
-        }
-
-        if lie_pct <= 15.0:
-            result["civilizational_lie_diagnosis"] = "PRAWDA OBIEKTYWNA I PERSONALIZM (Civitas Dei)"
-        elif lie_pct <= 40.0:
-            result["civilizational_lie_diagnosis"] = "UMIARKOWANA MANIPULACJA / PRAGMATYZM"
-        elif lie_pct <= 70.0:
-            result["civilizational_lie_diagnosis"] = "⚠️ ZAKŁAMANIE SYSTEMOWE (Dwoistość Sumienia / Statolatria)"
-        else:
-            result["civilizational_lie_diagnosis"] = "🚨 KŁAMSTWO FUNDAMENTALNE (Zbawienie Zbiorowe / Acywilizacyjny Kołobłęd)"
-    else:
-        result["civilizational_lie_score"] = -1.0
-        result["civilizational_lie_percentage"] = -1.0
-        result["civilizational_lie_diagnosis"] = "Brak danych dla Wskaźnika Kłamstwa"
-        result["civilizational_lie_vectors"] = {}
 
     # Determine Primary Civilization according to Koneczny's Methodology
     spirit_val = result.get("spirit_supremacy_score", -1.0)
@@ -2435,12 +2345,6 @@ Zwróć JSON."""
     # Map "spirit" to its 12 component indices
     if "spirit" in target_indices:
         for idx in ["dualism", "pluralism", "aposteriori", "organism", "personalism", "family", "church", "property", "inheritance", "morality", "public_morality", "administrative_responsibility"]:
-            if idx not in target_indices:
-                target_indices.append(idx)
-
-    # Map "civilizational_lie" to its component indices
-    if "civilizational_lie" in target_indices:
-        for idx in ["quincunx", "duty_source", "morality", "public_morality", "personalism", "sacrality"]:
             if idx not in target_indices:
                 target_indices.append(idx)
 

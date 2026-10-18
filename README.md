@@ -39,6 +39,13 @@ python3 start.py
 ```
 Backend wystartuje pod adresem `http://127.0.0.1:8005`.
 
+Aby zatrzymać działający serwer:
+```bash
+make stop
+# lub:
+./stop.sh
+```
+
 ### Krok 4: Instalacja wtyczki w przeglądarce (Chrome/Edge)
 1. Otwórz w przeglądarce stronę zarządzania wtyczkami: `chrome://extensions/` (lub `edge://extensions/`).
 2. Włącz **Tryb dewelopera** (prawy górny róg).
@@ -176,7 +183,6 @@ flowchart TD
 * Bada wszystkie **27 indeksów analitycznych** rozbitych na **352 szczegółowe pytania kwalifikacyjne**:
   * Pełna pajęczyna **Quincunxa (Pięciomianu Bytu)** z wyliczeniem średniej geometrycznej i współmierności sfer.
   * Pełna dekompozycja **Siedmiu Niewiadomych (Szereg Personalistyczny)**.
-  * Weryfikacja **Wskaźnika Kłamstwa Cywilizacyjnego** (5 wektorów rozkładu).
   * Dokładne spektrum procentowe wpływów cywilizacyjnych i weryfikacja synkretyzmu.
 
 </details>
