@@ -1,6 +1,6 @@
 # Algorytm Konecznego
 
-Dzieła i teoria Konecznego zamienione w cyfrowe narzędzie, praktyczny pomost od monografij do metody indukcyjnej umożliwiający badanie quincunxa, trójprawa oraz ścierania się cywilizacyj i etyk w tekstach.
+Teoria podziału na cywilizacje ujęta w dziełach historyka i filozofa Feliksa Konecznego zamieniona w aplikację.
 
 ![Analiza Algorytmem Konecznego - Dashboard i Szczebel Cywilizacyjny](extension/dasz4.png)
 
