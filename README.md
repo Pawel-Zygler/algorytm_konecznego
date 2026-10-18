@@ -1,195 +1,93 @@
 # Algorytm Konecznego
 
-Teoria podziału na cywilizacje ujęta w dziełach historyka i filozofa Feliksa Konecznego zamieniona w aplikację.
+Teoria podziału na cywilizacje Feliksa Konecznego w formie cyfrowej aplikacji i wtyczki do przeglądarki.
 
 ![Analiza Algorytmem Konecznego - Dashboard i Szczebel Cywilizacyjny](extension/dasz4.png)
 ![Analiza Algorytmem Konecznego - Drzewo Decyzyjne Mantis i Profil Cywilizacyjny](extension/dasz9.png)
 ![Analiza Algorytmem Konecznego - Panel Analityczny i Aura Silnika](extension/dasz13.png)
 
 <details>
-<summary><b>Instalacja wtyczki (Tryb Online)</b></summary>
+<summary><b>Szybki start (Instalacja i uruchomienie)</b></summary>
 
-### Krok 1: Klonowanie repozytorium i instalacja zależności
+### 1. Backend
 ```bash
 git clone https://github.com/Pawel-Zygler/algorytm_konecznego.git
 cd algorytm_konecznego
 pip install -r backend/requirements.txt
-pip install pytest
+cp backend/.env.template backend/.env  # wpisz GEMINI_API_KEY
+make start                            # serwer: http://127.0.0.1:8005 (stop: make stop)
 ```
 
-### Krok 2: Konfiguracja klucza API w backendzie (Opcjonalnie)
-Skopiuj plik szablonu zmiennych środowiskowych i dodaj swój klucz do API Google Gemini lub Ollama:
-```bash
-cp backend/.env.template backend/.env
-```
-Otwórz plik `backend/.env` i uzupełnij:
-```env
-GEMINI_API_KEY=twój_działający_klucz_api
-```
+> Darmowy klucz API uzyskasz w [Google AI Studio](https://aistudio.google.com/app/apikey).
 
-> **Jak zdobyć darmowy klucz API Google Gemini?**
-> Wejdź na stronę [Google AI Studio](https://aistudio.google.com/app/apikey), zaloguj się swoim kontem Google i kliknij **"Create API key"**. Wygenerowany ciąg znaków to Twój darmowy klucz API.
-
-### Krok 3: Uruchomienie serwera backendowego
-Wystarczy wpisać w terminalu jedną z prostych komend:
-```bash
-make start
-# lub:
-./start.sh
-# lub:
-python3 start.py
-```
-Backend wystartuje pod adresem `http://127.0.0.1:8005`.
-
-Aby zatrzymać działający serwer:
-```bash
-make stop
-# lub:
-./stop.sh
-```
-
-### Krok 4: Instalacja wtyczki w przeglądarce (Chrome/Edge)
-1. Otwórz w przeglądarce stronę zarządzania wtyczkami: `chrome://extensions/` (lub `edge://extensions/`).
-2. Włącz **Tryb dewelopera** (prawy górny róg).
-3. Kliknij **"Załaduj rozpakowane"** ("Load unpacked").
-4. Wybierz folder `extension/` z pobranego repozytorium `algorytm_konecznego`.
-
-### Krok 5: Konfiguracja i Uruchomienie
-1. Kliknij ikonę wtyczki **Analiza Konecznego** na pasku narzędzi przeglądarki Chrome.
-2. Wklej swój **Klucz API** w polu tekstowym *Klucz API*.
-3. Zaznacz wybrane indeksy analityczne za pomocą checkboxów.
-4. Kliknij przycisk **Zapisz Ustawienia**. Wtyczka połączy się z backendem i zapisze Twoje preferencje.
-5. **Kliknij w głowę profesora w prawym dolnym rogu ekranu na dowolnej stronie, aby rozpocząć analizę jej tekstu.**
+### 2. Wtyczka Chrome / Edge
+1. Otwórz `chrome://extensions/` i włącz **Tryb dewelopera**.
+2. Kliknij **Załaduj rozpakowane** i wskaż folder `extension/`.
+3. Kliknij ikonę wtyczki na pasku, wpisz klucz API i kliknij **Zapisz**.
+4. **Kliknij portret profesora w prawym dolnym rogu na dowolnej stronie**, aby zbadać tekst.
 
 </details>
 
 <details>
-<summary><b>Struktura Indeksów Analitycznych</b></summary>
+<summary><b>5 Kroków Historiozoficznych (Indeksy)</b></summary>
 
-Algorytm analizuje tekst chronologicznie w 5 krokach historiozoficznych Feliksa Konecznego:
-
-1. **Krok 1: Indeks Sakralności**:
-   - Mierzy stopień uświęcenia prawa i państwa oraz odrzucenie statolatrii i cezaropapizmu (13 wskaźników).
-
-2. **Krok 2: Supremacja Ducha** (Agregacja 12 pod-indeksów):
-   - Mierzy dominację sił duchowych nad fizyczną przymusowością w 12 obszarach:
-     - **Dualizm Prawny** (`LEGAL_DUALISM_INDEX`)
-     - **Pluralizm Źródeł Prawa** (`LAW_SOURCE_PLURALISM_INDEX`)
-     - **Prawo Aposterioryczne vs Apriori** (`APOSTERIORI_APRIORI_INDEX`)
-     - **Organizm vs Mechanizm** (`ORGANISM_MECHANISM_INDEX`)
-     - **Personalizm** (`PERSONALISM_INDEX`)
-     - **Autonomia Rodziny** (`FAMILY_LAW_AUTONOMY_INDEX`)
-     - **Niezależność Kościoła** (`CHURCH_INDEPENDENCE_INDEX`)
-     - **Stabilność Własności** (`PROPERTY_RIGHTS_STABILITY_INDEX`)
-     - **Ciągłość Dziedziczenia** (`INHERITANCE_CONTINUITY_INDEX`)
-     - **Supremacja Moralności** (`MORALITY_SUPREMACY_INDEX`)
-     - **Totalność Moralności Publicznej** (`PUBLIC_MORALITY_TOTALITY_INDEX`)
-     - **Odpowiedzialność Urzędnicza** (`ADMINISTRATIVE_RESPONSIBILITY_INDEX`)
-
-3. **Krok 3: Szereg Personalistyczny (Generalia Etyki - Siedem Niewiadomych)**:
-   - Wylicza wskaźnik spójności etycznej (`ethical_coherence_score`) oraz diagnozuje **Szereg Personalistyczny** (Cywilizacja Łacińska) vs **Szereg Gromadnościowy** vs **Mieszankę Trującą** (stan acywilizacyjny).
-   - Zawiera 7 pod-indeksów etycznych:
-     - **Personalistyczne Źródło Obowiązku** (`duty_source` - 13 wskaźników)
-     - **Motywacja i Bezinteresowność** (`motivation` - 14 wskaźników)
-     - **Natura Sprawiedliwości** (`justice_nature` - 16 wskaźników)
-     - **Status Sumienia: Autonomia vs Heteronomia** (`conscience_status` - 15 wskaźników)
-     - **Opanowanie Czasu i Historyzm** (`time_mastery` - 15 wskaźników)
-     - **Ethos Pracy i Uświęcenie** (`work_ethos` - 14 wskaźników)
-
-4. **Krok 4: Chyżość Historyczna (Wydajność Cywilizacyjna)**:
-   - Mierzy zdolność społeczności do **kapitalizowania i oszczędzania czasu** dla przyszłych pokoleń (zamiast powracania do stanu początkowego *ab ovo*).
-
-5. **Krok 5: Współmierność Pięciomianu Bytu (QUINCUNX_COHERENCE_INDEX)**:
-   - Badanie harmonijnej spójności 5 sfer bytu (Dobro, Prawda, Zdrowie, Dobrobyt, Piękno) wyliczane za pomocą średniej geometrycznej $\sqrt[5]{D \cdot P \cdot Z \cdot Db \cdot Pi}$ oraz mnożnika spójności $Consistency\_Factor$.
+1. **Sakralność:** Stopień uświęcenia państwa i prawa; rozdział sfery sacrum i profanum vs teokracja i cezaropapizm.
+2. **Supremacja Ducha:** Prymat etyki i wolności nad przymusem fizycznym (dualizm prawny, niezależność Kościoła, autonomia rodziny, nienaruszalność własności prywatnej).
+3. **Generalia Etyki (Szereg Personalistyczny):** 7 kategorii moralnych (źródło obowiązku, bezinteresowność, sprawiedliwość, sumienie, opanowanie czasu, etos pracy).
+4. **Chyżość Historyczna:** Zdolność do akumulacji dorobku i oszczędzania czasu dla kolejnych pokoleń (zamiast cofania się *ab ovo*).
+5. **Quincunx (Pięciomian Bytu):** Harmonijna współmierność 5 sfer: Dobro, Prawda, Zdrowie, Dobrobyt, Piękno.
 
 </details>
 
 <details>
-<summary><b>Tryby Pracy Silnika: Full, Lite oraz Mantis (Drapieżna Modliszka Decyzyjna)</b></summary>
+<summary><b>Tryby Silnika: Mantis, Lite i Full</b></summary>
 
-System *Algorytm Konecznego* wspiera trzy komplementarne tryby ewaluacji tekstu, zoptymalizowane pod kątem głębokości historiozoficznej, zużycia tokenów oraz szybkości:
-
-### 1. 🦗 Wersja Mantis (Drapieżna Modliszka — Reguła Pareto 80/20)
-*Mantis* to drapieżny, ultra-precyzyjny silnik klasyfikacji o wysokiej wydajności. Zamiast analizować wszystkie 27 indeksów naraz, **wykorzystuje Zasadę Pareto (20% kluczowych indeksów rozstrzyga 80%+ przypadków)**. 
-
-Działa jak polująca modliszka: przechodzi sekwencyjnie przez logiczne bramki decyzyjne (*Information Gain Decision Gates*), błyskawicznie identyfikując cywilizację badanego tekstu przy minimalnym zużyciu zapytań LLM.
-
-```text
-                       [CAŁY KOSMOS TEKSTU]
-                                │
-          1. SACRALITY_INDEX (Sakralność vs Świeckość)
-                 ┌──────────────┴──────────────┐
-         [Niska < 0.40]                 [Wysoka >= 0.40]
-  (Łac / Biz / Tur / CHIŃSKA)          (Arab / Żyd / Bram)
-                 │                              │
- 2. LEGAL_DUALISM_INDEX         6. PUBLIC_MORALITY_TOTALITY
- (Dualizm vs Monizm Prawa)      (Etyka podwójna vs jednolita)
-        ┌────────┴────────┐             ┌───────┴───────┐
-   [Dualizm]          [Monizm]      [Monizm Prawa]   [Etyka Podwójna]
-       │                  │                │                │
-       ▼                  │                ▼                ▼
-   ŁACIŃSKA               │             ARABSKA         ŻYDOWSKA
-                          │
-  3. RELACJA WŁADZA - DUCH - SPOŁECZEŃSTWO
-         ┌────────────────┼─────────────────────┐
-  [Cezaropapizm]    [Monizm Siły]      [Areligijność / Kult Rodu]
-         │                │                     │
-  4. CONSCIENCE     5. PERSONALISM        7. RYTUAŁ & RÓD
-  (Dwoistość)       (Ustrój Obozowy)   (Konfucjanizm, Rytuał 'Li')
-         │                │                     │
-         ▼                ▼                     ▼
-    BIZANTYŃSKA        TURAŃSKA              CHIŃSKA
-```
+### 1. 🦗 Mantis AI (Reguła Pareto 80/20)
+Optymalny silnik klasyfikacji — 6 sekwencyjnych bramek decyzyjnych rozstrzyga 80%+ przypadków w kilka sekund:
 
 ```mermaid
 flowchart TD
-    Start([📄 Cały Kosmos Tekstu]) --> B1{1. Sakralność vs Świeckość\nSACRALITY_INDEX}
+    Start([📄 Badany tekst]) --> B1{1. Sakralność vs Świeckość\nSACRALITY_INDEX}
     
     B1 -- "Wysoka (>= 0.40)\nŚcieżka Sakralna" --> B6{6. Moralność Publiczna\nPUBLIC_MORALITY_TOTALITY}
-    B1 -- "Niska (< 0.40)\nŚcieżka Świecko-Rozumowa" --> B2{2. Dualizm Prawny\nLEGAL_DUALISM_INDEX}
+    B1 -- "Niska (< 0.40)\nŚcieżka Świecka" --> B2{2. Dualizm Prawny\nLEGAL_DUALISM_INDEX}
     
-    B2 -- "Dualizm Prawny\nPrymat Etyki nad Prawem" --> CivLatin["🏛️ CYWILIZACJA ŁACIŃSKA\n(Autonomia prawa prywatnego, wolność, sumienie)"]
-    B2 -- "Monizm Prawny\nWładza pochłania prawo prywatne" --> B3{3. Relacja Władza-Religia-Duch\nCHURCH_INDEPENDENCE}
+    B2 -- "Dualizm Prawny\nAutonomia prawa prywatnego" --> CivLatin["🏛️ CYWILIZACJA ŁACIŃSKA"]
+    B2 -- "Monizm Prawny\nWładza pochłania prawo" --> B3{3. Władza - Religia - Duch\nCHURCH_INDEPENDENCE}
     
-    B3 -- "Cezaropapizm / Etatyzm\nBiurokracja Państwowa" --> B4{4. Status Sumienia\nCONSCIENCE_STATUS}
+    B3 -- "Cezaropapizm / Etatyzm\nBiurokracja" --> B4{4. Status Sumienia\nCONSCIENCE_STATUS}
     B3 -- "Monizm Siły / Wodza\nWładca właścicielem wszystkiego" --> B5{5. Podmiotowość Jednostki\nPERSONALISM_INDEX}
-    B3 -- "Areligijność / Kult Przodków\nUstrój Rodowy i Konfucjanizm" --> CivChina["☯️ CYWILIZACJA CHIŃSKA\n(Monizm Etykietalno-Rodowy / Rytuał Li)"]
+    B3 -- "Areligijność / Kult Przodków\nUstrój Rodowy" --> CivChina["☯️ CYWILIZACJA CHIŃSKA"]
     
-    B4 -- "Dwoistość Sumienia\n(Etyka prywatna vs racja stanu)" --> CivByz["👑 CYWILIZACJA BIZANTYŃSKA\n(Monizm Prawa Publicznego / Etatyzm)"]
+    B4 -- "Dwoistość Sumienia\n(Etyka prywatna vs racja stanu)" --> CivByz["👑 CYWILIZACJA BIZANTYŃSKA"]
+    B5 -- "Ustrój Obozowy\nBrak własności prywatnej" --> CivTur["🏹 CYWILIZACJA TURAŃSKA"]
     
-    B5 -- "Ustrój Obozowy / Brak Własności\nCzłowiek narzędziem wodza" --> CivTur["🏹 CYWILIZACJA TURAŃSKA\n(Monizm Prawa Prywatnego Władcy)"]
-    
-    B6 -- "Monizm Prawa Sakralnego (Umma)\nTeokracja powszechna" --> CivArab["🌙 CYWILIZACJA ARABSKA\n(Monizm Szariatu / Poligamia)"]
-    B6 -- "Etyka Podwójna / Partykularna\nPartykularyzm rodowo-narodowy" --> CivJew["📜 CYWILIZACJA ŻYDOWSKA\n(Monizm Rodowo-Sakralny / Monogamia)"]
+    B6 -- "Monizm Sakralny (Umma)\nPowszechna teokracja" --> CivArab["🌙 CYWILIZACJA ARABSKA"]
+    B6 -- "Etyka Podwójna\nPartykularyzm rodowo-sakralny" --> CivJew["📜 CYWILIZACJA ŻYDOWSKA"]
 ```
 
-#### Kluczowe Bramki Decyzyjne Mantisa (Złota 6-tka Pareto):
-1. **`SACRALITY_INDEX`** – Rozcina rzeczywistość na cywilizacje sakralne (Arabska, Żydowska, Bramińska) i świecko-rozumowe (Łacińska, Bizantyńska, Turańska, Chińska).
-2. **`LEGAL_DUALISM_INDEX`** – Skalpel wyróżniający cywilizację łacińską (rozdział i autonomia prawa prywatnego wobec publicznego).
-3. **`CHURCH_INDEPENDENCE_INDEX`** – Weryfikuje cezaropapizm i etatyzm (Bizancjum) vs dominację siły fizycznej (Turan) vs areligijny kult rodu i etykietę konfucjańską (Chiny) vs niezależność sumienia (Łacina).
-4. **`CONSCIENCE_STATUS_INDEX`** – Bada jedność moralną sumienia vs podwójną moralność (inne zasady prywatnie, inne dla „racji stanu”).
-5. **`PERSONALISM_INDEX`** – Wykrywa ustrój obozowy, brak stabilnej własności i redukcję człowieka do roli żołnierza/narzędzia wodza (Turańszczyzna).
-6. **`PUBLIC_MORALITY_TOTALITY_INDEX`** – Weryfikuje powszechny monizm sakralny (Arabska/Umma) vs podwójną etykę rodowo-narodową (Żydowska/Halacha).
+**Bramki decyzyjne:**
+- **Sakralność:** Podział na cywilizacje sakralne (Arabska, Żydowska, Bramińska) i świecko-rozumowe (Łacińska, Bizantyńska, Turańska, Chińska).
+- **Dualizm prawny:** Wyróżnik cywilizacji łacińskiej (prymat etyki i autonomia prawa prywatnego).
+- **Niezależność Kościoła:** Etatyzm (Bizancjum) vs rządy siły (Turan) vs kult rodu (Chiny) vs wolność sumienia (Łacina).
+- **Status sumienia:** Jedność etyczna vs podwójna moralność („inna prywatnie, inna dla racji stanu”).
+- **Personalizm:** Człowiek jako wolna osoba vs narzędzie wodza w ustroju obozowym.
+- **Moralność publiczna:** Powszechny monizm sakralny (Arabska) vs podwójna etyka rodowa (Żydowska).
 
 ---
 
-### 2. ⚡ Wersja Lite (Szybka Eksploracja)
-* Tryb zoptymalizowany pod kątem natychmiastowej orientacji w treści artykułu.
-* Ewaluuje **3 nadrzędne indeksy agregujące**: Ogólną Sakralność, Ogólną Supremację Ducha oraz Wskaźnik Spójności Etycznej.
-* Wykorzystuje 3-4 zwięzłe zapytania promptowe, zwracając szybki orientacyjny profil cywilizacyjny w kilka sekund.
+### 2. ⚡ Lite Scan
+- Błyskawiczny skan (1-3 prompty) do szybkiej orientacji w treści.
+- Bada kluczowe indeksy agregujące i zwraca wstępny profil cywilizacyjny w kilka sekund.
 
 ---
 
-### 3. 🏛️ Wersja Full (Pełna Synteza Historiozoficzna)
-* Kompletne, bezkompromisowe cyfrowe odwzorowanie metodologii Feliksa Konecznego.
-* Bada wszystkie **27 indeksów analitycznych** rozbitych na **352 szczegółowe pytania kwalifikacyjne**:
-  * Pełna pajęczyna **Quincunxa (Pięciomianu Bytu)** z wyliczeniem średniej geometrycznej i współmierności sfer.
-  * Pełna dekompozycja **Siedmiu Niewiadomych (Szereg Personalistyczny)**.
-  * Dokładne spektrum procentowe wpływów cywilizacyjnych i weryfikacja synkretyzmu.
+### 3. ✨ Full Kosmos
+- Pełna synteza historiozoficzna: 27 indeksów i 352 pytania analityczne.
+- Wylicza radar Quincunxa (średnia geometryczna 5 sfer), Szereg Personalistyczny oraz spektrum procentowe wpływów cywilizacyjnych.
 
 </details>
 
 ---
 
-> **Uwaga dotycząca limitów zapytań (Quota 429 w darmowym planie Gemini API):** Pełna wersja analizy (Full) wysyła równolegle **24 zapytania (prompty)** do modelu LLM, ewaluując aż **352 szczegółowe kryteria**.
-> - **Dla szybkiej analizy z zachowaniem precyzji:** Wybierz tryb **Mantis** (Pareto 80/20) lub **Lite**.
+> **Wskazówka:** Przy darmowych limitach zapytań Gemini API najlepiej sprawdza się tryb **Mantis AI** (optymalny balans precyzji i szybkości).
