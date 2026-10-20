@@ -2944,22 +2944,22 @@
         num: "05",
         name: "Personalizm",
         title: "05. Personalizm (Emancypacja Osoby Ludzkiej)",
-        quote: "Osoba podmiotem prawa i autonomia sumienia",
-        desc: "Szczytowe osiągnięcie łacińskie. Osoba ludzka staje się niezależnym podmiotem prawa. Człowiek odpowiada osobiście za swoje czyny (zniesienie odpowiedzialności zbiorowej rodu), ma autonomię sumienia i wolną wolę.",
+        quote: "Moralność wykwita ze społeczeństwa tylko przy dualizmie prawa",
+        desc: "Szczytowe osiągnięcie łacińskie. Moralność rozwija się przez obowiązkowość dobrowolną i wykwita ze społeczeństwa, a nie z państwa — rozwój jej wszechstronny dokonywać się może tylko tam, gdzie państwo nie pożera społeczeństwa, a zatem tylko przy dualizmie prawa.",
         achievement: "Dualizm Prawny (Rozdzielność prawa prywatnego i publicznego)",
         roleHeader: "🔑 Prymat Etyki nad Ustawą:",
-        roleDesc: "Państwo nie stwarza etyki, lecz podlega normom moralnym. Człowiek posiada przyrodzoną godność i wolną wolę.",
+        roleDesc: "Państwo nie dopomoże etyce sankcjami — moralność wykwita z wolnej woli osoby ludzkiej i autonomii prawa prywatnego.",
         roleExample: "Przykład: Zasada Neminem captivabimus, aequitas oraz tomistyczna filozofia prawa naturalnego."
       },
       {
         num: "06",
         name: "Naród",
         title: "06. Zrzeszenie Obywatelskie (Naród Organiczny)",
-        quote: "Hegemonia etyki i dobrowolny ład organiczny",
-        desc: "Wolne osoby łączą się w dobrowolne stowarzyszenia i naród oparty na hegemonii etyki, a nie na przymusie aparatu państwowego. Państwo staje się tylko narzędziem służebnym wobec spójnego etycznie społeczeństwa.",
-        achievement: "Organy Dobrowolnego Ładu i Społeczeństwo Obywatelskie",
+        quote: "Patriotyzm moralny vs egoistyczny nacjonalizm (sacro egoismo)",
+        desc: "Wolne osoby łączą się w dobrowolny naród oparty na patriotyzmie i hegemonii etyki. Tym różni się patriotyzm od nacjonalizmu, który kieruje się bezwzględnym 'sacro egoismo', w mylnym mniemaniu, jakoby można było trwale służyć własnemu narodowi będąc szkodnikiem dla świata.",
+        achievement: "Organy Dobrowolnego Ładu i Etyka Uniwersalna",
         roleHeader: "🔑 Naród Ponad Państwem:",
-        roleDesc: "Naród to zrzeszenie wolnych osób połączonych wspólną tradycją dziejową i aspiracjami duchowymi, działających bez przymusu państwowego.",
+        roleDesc: "Naród to zrzeszenie wolnych osób połączonych wspólną tradycją i etyką ogólnoludzką — odrzucające sobkostwo narodowe na rzecz dobra wspólnego.",
         roleExample: "Przykład: Dojrzała polska świadomość republikańska (Rzeczpospolita) oraz wolne narody oparte na prymacie dobra wspólnego."
       }
     ];
@@ -3339,249 +3339,1226 @@
     else if (activeCivKey === 'brahmin' || (data.primary_civilization && data.primary_civilization.toLowerCase().includes('bram'))) defaultCivTreeId = 'braminska';
     else if (activeCivKey === 'latin' || (data.primary_civilization && data.primary_civilization.toLowerCase().includes('łac'))) defaultCivTreeId = 'lacinska';
 
-    function generateDecisionTreeFlowchartHtml(civId) {
-      const selectedCiv = CIVILIZATIONS_TREE.find(c => c.id === civId || c.key === civId) || CIVILIZATIONS_TREE[0];
+    let currentTreeCivId = defaultCivTreeId;
+    let currentTreeTab = 'mantis';
+
+    function generateDecisionTreeFlowchartContent(civId, selectedCiv) {
       const isNodeActive = (nodeId) => selectedCiv.pathNodes.includes(nodeId);
       const isPathActive = (nodeA, nodeB) => isNodeActive(nodeA) && isNodeActive(nodeB);
 
       return `
-        <!-- DRZEWO DECYZYJNE KLASYFIKACJI (PARETO 80/20 & BRAMKI INFORMACYJNE) -->
-        <div style="background: rgba(7, 11, 20, 0.95); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 12px; padding: 14px 16px; margin-top: 10px; box-shadow: 0 8px 30px rgba(0,0,0,0.5); overflow-x: auto;">
+        <!-- PASEK OKRUSZKÓW AKTYWNEJ ŚCIEŻKI -->
+        <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 6px 10px; margin-bottom: 14px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px;">
+          <div style="display: flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 800; color: #94a3b8; text-transform: uppercase;">
+            <span>⚡</span>
+            <span>Aktywny Ślad Bramkowania Mantis:</span>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px; font-family: monospace; font-size: 10px;">
+            ${selectedCiv.breadcrumbs.map((crumb, idx) => `
+              <span style="padding: 2px 7px; border-radius: 4px; font-weight: 700; ${
+                idx === selectedCiv.breadcrumbs.length - 1
+                  ? 'background: #38bdf8; color: #020617; box-shadow: 0 0 10px rgba(56,189,248,0.4);'
+                  : 'background: rgba(15, 23, 42, 0.9); color: #7dd3fc; border: 1px solid rgba(56,189,248,0.25);'
+              }">${crumb}</span>
+              ${idx < selectedCiv.breadcrumbs.length - 1 ? '<span style="color: #475569; font-size: 10px;">&gt;</span>' : ''}
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- SIATKA DRZEWA MANTIS -->
+        <div style="min-width: 680px; display: flex; flex-direction: column; align-items: center;">
           
-          <!-- NAGŁÓWEK DIAGRAMU -->
-          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 8px; margin-bottom: 10px; flex-wrap: wrap; gap: 6px;">
-            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #38bdf8; display: flex; align-items: center; gap: 6px;">
-              <span style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 4px; background: rgba(56, 189, 248, 0.15); color: #38bdf8; font-size: 11px;">🌿</span>
-              <span>DRZEWO DECYZYJNE KLASYFIKACJI Z PODŚWIETLANYMI LINIAMI ŁĄCZĄCYMI</span>
+          <!-- KROK 0: CAŁY KOSMOS TEKSTU -->
+          <div style="padding: 6px 18px; border-radius: 10px; font-size: 11px; font-weight: 900; font-family: monospace; transition: all 0.3s ease; ${
+            isNodeActive('root')
+              ? 'background: #06b6d4; color: #020617; border: 1.5px solid #67e8f9; box-shadow: 0 0 16px rgba(6,182,212,0.5);'
+              : 'background: rgba(15, 23, 42, 0.9); color: #64748b; border: 1px solid rgba(255,255,255,0.08);'
+          }">
+            [CAŁY KOSMOS TEKSTU]
+          </div>
+
+          <!-- Pionowa linia z Root do Krok 1 -->
+          <div style="width: 2px; height: 16px; background: ${
+            isPathActive('root', 'sacral_low') || isPathActive('root', 'sacral_high')
+              ? '#38bdf8; box-shadow: 0 0 8px rgba(56,189,248,0.8);'
+              : 'rgba(255,255,255,0.1);'
+          } transition: all 0.4s ease;"></div>
+
+          <!-- KROK 1: SACRALITY INDEX -->
+          <div style="text-align: center; font-weight: 700; font-size: 11px; color: #e2e8f0; text-transform: uppercase; letter-spacing: 0.04em; background: rgba(15, 23, 42, 0.95); padding: 5px 14px; border-radius: 8px; border: 1px solid rgba(56, 189, 248, 0.3); box-shadow: 0 2px 8px rgba(0,0,0,0.4); display: flex; align-items: center; gap: 6px;">
+            <span style="color: #38bdf8; font-size: 12px;">📊</span>
+            <span>1. SACRALITY_INDEX (Sakralność vs Świeckość)</span>
+          </div>
+
+          <!-- Poziomy łącznik rozgałęzienia Krok 1 -->
+          <div style="width: 58%; height: 2px; position: relative; margin: 6px 0; background: rgba(255,255,255,0.08);">
+            ${isNodeActive('sacral_low') ? `
+              <div style="position: absolute; left: 0; width: 50%; height: 100%; background: #38bdf8; box-shadow: 0 0 8px rgba(56,189,248,0.8);"></div>
+            ` : ''}
+            ${isNodeActive('sacral_high') ? `
+              <div style="position: absolute; right: 0; width: 50%; height: 100%; background: #818cf8; box-shadow: 0 0 8px rgba(129,140,248,0.8);"></div>
+            ` : ''}
+          </div>
+
+          <!-- GŁÓWNY PODZIAŁ 2 KOLUMN (NISKA vs WYSOKA SAKRALNOŚĆ) -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; width: 100%; max-width: 820px; align-items: start;">
+            
+            <!-- LEWA GAŁĄŹ: NISKA SAKRALNOŚĆ -->
+            <div style="display: flex; flex-direction: column; align-items: center;">
+              <div style="width: 100%; padding: 8px 10px; border-radius: 10px; text-align: center; transition: all 0.3s ease; ${
+                isNodeActive('sacral_low')
+                  ? 'background: rgba(8, 51, 68, 0.9); border: 1.5px solid #38bdf8; color: #7dd3fc; box-shadow: 0 0 14px rgba(56, 189, 248, 0.35);'
+                  : 'background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.08); color: #64748b;'
+              }">
+                <span style="font-family: monospace; font-size: 10.5px; font-weight: 800; display: block; color: ${isNodeActive('sacral_low') ? '#38bdf8' : '#94a3b8'};">[Niska &lt; 0.40]</span>
+                <span style="font-size: 10px; font-weight: 600; display: block; margin-top: 1px;">(Łac / Biz / Tur / CHIŃSKA)</span>
+              </div>
+
+              <!-- Linia pionowa do Krok 2 -->
+              <div style="width: 2px; height: 14px; background: ${
+                isNodeActive('sacral_low') ? '#38bdf8; box-shadow: 0 0 8px rgba(56,189,248,0.8);' : 'rgba(255,255,255,0.1);'
+              }"></div>
+
+              <!-- KROK 2: LEGAL DUALISM INDEX -->
+              <div style="width: 100%; text-align: center; background: rgba(15, 23, 42, 0.9); padding: 6px 8px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08);">
+                <span style="font-size: 10px; font-weight: 800; color: #38bdf8; text-transform: uppercase; display: block;">2. LEGAL_DUALISM_INDEX</span>
+                <span style="font-size: 9px; color: #94a3b8; display: block;">(Dualizm vs Monizm Prawa)</span>
+              </div>
+
+              <!-- Poziomy łącznik dla Dualizmu i Monizmu -->
+              <div style="width: 76%; height: 2px; position: relative; margin: 6px 0; background: rgba(255,255,255,0.08);">
+                ${isNodeActive('dualism_yes') ? `
+                  <div style="position: absolute; left: 0; width: 50%; height: 100%; background: #10b981; box-shadow: 0 0 8px rgba(16,185,129,0.8);"></div>
+                ` : ''}
+                ${isNodeActive('dualism_no') ? `
+                  <div style="position: absolute; right: 0; width: 50%; height: 100%; background: #38bdf8; box-shadow: 0 0 8px rgba(56,189,248,0.8);"></div>
+                ` : ''}
+              </div>
+
+              <!-- Pod-gałęzie: Dualizm vs Monizm -->
+              <div style="display: grid; grid-template-columns: 1fr 1.6fr; gap: 8px; width: 100%;">
+                
+                <!-- DUALIZM -> ŁACIŃSKA -->
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                  <div style="width: 100%; padding: 5px; border-radius: 6px; text-align: center; transition: all 0.2s ease; ${
+                    isNodeActive('dualism_yes')
+                      ? 'background: rgba(6, 78, 59, 0.9); border: 1.5px solid #10b981; color: #a7f3d0; font-weight: 800;'
+                      : 'background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.06); color: #64748b;'
+                  }">
+                    <span style="font-size: 9px; font-family: monospace; text-transform: uppercase; display: block;">[Dualizm]</span>
+                  </div>
+
+                  <!-- Strzałka do Łacińskiej -->
+                  <div style="width: 2px; height: 10px; background: ${isNodeActive('dualism_yes') ? '#10b981; box-shadow: 0 0 8px rgba(16,185,129,0.8);' : 'rgba(255,255,255,0.1);'}"></div>
+                  <span style="font-size: 11px; margin-top: -4px; color: ${isNodeActive('dualism_yes') ? '#10b981' : '#475569'};">&darr;</span>
+
+                  <button class="civ-tree-btn" data-civ="lacinska" style="margin-top: 2px; width: 100%; padding: 7px 6px; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
+                    selectedCiv.id === 'lacinska'
+                      ? 'background: #10b981; color: #020617; font-weight: 900; border: 1.5px solid #6ee7b7; box-shadow: 0 0 16px rgba(16, 185, 129, 0.4);'
+                      : 'background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
+                  }">
+                    <span style="font-size: 11px; font-weight: 800; display: block;">ŁACIŃSKA</span>
+                    <span style="font-size: 8px; display: block; opacity: 0.85; margin-top: 1px;">Personalizm / Wolność</span>
+                  </button>
+                </div>
+
+                <!-- MONIZM -> KROK 3 RELACJA WŁADZA -->
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                  <div style="width: 100%; padding: 5px; border-radius: 6px; text-align: center; transition: all 0.2s ease; ${
+                    isNodeActive('dualism_no')
+                      ? 'background: rgba(8, 51, 68, 0.9); border: 1.5px solid #38bdf8; color: #bae6fd; font-weight: 800;'
+                      : 'background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.06); color: #64748b;'
+                  }">
+                    <span style="font-size: 9px; font-family: monospace; text-transform: uppercase; display: block;">[Monizm]</span>
+                  </div>
+
+                  <div style="width: 2px; height: 10px; background: ${isNodeActive('dualism_no') ? '#38bdf8; box-shadow: 0 0 8px rgba(56,189,248,0.8);' : 'rgba(255,255,255,0.1);'}"></div>
+
+                  <div style="width: 100%; background: rgba(15, 23, 42, 0.9); padding: 5px 6px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.08); text-align: center;">
+                    <span style="font-size: 8.5px; font-weight: 800; color: #cbd5e1; display: block; text-transform: uppercase;">3. RELACJA WŁADZA - DUCH</span>
+                  </div>
+
+                  <!-- 3 Cywilizacje Monizmu Świeckiego -->
+                  <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; width: 100%; margin-top: 5px;">
+                    <button class="civ-tree-btn" data-civ="bizantynska" style="padding: 5px 3px; border-radius: 6px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
+                      selectedCiv.id === 'bizantynska'
+                        ? 'background: #a855f7; color: #ffffff; font-weight: 900; border: 1.5px solid #d8b4fe; box-shadow: 0 0 12px rgba(168, 85, 247, 0.4);'
+                        : 'background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
+                    }">
+                      <span style="font-size: 7.5px; display: block; opacity: 0.8;">Cezaryzm</span>
+                      <span style="font-size: 8.5px; font-weight: 800; display: block;">BIZANTYŃSKA</span>
+                    </button>
+
+                    <button class="civ-tree-btn" data-civ="turanska" style="padding: 5px 3px; border-radius: 6px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
+                      selectedCiv.id === 'turanska'
+                        ? 'background: #f59e0b; color: #020617; font-weight: 900; border: 1.5px solid #fde68a; box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);'
+                        : 'background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
+                    }">
+                      <span style="font-size: 7.5px; display: block; opacity: 0.8;">Siła</span>
+                      <span style="font-size: 8.5px; font-weight: 800; display: block;">TURAŃSKA</span>
+                    </button>
+
+                    <button class="civ-tree-btn" data-civ="chinska" style="padding: 5px 3px; border-radius: 6px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
+                      selectedCiv.id === 'chinska'
+                        ? 'background: #f43f5e; color: #ffffff; font-weight: 900; border: 1.5px solid #fecdd3; box-shadow: 0 0 12px rgba(244, 63, 94, 0.4);'
+                        : 'background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
+                    }">
+                      <span style="font-size: 7.5px; display: block; opacity: 0.8;">Kult Rodu</span>
+                      <span style="font-size: 8.5px; font-weight: 800; display: block;">CHIŃSKA</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
+
+            <!-- PRAWA GAŁĄŹ: WYSOKA SAKRALNOŚĆ -->
+            <div style="display: flex; flex-direction: column; align-items: center;">
+              <div style="width: 100%; padding: 8px 10px; border-radius: 10px; text-align: center; transition: all 0.3s ease; ${
+                isNodeActive('sacral_high')
+                  ? 'background: rgba(30, 27, 75, 0.9); border: 1.5px solid #818cf8; color: #c7d2fe; box-shadow: 0 0 14px rgba(129, 140, 248, 0.35);'
+                  : 'background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.08); color: #64748b;'
+              }">
+                <span style="font-family: monospace; font-size: 10.5px; font-weight: 800; display: block; color: ${isNodeActive('sacral_high') ? '#818cf8' : '#94a3b8'};">[Wysoka &gt;= 0.40]</span>
+                <span style="font-size: 10px; font-weight: 600; display: block; margin-top: 1px;">(Arab / Żyd / Bram)</span>
+              </div>
+
+              <div style="width: 2px; height: 14px; background: ${
+                isNodeActive('sacral_high') ? '#818cf8; box-shadow: 0 0 8px rgba(129,140,248,0.8);' : 'rgba(255,255,255,0.1);'
+              }"></div>
+
+              <div style="width: 100%; text-align: center; background: rgba(15, 23, 42, 0.9); padding: 6px 8px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08);">
+                <span style="font-size: 9.5px; font-weight: 800; color: #818cf8; text-transform: uppercase; display: block;">STRUKTURA MONIZMU SAKRALNEGO</span>
+                <span style="font-size: 9px; color: #94a3b8; display: block;">(Objawienie / Obowiązek Obrzędowy)</span>
+              </div>
+
+              <!-- 3 Gałęzie Sakralne -->
+              <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; width: 100%; margin-top: 10px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.08);">
+                
+                <button class="civ-tree-btn" data-civ="arabska" style="padding: 7px 4px; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
+                  selectedCiv.id === 'arabska'
+                    ? 'background: #0284c7; color: #ffffff; font-weight: 900; border: 1.5px solid #7dd3fc; box-shadow: 0 0 14px rgba(2, 132, 199, 0.4);'
+                    : 'background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
+                }">
+                  <span style="font-size: 8px; font-family: monospace; display: block; color: ${selectedCiv.id === 'arabska' ? '#ffffff' : '#38bdf8'}; text-transform: uppercase;">[KORAN]</span>
+                  <span style="font-size: 9.5px; font-weight: 800; display: block; margin: 2px 0;">ARABSKA</span>
+                  <span style="font-size: 8px; opacity: 0.8; display: block;">Teokracja</span>
+                </button>
+
+                <button class="civ-tree-btn" data-civ="zydowska" style="padding: 7px 4px; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
+                  selectedCiv.id === 'zydowska'
+                    ? 'background: #ec4899; color: #ffffff; font-weight: 900; border: 1.5px solid #fbcfe8; box-shadow: 0 0 14px rgba(236, 72, 153, 0.4);'
+                    : 'background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
+                }">
+                  <span style="font-size: 8px; font-family: monospace; display: block; color: ${selectedCiv.id === 'zydowska' ? '#ffffff' : '#f472b6'}; text-transform: uppercase;">[TALMUD]</span>
+                  <span style="font-size: 9.5px; font-weight: 800; display: block; margin: 2px 0;">ŻYDOWSKA</span>
+                  <span style="font-size: 8px; opacity: 0.8; display: block;">Obrzędowość</span>
+                </button>
+
+                <button class="civ-tree-btn" data-civ="braminska" style="padding: 7px 4px; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
+                  selectedCiv.id === 'braminska'
+                    ? 'background: #8b5cf6; color: #ffffff; font-weight: 900; border: 1.5px solid #c4b5fd; box-shadow: 0 0 14px rgba(139, 92, 246, 0.4);'
+                    : 'background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
+                }">
+                  <span style="font-size: 8px; font-family: monospace; display: block; color: ${selectedCiv.id === 'braminska' ? '#ffffff' : '#a78bfa'}; text-transform: uppercase;">[VEDY]</span>
+                  <span style="font-size: 9.5px; font-weight: 800; display: block; margin: 2px 0;">BRAMIŃSKA</span>
+                  <span style="font-size: 8px; opacity: 0.8; display: block;">Kasty</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      `;
+    }
+
+    function generateKonecznyTaxonomyTreeContent(civId, selectedCiv) {
+      const isKNodeActive = (nodeKey) => {
+        switch (nodeKey) {
+          case 'root': return true;
+          case 'sakralne': return civId === 'zydowska' || civId === 'braminska';
+          case 'civ_zyd_bram': return civId === 'zydowska' || civId === 'braminska';
+          case 'niesakralne': return civId !== 'zydowska' && civId !== 'braminska';
+          case 'duchowych': return civId === 'lacinska';
+          case 'civ_lacinska': return civId === 'lacinska';
+          case 'fizycznych': return ['bizantynska', 'turanska', 'arabska', 'chinska'].includes(civId);
+          case 'prawo': return ['bizantynska', 'turanska', 'arabska', 'chinska'].includes(civId);
+          case 'publicznym': return civId === 'bizantynska';
+          case 'civ_bizantynska': return civId === 'bizantynska';
+          case 'prywatnym': return ['turanska', 'arabska', 'chinska'].includes(civId);
+          case 'ustroj': return ['turanska', 'arabska', 'chinska'].includes(civId);
+          case 'obozowy': return civId === 'turanska';
+          case 'civ_turanska': return civId === 'turanska';
+          case 'spoleczny': return ['arabska', 'chinska'].includes(civId);
+          case 'poligamia': return civId === 'arabska';
+          case 'civ_arabska': return civId === 'arabska';
+          case 'polow_poligamia': return civId === 'chinska';
+          case 'civ_chinska': return civId === 'chinska';
+          default: return false;
+        }
+      };
+
+      const konecznyBreadcrumbsMap = {
+        lacinska: ['Cywilizacje', 'Niesakralne z supremacją sił', 'Duchowych', 'CYWILIZACJA ŁACIŃSKA'],
+        bizantynska: ['Cywilizacje', 'Niesakralne z supremacją sił', 'Fizycznych', 'Prawo publiczne', 'CYWILIZACJA BIZANTYŃSKA'],
+        turanska: ['Cywilizacje', 'Niesakralne z supremacją sił', 'Fizycznych', 'Prawo prywatne', 'Ustrój obozowy', 'CYWILIZACJA TURAŃSKA'],
+        arabska: ['Cywilizacje', 'Niesakralne z supremacją sił', 'Fizycznych', 'Prawo prywatne', 'Ustrój społeczny', 'Poligamia', 'CYWILIZACJA ARABSKA'],
+        chinska: ['Cywilizacje', 'Niesakralne z supremacją sił', 'Fizycznych', 'Prawo prywatne', 'Ustrój społeczny', 'Połowniczna poligamia', 'CYWILIZACJA CHIŃSKA'],
+        zydowska: ['Cywilizacje', 'Sakralne', 'Prawo religijno-rodowe', 'CYWILIZACJA ŻYDOWSKA'],
+        braminska: ['Cywilizacje', 'Sakralne', 'Prawo kastowo-rytualne', 'CYWILIZACJA BRAMIŃSKA']
+      };
+      const kBreadcrumbs = konecznyBreadcrumbsMap[civId] || konecznyBreadcrumbsMap.lacinska;
+
+      function renderKBox(nodeKey, label, subtitle = '', activeColor = '#38bdf8') {
+        const active = isKNodeActive(nodeKey);
+        const bg = active ? 'rgba(8, 51, 68, 0.95)' : 'rgba(15, 23, 42, 0.75)';
+        const border = active ? `1.5px solid ${activeColor}` : '1px solid rgba(255, 255, 255, 0.1)';
+        const shadow = active ? `0 0 14px ${activeColor}55` : 'none';
+        const textColor = active ? '#ffffff' : '#94a3b8';
+        return `
+          <div style="background: ${bg}; border: ${border}; border-radius: 8px; padding: 6px 10px; text-align: center; box-shadow: ${shadow}; transition: all 0.3s ease;">
+            <span style="font-size: 11px; font-weight: 800; color: ${textColor}; display: block; letter-spacing: 0.02em;">${label}</span>
+            ${subtitle ? `<span style="font-size: 8.5px; color: ${active ? activeColor : '#64748b'}; display: block; margin-top: 1px; font-weight: 600;">${subtitle}</span>` : ''}
+          </div>
+        `;
+      }
+
+      return `
+        <!-- BREADCRUMBS DLA SCHEMATU KONECZNEGO -->
+        <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 6px 10px; margin-bottom: 14px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px;">
+          <div style="display: flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 800; color: #94a3b8; text-transform: uppercase;">
+            <span>🏛️</span>
+            <span>Geneza według Feliksa Konecznego:</span>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px; font-family: monospace; font-size: 10px;">
+            ${kBreadcrumbs.map((crumb, idx) => `
+              <span style="padding: 2px 7px; border-radius: 4px; font-weight: 700; ${
+                idx === kBreadcrumbs.length - 1
+                  ? 'background: #38bdf8; color: #020617; box-shadow: 0 0 10px rgba(56,189,248,0.4);'
+                  : 'background: rgba(15, 23, 42, 0.9); color: #7dd3fc; border: 1px solid rgba(56,189,248,0.25);'
+              }">${crumb}</span>
+              ${idx < kBreadcrumbs.length - 1 ? '<span style="color: #475569; font-size: 10px;">&gt;</span>' : ''}
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- SCHEMAT DRZEWA MORFOLOGICZNEGO -->
+        <div style="min-width: 780px; display: flex; flex-direction: column; align-items: center; padding: 4px 0 12px 0;">
+          
+          <!-- ROOT: Cywilizacje -->
+          <div style="width: 220px;">
+            ${renderKBox('root', 'Cywilizacje', 'Kategorie Bytu & Quincunx', '#38bdf8')}
+          </div>
+
+          <!-- Pionowy łącznik od Root -->
+          <div style="width: 2px; height: 16px; background: rgba(56, 189, 248, 0.6); box-shadow: 0 0 6px rgba(56,189,248,0.5);"></div>
+
+          <!-- Pozioma belka rozgałęzienia na: sakralne (lewo) i niesakralne (prawo) -->
+          <div style="width: 80%; height: 2px; position: relative; background: rgba(255,255,255,0.12);">
+            ${isKNodeActive('sakralne') ? '<div style="position: absolute; left: 0; width: 35%; height: 100%; background: #ec4899; box-shadow: 0 0 8px #ec4899;"></div>' : ''}
+            ${isKNodeActive('niesakralne') ? '<div style="position: absolute; right: 0; width: 65%; height: 100%; background: #38bdf8; box-shadow: 0 0 8px #38bdf8;"></div>' : ''}
+          </div>
+
+          <!-- Główny podział 2 kolumn -->
+          <div style="display: grid; grid-template-columns: 210px 1fr; gap: 24px; width: 100%; align-items: start;">
+            
+            <!-- LEWA STRONA: SAKRALNE -->
+            <div style="display: flex; flex-direction: column; align-items: center;">
+              <div style="width: 2px; height: 14px; background: ${isKNodeActive('sakralne') ? '#ec4899; box-shadow: 0 0 8px #ec4899;' : 'rgba(255,255,255,0.1);'}"></div>
+              
+              <div style="width: 100%;">
+                ${renderKBox('sakralne', 'sakralne', 'Prawo z objawienia / dogmat', '#ec4899')}
+              </div>
+
+              <div style="width: 2px; height: 16px; background: ${isKNodeActive('sakralne') ? '#ec4899; box-shadow: 0 0 8px #ec4899;' : 'rgba(255,255,255,0.1);'}"></div>
+              <div style="color: ${isKNodeActive('sakralne') ? '#ec4899' : '#64748b'}; font-size: 11px; margin-top: -6px; margin-bottom: 2px;">&darr;</div>
+
+              <div style="width: 100%; background: rgba(15, 23, 42, 0.9); border: 1.5px solid ${isKNodeActive('sakralne') ? '#ec4899' : 'rgba(255,255,255,0.1)'}; border-radius: 10px; padding: 8px 8px; text-align: center; box-shadow: ${isKNodeActive('sakralne') ? '0 0 16px rgba(236, 72, 153, 0.35)' : 'none'};">
+                <div style="font-size: 10.5px; font-weight: 800; color: #f8fafc; margin-bottom: 6px;">
+                  żydowska, bramińska
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
+                  <button class="civ-tree-btn" data-civ="zydowska" style="padding: 6px 3px; border-radius: 6px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
+                    civId === 'zydowska'
+                      ? 'background: #ec4899; color: #ffffff; font-weight: 900; border: 1.5px solid #fbcfe8; box-shadow: 0 0 12px rgba(236,72,153,0.5);'
+                      : 'background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
+                  }">
+                    <span style="font-size: 7.5px; font-family: monospace; display: block; opacity: 0.85;">[TALMUD]</span>
+                    <span style="font-size: 8.5px; font-weight: 800; display: block;">ŻYDOWSKA</span>
+                  </button>
+                  <button class="civ-tree-btn" data-civ="braminska" style="padding: 6px 3px; border-radius: 6px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
+                    civId === 'braminska'
+                      ? 'background: #8b5cf6; color: #ffffff; font-weight: 900; border: 1.5px solid #c4b5fd; box-shadow: 0 0 12px rgba(139,92,246,0.5);'
+                      : 'background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
+                  }">
+                    <span style="font-size: 7.5px; font-family: monospace; display: block; opacity: 0.85;">[KASTY]</span>
+                    <span style="font-size: 8.5px; font-weight: 800; display: block;">BRAMIŃSKA</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- PRAWA STRONA: NIESAKRALNE Z SUPREMACJĄ SIŁ -->
+            <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+              <div style="width: 2px; height: 14px; background: ${isKNodeActive('niesakralne') ? '#38bdf8; box-shadow: 0 0 8px #38bdf8;' : 'rgba(255,255,255,0.1);'}"></div>
+
+              <div style="width: 100%; max-width: 460px;">
+                ${renderKBox('niesakralne', 'niesakralne z supremacją sił', 'Porządek świecko-rozumowy', '#38bdf8')}
+              </div>
+
+              <div style="width: 2px; height: 14px; background: ${isKNodeActive('niesakralne') ? '#38bdf8; box-shadow: 0 0 8px #38bdf8;' : 'rgba(255,255,255,0.1);'}"></div>
+
+              <!-- Pozioma belka rozgałęzienia na: fizycznych (lewo) vs duchowych (prawo) -->
+              <div style="width: 82%; height: 2px; position: relative; background: rgba(255,255,255,0.12);">
+                ${isKNodeActive('fizycznych') ? '<div style="position: absolute; left: 0; width: 72%; height: 100%; background: #38bdf8; box-shadow: 0 0 8px #38bdf8;"></div>' : ''}
+                ${isKNodeActive('duchowych') ? '<div style="position: absolute; right: 0; width: 28%; height: 100%; background: #10b981; box-shadow: 0 0 8px #10b981;"></div>' : ''}
+              </div>
+
+              <!-- Podział: Fizycznych vs Duchowych -->
+              <div style="display: grid; grid-template-columns: 1fr 180px; gap: 18px; width: 100%; align-items: start;">
+                
+                <!-- LEWA POD-STRONA: FIZYCZNYCH -->
+                <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+                  <div style="width: 2px; height: 14px; background: ${isKNodeActive('fizycznych') ? '#38bdf8; box-shadow: 0 0 8px #38bdf8;' : 'rgba(255,255,255,0.1);'}"></div>
+
+                  <div style="width: 100%;">
+                    ${renderKBox('fizycznych', 'fizycznych', 'Siła, przymus, mechanizm', '#38bdf8')}
+                  </div>
+
+                  <div style="width: 2px; height: 14px; background: ${isKNodeActive('fizycznych') ? '#38bdf8; box-shadow: 0 0 8px #38bdf8;' : 'rgba(255,255,255,0.1);'}"></div>
+
+                  <div style="width: 100%;">
+                    ${renderKBox('prawo', 'zycie publiczne oparte na prawie', 'Instytucjonalizacja życia', '#38bdf8')}
+                  </div>
+
+                  <div style="width: 2px; height: 14px; background: ${isKNodeActive('fizycznych') ? '#38bdf8; box-shadow: 0 0 8px #38bdf8;' : 'rgba(255,255,255,0.1);'}"></div>
+
+                  <!-- Pozioma belka: prywatnym vs publicznym -->
+                  <div style="width: 80%; height: 2px; position: relative; background: rgba(255,255,255,0.12);">
+                    ${isKNodeActive('prywatnym') ? '<div style="position: absolute; left: 0; width: 70%; height: 100%; background: #38bdf8; box-shadow: 0 0 8px #38bdf8;"></div>' : ''}
+                    ${isKNodeActive('publicznym') ? '<div style="position: absolute; right: 0; width: 30%; height: 100%; background: #a855f7; box-shadow: 0 0 8px #a855f7;"></div>' : ''}
+                  </div>
+
+                  <!-- Podział: Prywatnym vs Publicznym -->
+                  <div style="display: grid; grid-template-columns: 1fr 140px; gap: 14px; width: 100%; align-items: start;">
+                    
+                    <!-- LEWA: PRYWATNYM -->
+                    <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+                      <div style="width: 2px; height: 14px; background: ${isKNodeActive('prywatnym') ? '#38bdf8; box-shadow: 0 0 8px #38bdf8;' : 'rgba(255,255,255,0.1);'}"></div>
+
+                      <div style="width: 100%;">
+                        ${renderKBox('prywatnym', 'prywatnym', 'Autonomia prawa prywatnego', '#38bdf8')}
+                      </div>
+
+                      <div style="width: 2px; height: 14px; background: ${isKNodeActive('prywatnym') ? '#38bdf8; box-shadow: 0 0 8px #38bdf8;' : 'rgba(255,255,255,0.1);'}"></div>
+
+                      <div style="width: 100%;">
+                        ${renderKBox('ustroj', 'ustrój', 'Organizacja zrzeszenia', '#38bdf8')}
+                      </div>
+
+                      <div style="width: 2px; height: 14px; background: ${isKNodeActive('prywatnym') ? '#38bdf8; box-shadow: 0 0 8px #38bdf8;' : 'rgba(255,255,255,0.1);'}"></div>
+
+                      <!-- Pozioma belka: obozowy vs społeczny -->
+                      <div style="width: 78%; height: 2px; position: relative; background: rgba(255,255,255,0.12);">
+                        ${isKNodeActive('obozowy') ? '<div style="position: absolute; left: 0; width: 42%; height: 100%; background: #f59e0b; box-shadow: 0 0 8px #f59e0b;"></div>' : ''}
+                        ${isKNodeActive('spoleczny') ? '<div style="position: absolute; right: 0; width: 58%; height: 100%; background: #0284c7; box-shadow: 0 0 8px #0284c7;"></div>' : ''}
+                      </div>
+
+                      <!-- Podział: Obozowy vs Społeczny -->
+                      <div style="display: grid; grid-template-columns: 120px 1fr; gap: 12px; width: 100%; align-items: start;">
+                        
+                        <!-- OBOZOWY -> TURAŃSKA -->
+                        <div style="display: flex; flex-direction: column; align-items: center;">
+                          <div style="width: 2px; height: 14px; background: ${isKNodeActive('obozowy') ? '#f59e0b; box-shadow: 0 0 8px #f59e0b;' : 'rgba(255,255,255,0.1);'}"></div>
+                          
+                          <div style="width: 100%;">
+                            ${renderKBox('obozowy', 'obozowy', 'Koszary wojenne', '#f59e0b')}
+                          </div>
+
+                          <div style="width: 2px; height: 16px; background: ${isKNodeActive('obozowy') ? '#f59e0b; box-shadow: 0 0 8px #f59e0b;' : 'rgba(255,255,255,0.1);'}"></div>
+                          <div style="color: ${isKNodeActive('obozowy') ? '#f59e0b' : '#64748b'}; font-size: 11px; margin-top: -6px; margin-bottom: 2px;">&darr;</div>
+
+                          <button class="civ-tree-btn" data-civ="turanska" style="width: 100%; padding: 7px 4px; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
+                            civId === 'turanska'
+                              ? 'background: #f59e0b; color: #020617; font-weight: 900; border: 1.5px solid #fde68a; box-shadow: 0 0 14px rgba(245, 158, 11, 0.4);'
+                              : 'background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
+                          }">
+                            <span style="font-size: 11px; font-weight: 800; display: block;">turańska</span>
+                            <span style="font-size: 8px; display: block; opacity: 0.85; margin-top: 1px;">Władca & Koszary</span>
+                          </button>
+                        </div>
+
+                        <!-- SPOŁECZNY -> POLIGAMIA / POŁOWNICZNA -->
+                        <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+                          <div style="width: 2px; height: 14px; background: ${isKNodeActive('spoleczny') ? '#0284c7; box-shadow: 0 0 8px #0284c7;' : 'rgba(255,255,255,0.1);'}"></div>
+
+                          <div style="width: 100%;">
+                            ${renderKBox('spoleczny', 'społeczny', 'Struktura rodowa', '#0284c7')}
+                          </div>
+
+                          <div style="width: 2px; height: 14px; background: ${isKNodeActive('spoleczny') ? '#0284c7; box-shadow: 0 0 8px #0284c7;' : 'rgba(255,255,255,0.1);'}"></div>
+
+                          <!-- Pozioma belka: poligamia vs połowniczna poligamia -->
+                          <div style="width: 74%; height: 2px; position: relative; background: rgba(255,255,255,0.12);">
+                            ${isKNodeActive('poligamia') ? '<div style="position: absolute; left: 0; width: 50%; height: 100%; background: #0284c7; box-shadow: 0 0 8px #0284c7;"></div>' : ''}
+                            ${isKNodeActive('polow_poligamia') ? '<div style="position: absolute; right: 0; width: 50%; height: 100%; background: #f43f5e; box-shadow: 0 0 8px #f43f5e;"></div>' : ''}
+                          </div>
+
+                          <!-- Podział: Poligamia vs Połowniczna poligamia -->
+                          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; align-items: start;">
+                            
+                            <!-- POLIGAMIA -> ARABSKA -->
+                            <div style="display: flex; flex-direction: column; align-items: center;">
+                              <div style="width: 2px; height: 12px; background: ${isKNodeActive('poligamia') ? '#0284c7; box-shadow: 0 0 8px #0284c7;' : 'rgba(255,255,255,0.1);'}"></div>
+                              <div style="width: 100%;">
+                                ${renderKBox('poligamia', 'poligamia', 'Pełne wielożeństwo', '#0284c7')}
+                              </div>
+                              <div style="width: 2px; height: 14px; background: ${isKNodeActive('poligamia') ? '#0284c7; box-shadow: 0 0 8px #0284c7;' : 'rgba(255,255,255,0.1);'}"></div>
+                              <div style="color: ${isKNodeActive('poligamia') ? '#0284c7' : '#64748b'}; font-size: 11px; margin-top: -6px; margin-bottom: 2px;">&darr;</div>
+
+                              <button class="civ-tree-btn" data-civ="arabska" style="width: 100%; padding: 7px 3px; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
+                                civId === 'arabska'
+                                  ? 'background: #0284c7; color: #ffffff; font-weight: 900; border: 1.5px solid #7dd3fc; box-shadow: 0 0 14px rgba(2, 132, 199, 0.4);'
+                                  : 'background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
+                              }">
+                                <span style="font-size: 11px; font-weight: 800; display: block;">arabska</span>
+                                <span style="font-size: 8px; display: block; opacity: 0.85; margin-top: 1px;">Koran & Ród</span>
+                              </button>
+                            </div>
+
+                            <!-- POŁOWNICZNA POLIGAMIA -> CHIŃSKA -->
+                            <div style="display: flex; flex-direction: column; align-items: center;">
+                              <div style="width: 2px; height: 12px; background: ${isKNodeActive('polow_poligamia') ? '#f43f5e; box-shadow: 0 0 8px #f43f5e;' : 'rgba(255,255,255,0.1);'}"></div>
+                              <div style="width: 100%;">
+                                ${renderKBox('polow_poligamia', 'połowniczna poligamia', 'Konkubinat prawny', '#f43f5e')}
+                              </div>
+                              <div style="width: 2px; height: 14px; background: ${isKNodeActive('polow_poligamia') ? '#f43f5e; box-shadow: 0 0 8px #f43f5e;' : 'rgba(255,255,255,0.1);'}"></div>
+                              <div style="color: ${isKNodeActive('polow_poligamia') ? '#f43f5e' : '#64748b'}; font-size: 11px; margin-top: -6px; margin-bottom: 2px;">&darr;</div>
+
+                              <button class="civ-tree-btn" data-civ="chinska" style="width: 100%; padding: 7px 3px; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
+                                civId === 'chinska'
+                                  ? 'background: #f43f5e; color: #ffffff; font-weight: 900; border: 1.5px solid #fecdd3; box-shadow: 0 0 14px rgba(244, 63, 94, 0.4);'
+                                  : 'background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
+                              }">
+                                <span style="font-size: 11px; font-weight: 800; display: block;">chińska</span>
+                                <span style="font-size: 8px; display: block; opacity: 0.85; margin-top: 1px;">Kult Rodu & Rytuał "Li"</span>
+                              </button>
+                            </div>
+
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+
+                    <!-- PRAWA: PUBLICZNYM -> BIZANTYŃSKA -->
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                      <div style="width: 2px; height: 14px; background: ${isKNodeActive('publicznym') ? '#a855f7; box-shadow: 0 0 8px #a855f7;' : 'rgba(255,255,255,0.1);'}"></div>
+
+                      <div style="width: 100%;">
+                        ${renderKBox('publicznym', 'publicznym', 'Monizm państwowy', '#a855f7')}
+                      </div>
+
+                      <div style="width: 2px; height: 16px; background: ${isKNodeActive('publicznym') ? '#a855f7; box-shadow: 0 0 8px #a855f7;' : 'rgba(255,255,255,0.1);'}"></div>
+                      <div style="color: ${isKNodeActive('publicznym') ? '#a855f7' : '#64748b'}; font-size: 11px; margin-top: -6px; margin-bottom: 2px;">&darr;</div>
+
+                      <button class="civ-tree-btn" data-civ="bizantynska" style="width: 100%; padding: 7px 4px; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
+                        civId === 'bizantynska'
+                          ? 'background: #a855f7; color: #ffffff; font-weight: 900; border: 1.5px solid #d8b4fe; box-shadow: 0 0 14px rgba(168, 85, 247, 0.4);'
+                          : 'background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
+                      }">
+                        <span style="font-size: 11px; font-weight: 800; display: block;">bizantyńska</span>
+                        <span style="font-size: 8px; display: block; opacity: 0.85; margin-top: 1px;">Biurokracja & Cezaryzm</span>
+                      </button>
+                    </div>
+
+                  </div>
+                </div>
+
+                <!-- PRAWA POD-STRONA: DUCHOWYCH -> ŁACIŃSKA -->
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                  <div style="width: 2px; height: 14px; background: ${isKNodeActive('duchowych') ? '#10b981; box-shadow: 0 0 8px #10b981;' : 'rgba(255,255,255,0.1);'}"></div>
+
+                  <div style="width: 100%;">
+                    ${renderKBox('duchowych', 'duchowych', 'Prymat etyki i wolności', '#10b981')}
+                  </div>
+
+                  <div style="width: 2px; height: 16px; background: ${isKNodeActive('duchowych') ? '#10b981; box-shadow: 0 0 8px #10b981;' : 'rgba(255,255,255,0.1);'}"></div>
+                  <div style="color: ${isKNodeActive('duchowych') ? '#10b981' : '#64748b'}; font-size: 11px; margin-top: -6px; margin-bottom: 2px;">&darr;</div>
+
+                  <button class="civ-tree-btn" data-civ="lacinska" style="width: 100%; padding: 8px 5px; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
+                    civId === 'lacinska'
+                      ? 'background: #10b981; color: #020617; font-weight: 900; border: 1.5px solid #6ee7b7; box-shadow: 0 0 16px rgba(16, 185, 129, 0.4);'
+                      : 'background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
+                  }">
+                    <span style="font-size: 11px; font-weight: 800; display: block;">łacińska</span>
+                    <span style="font-size: 8px; display: block; opacity: 0.85; margin-top: 1px;">Dualizm Prawa & Wolność</span>
+                  </button>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- SEKCJA CYTATÓW FELIKSA KONECZNEGO -->
+        <div style="margin-top: 16px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 14px;">
+          <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #fbbf24; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+            <span>📜</span>
+            <span>Uzasadnienie Historiozoficzne Feliksa Konecznego</span>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;">
+            <!-- Cytat 1: Dualizm prawa i moralność -->
+            <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                  <span style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: #34d399;">Dualizm Prawa i Społeczeństwo</span>
+                  <span style="font-size: 9px; background: rgba(16,185,129,0.15); border: 1px solid #10b981; color: #34d399; padding: 1px 6px; border-radius: 4px; font-weight: 700;">Duchowe / Łacina</span>
+                </div>
+                <div style="font-size: 11.5px; line-height: 1.5; color: #e2e8f0; font-style: italic; margin-bottom: 8px;">
+                  "Ponieważ moralność rozwija się przez obowiązkowość dobrowolną tym samym tedy wykwita ze społeczeństwa, a nie z państwa, które nie dopomoże etyce żadnymi sankcjami. Rozwój jej wszechstronny dokonywać się może tylko tam, gdzie państwo nie pożera społeczeństwa, a zatem tylko przy dualizmie prawa."
+                </div>
+              </div>
+              <div style="font-size: 9.5px; color: #94a3b8; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 6px;">
+                — <strong>Prof. Feliks Koneczny</strong> (Uzasadnienie gałęzi: <em>duchowych &rarr; łacińska</em>)
+              </div>
+            </div>
+
+            <!-- Cytat 2: Patriotyzm vs Nacjonalizm -->
+            <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(245, 158, 11, 0.35); border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                  <span style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: #fbbf24;">Patriotyzm vs Sacro Egoismo</span>
+                  <span style="font-size: 9px; background: rgba(245,158,11,0.15); border: 1px solid #f59e0b; color: #fbbf24; padding: 1px 6px; border-radius: 4px; font-weight: 700;">Ustrój Społeczny</span>
+                </div>
+                <div style="font-size: 11.5px; line-height: 1.5; color: #e2e8f0; font-style: italic; margin-bottom: 8px;">
+                  "Tym różni się patriotyzm od nacjonalizmu, który jest wyłącznie egoistyczny, a sprawami narodu kieruje się bez względu na innych, w mylnym mniemaniu jakoby można było być pożytecznym swemu narodowi na trwałe, choćby się było szkodnikiem dla całego świata. Pod hasłem sobkostwa narodowego (sacro egoizmo, egoizm narodowy) nie zaszło się nigdzie daleko."
+                </div>
+              </div>
+              <div style="font-size: 9.5px; color: #94a3b8; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 6px;">
+                — <strong>Prof. Feliks Koneczny</strong> (Uzasadnienie gałęzi: <em>ustrój społeczny vs obozowy</em>)
+              </div>
+            </div>
+          </div>
+
+          <!-- KLUCZ KRYTERIÓW -->
+          <div style="margin-top: 12px; background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 10px 14px;">
+            <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: #38bdf8; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+              <span>🔍</span>
+              <span>Klucz Podziału Cywilizacji w Dziele Feliksa Konecznego</span>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; font-size: 10px; color: #cbd5e1; line-height: 1.4;">
+              <div><strong style="color: #f472b6;">1. Sakralne vs Niesakralne:</strong> Prawo i ustrój oparte na dogmacie i księdze świętej (sakralizm) vs stanowione rozumem ludzkim.</div>
+              <div><strong style="color: #6ee7b7;">2. Siły Duchowe vs Fizyczne:</strong> Czy najwyższym regulatorem zrzeszenia jest etyka i sumienie, czy przymus i aparat siły.</div>
+              <div><strong style="color: #c084fc;">3. Prawo Publiczne vs Prywatne:</strong> Rozdział i autonomia praw rodziny (dualizm) vs monizm państwowy (wchłonięcie jednostki).</div>
+              <div><strong style="color: #fde68a;">4. Ustrój Obozowy vs Społeczny:</strong> Organizacja koszarowa/wojskowa pod wodzem (Turan) vs organiczny ład obywatelski.</div>
+              <div><strong style="color: #38bdf8;">5. Monogamia vs Poligamia:</strong> Emancypacja małej rodziny przez dożywotnią monogamię (Łacina) vs poligamia (Arabska) vs konkubinat (Chińska).</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function generateKonecznyReverseTreeContent(civId, selectedCiv) {
+      const isRNodeActive = (nodeKey) => {
+        switch (nodeKey) {
+          case 'root_rodowy': return true;
+          case 'civ_rodowe': return ['turanska', 'braminska', 'chinska', 'arabska', 'zydowska'].includes(civId);
+          case 'emancypacja_rodziny': return ['bizantynska', 'lacinska'].includes(civId);
+          case 'odrebne_prawo': return ['bizantynska', 'lacinska'].includes(civId);
+          case 'spoleczenstwa': return ['bizantynska', 'lacinska'].includes(civId);
+          case 'gnebienie': return civId === 'bizantynska';
+          case 'civ_bizantynska': return civId === 'bizantynska';
+          case 'swoboda': return civId === 'lacinska';
+          case 'emancypacja_ducha': return civId === 'lacinska';
+          case 'civ_lacinska': return civId === 'lacinska';
+          default: return false;
+        }
+      };
+
+      const reverseBreadcrumbsMap = {
+        lacinska: ['Ustrój rodowy', 'Emancypacja rodziny', 'Odrębne prawo publiczne', 'Społeczeństwo', 'Swoboda', 'Emancypacja sił duchowych', 'CYWILIZACJA ŁACIŃSKA'],
+        bizantynska: ['Ustrój rodowy', 'Emancypacja rodziny', 'Odrębne prawo publiczne', 'Społeczeństwo', 'Gnębienie (Etatyzm)', 'CYWILIZACJA BIZANTYŃSKA'],
+        turanska: ['Ustrój rodowy', 'Monizm władcy / Ustrój obozowy', 'CYWILIZACJA TURAŃSKA'],
+        braminska: ['Ustrój rodowy', 'System kastowy i wielka rodzina', 'CYWILIZACJA BRAMIŃSKA'],
+        chinska: ['Ustrój rodowy', 'Kult przodków i klanizm', 'CYWILIZACJA CHIŃSKA'],
+        arabska: ['Ustrój rodowy', 'Plemiona patriarchalne i poligamia', 'CYWILIZACJA ARABSKA'],
+        zydowska: ['Ustrój rodowy', 'Tradycja rodowo-sakralna', 'CYWILIZACJA ŻYDOWSKA']
+      };
+      const rBreadcrumbs = reverseBreadcrumbsMap[civId] || reverseBreadcrumbsMap.lacinska;
+
+      function renderRBox(nodeKey, label, subtitle = '', activeColor = '#38bdf8') {
+        const active = isRNodeActive(nodeKey);
+        const bg = active ? 'rgba(8, 51, 68, 0.95)' : 'rgba(15, 23, 42, 0.75)';
+        const border = active ? `1.5px solid ${activeColor}` : '1px solid rgba(255, 255, 255, 0.1)';
+        const shadow = active ? `0 0 14px ${activeColor}55` : 'none';
+        const textColor = active ? '#ffffff' : '#94a3b8';
+        return `
+          <div style="background: ${bg}; border: ${border}; border-radius: 8px; padding: 6px 10px; text-align: center; box-shadow: ${shadow}; transition: all 0.3s ease;">
+            <span style="font-size: 11px; font-weight: 800; color: ${textColor}; display: block; letter-spacing: 0.02em;">${label}</span>
+            ${subtitle ? `<span style="font-size: 8.5px; color: ${active ? activeColor : '#64748b'}; display: block; margin-top: 1px; font-weight: 600;">${subtitle}</span>` : ''}
+          </div>
+        `;
+      }
+
+      const rodoweActiveColor = civId === 'braminska' ? '#8b5cf6' : (civId === 'chinska' ? '#f43f5e' : (civId === 'arabska' ? '#0284c7' : '#f59e0b'));
+      const lacinaBranchColor = civId === 'lacinska' ? '#10b981' : (civId === 'bizantynska' ? '#a855f7' : '#38bdf8');
+
+      return `
+        <!-- WSTĘP I CYTAT PRZEWODNI METODY ODWROTNEJ -->
+        <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 8px; padding: 10px 14px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
+          <div style="font-size: 11px; font-style: italic; color: #cbd5e1; line-height: 1.5; flex: 1; min-width: 280px;">
+            "W tym schemacie wyodrębnia się cywilizacja łacińska od razu; nastąpi to dopiero na końcu, jeśli ułożymy tabelkę metodą odwrotną, postępując od cech mniejszej wagi ku największym:"
+            <span style="font-style: normal; font-weight: 700; color: #38bdf8; display: block; margin-top: 3px; font-size: 10px;">— Prof. Feliks Koneczny (Metoda Odwrotna — Ewolucyjna Indukcja Cywilizacji)</span>
+          </div>
+        </div>
+
+        <!-- BREADCRUMBS -->
+        <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 6px 10px; margin-bottom: 14px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px;">
+          <div style="display: flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 800; color: #94a3b8; text-transform: uppercase;">
+            <span>🧬</span>
+            <span>Ścieżka Metody Odwrotnej:</span>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px; font-family: monospace; font-size: 10px;">
+            ${rBreadcrumbs.map((crumb, idx) => `
+              <span style="padding: 2px 7px; border-radius: 4px; font-weight: 700; ${
+                idx === rBreadcrumbs.length - 1
+                  ? 'background: #38bdf8; color: #020617; box-shadow: 0 0 10px rgba(56,189,248,0.4);'
+                  : 'background: rgba(15, 23, 42, 0.9); color: #7dd3fc; border: 1px solid rgba(56,189,248,0.25);'
+              }">${crumb}</span>
+              ${idx < rBreadcrumbs.length - 1 ? '<span style="color: #475569; font-size: 10px;">&gt;</span>' : ''}
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- SCHEMAT DRZEWA METODY ODWROTNEJ -->
+        <div style="min-width: 760px; display: flex; flex-direction: column; align-items: center; padding: 4px 0 12px 0;">
+          
+          <!-- ROOT: Ustrój rodowy -->
+          <div style="width: 220px;">
+            ${renderRBox('root_rodowy', 'Ustrój rodowy', 'Punkt wyjścia zrzeszeń ludzkich', '#38bdf8')}
+          </div>
+
+          <!-- Pionowy łącznik od Root -->
+          <div style="width: 2px; height: 16px; background: rgba(56, 189, 248, 0.6); box-shadow: 0 0 6px rgba(56,189,248,0.5);"></div>
+
+          <!-- Pozioma belka rozgałęzienia na: [turańska, bramińska, chińska, arabska] (lewo) i [emancypacja rodziny] (prawo) -->
+          <div style="width: 78%; height: 2px; position: relative; background: rgba(255,255,255,0.12);">
+            ${isRNodeActive('civ_rodowe') ? `<div style="position: absolute; left: 0; width: 44%; height: 100%; background: ${rodoweActiveColor}; box-shadow: 0 0 8px ${rodoweActiveColor};"></div>` : ''}
+            ${isRNodeActive('emancypacja_rodziny') ? `<div style="position: absolute; right: 0; width: 56%; height: 100%; background: ${lacinaBranchColor}; box-shadow: 0 0 8px ${lacinaBranchColor};"></div>` : ''}
+          </div>
+
+          <!-- Główny podział 2 kolumn -->
+          <div style="display: grid; grid-template-columns: 290px 1fr; gap: 24px; width: 100%; align-items: start;">
+            
+            <!-- LEWA STRONA: turańska, bramińska, chińska, arabska -->
+            <div style="display: flex; flex-direction: column; align-items: center;">
+              <div style="width: 2px; height: 14px; background: ${isRNodeActive('civ_rodowe') ? `${rodoweActiveColor}; box-shadow: 0 0 8px ${rodoweActiveColor};` : 'rgba(255,255,255,0.1);'}"></div>
+
+              <div style="width: 100%; background: rgba(15, 23, 42, 0.9); border: 1.5px solid ${isRNodeActive('civ_rodowe') ? rodoweActiveColor : 'rgba(255,255,255,0.1)'}; border-radius: 10px; padding: 10px 10px; text-align: center; box-shadow: ${isRNodeActive('civ_rodowe') ? `0 0 16px ${rodoweActiveColor}55` : 'none'};">
+                <div style="font-size: 11px; font-weight: 800; color: #f8fafc; margin-bottom: 3px;">
+                  turańska, bramińska, chińska, arabska
+                </div>
+                <div style="font-size: 9px; color: #94a3b8; margin-bottom: 8px;">
+                  (Brak wyemancypowania małej rodziny z wielkiego rodu / klanu)
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+                  <button class="civ-tree-btn" data-civ="turanska" style="padding: 6px 4px; border-radius: 6px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
+                    civId === 'turanska'
+                      ? 'background: #f59e0b; color: #020617; font-weight: 900; border: 1.5px solid #fde68a; box-shadow: 0 0 12px rgba(245, 158, 11, 0.5);'
+                      : 'background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
+                  }">
+                    <span style="font-size: 8px; font-family: monospace; display: block; opacity: 0.85;">[WÓDZ]</span>
+                    <span style="font-size: 9px; font-weight: 800; display: block;">TURAŃSKA</span>
+                  </button>
+
+                  <button class="civ-tree-btn" data-civ="braminska" style="padding: 6px 4px; border-radius: 6px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
+                    civId === 'braminska'
+                      ? 'background: #8b5cf6; color: #ffffff; font-weight: 900; border: 1.5px solid #c4b5fd; box-shadow: 0 0 12px rgba(139, 92, 246, 0.5);'
+                      : 'background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
+                  }">
+                    <span style="font-size: 8px; font-family: monospace; display: block; opacity: 0.85;">[KASTY]</span>
+                    <span style="font-size: 9px; font-weight: 800; display: block;">BRAMIŃSKA</span>
+                  </button>
+
+                  <button class="civ-tree-btn" data-civ="chinska" style="padding: 6px 4px; border-radius: 6px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
+                    civId === 'chinska'
+                      ? 'background: #f43f5e; color: #ffffff; font-weight: 900; border: 1.5px solid #fecdd3; box-shadow: 0 0 12px rgba(244, 63, 94, 0.5);'
+                      : 'background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
+                  }">
+                    <span style="font-size: 8px; font-family: monospace; display: block; opacity: 0.85;">[KLAN "LI"]</span>
+                    <span style="font-size: 9px; font-weight: 800; display: block;">CHIŃSKA</span>
+                  </button>
+
+                  <button class="civ-tree-btn" data-civ="arabska" style="padding: 6px 4px; border-radius: 6px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
+                    civId === 'arabska'
+                      ? 'background: #0284c7; color: #ffffff; font-weight: 900; border: 1.5px solid #7dd3fc; box-shadow: 0 0 12px rgba(2, 132, 199, 0.5);'
+                      : 'background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
+                  }">
+                    <span style="font-size: 8px; font-family: monospace; display: block; opacity: 0.85;">[PLEMIĘ]</span>
+                    <span style="font-size: 9px; font-weight: 800; display: block;">ARABSKA</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- PRAWA STRONA: EMANCYPACJA RODZINY -> ODRĘBNE PRAWO PUBLICZNE -> SPOŁECZEŃSTWA -->
+            <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+              <div style="width: 2px; height: 14px; background: ${isRNodeActive('emancypacja_rodziny') ? `${lacinaBranchColor}; box-shadow: 0 0 8px ${lacinaBranchColor};` : 'rgba(255,255,255,0.1);'}"></div>
+
+              <!-- Node: emancypacja rodziny -->
+              <div style="width: 100%; max-width: 440px;">
+                ${renderRBox('emancypacja_rodziny', 'emancypacja rodziny', 'Monogamia dożywotnia & niezależność ogniska domowego', lacinaBranchColor)}
+              </div>
+
+              <div style="width: 2px; height: 14px; background: ${isRNodeActive('odrebne_prawo') ? `${lacinaBranchColor}; box-shadow: 0 0 8px ${lacinaBranchColor};` : 'rgba(255,255,255,0.1);'}"></div>
+
+              <!-- Node: odrębne prawo publiczne -->
+              <div style="width: 100%; max-width: 440px;">
+                ${renderRBox('odrebne_prawo', 'odrębne prawo publiczne', 'Pojawienie się państwa jako instytucji dobra wspólnego', lacinaBranchColor)}
+              </div>
+
+              <div style="width: 2px; height: 14px; background: ${isRNodeActive('spoleczenstwa') ? `${lacinaBranchColor}; box-shadow: 0 0 8px ${lacinaBranchColor};` : 'rgba(255,255,255,0.1);'}"></div>
+
+              <!-- Node: społeczeństwa -->
+              <div style="width: 100%; max-width: 440px;">
+                ${renderRBox('spoleczenstwa', 'społeczeństwa', 'Samoistny, żywy organizm zbiorowy obok państwa', lacinaBranchColor)}
+              </div>
+
+              <div style="width: 2px; height: 14px; background: ${isRNodeActive('spoleczenstwa') ? `${lacinaBranchColor}; box-shadow: 0 0 8px ${lacinaBranchColor};` : 'rgba(255,255,255,0.1);'}"></div>
+
+              <!-- Pozioma belka rozgałęzienia na: [gnębienie] (lewo) vs [swoboda] (prawo) -->
+              <div style="width: 76%; height: 2px; position: relative; background: rgba(255,255,255,0.12);">
+                ${isRNodeActive('gnebienie') ? '<div style="position: absolute; left: 0; width: 50%; height: 100%; background: #a855f7; box-shadow: 0 0 8px #a855f7;"></div>' : ''}
+                ${isRNodeActive('swoboda') ? '<div style="position: absolute; right: 0; width: 50%; height: 100%; background: #10b981; box-shadow: 0 0 8px #10b981;"></div>' : ''}
+              </div>
+
+              <!-- Podział: Gnębienie vs Swoboda -->
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; align-items: start;">
+                
+                <!-- LEWA: GNĘBIENIE -> BIZANTYŃSKA -->
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                  <div style="width: 2px; height: 12px; background: ${isRNodeActive('gnebienie') ? '#a855f7; box-shadow: 0 0 8px #a855f7;' : 'rgba(255,255,255,0.1);'}"></div>
+
+                  <div style="width: 100%;">
+                    ${renderRBox('gnebienie', 'gnębienie', 'Państwo pożera społeczeństwo (Etatyzm)', '#a855f7')}
+                  </div>
+
+                  <div style="width: 2px; height: 16px; background: ${isRNodeActive('gnebienie') ? '#a855f7; box-shadow: 0 0 8px #a855f7;' : 'rgba(255,255,255,0.1);'}"></div>
+                  <div style="color: ${isRNodeActive('gnebienie') ? '#a855f7' : '#64748b'}; font-size: 11px; margin-top: -6px; margin-bottom: 2px;">&darr;</div>
+
+                  <button class="civ-tree-btn" data-civ="bizantynska" style="width: 100%; padding: 8px 6px; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
+                    civId === 'bizantynska'
+                      ? 'background: #a855f7; color: #ffffff; font-weight: 900; border: 1.5px solid #d8b4fe; box-shadow: 0 0 14px rgba(168, 85, 247, 0.4);'
+                      : 'background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
+                  }">
+                    <span style="font-size: 11px; font-weight: 800; display: block;">bizańtyńska</span>
+                    <span style="font-size: 8px; display: block; opacity: 0.85; margin-top: 1px;">Biurokracja / Monizm Publiczny</span>
+                  </button>
+                </div>
+
+                <!-- PRAWA: SWOBODA -> EMANCYPACJA SIŁ DUCHOWYCH -> ŁACIŃSKA -->
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                  <div style="width: 2px; height: 12px; background: ${isRNodeActive('swoboda') ? '#10b981; box-shadow: 0 0 8px #10b981;' : 'rgba(255,255,255,0.1);'}"></div>
+
+                  <div style="width: 100%;">
+                    ${renderRBox('swoboda', 'swoboda', 'Dualizm prawa & autonomia', '#10b981')}
+                  </div>
+
+                  <div style="width: 2px; height: 14px; background: ${isRNodeActive('emancypacja_ducha') ? '#10b981; box-shadow: 0 0 8px #10b981;' : 'rgba(255,255,255,0.1);'}"></div>
+
+                  <div style="width: 100%;">
+                    ${renderRBox('emancypacja_ducha', 'emancypacja sił duchowych', 'Hegemonia etyki i sumienia', '#10b981')}
+                  </div>
+
+                  <div style="width: 2px; height: 16px; background: ${isRNodeActive('emancypacja_ducha') ? '#10b981; box-shadow: 0 0 8px #10b981;' : 'rgba(255,255,255,0.1);'}"></div>
+                  <div style="color: ${isRNodeActive('emancypacja_ducha') ? '#10b981' : '#64748b'}; font-size: 11px; margin-top: -6px; margin-bottom: 2px;">&darr;</div>
+
+                  <button class="civ-tree-btn" data-civ="lacinska" style="width: 100%; padding: 8px 6px; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
+                    civId === 'lacinska'
+                      ? 'background: #10b981; color: #020617; font-weight: 900; border: 1.5px solid #6ee7b7; box-shadow: 0 0 16px rgba(16, 185, 129, 0.4);'
+                      : 'background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
+                  }">
+                    <span style="font-size: 11px; font-weight: 800; display: block;">łacinska</span>
+                    <span style="font-size: 8px; display: block; opacity: 0.85; margin-top: 1px;">Personalizm, Wolność i Etyka</span>
+                  </button>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- SEKCJA KOMENTARZA HISTORIOZOFICZNEGO I CYTATÓW -->
+        <div style="margin-top: 16px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 14px;">
+          <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #38bdf8; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+            <span>💡</span>
+            <span>Dlaczego w metodzie odwrotnej cywilizacja łacińska pojawia się na końcu?</span>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;">
+            <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 10px; padding: 12px 14px; font-size: 11px; color: #cbd5e1; line-height: 1.5;">
+              <strong style="color: #38bdf8; display: block; margin-bottom: 4px;">Szczyt Ewolucji Historiozoficznej:</strong>
+              W klasycznej metodzie (od cech największej wagi) cywilizacja łacińska oddziela się od razu dzięki <em>supremacji sił duchowych</em>. W metodzie odwrotnej (od dołu, od cech mniejszej wagi) widać, jak wiele warunków musi zaistnieć, by powstała: wyzwolenie z klanu rodowego, odrębne prawo publiczne, narodziny wolnego społeczeństwa, aż po odrzucenie etatyzmu i panowanie etyki.
+            </div>
+
+            <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 10px; padding: 12px 14px; font-size: 11.5px; color: #e2e8f0; font-style: italic; line-height: 1.5; display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                "Rozwój jej wszechstronny dokonywać się może tylko tam, gdzie państwo nie pożera społeczeństwa, a zatem tylko przy dualizmie prawa."
+              </div>
+              <div style="font-size: 9.5px; color: #94a3b8; font-style: normal; margin-top: 8px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 4px;">
+                — <strong>Prof. Feliks Koneczny</strong> (Uzasadnienie rozgałęzienia: <em>gnębienie vs swoboda</em>)
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function generateKonecznyTimeTreeContent(civId, selectedCiv) {
+      const isTNodeActive = (nodeKey) => {
+        switch (nodeKey) {
+          case 'czasomiernictwo':
+            return true;
+          case 'kalendarz':
+            return ['braminska', 'chinska', 'turanska', 'arabska', 'bizantynska', 'lacinska', 'zydowska'].includes(civId);
+          case 'civ_braminska':
+            return civId === 'braminska';
+          case 'cykle':
+            return ['chinska', 'turanska', 'arabska', 'bizantynska', 'lacinska'].includes(civId);
+          case 'civ_chinska_turanska':
+            return ['chinska', 'turanska'].includes(civId);
+          case 'era':
+            return ['arabska', 'bizantynska', 'lacinska', 'zydowska'].includes(civId);
+          case 'civ_arabska_bizantynska':
+            return ['arabska', 'bizantynska'].includes(civId);
+          case 'czasu_opanowanie':
+          case 'termin':
+          case 'historycyzm':
+          case 'civ_lacinska':
+            return civId === 'lacinska';
+          default:
+            return false;
+        }
+      };
+
+      const timeBreadcrumbsMap = {
+        lacinska: ['Czasomiernictwo', 'Kalendarz', 'Cykle', 'Era', 'Czasu opanowanie', 'Termin', 'Historycyzm', 'CYWILIZACJA ŁACIŃSKA'],
+        bizantynska: ['Czasomiernictwo', 'Kalendarz', 'Cykle', 'Era (Monizm państwowy / cezaryzm)', 'CYWILIZACJA BIZANTYŃSKA'],
+        arabska: ['Czasomiernictwo', 'Kalendarz', 'Cykle', 'Era (Hidżra & Kismet)', 'CYWILIZACJA ARABSKA'],
+        chinska: ['Czasomiernictwo', 'Kalendarz', 'Cykle (Dynastie & Kult Przodków)', 'CYWILIZACJA CHIŃSKA'],
+        turanska: ['Czasomiernictwo', 'Kalendarz', 'Cykle (Doraźność koczownicza)', 'CYWILIZACJA TURAŃSKA'],
+        braminska: ['Czasomiernictwo', 'Kalendarz (Koło sansary & ahistoryzm)', 'CYWILIZACJA BRAMIŃSKA'],
+        zydowska: ['Czasomiernictwo', 'Kalendarz', 'Era (Czas mesjanistyczny & prawo)', 'CYWILIZACJA ŻYDOWSKA']
+      };
+      const tBreadcrumbs = timeBreadcrumbsMap[civId] || timeBreadcrumbsMap.lacinska;
+
+      function renderTBox(nodeKey, label, subtitle = '', activeColor = '#38bdf8') {
+        const active = isTNodeActive(nodeKey);
+        const bg = active ? 'rgba(8, 51, 68, 0.95)' : 'rgba(15, 23, 42, 0.75)';
+        const border = active ? `1.5px solid ${activeColor}` : '1px solid rgba(255, 255, 255, 0.1)';
+        const shadow = active ? `0 0 14px ${activeColor}55` : 'none';
+        const textColor = active ? '#ffffff' : '#94a3b8';
+        return `
+          <div style="background: ${bg}; border: ${border}; border-radius: 8px; padding: 7px 12px; text-align: center; box-shadow: ${shadow}; transition: all 0.3s ease; width: 220px; box-sizing: border-box;">
+            <span style="font-size: 11.5px; font-weight: 800; color: ${textColor}; display: block; letter-spacing: 0.02em;">${label}</span>
+            ${subtitle ? `<span style="font-size: 8.5px; color: ${active ? activeColor : '#64748b'}; display: block; margin-top: 2px; font-weight: 600;">${subtitle}</span>` : ''}
+          </div>
+        `;
+      }
+
+      function renderSpineRow(nodeKey, label, subtitle, activeColor = '#38bdf8') {
+        return `
+          <div style="grid-column: 1;"></div>
+          <div style="grid-column: 2; display: flex; justify-content: center; align-items: center;">
+            ${renderTBox(nodeKey, label, subtitle, activeColor)}
+          </div>
+        `;
+      }
+
+      function renderVLine(isActive, color = '#38bdf8', height = 16) {
+        return `
+          <div style="grid-column: 1;"></div>
+          <div style="grid-column: 2; height: ${height}px; width: 100%; display: flex; justify-content: center; align-items: center;">
+            <div style="width: 2px; height: 100%; background: ${isActive ? color : 'rgba(255,255,255,0.12)'}; box-shadow: ${isActive ? `0 0 8px ${color}` : 'none'};"></div>
+          </div>
+        `;
+      }
+
+      function renderBranchRow(leftContentHtml, isBranchActive, branchColor, isDownActive, downColor = '#38bdf8', isBottomElbow = false) {
+        return `
+          <div style="grid-column: 1; display: flex; justify-content: flex-end; align-items: center;">
+            ${leftContentHtml}
+            <div style="width: 28px; height: 2px; background: ${isBranchActive ? branchColor : 'rgba(255,255,255,0.12)'}; box-shadow: ${isBranchActive ? `0 0 8px ${branchColor}` : 'none'};"></div>
+          </div>
+          <div style="grid-column: 2; height: 50px; width: 100%; position: relative; display: flex; align-items: center; justify-content: center;">
+            ${
+              isBottomElbow
+                ? `
+                  <div style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 2px; height: 50%; background: ${isBranchActive ? branchColor : 'rgba(255,255,255,0.12)'}; box-shadow: ${isBranchActive ? `0 0 8px ${branchColor}` : 'none'};"></div>
+                  <div style="position: absolute; top: 50%; left: 0; width: 50%; height: 2px; background: ${isBranchActive ? branchColor : 'rgba(255,255,255,0.12)'}; box-shadow: ${isBranchActive ? `0 0 8px ${branchColor}` : 'none'};"></div>
+                `
+                : `
+                  <div style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 2px; height: 50%; background: ${isDownActive || isBranchActive ? downColor : 'rgba(255,255,255,0.12)'}; box-shadow: ${isDownActive || isBranchActive ? `0 0 8px ${downColor}` : 'none'};"></div>
+                  <div style="position: absolute; top: 50%; left: 50%; transform: translateX(-50%); width: 2px; height: 50%; background: ${isDownActive ? downColor : 'rgba(255,255,255,0.12)'}; box-shadow: ${isDownActive ? `0 0 8px ${downColor}` : 'none'};"></div>
+                  <div style="position: absolute; top: 50%; left: 0; width: 50%; height: 2px; background: ${isBranchActive ? branchColor : 'rgba(255,255,255,0.12)'}; box-shadow: ${isBranchActive ? `0 0 8px ${branchColor}` : 'none'};"></div>
+                `
+            }
+          </div>
+        `;
+      }
+
+      const braminBoxHtml = `
+        <div style="background: rgba(15, 23, 42, 0.9); border: 1.5px solid ${isTNodeActive('civ_braminska') ? '#8b5cf6' : 'rgba(255,255,255,0.1)'}; border-radius: 10px; padding: 7px 10px; text-align: center; box-shadow: ${isTNodeActive('civ_braminska') ? '0 0 16px rgba(139, 92, 246, 0.4)' : 'none'}; width: 280px; box-sizing: border-box;">
+          <button class="civ-tree-btn" data-civ="braminska" style="width: 100%; padding: 6px 8px; border-radius: 7px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
+            civId === 'braminska'
+              ? 'background: #8b5cf6; color: #ffffff; font-weight: 900; border: 1.5px solid #c4b5fd; box-shadow: 0 0 14px rgba(139, 92, 246, 0.5);'
+              : 'background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
+          }">
+            <span style="font-size: 11.5px; font-weight: 900; display: block;">bramińska</span>
+            <span style="font-size: 8px; display: block; opacity: 0.9; margin-top: 2px;">Koło sansary, ahistoryzm & kalendarz rytualny</span>
+          </button>
+        </div>
+      `;
+
+      const chinTurBoxHtml = `
+        <div style="background: rgba(15, 23, 42, 0.9); border: 1.5px solid ${isTNodeActive('civ_chinska_turanska') ? (civId === 'chinska' ? '#f43f5e' : '#f59e0b') : 'rgba(255,255,255,0.1)'}; border-radius: 10px; padding: 7px 10px; text-align: center; box-shadow: ${isTNodeActive('civ_chinska_turanska') ? '0 0 16px rgba(244, 63, 94, 0.35)' : 'none'}; width: 280px; box-sizing: border-box;">
+          <div style="font-size: 11px; font-weight: 900; color: #f8fafc; margin-bottom: 4px; display: flex; align-items: center; justify-content: center; gap: 4px;">
+            <span>chińska, turańska</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+            <button class="civ-tree-btn" data-civ="chinska" style="padding: 5px 3px; border-radius: 6px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
+              civId === 'chinska'
+                ? 'background: #f43f5e; color: #ffffff; font-weight: 900; border: 1.5px solid #fecdd3; box-shadow: 0 0 12px rgba(244, 63, 94, 0.5);'
+                : 'background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
+            }">
+              <span style="font-size: 8px; font-family: monospace; display: block; opacity: 0.85;">[DYNASTIE]</span>
+              <span style="font-size: 9.5px; font-weight: 800; display: block;">CHIŃSKA</span>
+              <span style="font-size: 7.5px; display: block; opacity: 0.85; margin-top: 1px;">Kołowrót dziejów</span>
+            </button>
+
+            <button class="civ-tree-btn" data-civ="turanska" style="padding: 5px 3px; border-radius: 6px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
+              civId === 'turanska'
+                ? 'background: #f59e0b; color: #020617; font-weight: 900; border: 1.5px solid #fde68a; box-shadow: 0 0 12px rgba(245, 158, 11, 0.5);'
+                : 'background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
+            }">
+              <span style="font-size: 8px; font-family: monospace; display: block; opacity: 0.85;">[DORAŹNOŚĆ]</span>
+              <span style="font-size: 9.5px; font-weight: 800; display: block;">TURAŃSKA</span>
+              <span style="font-size: 7.5px; display: block; opacity: 0.85; margin-top: 1px;">Bezczasowość koczownicza</span>
+            </button>
+          </div>
+        </div>
+      `;
+
+      const arabBizBoxHtml = `
+        <div style="background: rgba(15, 23, 42, 0.9); border: 1.5px solid ${isTNodeActive('civ_arabska_bizantynska') ? (civId === 'arabska' ? '#0284c7' : '#a855f7') : 'rgba(255,255,255,0.1)'}; border-radius: 10px; padding: 7px 10px; text-align: center; box-shadow: ${isTNodeActive('civ_arabska_bizantynska') ? '0 0 16px rgba(2, 132, 199, 0.35)' : 'none'}; width: 280px; box-sizing: border-box;">
+          <div style="font-size: 11px; font-weight: 900; color: #f8fafc; margin-bottom: 4px; display: flex; align-items: center; justify-content: center; gap: 4px;">
+            <span>arabska, bizantyńska</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+            <button class="civ-tree-btn" data-civ="arabska" style="padding: 5px 3px; border-radius: 6px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
+              civId === 'arabska'
+                ? 'background: #0284c7; color: #ffffff; font-weight: 900; border: 1.5px solid #7dd3fc; box-shadow: 0 0 12px rgba(2, 132, 199, 0.5);'
+                : 'background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
+            }">
+              <span style="font-size: 8px; font-family: monospace; display: block; opacity: 0.85;">[HIDŻRA]</span>
+              <span style="font-size: 9.5px; font-weight: 800; display: block;">ARABSKA</span>
+              <span style="font-size: 7.5px; display: block; opacity: 0.85; margin-top: 1px;">Fatalizm Kismetu</span>
+            </button>
+
+            <button class="civ-tree-btn" data-civ="bizantynska" style="padding: 5px 3px; border-radius: 6px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
+              civId === 'bizantynska'
+                ? 'background: #a855f7; color: #ffffff; font-weight: 900; border: 1.5px solid #d8b4fe; box-shadow: 0 0 12px rgba(168, 85, 247, 0.5);'
+                : 'background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
+            }">
+              <span style="font-size: 8px; font-family: monospace; display: block; opacity: 0.85;">[ERA CESARSKA]</span>
+              <span style="font-size: 9.5px; font-weight: 800; display: block;">BIZANTYŃSKA</span>
+              <span style="font-size: 7.5px; display: block; opacity: 0.85; margin-top: 1px;">Skostnienie etatyzmu</span>
+            </button>
+          </div>
+        </div>
+      `;
+
+      const lacinaBoxHtml = `
+        <div style="background: rgba(15, 23, 42, 0.9); border: 1.5px solid ${civId === 'lacinska' ? '#10b981' : 'rgba(255,255,255,0.1)'}; border-radius: 10px; padding: 7px 10px; text-align: center; box-shadow: ${civId === 'lacinska' ? '0 0 16px rgba(16, 185, 129, 0.4)' : 'none'}; width: 280px; box-sizing: border-box;">
+          <button class="civ-tree-btn" data-civ="lacinska" style="width: 100%; padding: 6px 8px; border-radius: 7px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
+            civId === 'lacinska'
+              ? 'background: #10b981; color: #020617; font-weight: 900; border: 1.5px solid #6ee7b7; box-shadow: 0 0 14px rgba(16, 185, 129, 0.5);'
+              : 'background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
+          }">
+            <span style="font-size: 11.5px; font-weight: 900; display: block;">łacińska</span>
+            <span style="font-size: 8px; display: block; opacity: 0.9; margin-top: 2px;">Chyżość historyczna, wolność woli i celowy postęp etyczny</span>
+          </button>
+        </div>
+      `;
+
+      return `
+        <!-- WSTĘP I CYTAT PRZEWODNI: TABELKA WEDŁUG STOSUNKU DO CZASU -->
+        <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 8px; padding: 10px 14px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
+          <div style="font-size: 11px; font-style: italic; color: #cbd5e1; line-height: 1.5; flex: 1; min-width: 280px;">
+            "Dla przykładu dorysujmy sobie jeszcze tabelkę według stosunku do czasu:"
+            <span style="font-style: normal; font-weight: 700; color: #38bdf8; display: block; margin-top: 3px; font-size: 10px;">— Prof. Feliks Koneczny (Klasyfikacja Historiozoficzna według Opanowania Czasu)</span>
+          </div>
+          <div style="font-size: 9.5px; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.35); padding: 4px 8px; border-radius: 6px; color: #7dd3fc; font-weight: 700;">
+            KROK 4 ALGORYTMU: TIME_MASTERY_INDEX (Chyżość Dziejowa)
+          </div>
+        </div>
+
+        <!-- BREADCRUMBS -->
+        <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 6px 10px; margin-bottom: 14px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px;">
+          <div style="display: flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 800; color: #94a3b8; text-transform: uppercase;">
+            <span>⏳</span>
+            <span>Ścieżka Stosunku do Czasu:</span>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px; font-family: monospace; font-size: 10px;">
+            ${tBreadcrumbs.map((crumb, idx) => `
+              <span style="padding: 2px 7px; border-radius: 4px; font-weight: 700; ${
+                idx === tBreadcrumbs.length - 1
+                  ? 'background: #38bdf8; color: #020617; box-shadow: 0 0 10px rgba(56,189,248,0.4);'
+                  : 'background: rgba(15, 23, 42, 0.9); color: #7dd3fc; border: 1px solid rgba(56,189,248,0.25);'
+              }">${crumb}</span>
+              ${idx < tBreadcrumbs.length - 1 ? '<span style="color: #475569; font-size: 10px;">&gt;</span>' : ''}
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- SCHEMAT DRZEWA STOSUNKU DO CZASU -->
+        <div style="min-width: 680px; display: flex; flex-direction: column; align-items: center; padding: 4px 0 12px 0;">
+          
+          <div style="display: grid; grid-template-columns: 320px 240px; justify-content: center; align-items: center; width: 100%; max-width: 660px;">
+            
+            <!-- POZIOM 1: czasomiernictwo -->
+            ${renderSpineRow('czasomiernictwo', 'czasomiernictwo', 'Podstawowy pomiar czasu w przyrodzie', '#38bdf8')}
+
+            <!-- ŁĄCZNIK PIONOWY 1 -> 2 -->
+            ${renderVLine(isTNodeActive('kalendarz'), '#38bdf8', 16)}
+
+            <!-- POZIOM 2: kalendarz -->
+            ${renderSpineRow('kalendarz', 'kalendarz', 'Rachuba dni, pór roku i świąt', '#38bdf8')}
+
+            <!-- ROZGAŁĘZIENIE 1: bramińska -->
+            ${renderBranchRow(braminBoxHtml, isTNodeActive('civ_braminska'), '#8b5cf6', isTNodeActive('cykle'), '#38bdf8', false)}
+
+            <!-- POZIOM 3: cykle -->
+            ${renderSpineRow('cykle', 'cykle', 'Czas kołowy, brak postępu linearnego', '#38bdf8')}
+
+            <!-- ROZGAŁĘZIENIE 2: chińska, turańska -->
+            ${renderBranchRow(chinTurBoxHtml, isTNodeActive('civ_chinska_turanska'), (civId === 'chinska' ? '#f43f5e' : '#f59e0b'), isTNodeActive('era'), '#38bdf8', false)}
+
+            <!-- POZIOM 4: era -->
+            ${renderSpineRow('era', 'era', 'Rachuba od punktu zwrotnego w dziejach', '#38bdf8')}
+
+            <!-- ROZGAŁĘZIENIE 3: arabska, bizantyńska -->
+            ${renderBranchRow(arabBizBoxHtml, isTNodeActive('civ_arabska_bizantynska'), (civId === 'arabska' ? '#0284c7' : '#a855f7'), isTNodeActive('czasu_opanowanie'), '#10b981', false)}
+
+            <!-- POZIOM 5: czasu opanowanie -->
+            ${renderSpineRow('czasu_opanowanie', 'czasu opanowanie', 'Czas jako dobro rzadkie i kapitał', '#10b981')}
+
+            <!-- ŁĄCZNIK PIONOWY 5 -> 6 -->
+            ${renderVLine(isTNodeActive('termin'), '#10b981', 16)}
+
+            <!-- POZIOM 6: termin -->
+            ${renderSpineRow('termin', 'termin', 'Punktualność i rygor dotrzymywania umów', '#10b981')}
+
+            <!-- ŁĄCZNIK PIONOWY 6 -> 7 -->
+            ${renderVLine(isTNodeActive('historycyzm'), '#10b981', 16)}
+
+            <!-- POZIOM 7: historycyzm -->
+            ${renderSpineRow('historycyzm', 'historycyzm', 'Ciągłość pokoleń i celowość dziejów', '#10b981')}
+
+            <!-- ROZGAŁĘZIENIE 4 (ZAKOŃCZENIE): łacińska -->
+            ${renderBranchRow(lacinaBoxHtml, isTNodeActive('civ_lacinska'), '#10b981', false, '#10b981', true)}
+
+          </div>
+
+        </div>
+
+        <!-- SEKCJA KOMENTARZA HISTORIOZOFICZNEGO I CYTATÓW: STOSUNEK DO CZASU -->
+        <div style="margin-top: 16px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 14px;">
+          <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #38bdf8; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+            <span>⏳</span>
+            <span>Historiozofia Czasu Feliksa Konecznego a Krok 4 Algorytmu (Chyżość Historyczna):</span>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;">
+            <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 10px; padding: 12px 14px; font-size: 11px; color: #cbd5e1; line-height: 1.5;">
+              <strong style="color: #38bdf8; display: block; margin-bottom: 4px;">Czas jako Kryterium Dojrzałości Cywilizacji:</strong>
+              Dla Konecznego stosunek zrzeszenia do czasu decyduje o dynamizmie jego rozwoju. Cywilizacje, które poprzestały na <em>kalendarzu</em> (bramińska) lub <em>cyklach</em> (chińska, turańska), ugrzęzły w ahistoryzmie i bezczasowości. Nawet wprowadzenie <em>ery</em> (arabska, bizantyńska) nie dało wolności twórczej z powodu fatalizmu Kismetu lub paraliżu biurokracji państwowej.
+            </div>
+
+            <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 10px; padding: 12px 14px; font-size: 11px; color: #cbd5e1; line-height: 1.5;">
+              <strong style="color: #10b981; display: block; margin-bottom: 4px;">Opanowanie Czasu, Termin i Chyżość Dziejowa:</strong>
+              Dopiero w cywilizacji łacińskiej czas stał się wartością etyczną i kapitałem — dobrem rzadkim, którego nie wolno trwonić. Pojęcie <em>terminu</em> zrodziło rygor dotrzymywania umów i planowania, a <em>historycyzm</em> (poczucie ciągłości pokoleń i celowości) wywołał najwyższą w dziejach <strong>chyżość historyczną</strong>.
+            </div>
+
+            <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 10px; padding: 12px 14px; font-size: 11.5px; color: #e2e8f0; font-style: italic; line-height: 1.5; display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                "Dla przykładu dorysujmy sobie jeszcze tabelkę według stosunku do czasu (...) Tam dopiero powstaje historia, gdzie zrzeszenie panuje nad czasem, zamiast trwać biernie w kołowrocie przyrody."
+              </div>
+              <div style="font-size: 9.5px; color: #94a3b8; font-style: normal; margin-top: 8px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 4px;">
+                — <strong>Prof. Feliks Koneczny</strong> (Wykład o stosunku do czasu w dziejach)
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderDecisionTreeContainer(civId, activeTab = 'mantis') {
+      const selectedCiv = CIVILIZATIONS_TREE.find(c => c.id === civId || c.key === civId) || CIVILIZATIONS_TREE[0];
+      return `
+        <!-- MODUŁ DRZEWA DECYZYJNEGO I SCHEMATÓW KONECZNEGO (4 ZAKŁADKI) -->
+        <div class="tree-module-card" style="background: rgba(7, 11, 20, 0.95); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 12px; padding: 14px 16px; margin-top: 10px; box-shadow: 0 8px 30px rgba(0,0,0,0.5); overflow-x: auto;">
+          
+          <!-- TAB NAVIGATION: ZAKŁADKI 1, 2, 3 i 4 -->
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 10px; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+            <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(15, 23, 42, 0.85); padding: 4px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); flex-wrap: wrap;">
+              <button class="tree-subtab-btn" data-tree-tab="mantis" style="padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 800; cursor: pointer; transition: all 0.2s ease; border: 1px solid ${activeTab === 'mantis' ? '#38bdf8' : 'transparent'}; background: ${activeTab === 'mantis' ? 'rgba(56, 189, 248, 0.22)' : 'transparent'}; color: ${activeTab === 'mantis' ? '#ffffff' : '#94a3b8'}; display: flex; align-items: center; gap: 5px; box-shadow: ${activeTab === 'mantis' ? '0 0 10px rgba(56,189,248,0.3)' : 'none'};">
+                <span>🌿</span>
+                <span>1. Drzewo Mantis (Algorytm)</span>
+              </button>
+
+              <button class="tree-subtab-btn" data-tree-tab="koneczny" style="padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 800; cursor: pointer; transition: all 0.2s ease; border: 1px solid ${activeTab === 'koneczny' ? '#38bdf8' : 'transparent'}; background: ${activeTab === 'koneczny' ? 'rgba(56, 189, 248, 0.22)' : 'transparent'}; color: ${activeTab === 'koneczny' ? '#ffffff' : '#94a3b8'}; display: flex; align-items: center; gap: 5px; box-shadow: ${activeTab === 'koneczny' ? '0 0 10px rgba(56,189,248,0.3)' : 'none'};">
+                <span>🏛️</span>
+                <span>2. Schemat Klasyczny (Od Ducha)</span>
+              </button>
+
+              <button class="tree-subtab-btn" data-tree-tab="koneczny_reverse" style="padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 800; cursor: pointer; transition: all 0.2s ease; border: 1px solid ${activeTab === 'koneczny_reverse' ? '#38bdf8' : 'transparent'}; background: ${activeTab === 'koneczny_reverse' ? 'rgba(56, 189, 248, 0.22)' : 'transparent'}; color: ${activeTab === 'koneczny_reverse' ? '#ffffff' : '#94a3b8'}; display: flex; align-items: center; gap: 5px; box-shadow: ${activeTab === 'koneczny_reverse' ? '0 0 10px rgba(56,189,248,0.3)' : 'none'};">
+                <span>🧬</span>
+                <span>3. Metoda Odwrotna (Od Ustroju Rodowego)</span>
+              </button>
+
+              <button class="tree-subtab-btn" data-tree-tab="koneczny_time" style="padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 800; cursor: pointer; transition: all 0.2s ease; border: 1px solid ${activeTab === 'koneczny_time' ? '#38bdf8' : 'transparent'}; background: ${activeTab === 'koneczny_time' ? 'rgba(56, 189, 248, 0.22)' : 'transparent'}; color: ${activeTab === 'koneczny_time' ? '#ffffff' : '#94a3b8'}; display: flex; align-items: center; gap: 5px; box-shadow: ${activeTab === 'koneczny_time' ? '0 0 10px rgba(56,189,248,0.3)' : 'none'};">
+                <span>⏳</span>
+                <span>4. Stosunek do Czasu (Tabelka Konecznego)</span>
+              </button>
+            </div>
+
             <div style="font-size: 10px; color: #94a3b8; font-family: monospace;">
               AKTYWNA CYWILIZACJA: <strong id="dt-civ-name-badge" style="color: #38bdf8; font-weight: 800;">${selectedCiv.name}</strong>
             </div>
           </div>
 
-          <!-- PASEK OKRUSZKÓW AKTYWNEJ ŚCIEŻKI -->
-          <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 6px 10px; margin-bottom: 14px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px;">
-            <div style="display: flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 800; color: #94a3b8; text-transform: uppercase;">
-              <span>⚡</span>
-              <span>Aktywny Ślad:</span>
-            </div>
-            <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px; font-family: monospace; font-size: 10px;">
-              ${selectedCiv.breadcrumbs.map((crumb, idx) => `
-                <span style="padding: 2px 7px; border-radius: 4px; font-weight: 700; ${
-                  idx === selectedCiv.breadcrumbs.length - 1
-                    ? 'background: #38bdf8; color: #020617; box-shadow: 0 0 10px rgba(56,189,248,0.4);'
-                    : 'background: rgba(15, 23, 42, 0.9); color: #7dd3fc; border: 1px solid rgba(56,189,248,0.25);'
-                }">${crumb}</span>
-                ${idx < selectedCiv.breadcrumbs.length - 1 ? '<span style="color: #475569; font-size: 10px;">&gt;</span>' : ''}
-              `).join('')}
-            </div>
-          </div>
+          <!-- ZAWARTOŚĆ AKTYWNEJ ZAKŁADKI -->
+          ${
+            activeTab === 'mantis'
+              ? generateDecisionTreeFlowchartContent(civId, selectedCiv)
+              : (activeTab === 'koneczny'
+                  ? generateKonecznyTaxonomyTreeContent(civId, selectedCiv)
+                  : (activeTab === 'koneczny_reverse'
+                      ? generateKonecznyReverseTreeContent(civId, selectedCiv)
+                      : generateKonecznyTimeTreeContent(civId, selectedCiv)))
+          }
 
-          <!-- SIATKA DRZEWA -->
-          <div style="min-width: 680px; display: flex; flex-direction: column; align-items: center;">
-            
-            <!-- KROK 0: CAŁY KOSMOS TEKSTU -->
-            <div style="padding: 6px 18px; border-radius: 10px; font-size: 11px; font-weight: 900; font-family: monospace; transition: all 0.3s ease; ${
-              isNodeActive('root')
-                ? 'background: #06b6d4; color: #020617; border: 1.5px solid #67e8f9; box-shadow: 0 0 16px rgba(6,182,212,0.5);'
-                : 'background: rgba(15, 23, 42, 0.9); color: #64748b; border: 1px solid rgba(255,255,255,0.08);'
-            }">
-              [CAŁY KOSMOS TEKSTU]
-            </div>
-
-            <!-- Pionowa linia z Root do Krok 1 -->
-            <div style="width: 2px; height: 16px; background: ${
-              isPathActive('root', 'sacral_low') || isPathActive('root', 'sacral_high')
-                ? '#38bdf8; box-shadow: 0 0 8px rgba(56,189,248,0.8);'
-                : 'rgba(255,255,255,0.1);'
-            } transition: all 0.4s ease;"></div>
-
-            <!-- KROK 1: SACRALITY INDEX -->
-            <div style="text-align: center; font-weight: 700; font-size: 11px; color: #e2e8f0; text-transform: uppercase; letter-spacing: 0.04em; background: rgba(15, 23, 42, 0.95); padding: 5px 14px; border-radius: 8px; border: 1px solid rgba(56, 189, 248, 0.3); box-shadow: 0 2px 8px rgba(0,0,0,0.4); display: flex; align-items: center; gap: 6px;">
-              <span style="color: #38bdf8; font-size: 12px;">📊</span>
-              <span>1. SACRALITY_INDEX (Sakralność vs Świeckość)</span>
-            </div>
-
-            <!-- Poziomy łącznik rozgałęzienia Krok 1 -->
-            <div style="width: 58%; height: 2px; position: relative; margin: 6px 0; background: rgba(255,255,255,0.08);">
-              ${isNodeActive('sacral_low') ? `
-                <div style="position: absolute; left: 0; width: 50%; height: 100%; background: #38bdf8; box-shadow: 0 0 8px rgba(56,189,248,0.8);"></div>
-              ` : ''}
-              ${isNodeActive('sacral_high') ? `
-                <div style="position: absolute; right: 0; width: 50%; height: 100%; background: #818cf8; box-shadow: 0 0 8px rgba(129,140,248,0.8);"></div>
-              ` : ''}
-            </div>
-
-            <!-- GŁÓWNY PODZIAŁ 2 KOLUMN (NISKA vs WYSOKA SAKRALNOŚĆ) -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; width: 100%; max-width: 820px; align-items: start;">
-              
-              <!-- LEWA GAŁĄŹ: NISKA SAKRALNOŚĆ -->
-              <div style="display: flex; flex-direction: column; align-items: center;">
-                <div style="width: 100%; padding: 8px 10px; border-radius: 10px; text-align: center; transition: all 0.3s ease; ${
-                  isNodeActive('sacral_low')
-                    ? 'background: rgba(8, 51, 68, 0.9); border: 1.5px solid #38bdf8; color: #7dd3fc; box-shadow: 0 0 14px rgba(56, 189, 248, 0.35);'
-                    : 'background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.08); color: #64748b;'
-                }">
-                  <span style="font-family: monospace; font-size: 10.5px; font-weight: 800; display: block; color: ${isNodeActive('sacral_low') ? '#38bdf8' : '#94a3b8'};">[Niska &lt; 0.40]</span>
-                  <span style="font-size: 10px; font-weight: 600; display: block; margin-top: 1px;">(Łac / Biz / Tur / CHIŃSKA)</span>
-                </div>
-
-                <!-- Linia pionowa do Krok 2 -->
-                <div style="width: 2px; height: 14px; background: ${
-                  isNodeActive('sacral_low') ? '#38bdf8; box-shadow: 0 0 8px rgba(56,189,248,0.8);' : 'rgba(255,255,255,0.1);'
-                }"></div>
-
-                <!-- KROK 2: LEGAL DUALISM INDEX -->
-                <div style="width: 100%; text-align: center; background: rgba(15, 23, 42, 0.9); padding: 6px 8px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08);">
-                  <span style="font-size: 10px; font-weight: 800; color: #38bdf8; text-transform: uppercase; display: block;">2. LEGAL_DUALISM_INDEX</span>
-                  <span style="font-size: 9px; color: #94a3b8; display: block;">(Dualizm vs Monizm Prawa)</span>
-                </div>
-
-                <!-- Poziomy łącznik dla Dualizmu i Monizmu -->
-                <div style="width: 76%; height: 2px; position: relative; margin: 6px 0; background: rgba(255,255,255,0.08);">
-                  ${isNodeActive('dualism_yes') ? `
-                    <div style="position: absolute; left: 0; width: 50%; height: 100%; background: #10b981; box-shadow: 0 0 8px rgba(16,185,129,0.8);"></div>
-                  ` : ''}
-                  ${isNodeActive('dualism_no') ? `
-                    <div style="position: absolute; right: 0; width: 50%; height: 100%; background: #38bdf8; box-shadow: 0 0 8px rgba(56,189,248,0.8);"></div>
-                  ` : ''}
-                </div>
-
-                <!-- Pod-gałęzie: Dualizm vs Monizm -->
-                <div style="display: grid; grid-template-columns: 1fr 1.6fr; gap: 8px; width: 100%;">
-                  
-                  <!-- DUALIZM -> ŁACIŃSKA -->
-                  <div style="display: flex; flex-direction: column; align-items: center;">
-                    <div style="width: 100%; padding: 5px; border-radius: 6px; text-align: center; transition: all 0.2s ease; ${
-                      isNodeActive('dualism_yes')
-                        ? 'background: rgba(6, 78, 59, 0.9); border: 1.5px solid #10b981; color: #a7f3d0; font-weight: 800;'
-                        : 'background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.06); color: #64748b;'
-                    }">
-                      <span style="font-size: 9px; font-family: monospace; text-transform: uppercase; display: block;">[Dualizm]</span>
-                    </div>
-
-                    <!-- Strzałka do Łacińskiej -->
-                    <div style="width: 2px; height: 10px; background: ${isNodeActive('dualism_yes') ? '#10b981; box-shadow: 0 0 8px rgba(16,185,129,0.8);' : 'rgba(255,255,255,0.1);'}"></div>
-                    <span style="font-size: 11px; margin-top: -4px; color: ${isNodeActive('dualism_yes') ? '#10b981' : '#475569'};">&darr;</span>
-
-                    <button class="civ-tree-btn" data-civ="lacinska" style="margin-top: 2px; width: 100%; padding: 7px 6px; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
-                      selectedCiv.id === 'lacinska'
-                        ? 'background: #10b981; color: #020617; font-weight: 900; border: 1.5px solid #6ee7b7; box-shadow: 0 0 16px rgba(16, 185, 129, 0.4);'
-                        : 'background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
-                    }">
-                      <span style="font-size: 11px; font-weight: 800; display: block;">ŁACIŃSKA</span>
-                      <span style="font-size: 8px; display: block; opacity: 0.85; margin-top: 1px;">Personalizm / Wolność</span>
-                    </button>
-                  </div>
-
-                  <!-- MONIZM -> KROK 3 RELACJA WŁADZA -->
-                  <div style="display: flex; flex-direction: column; align-items: center;">
-                    <div style="width: 100%; padding: 5px; border-radius: 6px; text-align: center; transition: all 0.2s ease; ${
-                      isNodeActive('dualism_no')
-                        ? 'background: rgba(8, 51, 68, 0.9); border: 1.5px solid #38bdf8; color: #bae6fd; font-weight: 800;'
-                        : 'background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.06); color: #64748b;'
-                    }">
-                      <span style="font-size: 9px; font-family: monospace; text-transform: uppercase; display: block;">[Monizm]</span>
-                    </div>
-
-                    <div style="width: 2px; height: 10px; background: ${isNodeActive('dualism_no') ? '#38bdf8; box-shadow: 0 0 8px rgba(56,189,248,0.8);' : 'rgba(255,255,255,0.1);'}"></div>
-
-                    <div style="width: 100%; background: rgba(15, 23, 42, 0.9); padding: 5px 6px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.08); text-align: center;">
-                      <span style="font-size: 8.5px; font-weight: 800; color: #cbd5e1; display: block; text-transform: uppercase;">3. RELACJA WŁADZA - DUCH</span>
-                    </div>
-
-                    <!-- 3 Cywilizacje Monizmu Świeckiego -->
-                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; width: 100%; margin-top: 5px;">
-                      <button class="civ-tree-btn" data-civ="bizantynska" style="padding: 5px 3px; border-radius: 6px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
-                        selectedCiv.id === 'bizantynska'
-                          ? 'background: #a855f7; color: #ffffff; font-weight: 900; border: 1.5px solid #d8b4fe; box-shadow: 0 0 12px rgba(168, 85, 247, 0.4);'
-                          : 'background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
-                      }">
-                        <span style="font-size: 7.5px; display: block; opacity: 0.8;">Cezaryzm</span>
-                        <span style="font-size: 8.5px; font-weight: 800; display: block;">BIZANTYŃSKA</span>
-                      </button>
-
-                      <button class="civ-tree-btn" data-civ="turanska" style="padding: 5px 3px; border-radius: 6px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
-                        selectedCiv.id === 'turanska'
-                          ? 'background: #f59e0b; color: #020617; font-weight: 900; border: 1.5px solid #fde68a; box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);'
-                          : 'background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
-                      }">
-                        <span style="font-size: 7.5px; display: block; opacity: 0.8;">Siła</span>
-                        <span style="font-size: 8.5px; font-weight: 800; display: block;">TURAŃSKA</span>
-                      </button>
-
-                      <button class="civ-tree-btn" data-civ="chinska" style="padding: 5px 3px; border-radius: 6px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
-                        selectedCiv.id === 'chinska'
-                          ? 'background: #f43f5e; color: #ffffff; font-weight: 900; border: 1.5px solid #fecdd3; box-shadow: 0 0 12px rgba(244, 63, 94, 0.4);'
-                          : 'background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
-                      }">
-                        <span style="font-size: 7.5px; display: block; opacity: 0.8;">Kult Rodu</span>
-                        <span style="font-size: 8.5px; font-weight: 800; display: block;">CHIŃSKA</span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- PRAWA GAŁĄŹ: WYSOKA SAKRALNOŚĆ -->
-              <div style="display: flex; flex-direction: column; align-items: center;">
-                <div style="width: 100%; padding: 8px 10px; border-radius: 10px; text-align: center; transition: all 0.3s ease; ${
-                  isNodeActive('sacral_high')
-                    ? 'background: rgba(30, 27, 75, 0.9); border: 1.5px solid #818cf8; color: #c7d2fe; box-shadow: 0 0 14px rgba(129, 140, 248, 0.35);'
-                    : 'background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.08); color: #64748b;'
-                }">
-                  <span style="font-family: monospace; font-size: 10.5px; font-weight: 800; display: block; color: ${isNodeActive('sacral_high') ? '#818cf8' : '#94a3b8'};">[Wysoka &gt;= 0.40]</span>
-                  <span style="font-size: 10px; font-weight: 600; display: block; margin-top: 1px;">(Arab / Żyd / Bram)</span>
-                </div>
-
-                <div style="width: 2px; height: 14px; background: ${
-                  isNodeActive('sacral_high') ? '#818cf8; box-shadow: 0 0 8px rgba(129,140,248,0.8);' : 'rgba(255,255,255,0.1);'
-                }"></div>
-
-                <div style="width: 100%; text-align: center; background: rgba(15, 23, 42, 0.9); padding: 6px 8px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08);">
-                  <span style="font-size: 9.5px; font-weight: 800; color: #818cf8; text-transform: uppercase; display: block;">STRUKTURA MONIZMU SAKRALNEGO</span>
-                  <span style="font-size: 9px; color: #94a3b8; display: block;">(Objawienie / Obowiązek Obrzędowy)</span>
-                </div>
-
-                <!-- 3 Gałęzie Sakralne -->
-                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; width: 100%; margin-top: 10px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.08);">
-                  
-                  <button class="civ-tree-btn" data-civ="arabska" style="padding: 7px 4px; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
-                    selectedCiv.id === 'arabska'
-                      ? 'background: #0284c7; color: #ffffff; font-weight: 900; border: 1.5px solid #7dd3fc; box-shadow: 0 0 14px rgba(2, 132, 199, 0.4);'
-                      : 'background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
-                  }">
-                    <span style="font-size: 8px; font-family: monospace; display: block; color: ${selectedCiv.id === 'arabska' ? '#ffffff' : '#38bdf8'}; text-transform: uppercase;">[KORAN]</span>
-                    <span style="font-size: 9.5px; font-weight: 800; display: block; margin: 2px 0;">ARABSKA</span>
-                    <span style="font-size: 8px; opacity: 0.8; display: block;">Teokracja</span>
-                  </button>
-
-                  <button class="civ-tree-btn" data-civ="zydowska" style="padding: 7px 4px; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
-                    selectedCiv.id === 'zydowska'
-                      ? 'background: #ec4899; color: #ffffff; font-weight: 900; border: 1.5px solid #fbcfe8; box-shadow: 0 0 14px rgba(236, 72, 153, 0.4);'
-                      : 'background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
-                  }">
-                    <span style="font-size: 8px; font-family: monospace; display: block; color: ${selectedCiv.id === 'zydowska' ? '#ffffff' : '#f472b6'}; text-transform: uppercase;">[TALMUD]</span>
-                    <span style="font-size: 9.5px; font-weight: 800; display: block; margin: 2px 0;">ŻYDOWSKA</span>
-                    <span style="font-size: 8px; opacity: 0.8; display: block;">Obrzędowość</span>
-                  </button>
-
-                  <button class="civ-tree-btn" data-civ="braminska" style="padding: 7px 4px; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
-                    selectedCiv.id === 'braminska'
-                      ? 'background: #8b5cf6; color: #ffffff; font-weight: 900; border: 1.5px solid #c4b5fd; box-shadow: 0 0 14px rgba(139, 92, 246, 0.4);'
-                      : 'background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
-                  }">
-                    <span style="font-size: 8px; font-family: monospace; display: block; color: ${selectedCiv.id === 'braminska' ? '#ffffff' : '#a78bfa'}; text-transform: uppercase;">[VEDY]</span>
-                    <span style="font-size: 9.5px; font-weight: 800; display: block; margin: 2px 0;">BRAMIŃSKA</span>
-                    <span style="font-size: 8px; opacity: 0.8; display: block;">Kasty</span>
-                  </button>
-                </div>
-              </div>
-
-            </div>
-          </div>
         </div>
       `;
+    }
+
+    function generateDecisionTreeFlowchartHtml(civId) {
+      return renderDecisionTreeContainer(civId, currentTreeTab);
     }
 
     const quincunxRadarHtml = generateQuincunxRadarGridHtml(data, activeCivKey, activeLegalKey, activeFamKey);
@@ -3602,7 +4579,7 @@
           </div>
           ${spectrumBarHtml}
           <div id="decision-tree-container">
-            ${generateDecisionTreeFlowchartHtml(defaultCivTreeId)}
+            ${renderDecisionTreeContainer(currentTreeCivId, currentTreeTab)}
           </div>
           ${civTimelineHtml}
         </div>
@@ -3775,7 +4752,7 @@
       });
     });
 
-    // Bind Decision Tree Flowchart civilization buttons
+    // Bind Decision Tree Flowchart & Koneczny Schema buttons
     function bindDecisionTreeEvents() {
       content.querySelectorAll('.civ-tree-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -3783,7 +4760,21 @@
           const civId = btn.getAttribute('data-civ');
           const container = content.querySelector('#decision-tree-container');
           if (container && civId) {
-            container.innerHTML = generateDecisionTreeFlowchartHtml(civId);
+            currentTreeCivId = civId;
+            container.innerHTML = renderDecisionTreeContainer(currentTreeCivId, currentTreeTab);
+            bindDecisionTreeEvents();
+          }
+        });
+      });
+
+      content.querySelectorAll('.tree-subtab-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const tab = btn.getAttribute('data-tree-tab');
+          const container = content.querySelector('#decision-tree-container');
+          if (container && tab) {
+            currentTreeTab = tab;
+            container.innerHTML = renderDecisionTreeContainer(currentTreeCivId, currentTreeTab);
             bindDecisionTreeEvents();
           }
         });

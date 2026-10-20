@@ -4,6 +4,7 @@ Teoria podziału na cywilizacje Feliksa Konecznego w formie cyfrowej aplikacji i
 
 ![Analiza Algorytmem Konecznego - Dashboard i Szczebel Cywilizacyjny](extension/dasz4.png)
 ![Analiza Algorytmem Konecznego - Drzewo Decyzyjne Mantis i Profil Cywilizacyjny](extension/dasz9.png)
+![Analiza Algorytmem Konecznego - Schemat Klasyczny Konecznego (German Confederation)](extension/germian_confederation.png)
 ![Analiza Algorytmem Konecznego - Panel Analityczny i Aura Silnika](extension/dasz13.png)
 
 <details>

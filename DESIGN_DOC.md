@@ -177,13 +177,20 @@ graph TD
     Root --> Details[Widoki Szczegółowe Zakładek z Kartami Akordeonowymi]
 
     subgraph Dashboard Podsumowujący
-        Dash --> R1[Rząd 1: Cywilizacja\nChipy + Spektrum Wpływów + Zaawansowanie Zrzeszenia]
+        Dash --> R1[Rząd 1: Cywilizacja\nChipy + Spektrum Wpływów + Moduł Drzew (4 Zakładki) + Zaawansowanie Zrzeszenia]
         Dash --> R2[Rząd 2: Prawo\nDualizm vs Monizm Państwowy/Prywatny/Sakralny]
         Dash --> R3[Rząd 3: Religia\nUniwersalna / Plemienna / Sakralna / Kastowa / Świecka]
         Dash --> R4[Rząd 4: Cele Społeczeństwa\nSpoza Walki o Byt / Ustrój Obozowy / Machina / Formalizm]
         Dash --> R5[Rząd 5: Emancypacja Rodziny\nMonogamia i Własność / Ustrój Rodowy / Poligamia / Statolatria]
         Dash --> Kpi[5 Boksów KPI Kroków 1-5]
         Dash --> Radar[Pajęczyna Quincunxa 5 Sfer + 6 Kart Statusu]
+    end
+
+    subgraph Moduł Drzew Decyzyjnych (4 Zakładki w Rzędzie 1)
+        R1 --> DTab1[Zakładka 1: 🌿 Drzewo Decyzyjne Mantis\nAlgorytm Pareto 80/20 & Bramki Informacyjne]
+        R1 --> DTab2[Zakładka 2: 🏛️ Schemat Feliksa Konecznego\nKlasyczny Podział od Cech Najwyższej Wagi / Ducha]
+        R1 --> DTab3[Zakładka 3: 🧬 Metoda Odwrotna Konecznego\nOd Ustroju Rodowego ku Emancypacji Sił Duchowych]
+        R1 --> DTab4[Zakładka 4: ⏳ Stosunek do Czasu Konecznego\nOd Czasomiernictwa do Historycyzmu i Chyżości Dziejowej]
     end
 
     subgraph Zaawansowanie Cywilizacyjne Zrzeszenia - Mountain Climber Steps
