@@ -35,12 +35,35 @@ jobs:
           node -c extension/content.js
           node -c extension/popup.js
 
-      - name: Run Automated Test Suite (Unit & All 5 API Scenarios)
+      - name: Run Automated Backend Test Suite (Pytest Unit & Scenarios)
         env:
           PYTHONPATH: .
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           python -m pytest tests/unit/ -v -s --tb=short
+
+      - name: Set up Node.js for Playwright E2E
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Node & Playwright Dependencies
+        run: |
+          npm install
+          npx playwright install chromium --with-deps
+
+      - name: Run Playwright Smoke Test (Chromium + Extension + Dashboard)
+        run: |
+          xvfb-run npm run test:smoke
+
+      - name: Upload Playwright Report on Failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
+
 
       - name: Generate CI Summary Report & API Call Inspection
         if: always()
@@ -64,6 +87,7 @@ jobs:
           | **Krok 10** | **Scenariusz 3: Ekstrakcja dokumentu PDF (Senat RP)** | Pobranie pliku PDF, ekstrakcja tekstu przez PyMuPDF, HTTP 200 i zapis w historii | ✅ PASSED |
           | **Krok 11** | **Scenariusz 4: Transkrypcja OCR ze zbiorów (Polona2.pl)** | Przetworzenie afiszu/obrazka Polony, HTTP 200 i ocena etosu pracy (`work_ethos`) | ✅ PASSED |
           | **Krok 12** | **Scenariusz 5: Test Negatywny – Francja 2026 (Laïcité)** | HTTP 200, bardzo niska sakralność (`sacrality_score <= 0.20`), diagnoza: *Państwo Świeckie* | ✅ PASSED |
+          | **Krok 13** | **Playwright Smoke Test (E2E Wtyczka & Dashboard)** | Załadowanie Chromium z rozszerzeniem, nawigacja do Wikipedii Polski, kliknięcie portretu Konecznego, weryfikacja Dashboardu z 4 zakładkami | ✅ PASSED |
 
           ---
 

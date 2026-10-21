@@ -1,0 +1,101 @@
+{
+  "sacrality_score": 0.07500000000000001,
+  "spirit_supremacy_score": -1.0,
+  "legal_dualism_score": -1.0,
+  "law_source_pluralism_score": -1.0,
+  "aposteriori_apriori_score": -1.0,
+  "organism_mechanism_score": -1.0,
+  "personalism_score": -1.0,
+  "family_law_autonomy_score": -1.0,
+  "church_independence_score": -1.0,
+  "property_rights_stability_score": -1.0,
+  "inheritance_continuity_score": -1.0,
+  "morality_supremacy_score": -1.0,
+  "public_morality_totality_score": -1.0,
+  "administrative_responsibility_score": -1.0,
+  "mode": "jmantis",
+  "primary_civilization": "Bizantyńska",
+  "civilization_diagnosis": "Monizm Prawa Publicznego (Cezaropapizm, biurokracja, dwoistość sumienia)",
+  "explanation": null,
+  "mantis_gates": [
+    {
+      "gate": 1,
+      "name": "Bramka 1: Sakralność vs Świeckość (SACRALITY_INDEX)",
+      "score": 0.07500000000000001,
+      "decision": "Ścieżka Świecko-Rozumowa (Łacińska / Bizantyńska / Turańska)"
+    },
+    {
+      "gate": 2,
+      "name": "Bramka 2: Dualizm Prawny vs Monizm (LEGAL_DUALISM_INDEX)",
+      "score": -1.0,
+      "decision": "Monizm Prawny — Pochłonięcie prawa przez państwo lub władcę (Bizantyńska / Turańska)"
+    },
+    {
+      "gate": 3,
+      "name": "Bramka 3: Relacja Władza-Religia (CHURCH_INDEPENDENCE)",
+      "score": -1.0,
+      "decision": "Cezaropapizm / Podporządkowanie Religii Państwu (Bizantynizm)"
+    },
+    {
+      "gate": 4,
+      "name": "Bramka 4: Status Sumienia (CONSCIENCE_STATUS)",
+      "score": 0.925,
+      "decision": "Dwoistość Sumienia — Etyka prywatna vs Racja Stanu"
+    },
+    {
+      "gate": 5,
+      "name": "Bramka 5: Podmiotowość Jednostki (PERSONALISM_INDEX)",
+      "score": -1.0,
+      "decision": "Statolatria — Obywatel zredukowany do funkcji w machinie państwowej"
+    }
+  ],
+  "raw_ratings": {
+    "conscience_status_scores": {
+      "no_statutory_morality_only": {
+        "score": 0.9,
+        "explanation": "Autonomia sumienia nad dekretami władzy",
+        "news_examples": [
+          "Klauzula sumienia",
+          "Ochrona praw człowieka",
+          "Wolność przekonań"
+        ]
+      },
+      "conscience_as_supreme_judge": {
+        "score": 0.95,
+        "explanation": "Sumienie jednostki głównym sędzią",
+        "news_examples": [
+          "Wyroki Trybunału",
+          "Słuszność etyczna",
+          "Autonomia moralna"
+        ]
+      }
+    },
+    "sacrality_scores": {
+      "religious_law_supremacy": {
+        "score": 0.1,
+        "explanation": "Niska sakralizacja prawa państwowego w konstytucjonalizmie",
+        "news_examples": [
+          "Art 25 Konstytucji RP",
+          "Autonomia Kościoła i Państwa",
+          "Prawo świeckie"
+        ]
+      },
+      "clerical_theocracy": {
+        "score": 0.05,
+        "explanation": "Brak ustroju teokratycznego",
+        "news_examples": [
+          "Podział władz",
+          "Demokracja parlamentarna",
+          "Konstytucjonalizm"
+        ]
+      }
+    }
+  },
+  "history_stats": {
+    "total_runs": 70,
+    "avg_quincunx": 0.91,
+    "avg_ethical_coherence": 7.0,
+    "avg_chyznosc": -1.0,
+    "avg_spirit": 0.38
+  }
+}

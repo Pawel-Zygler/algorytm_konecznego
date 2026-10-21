@@ -92,3 +92,25 @@ flowchart TD
 ---
 
 > **Wskazówka:** Przy darmowych limitach zapytań Gemini API najlepiej sprawdza się tryb **Mantis AI** (optymalny balans precyzji i szybkości).
+
+---
+
+## 🧪 Testy Automatyczne (Playwright E2E & Unit)
+
+Projekt posiada kompletny framework automatyzacji testów w TypeScript (`e2e/`) oparty o **Playwright**, zintegrowany z GitHub Actions CI oraz Makefile. Spełnia 4 filary niezawodnej automatyzacji:
+
+1. **Repeatability (Powtarzalność)**: Efemeryczne profile Chromium w pamięci/tmp z automatycznym czyszczeniem (`fs.mkdtempSync`). Zero blokad profilu i zero ręcznego sprzątania między uruchomieniami.
+2. **Easy Resumption (Wznawianie)**: Natychmiastowe wznawianie testów od miejsca awarii (`make test-resume` / `--last-failed`).
+3. **Data Gathering & Diagnosis**: Automatyczne zrzuty konsoli z timestampami (`browser-console.log`), błędów sieci (`network-failures.json`), Shadow DOM wtyczki (`extension-shadow-dom-dump.html`), screenshoty i nagrania Playwright Trace (`trace.zip`).
+4. **Ease of Use (Łatwość Użycia)**: Standardowe polecenia Makefile i NPM:
+
+```bash
+make test-smoke    # Szybki test Smoke wtyczki (domyślny tryb dla każdego)
+make test-resume   # Wznowienie testów od ostatniego błędu (--last-failed)
+make test-repeat   # Weryfikacja powtarzalności (3 cykle z rzędu)
+make test-ui       # Interaktywny UI Runner z podglądem na żywo
+make test-debug    # Krokowe debugowanie w Playwright Inspector
+make test-report   # Podgląd raportu HTML z artefaktami i zrzutami
+make test-all      # Pełny zestaw: testy jednostkowe Python + Playwright E2E
+```
+Szczegółowy przewodnik znajduje się w [e2e/README.md](file:///Users/pawelzygler/Documents/programowanie/algorytm_konecznego/e2e/README.md).

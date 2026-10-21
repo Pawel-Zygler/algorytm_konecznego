@@ -1,0 +1,24 @@
+{
+  "name": "algorytm-konecznego",
+  "version": "1.4.6",
+  "description": "Algorytm Konecznego - Test Automation Suite (Playwright TypeScript)",
+  "private": true,
+  "scripts": {
+    "test": "npm run test:smoke",
+    "test:smoke": "NODE_OPTIONS=\"--import tsx\" playwright test e2e/specs/smoke.spec.ts",
+    "test:e2e": "NODE_OPTIONS=\"--import tsx\" playwright test",
+    "test:resume": "NODE_OPTIONS=\"--import tsx\" playwright test --last-failed",
+    "test:repeat": "NODE_OPTIONS=\"--import tsx\" playwright test e2e/specs/smoke.spec.ts --repeat-each=3",
+    "test:debug": "NODE_OPTIONS=\"--import tsx\" playwright test --debug",
+    "test:trace": "NODE_OPTIONS=\"--import tsx\" playwright test --trace on",
+    "test:ui": "NODE_OPTIONS=\"--import tsx\" playwright test --ui",
+    "test:headed": "NODE_OPTIONS=\"--import tsx\" playwright test --headed",
+    "test:report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.1",
+    "@types/node": "^20.5.1",
+    "tsx": "^4.23.15",
+    "typescript": "^5.2.2"
+  }
+}
