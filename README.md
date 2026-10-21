@@ -1,6 +1,6 @@
 # Algorytm Konecznego
 
-Teoria podziału na cywilizacje Feliksa Konecznego w formie cyfrowej aplikacji i wtyczki do przeglądarki.
+Teoria cywilizacji Feliksa Konecznego w formie aplikacji i wtyczki do przeglądarki.
 
 ![Analiza Algorytmem Konecznego - Dashboard i Szczebel Cywilizacyjny](extension/dasz4.png)
 ![Analiza Algorytmem Konecznego - Drzewo Decyzyjne Mantis i Profil Cywilizacyjny](extension/dasz9.png)
@@ -15,28 +15,26 @@ Teoria podziału na cywilizacje Feliksa Konecznego w formie cyfrowej aplikacji i
 git clone https://github.com/Pawel-Zygler/algorytm_konecznego.git
 cd algorytm_konecznego
 pip install -r backend/requirements.txt
-cp backend/.env.template backend/.env  # wpisz GEMINI_API_KEY
+cp backend/.env.template backend/.env  # wpisz GEMINI_API_KEY z Google AI Studio
 make start                            # serwer: http://127.0.0.1:8005 (stop: make stop)
 ```
-
-> Darmowy klucz API uzyskasz w [Google AI Studio](https://aistudio.google.com/app/apikey).
 
 ### 2. Wtyczka Chrome / Edge
 1. Otwórz `chrome://extensions/` i włącz **Tryb dewelopera**.
 2. Kliknij **Załaduj rozpakowane** i wskaż folder `extension/`.
-3. Kliknij ikonę wtyczki na pasku, wpisz klucz API i kliknij **Zapisz**.
-4. **Kliknij portret profesora w prawym dolnym rogu na dowolnej stronie**, aby zbadać tekst.
+3. Kliknij ikonę wtyczki, wpisz klucz API i zapisz.
+4. Kliknij portret profesora w rogu strony, aby zbadać tekst.
 
 </details>
 
 <details>
 <summary><b>5 Kroków Historiozoficznych (Indeksy)</b></summary>
 
-1. **Sakralność:** Stopień uświęcenia państwa i prawa; rozdział sfery sacrum i profanum vs teokracja i cezaropapizm.
-2. **Supremacja Ducha:** Prymat etyki i wolności nad przymusem fizycznym (dualizm prawny, niezależność Kościoła, autonomia rodziny, nienaruszalność własności prywatnej).
-3. **Generalia Etyki (Szereg Personalistyczny):** 7 kategorii moralnych (źródło obowiązku, bezinteresowność, sprawiedliwość, sumienie, opanowanie czasu, etos pracy).
-4. **Chyżość Historyczna:** Zdolność do akumulacji dorobku i oszczędzania czasu dla kolejnych pokoleń (zamiast cofania się *ab ovo*).
-5. **Quincunx (Pięciomian Bytu):** Harmonijna współmierność 5 sfer: Dobro, Prawda, Zdrowie, Dobrobyt, Piękno.
+1. **Sakralność:** sacrum vs profanum (świeckość a teokracja).
+2. **Supremacja Ducha:** prymat etyki, dualizm prawny, wolność rodziny i własności.
+3. **Generalia Etyki:** 7 kategorii moralnych (Szereg Personalistyczny).
+4. **Chyżość Historyczna:** zdolność akumulacji dorobku pokoleń.
+5. **Quincunx (Pięciomian Bytu):** współmierność sfer: Dobro, Prawda, Zdrowie, Dobrobyt, Piękno.
 
 </details>
 
@@ -44,7 +42,7 @@ make start                            # serwer: http://127.0.0.1:8005 (stop: mak
 <summary><b>Tryby Silnika: Mantis, Lite i Full</b></summary>
 
 ### 1. 🦗 Mantis AI (Reguła Pareto 80/20)
-Optymalny silnik klasyfikacji — 6 sekwencyjnych bramek decyzyjnych rozstrzyga 80%+ przypadków w kilka sekund:
+Szybka klasyfikacja przez 6 sekwencyjnych bramek decyzyjnych:
 
 ```mermaid
 flowchart TD
@@ -67,50 +65,41 @@ flowchart TD
     B6 -- "Etyka Podwójna\nPartykularyzm rodowo-sakralny" --> CivJew["📜 CYWILIZACJA ŻYDOWSKA"]
 ```
 
-**Bramki decyzyjne:**
-- **Sakralność:** Podział na cywilizacje sakralne (Arabska, Żydowska, Bramińska) i świecko-rozumowe (Łacińska, Bizantyńska, Turańska, Chińska).
-- **Dualizm prawny:** Wyróżnik cywilizacji łacińskiej (prymat etyki i autonomia prawa prywatnego).
-- **Niezależność Kościoła:** Etatyzm (Bizancjum) vs rządy siły (Turan) vs kult rodu (Chiny) vs wolność sumienia (Łacina).
-- **Status sumienia:** Jedność etyczna vs podwójna moralność („inna prywatnie, inna dla racji stanu”).
-- **Personalizm:** Człowiek jako wolna osoba vs narzędzie wodza w ustroju obozowym.
-- **Moralność publiczna:** Powszechny monizm sakralny (Arabska) vs podwójna etyka rodowa (Żydowska).
+- **Sakralność:** cywilizacje sakralne vs świecko-rozumowe.
+- **Dualizm prawny:** prymat etyki i autonomia prawa prywatnego (Łacina).
+- **Niezależność Kościoła:** etatyzm vs siła vs kult rodu vs wolność sumienia.
+- **Status sumienia:** jedność etyczna vs podwójna moralność.
+- **Personalizm:** wolna osoba vs narzędzie władzy.
+- **Moralność publiczna:** monizm sakralny vs etyka rodowa.
 
 ---
 
 ### 2. ⚡ Lite Scan
-- Błyskawiczny skan (1-3 prompty) do szybkiej orientacji w treści.
-- Bada kluczowe indeksy agregujące i zwraca wstępny profil cywilizacyjny w kilka sekund.
+Szybki skan (1-3 prompty) kluczowych indeksów dający wstępny profil w parę sekund.
 
 ---
 
 ### 3. ✨ Full Kosmos
-- Pełna synteza historiozoficzna: 27 indeksów i 352 pytania analityczne.
-- Wylicza radar Quincunxa (średnia geometryczna 5 sfer), Szereg Personalistyczny oraz spektrum procentowe wpływów cywilizacyjnych.
+Pełna synteza: 27 indeksów, 352 pytania, radar Quincunxa i Szereg Personalistyczny.
 
 </details>
 
----
+<details>
+<summary><b>Testy automatyczne (Playwright E2E & Unit)</b></summary>
 
-> **Wskazówka:** Przy darmowych limitach zapytań Gemini API najlepiej sprawdza się tryb **Mantis AI** (optymalny balans precyzji i szybkości).
+Automatyzacja w TypeScript (`e2e/`) zintegrowana z CI/CD:
+- **Powtarzalność:** czyste profile tymczasowe bez blokad.
+- **Wznawianie:** `make test-resume` (wznawia tylko nieudane testy).
+- **Diagnostyka:** logi ze znacznikami czasu, zrzuty ekranu, HTML Shadow DOM i trace.
+- **Polecenia:**
+  - `make test-smoke` – szybki test wtyczki (domyślny)
+  - `make test-resume` – wznowienie od błędu (`--last-failed`)
+  - `make test-repeat` – 3 cykle powtórzeń (stabilność)
+  - `make test-ui` – interfejs graficzny Playwright
+  - `make test-trace` – generowanie `trace.zip`
+  - `make test-report` – raport HTML
+  - `make test-all` – testy jednostkowe + E2E
 
----
+Szczegóły: [e2e/README.md](e2e/README.md).
 
-## 🧪 Testy Automatyczne (Playwright E2E & Unit)
-
-Projekt posiada kompletny framework automatyzacji testów w TypeScript (`e2e/`) oparty o **Playwright**, zintegrowany z GitHub Actions CI oraz Makefile. Spełnia 4 filary niezawodnej automatyzacji:
-
-1. **Repeatability (Powtarzalność)**: Efemeryczne profile Chromium w pamięci/tmp z automatycznym czyszczeniem (`fs.mkdtempSync`). Zero blokad profilu i zero ręcznego sprzątania między uruchomieniami.
-2. **Easy Resumption (Wznawianie)**: Natychmiastowe wznawianie testów od miejsca awarii (`make test-resume` / `--last-failed`).
-3. **Data Gathering & Diagnosis**: Automatyczne zrzuty konsoli z timestampami (`browser-console.log`), błędów sieci (`network-failures.json`), Shadow DOM wtyczki (`extension-shadow-dom-dump.html`), screenshoty i nagrania Playwright Trace (`trace.zip`).
-4. **Ease of Use (Łatwość Użycia)**: Standardowe polecenia Makefile i NPM:
-
-```bash
-make test-smoke    # Szybki test Smoke wtyczki (domyślny tryb dla każdego)
-make test-resume   # Wznowienie testów od ostatniego błędu (--last-failed)
-make test-repeat   # Weryfikacja powtarzalności (3 cykle z rzędu)
-make test-ui       # Interaktywny UI Runner z podglądem na żywo
-make test-debug    # Krokowe debugowanie w Playwright Inspector
-make test-report   # Podgląd raportu HTML z artefaktami i zrzutami
-make test-all      # Pełny zestaw: testy jednostkowe Python + Playwright E2E
-```
-Szczegółowy przewodnik znajduje się w [e2e/README.md](file:///Users/pawelzygler/Documents/programowanie/algorytm_konecznego/e2e/README.md).
+</details>
