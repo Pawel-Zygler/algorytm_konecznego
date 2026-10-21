@@ -11,6 +11,8 @@
     "test:repeat": "NODE_OPTIONS=\"--import tsx\" playwright test e2e/specs/smoke.spec.ts --repeat-each=3",
     "test:debug": "NODE_OPTIONS=\"--import tsx\" playwright test --debug",
     "test:trace": "NODE_OPTIONS=\"--import tsx\" playwright test --trace on",
+    "test:logs": "VERBOSE=1 NODE_OPTIONS=\"--import tsx\" playwright test e2e/specs/smoke.spec.ts",
+    "test:api-logs": "DEBUG=pw:api NODE_OPTIONS=\"--import tsx\" playwright test e2e/specs/smoke.spec.ts",
     "test:ui": "NODE_OPTIONS=\"--import tsx\" playwright test --ui",
     "test:headed": "NODE_OPTIONS=\"--import tsx\" playwright test --headed",
     "test:report": "playwright show-report"

@@ -48,41 +48,86 @@ export const test = base.extend<ExtensionFixtures>({
     const page = context.pages().length > 0 ? context.pages()[0] : await context.newPage();
 
     // ── FEATURE 3: DIAGNOSIS & DEBUGGING (Timestamped Logs & Dumps) ─────
-    const consoleLogs: string[] = [];
+    const testLogs: string[] = [];
     const networkFailures: Array<{ timestamp: string; method: string; url: string; error: string }> = [];
+    const isVerbose = !!process.env.VERBOSE || !!process.env.DEBUG_LOGS;
+
+    const logEvent = (level: string, message: string) => {
+      const timestamp = new Date().toISOString();
+      const line = `[${timestamp}] [${level}] ${message}`;
+      testLogs.push(line);
+      if (isVerbose) {
+        console.log(`  ${line}`);
+      }
+    };
+
+    // Log top-level navigation
+    page.on('framenavigated', frame => {
+      if (frame === page.mainFrame()) {
+        logEvent('NAVIGATE', frame.url());
+      }
+    });
+
+    // Log backend API calls
+    page.on('request', req => {
+      if (req.url().includes('/api/') || req.url().includes('localhost') || req.url().includes('127.0.0.1')) {
+        logEvent('HTTP REQ', `${req.method()} ${req.url()}`);
+      }
+    });
+
+    page.on('response', res => {
+      if (res.url().includes('/api/') || res.url().includes('localhost') || res.url().includes('127.0.0.1')) {
+        logEvent('HTTP RES', `${res.status()} ${res.url()}`);
+      }
+    });
 
     // Capture browser console logs with ISO timestamps
     page.on('console', msg => {
-      const timestamp = new Date().toISOString();
-      consoleLogs.push(`[${timestamp}] [CONSOLE ${msg.type().toUpperCase()}] ${msg.text()}`);
+      logEvent(`CONSOLE ${msg.type().toUpperCase()}`, msg.text());
     });
 
     // Capture uncaught page errors with stack traces
     page.on('pageerror', err => {
-      const timestamp = new Date().toISOString();
-      consoleLogs.push(`[${timestamp}] [PAGE ERROR] ${err.stack || err.message}`);
+      logEvent('PAGE ERROR', err.stack || err.message);
     });
 
     // Capture failed network requests
     page.on('requestfailed', req => {
       const timestamp = new Date().toISOString();
-      networkFailures.push({
+      const failure = {
         timestamp,
         method: req.method(),
         url: req.url(),
         error: req.failure()?.errorText || 'Unknown error'
-      });
+      };
+      networkFailures.push(failure);
+      logEvent('NET FAILED', `${failure.method} ${failure.url} (${failure.error})`);
     });
 
     try {
       await use(page);
     } finally {
-      // If the test failed, attach detailed diagnostic artifacts to the report
-      if (testInfo.status !== testInfo.expectedStatus) {
+      // Always append to logs/e2e-run.log on disk
+      try {
+        const logsDir = path.resolve(process.cwd(), 'logs');
+        if (!fs.existsSync(logsDir)) {
+          fs.mkdirSync(logsDir, { recursive: true });
+        }
+        const block = `=== [${new Date().toISOString()}] ${testInfo.title} (${testInfo.status.toUpperCase()}) ===\n` +
+          (testLogs.length > 0 ? testLogs.join('\n') : '[Brak zarejestrowanych zdarzeń konsoli]') + '\n\n';
+        fs.appendFileSync(path.join(logsDir, 'e2e-run.log'), block);
+      } catch (err) {
+        console.error('Error writing log file:', err);
+      }
+
+      // If test failed or VERBOSE is requested, attach detailed diagnostic artifacts to Playwright report
+      const shouldAttachArtifacts = (testInfo.status !== testInfo.expectedStatus) || isVerbose;
+
+      if (shouldAttachArtifacts) {
         // 1. Browser console log dump
-        if (consoleLogs.length > 0) {
+        if (testLogs.length > 0) {
           await testInfo.attach('browser-console.log', {
-            body: consoleLogs.join('\n'),
+            body: testLogs.join('\n'),
             contentType: 'text/plain',
           });
         }

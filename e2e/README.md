@@ -65,8 +65,11 @@ Gdy jakikolwiek test nie przejdzie, w katalogu `test-results/` oraz w raporcie H
 | Zadanie | Makefile | NPM Script |
 |---|---|---|
 | **Domyślne uruchomienie Smoke Testu** | `make test-smoke` | `npm test` lub `npm run test:smoke` |
+| **Uruchomienie z logami zdarzeń na żywo** | `make test-logs` | `npm run test:logs` |
+| **Uruchomienie z wewnętrznymi logami API silnika** | `make test-api-logs` | `npm run test:api-logs` |
 | **Wznowienie po poprawce błędu** | `make test-resume` | `npm run test:resume` |
 | **Weryfikacja powtarzalności (x3)** | `make test-repeat` | `npm run test:repeat` |
+| **Wymuszenie zapisu trace.zip** | `make test-trace` | `npm run test:trace` |
 | **Interaktywny UI Runner z podglądem** | `make test-ui` | `npm run test:ui` |
 | **Krokowe debugowanie (Inspector)** | `make test-debug` | `npm run test:debug` |
 | **Podgląd raportu i artefaktów HTML** | `make test-report` | `npm run test:report` |

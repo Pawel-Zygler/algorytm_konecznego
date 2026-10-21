@@ -1335,7 +1335,23 @@
       }
 
       clearInterval(window.konecznyLoadingInterval);
-      const newData = await response.json();
+      let newData = await response.json();
+      if (newData && (newData.pełne_dane_wynikowe || newData.klasyfikacja_dashboard)) {
+        const full = newData.pełne_dane_wynikowe || {};
+        const dash = newData.klasyfikacja_dashboard || {};
+        newData = {
+          ...full,
+          ...newData,
+          primary_civilization: full.primary_civilization || dash.cywilizacja_główna || newData.primary_civilization,
+          civilization_diagnosis: full.civilization_diagnosis || dash.diagnoza_cywilizacyjna || newData.civilization_diagnosis,
+          sacrality_score: full.sacrality_score !== undefined ? full.sacrality_score : (dash.sakralność !== undefined ? dash.sakralność : newData.sacrality_score),
+          spirit_supremacy_score: full.spirit_supremacy_score !== undefined ? full.spirit_supremacy_score : (dash.supremacja_ducha !== undefined ? dash.supremacja_ducha : newData.spirit_supremacy_score),
+          legal_dualism_score: full.legal_dualism_score !== undefined ? full.legal_dualism_score : newData.legal_dualism_score,
+          personalism_score: full.personalism_score !== undefined ? full.personalism_score : newData.personalism_score,
+          church_independence_score: full.church_independence_score !== undefined ? full.church_independence_score : newData.church_independence_score,
+          raw_ratings: full.raw_ratings || newData.surowe_oceny_indeksów || newData.raw_ratings || {}
+        };
+      }
       window.konecznyResults = {
         ...window.konecznyResults,
         ...newData,
@@ -4507,13 +4523,424 @@
       `;
     }
 
+    function generateKonecznyPillarSystematicsContent(civId, selectedCiv) {
+      const civData = [
+        {
+          id: 'lacinska',
+          name: 'ŁACIŃSKA',
+          isPillar: true,
+          icon: '🏛️',
+          badge: 'PION ODNIESIENIA (WZORZEC DUALIZMU I PERSONALIZMU)',
+          color: '#10b981',
+          rodzina: 'Emancypacja rodziny, monogamiczna',
+          czas: 'Posiada historyzm i poczucie ciągłości pokoleń',
+          spoleczenstwo: 'Opiera państwo na społeczeństwie; poczucie narodowe (wytwarza naród)',
+          panstwo: 'Państwo oparte na społeczeństwie, dualizm prawny (prawo prywatne + publiczne)',
+          etyka: 'Od życia publicznego wymaga etyki, uznając supremację sił duchowych',
+          laczy: 'Wzorzec syntetyczny — łączy siły duchowe z prawem i wolnością',
+          dzieli: 'Jedyna cywilizacja na świecie łącząca jedność etyki, emancypację rodziny, naród i historyzm'
+        },
+        {
+          id: 'bizantynska',
+          name: 'BIZANTYŃSKA',
+          isPillar: false,
+          icon: '👑',
+          badge: 'Etatyzm & Antropolatria Władcy',
+          color: '#a855f7',
+          rodzina: 'Emancypacja rodziny, monogamiczna',
+          czas: 'Posiada erę, lecz nie znająca historyzmu',
+          spoleczenstwo: 'Podporządkowuje społeczeństwo biurokracji, wytwarza etatyzm; narodowości nie wytwarza',
+          panstwo: 'Wszechwładza państwa, antropolatria osoby władcy; posiada odrębne prawo publiczne',
+          etyka: 'W życiu publicznym bezetyczna (podwójna moralność dla racji stanu)',
+          laczy: 'Emancypacja rodziny, monogamia, era chronologiczna, odrębne prawo publiczne',
+          dzieli: 'Brak historyzmu, brak narodu, etatyzm i wszechwładna biurokracja, antropolatria władcy, bezetyczność państwowa'
+        },
+        {
+          id: 'arabska',
+          name: 'ARABSKA',
+          isPillar: false,
+          icon: '🌙',
+          badge: 'Monizm Koranu & Despotyzm',
+          color: '#0284c7',
+          rodzina: 'Ustrój rodowy, dochodząca do emancypacji rodziny w kulturze kordowańskiej, poligamiczna',
+          czas: 'Posiadająca erę (Hedżra), lecz nie dochodząca do historyzmu',
+          spoleczenstwo: 'Ustrój rodowy (Umma); narodowości nie wytwarza',
+          panstwo: 'W życiu politycznym despotyczna, lecz poddająca władzę zwierzchnictwu Koranu',
+          etyka: 'Podporządkowanie etyki i prawa zwierzchnictwu Koranu (monizm sakralny)',
+          laczy: 'Rachuba ery, dążenie do emancypacji rodziny w kulturze kordowańskiej, zwierzchnictwo norm nad wolą władcy',
+          dzieli: 'Ustrój rodowy, poligamia, brak historyzmu, despotyzm polityczny, monizm sakralny, brak narodu'
+        },
+        {
+          id: 'chinska',
+          name: 'CHIŃSKA',
+          isPillar: false,
+          icon: '☯️',
+          badge: 'Kult Rodu & Rytuał Li',
+          color: '#f43f5e',
+          rodzina: 'Ustrój rodowy, rozluźniający się po miastach, poligamizująca',
+          czas: 'Posiada cykle (kołowrót czasu, brak perspektywy linearnej)',
+          spoleczenstwo: 'W sprawach społecznych autonomiczna (rodowa); narodowości nie wytwarza',
+          panstwo: 'W państwowych antropolatryczna (Syn Niebios / Ojciec Rodu) i bezetyczna',
+          etyka: 'W państwowych bezetyczna (rytuał Li i etykieta zamiast uniwersalnej etyki)',
+          laczy: 'Wewnętrzna autonomia społeczna na poziomie rodu, rozluźnienie ustroju rodowego w miastach',
+          dzieli: 'Poligamia, cykliczność czasu, ustrój rodowy, antropolatria władcy, bezetyczność państwowa, brak narodu'
+        },
+        {
+          id: 'turanska',
+          name: 'TURAŃSKA',
+          isPillar: false,
+          icon: '🏹',
+          badge: 'Ustrój Obozowy & Władza Wodza',
+          color: '#f59e0b',
+          rodzina: 'Ustrój rodowy, poligamiczna',
+          czas: 'Czasomiernictwo do cyklów (brak perspektywy dziejowej)',
+          spoleczenstwo: 'Społeczności niezróżniczkowane w społeczeństwie; obozowa organizacja życia publicznego',
+          panstwo: 'Antropolatria wodza-władcy (wódz dysponentem wszelkiej własności i życia)',
+          etyka: 'Bezetyczna w życiu publicznym (bezwzględne prawo siły i posłuszeństwa)',
+          laczy: 'Brak punktów wspólnych z pionem łacińskim (skrajna biegunowość ustrojowa)',
+          dzieli: 'Ustrój obozowy, antropolatria wodza, ustrój rodowy, poligamia, bezetyczność państwowa, brak społeczeństwa i narodu'
+        },
+        {
+          id: 'braminska',
+          name: 'BRAMIŃSKA',
+          isPillar: false,
+          icon: '🕉️',
+          badge: 'Sakralizm Kastowy & Despotyzm',
+          color: '#8b5cf6',
+          rodzina: 'Ustrój rodowy, kastowy, poligamizująca',
+          czas: 'Czasomiernicza tylko do kalendarza (brak ery i historii)',
+          spoleczenstwo: 'W sprawach społecznych autonomiczna, ścisły podział kastowy; brak narodu',
+          panstwo: 'W państwowych despotyczna, sakralna (monizm kastowo-rytualny)',
+          etyka: 'W państwowych bezetyczna (brak uniwersalnego obowiązku etycznego dla państwa)',
+          laczy: 'Wewnętrzna autonomia społeczna w ramach kasty/rodu',
+          dzieli: 'System kastowy, despotyzm państwowy, czasomiernictwo tylko do kalendarza, bezetyczność władzy, brak narodu'
+        },
+        {
+          id: 'zydowska',
+          name: 'ŻYDOWSKA',
+          isPillar: false,
+          icon: '📜',
+          badge: 'Monizm Rodowo-Sakralny (Zmienna)',
+          color: '#38bdf8',
+          rodzina: 'Ustrój rodowo-sakralny, monogamia pod jurysdykcją prawa talmudycznego',
+          czas: 'Czas mesjanistyczny, aprioryczny (rachuba od stworzenia świata)',
+          spoleczenstwo: 'Ekskluzywizm sakralno-rodowy; prawo religijne spoiwem zrzeszenia',
+          panstwo: 'Monizm prawa sakralnego i prywatnego, brak odrębnego prawa publicznego',
+          etyka: 'Etyka podwójna (inna wewnątrz społeczności przymierza, inna wobec świata zewnętrznego)',
+          laczy: 'Wysoka ranga rodziny i prawa, monogamia, linearność rachuby czasu',
+          dzieli: 'Podwójność etyki, monizm sakralno-prawny, brak autonomii prawa świeckiego i sumienia'
+        }
+      ];
+
+      const latinPillar = civData.find(c => c.id === 'lacinska');
+      const otherCivs = civData.filter(c => c.id !== 'lacinska');
+      const isSelectedCivPillar = civId === 'lacinska';
+
+      return `
+        <!-- SEKCJA NAGŁÓWKA: SYSTEMATYKA CECH GŁÓWNYCH (PION ŁACIŃSKI) -->
+        <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 10px; padding: 12px 16px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap;">
+          <div>
+            <div style="font-size: 13px; font-weight: 900; color: #10b981; display: flex; align-items: center; gap: 7px; text-transform: uppercase; letter-spacing: 0.04em;">
+              <span>⚖️</span>
+              <span>Systematyka Porównawcza Feliksa Konecznego (Cechy Łączące i Dzielące)</span>
+            </div>
+            <div style="font-size: 11px; color: #94a3b8; margin-top: 2px;">
+              Syntetyczne zestawienie fundamentów cywilizacji z <strong>Cywilizacją Łacińską jako Pionem Odniesienia (Wzorcem Personalizmu)</strong>.
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+            ${civData.map(c => `
+              <button class="dt-civ-filter-btn" data-civ="${c.id}" style="padding: 4px 9px; font-size: 10.5px; font-weight: 800; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; border: 1px solid ${c.id === civId ? c.color : 'rgba(255,255,255,0.08)'}; background: ${c.id === civId ? c.color + '25' : 'rgba(15,23,42,0.8)'}; color: ${c.id === civId ? '#ffffff' : '#94a3b8'}; display: flex; align-items: center; gap: 4px;">
+                <span>${c.icon}</span>
+                <span>${c.name}</span>
+                ${c.isPillar ? '<span style="background: #10b981; color: #020617; font-size: 8.5px; padding: 1px 4px; border-radius: 3px; font-weight: 900;">PION</span>' : ''}
+              </button>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- UKŁAD ARCHITEKTONICZNY: PION ŁACIŃSKI (LEWA STRONA) VS POZOSTAŁE CYWILIZACJE (PRAWA STRONA) -->
+        <div style="display: grid; grid-template-columns: minmax(320px, 360px) 1fr; gap: 16px; align-items: stretch; margin-bottom: 20px;">
+          
+          <!-- ==================== LEWY FILAR: PION ŁACIŃSKI ==================== -->
+          <div style="background: linear-gradient(180deg, rgba(16, 185, 129, 0.22) 0%, rgba(6, 78, 59, 0.35) 100%); border: 2px solid #10b981; border-radius: 12px; padding: 16px; box-shadow: 0 0 25px rgba(16, 185, 129, 0.3); display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden;">
+            
+            <div style="position: absolute; top: -10px; right: -10px; font-size: 80px; opacity: 0.08; pointer-events: none;">🏛️</div>
+
+            <div>
+              <!-- PION HEADER -->
+              <div style="border-bottom: 1px solid rgba(16, 185, 129, 0.4); padding-bottom: 10px; margin-bottom: 12px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 6px; margin-bottom: 4px;">
+                  <span style="background: #10b981; color: #020617; font-size: 10px; font-weight: 900; padding: 2px 8px; border-radius: 4px; letter-spacing: 0.05em;">
+                    PION WZORCOWY (ODNIESIENIE)
+                  </span>
+                  <span style="font-size: 10px; color: #6ee7b7; font-family: monospace;">DUALIZM & PERSONALIZM</span>
+                </div>
+                <div style="font-size: 17px; font-weight: 900; color: #ffffff; display: flex; align-items: center; gap: 8px;">
+                  <span>🏛️</span>
+                  <span style="letter-spacing: 0.04em;">CYWILIZACJA ŁACIŃSKA</span>
+                </div>
+                <div style="font-size: 10.5px; color: #a7f3d0; margin-top: 3px; font-style: italic;">
+                  "Opiera państwo na społeczeństwie, od życia publicznego wymaga etyki, uznając supremację sił duchowych."
+                </div>
+              </div>
+
+              <!-- 5 CECH PIONU ŁACIŃSKIEGO -->
+              <div style="display: flex; flex-direction: column; gap: 9px;">
+                
+                <div style="background: rgba(6, 78, 59, 0.4); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 8px; padding: 8px 10px;">
+                  <div style="font-size: 10px; font-weight: 800; color: #6ee7b7; text-transform: uppercase; margin-bottom: 2px; display: flex; align-items: center; gap: 5px;">
+                    <span>💎</span>
+                    <span>1. Rodzina i Małżeństwo:</span>
+                  </div>
+                  <div style="font-size: 11.5px; font-weight: 700; color: #ffffff;">
+                    Emancypacja rodziny, monogamiczna
+                  </div>
+                  <div style="font-size: 9.5px; color: #cbd5e1; margin-top: 2px;">
+                    Wyzwolenie rodziny spod wszechwładzy rodu i klanu; nierozerwalna monogamia i własność prywatna.
+                  </div>
+                </div>
+
+                <div style="background: rgba(6, 78, 59, 0.4); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 8px; padding: 8px 10px;">
+                  <div style="font-size: 10px; font-weight: 800; color: #6ee7b7; text-transform: uppercase; margin-bottom: 2px; display: flex; align-items: center; gap: 5px;">
+                    <span>⏳</span>
+                    <span>2. Stosunek do Czasu:</span>
+                  </div>
+                  <div style="font-size: 11.5px; font-weight: 700; color: #ffffff;">
+                    Posiada historyzm i poczucie ciągłości pokoleń
+                  </div>
+                  <div style="font-size: 9.5px; color: #cbd5e1; margin-top: 2px;">
+                    Czas jako kapitał i termin; akumulacja dorobku zamiast biernego trwania w kołowrocie przyrody.
+                  </div>
+                </div>
+
+                <div style="background: rgba(6, 78, 59, 0.4); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 8px; padding: 8px 10px;">
+                  <div style="font-size: 10px; font-weight: 800; color: #6ee7b7; text-transform: uppercase; margin-bottom: 2px; display: flex; align-items: center; gap: 5px;">
+                    <span>👥</span>
+                    <span>3. Społeczeństwo i Naród:</span>
+                  </div>
+                  <div style="font-size: 11.5px; font-weight: 700; color: #ffffff;">
+                    Wytwarza poczucie narodowe (Organiczny Naród)
+                  </div>
+                  <div style="font-size: 9.5px; color: #cbd5e1; margin-top: 2px;">
+                    Państwo opiera się na społeczeństwie, nie odwrotnie. Jedyna cywilizacja tworząca narody kulturowe.
+                  </div>
+                </div>
+
+                <div style="background: rgba(6, 78, 59, 0.4); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 8px; padding: 8px 10px;">
+                  <div style="font-size: 10px; font-weight: 800; color: #6ee7b7; text-transform: uppercase; margin-bottom: 2px; display: flex; align-items: center; gap: 5px;">
+                    <span>🏛️</span>
+                    <span>4. Państwo i Prawo:</span>
+                  </div>
+                  <div style="font-size: 11.5px; font-weight: 700; color: #ffffff;">
+                    Dualizm Prawny (prywatne + publiczne)
+                  </div>
+                  <div style="font-size: 9.5px; color: #cbd5e1; margin-top: 2px;">
+                    Prymat prawa prywatnego i autonomii obywatela nad samowolą urzędniczą i etatyzmem.
+                  </div>
+                </div>
+
+                <div style="background: rgba(6, 78, 59, 0.4); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 8px; padding: 8px 10px;">
+                  <div style="font-size: 10px; font-weight: 800; color: #6ee7b7; text-transform: uppercase; margin-bottom: 2px; display: flex; align-items: center; gap: 5px;">
+                    <span>🕊️</span>
+                    <span>5. Etyka Publiczna:</span>
+                  </div>
+                  <div style="font-size: 11.5px; font-weight: 700; color: #ffffff;">
+                    Jedność etyczna & Supremacja sił duchowych
+                  </div>
+                  <div style="font-size: 9.5px; color: #cbd5e1; margin-top: 2px;">
+                    Wymóg tej samej moralności w życiu prywatnym i państwowym; odrzucenie zasady "racji stanu".
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div style="margin-top: 14px; padding-top: 10px; border-top: 1px solid rgba(16, 185, 129, 0.3); font-size: 10.5px; color: #d1fae5; line-height: 1.4;">
+              <strong>Rola Pionu u Konecznego:</strong> Jest to absolutny punkt odniesienia metodologicznego. Wszystkie inne cywilizacje są badane przez pryzmat tego, w ilu wymiarach zbliżają się do tego pionu, a w ilu mu zaprzeczają.
+            </div>
+
+          </div>
+
+          <!-- ==================== PRAWA STRONA: POZOSTAŁE CYWILIZACJE ==================== -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;">
+            ${otherCivs.map(c => {
+              const isCivActive = c.id === civId;
+              return `
+                <div style="background: ${isCivActive ? 'rgba(15, 23, 42, 0.95)' : 'rgba(15, 23, 42, 0.75)'}; border: ${isCivActive ? `2px solid ${c.color}` : '1px solid rgba(255,255,255,0.08)'}; border-radius: 10px; padding: 12px 14px; box-shadow: ${isCivActive ? `0 0 16px ${c.color}35` : 'none'}; display: flex; flex-direction: column; justify-content: space-between; transition: all 0.2s ease;">
+                  
+                  <div>
+                    <!-- KARTA HEADER -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 6px;">
+                      <div style="display: flex; align-items: center; gap: 6px;">
+                        <span style="font-size: 15px;">${c.icon}</span>
+                        <strong style="color: ${c.color}; font-size: 13px; letter-spacing: 0.03em;">${c.name}</strong>
+                      </div>
+                      <span style="font-size: 9px; padding: 2px 6px; border-radius: 4px; background: rgba(255,255,255,0.05); color: #94a3b8; border: 1px solid rgba(255,255,255,0.08);">
+                        ${c.badge}
+                      </span>
+                    </div>
+
+                    <!-- WYMIARY CECH -->
+                    <div style="display: flex; flex-direction: column; gap: 5px; font-size: 10.5px; color: #cbd5e1; margin-bottom: 10px;">
+                      <div><strong style="color: #94a3b8;">Rodzina:</strong> ${c.rodzina}</div>
+                      <div><strong style="color: #94a3b8;">Czas:</strong> ${c.czas}</div>
+                      <div><strong style="color: #94a3b8;">Społeczeństwo:</strong> ${c.spoleczenstwo}</div>
+                      <div><strong style="color: #94a3b8;">Państwo:</strong> ${c.panstwo}</div>
+                      <div><strong style="color: #94a3b8;">Etyka:</strong> ${c.etyka}</div>
+                    </div>
+                  </div>
+
+                  <!-- RELACJA Z PIONEM ŁACIŃSKIM (ŁĄCZY VS DZIELI) -->
+                  <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 8px; display: flex; flex-direction: column; gap: 4px;">
+                    <div style="font-size: 9.5px; line-height: 1.35; background: rgba(16, 185, 129, 0.1); border-left: 2px solid #10b981; padding: 3px 6px; border-radius: 0 4px 4px 0; color: #a7f3d0;">
+                      <strong style="color: #10b981;">Łączy z pionem:</strong> ${c.laczy}
+                    </div>
+                    <div style="font-size: 9.5px; line-height: 1.35; background: rgba(239, 68, 68, 0.1); border-left: 2px solid #ef4444; padding: 3px 6px; border-radius: 0 4px 4px 0; color: #fca5a5;">
+                      <strong style="color: #ef4444;">Dzieli od piona:</strong> ${c.dzieli}
+                    </div>
+                  </div>
+
+                </div>
+              `;
+            }).join('')}
+          </div>
+
+        </div>
+
+        <!-- ==================== PEŁNA TABELA SYSTEMATYKI KONECZNEGO Z PIONEM ==================== -->
+        <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 14px; margin-bottom: 16px; overflow-x: auto;">
+          <div style="font-size: 11.5px; font-weight: 800; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+            <span>📊</span>
+            <span>Matryca Syntetyczna: Zestawienie 7 Cywilizacji Względem Pionu Łacińskiego</span>
+          </div>
+
+          <table style="width: 100%; border-collapse: collapse; font-size: 10.5px; text-align: left; min-width: 900px;">
+            <thead>
+              <tr style="border-bottom: 2px solid rgba(255,255,255,0.12); background: rgba(15,23,42,0.9);">
+                <th style="padding: 8px 10px; color: #94a3b8; font-weight: 800; text-transform: uppercase; width: 15%;">Wymiar / Kryterium</th>
+                <th style="padding: 8px 10px; color: #ffffff; font-weight: 900; background: rgba(16, 185, 129, 0.22); border-left: 2px solid #10b981; border-right: 2px solid #10b981; text-align: center; width: 17%;">
+                  🏛️ ŁACIŃSKA<br/><span style="font-size: 9px; color: #34d399; font-weight: 800;">[PION ODNIESIENIA]</span>
+                </th>
+                <th style="padding: 8px 8px; color: #a855f7; font-weight: 800; text-align: center; width: 11%;">👑 BIZANTYŃSKA</th>
+                <th style="padding: 8px 8px; color: #0284c7; font-weight: 800; text-align: center; width: 11%;">🌙 ARABSKA</th>
+                <th style="padding: 8px 8px; color: #f43f5e; font-weight: 800; text-align: center; width: 11%;">☯️ CHIŃSKA</th>
+                <th style="padding: 8px 8px; color: #f59e0b; font-weight: 800; text-align: center; width: 11%;">🏹 TURAŃSKA</th>
+                <th style="padding: 8px 8px; color: #8b5cf6; font-weight: 800; text-align: center; width: 11%;">🕉️ BRAMIŃSKA</th>
+                <th style="padding: 8px 8px; color: #38bdf8; font-weight: 800; text-align: center; width: 11%;">📜 ŻYDOWSKA</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+              <!-- WIERSZ 1: RODZINA -->
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+                <td style="padding: 8px 10px; font-weight: 800; color: #cbd5e1; background: rgba(255,255,255,0.02);">💎 Rodzina & Małżeństwo</td>
+                <td style="padding: 8px 10px; font-weight: 800; color: #ffffff; background: rgba(16, 185, 129, 0.12); border-left: 2px solid #10b981; border-right: 2px solid #10b981;">
+                  Emancypacja rodziny, Monogamia dożywotnia
+                </td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Emancypacja rodziny, Monogamiczna</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Ustrój rodowy (emancypacja w Kordowie), Poligamia</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Ustrój rodowy (rozluźnienie w miastach), Poligamizująca</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Ustrój rodowy, Poligamiczna</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Ustrój rodowy, kastowy, Poligamizująca</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Ustrój rodowo-sakralny, Monogamia</td>
+              </tr>
+
+              <!-- WIERSZ 2: CZAS -->
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.015);">
+                <td style="padding: 8px 10px; font-weight: 800; color: #cbd5e1; background: rgba(255,255,255,0.02);">⏳ Stosunek do Czasu</td>
+                <td style="padding: 8px 10px; font-weight: 800; color: #ffffff; background: rgba(16, 185, 129, 0.12); border-left: 2px solid #10b981; border-right: 2px solid #10b981;">
+                  Posiada historyzm i celowość dziejową
+                </td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Era, lecz brak historyzmu</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Era, lecz brak historyzmu</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Cykle czasowe</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Czasomiernictwo do cyklów</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Tylko do kalendarza</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Czas mesjanistyczny, aprioryczny</td>
+              </tr>
+
+              <!-- WIERSZ 3: SPOŁECZEŃSTWO & NARÓD -->
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+                <td style="padding: 8px 10px; font-weight: 800; color: #cbd5e1; background: rgba(255,255,255,0.02);">👥 Społeczeństwo & Naród</td>
+                <td style="padding: 8px 10px; font-weight: 800; color: #ffffff; background: rgba(16, 185, 129, 0.12); border-left: 2px solid #10b981; border-right: 2px solid #10b981;">
+                  Wytwarza poczucie narodowe (Państwo na społeczeństwie)
+                </td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Etatyzm, biurokracja; brak narodu</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Ustrój rodowy (Umma); brak narodu</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Autonomia rodu; brak narodu</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Niezróżnicowane; ustrój obozowy</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Autonomia kastowa; brak narodu</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Ekskluzywizm sakralno-rodowy</td>
+              </tr>
+
+              <!-- WIERSZ 4: WŁADZA & PRAWO -->
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.015);">
+                <td style="padding: 8px 10px; font-weight: 800; color: #cbd5e1; background: rgba(255,255,255,0.02);">🏛️ Państwo & Władza</td>
+                <td style="padding: 8px 10px; font-weight: 800; color: #ffffff; background: rgba(16, 185, 129, 0.12); border-left: 2px solid #10b981; border-right: 2px solid #10b981;">
+                  Dualizm prawny; państwo sługą społeczeństwa
+                </td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Antropolatria władcy; odrębne prawo publ.</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Despotyzm poddany zwierzchnictwu Koranu</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Antropolatria cesarza (ojciec rodu)</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Antropolatria wodza (wódz właścicielem)</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Despotyzm sakralny</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Monizm prawa religijnego (Halacha)</td>
+              </tr>
+
+              <!-- WIERSZ 5: ETYKA PUBLICZNA -->
+              <tr>
+                <td style="padding: 8px 10px; font-weight: 800; color: #cbd5e1; background: rgba(255,255,255,0.02);">🕊️ Etyka w Życiu Publicznym</td>
+                <td style="padding: 8px 10px; font-weight: 800; color: #ffffff; background: rgba(16, 185, 129, 0.12); border-left: 2px solid #10b981; border-right: 2px solid #10b981;">
+                  Wymóg etyki; supremacja sił duchowych
+                </td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Bezetyczna w życiu publicznym</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Normy Koranu ponad władcą</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">W państwowych bezetyczna (rytuał)</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Bezetyczna w życiu publicznym</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">W państwowych bezetyczna</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Etyka podwójna (wewnątrz vs na zewnątrz)</td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ==================== CYTAT ŹRÓDŁOWY FELIKSA KONECZNEGO ==================== -->
+        <div style="background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(245, 158, 11, 0.35); border-radius: 10px; padding: 14px 16px; margin-top: 10px; display: flex; flex-direction: column; gap: 8px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+            <div style="font-size: 11px; font-weight: 800; color: #fbbf24; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 6px;">
+              <span>📜</span>
+              <span>Tekst Źródłowy: Prof. Feliks Koneczny – Podsumowanie Systematyki Cywilizacji</span>
+            </div>
+            <span style="font-size: 10px; color: #94a3b8; font-family: monospace;">Rozdział: "Cechy Łączące i Dzielące"</span>
+          </div>
+
+          <div style="font-size: 11.5px; color: #e2e8f0; font-style: italic; line-height: 1.6; border-left: 3px solid #fbbf24; padding-left: 12px; margin: 4px 0;">
+            "Na zakończenie tego próbowania systematyki zbierzemy cechy głównych cywilizacji, łączące je lub dzielące pomiędzy sobą.<br/>
+            O żydowskiej, zmiennej, będzie mowa w następnym ustępie. Bramińska jest sakralna, z ustrojem rodowym, kastowym, czasomiernicza tylko do kalendarza, poligamizująca, w sprawach społecznych autonomiczna, w państwowych despotyczna, bezetyczna.<br/>
+            Cywilizacja turańska ma ustrój rodowy, poligamiczna, z czasomiernictwem do cyklów, ze społecznościami nie zróżniczkowanymi w społeczeństwie, z obozową organizacją życia publicznego, z antropolatrią wodza-władcy, bezetyczna w życiu publicznym.<br/>
+            Chińska cywilizacja z ustrojem rodowym, rozluźniającym się po miastach, posiada cykle, poligamizująca, w sprawach społecznych autonomiczna, w państwowych antropolatryczna i bezetyczna.<br/>
+            Arabska cywilizacja z ustrojem rodowym, dochodząca do emancypacji rodziny w kulturze kordowańskiej, posiadająca erę, lecz nie dochodząca do historyzmu, poligamiczna, w życiu politycznym despotyczna, lecz poddająca władzę zwierzchnictwu Koranu.<br/>
+            Bizantyńska cywilizacja z emancypacją rodziny, monogamiczna, posiadająca erę, lecz nie znająca historyzmu, podporządkowuje społeczeństwo biurokracji, wytwarza etatyzm, w imię wszechwładzy państwa wprowadza antropolatrię osoby władcy, jakkolwiek – w przeciwieństwie do wszystkich poprzednich – posiada odrębne prawo publiczne; w życiu publicznym bezetyczna. Narodowości nie wytwarza (na równi z wszystkimi poprzednimi).<br/>
+            <strong>Cywilizacja łacińska z emancypacją rodziny, monogamiczna, posiada historyzm i poczucie narodowe, opiera państwo na społeczeństwie, od życia publicznego wymaga etyki, uznając supremację sił duchowych.</strong>"
+          </div>
+
+          <div style="font-size: 9.5px; color: #94a3b8; text-align: right;">
+            — <strong>Prof. Feliks Koneczny</strong>, <em>O wielości cywilizacyj</em> (Kraków)
+          </div>
+        </div>
+      `;
+    }
+
     function renderDecisionTreeContainer(civId, activeTab = 'mantis') {
       const selectedCiv = CIVILIZATIONS_TREE.find(c => c.id === civId || c.key === civId) || CIVILIZATIONS_TREE[0];
       return `
-        <!-- MODUŁ DRZEWA DECYZYJNEGO I SCHEMATÓW KONECZNEGO (4 ZAKŁADKI) -->
+        <!-- MODUŁ DRZEWA DECYZYJNEGO I SCHEMATÓW KONECZNEGO (5 ZAKŁADEK) -->
         <div class="tree-module-card" style="background: rgba(7, 11, 20, 0.95); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 12px; padding: 14px 16px; margin-top: 10px; box-shadow: 0 8px 30px rgba(0,0,0,0.5); overflow-x: auto;">
           
-          <!-- TAB NAVIGATION: ZAKŁADKI 1, 2, 3 i 4 -->
+          <!-- TAB NAVIGATION: ZAKŁADKI 1, 2, 3, 4 i 5 -->
           <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 10px; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
             <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(15, 23, 42, 0.85); padding: 4px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); flex-wrap: wrap;">
               <button class="tree-subtab-btn" data-tree-tab="mantis" style="padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 800; cursor: pointer; transition: all 0.2s ease; border: 1px solid ${activeTab === 'mantis' ? '#38bdf8' : 'transparent'}; background: ${activeTab === 'mantis' ? 'rgba(56, 189, 248, 0.22)' : 'transparent'}; color: ${activeTab === 'mantis' ? '#ffffff' : '#94a3b8'}; display: flex; align-items: center; gap: 5px; box-shadow: ${activeTab === 'mantis' ? '0 0 10px rgba(56,189,248,0.3)' : 'none'};">
@@ -4535,6 +4962,11 @@
                 <span>⏳</span>
                 <span>4. Stosunek do Czasu (Tabelka Konecznego)</span>
               </button>
+
+              <button class="tree-subtab-btn" data-tree-tab="koneczny_pillar" style="padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 800; cursor: pointer; transition: all 0.2s ease; border: 1px solid ${activeTab === 'koneczny_pillar' ? '#10b981' : 'transparent'}; background: ${activeTab === 'koneczny_pillar' ? 'rgba(16, 185, 129, 0.22)' : 'transparent'}; color: ${activeTab === 'koneczny_pillar' ? '#ffffff' : '#94a3b8'}; display: flex; align-items: center; gap: 5px; box-shadow: ${activeTab === 'koneczny_pillar' ? '0 0 10px rgba(16,185,129,0.35)' : 'none'};">
+                <span>⚖️</span>
+                <span>5. Cechy Łączące i Dzielące (Pion Łaciński)</span>
+              </button>
             </div>
 
             <div style="font-size: 10px; color: #94a3b8; font-family: monospace;">
@@ -4550,7 +4982,9 @@
                   ? generateKonecznyTaxonomyTreeContent(civId, selectedCiv)
                   : (activeTab === 'koneczny_reverse'
                       ? generateKonecznyReverseTreeContent(civId, selectedCiv)
-                      : generateKonecznyTimeTreeContent(civId, selectedCiv)))
+                      : (activeTab === 'koneczny_time'
+                          ? generateKonecznyTimeTreeContent(civId, selectedCiv)
+                          : generateKonecznyPillarSystematicsContent(civId, selectedCiv))))
           }
 
         </div>
@@ -4577,6 +5011,11 @@
           <div style="display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: 5px; align-items: center; padding-bottom: 2px;">
             ${renderChips(civOptions, activeCivKey)}
           </div>
+          ${(data.civilization_diagnosis || (data.klasyfikacja_dashboard && data.klasyfikacja_dashboard.diagnoza_cywilizacyjna)) ? `
+            <div style="margin: 8px 0 6px 0; padding: 7px 11px; background: rgba(56, 189, 248, 0.12); border-left: 3px solid #38bdf8; border-radius: 6px; font-size: 11.5px; color: #f1f5f9; line-height: 1.45; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
+              <span style="font-weight: 800; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.04em; margin-right: 5px;">⚡ Diagnoza:</span> ${data.civilization_diagnosis || data.klasyfikacja_dashboard.diagnoza_cywilizacyjna}
+            </div>
+          ` : ''}
           ${spectrumBarHtml}
           <div id="decision-tree-container">
             ${renderDecisionTreeContainer(currentTreeCivId, currentTreeTab)}
@@ -4754,7 +5193,7 @@
 
     // Bind Decision Tree Flowchart & Koneczny Schema buttons
     function bindDecisionTreeEvents() {
-      content.querySelectorAll('.civ-tree-btn').forEach(btn => {
+      content.querySelectorAll('.civ-tree-btn, .dt-civ-filter-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
           e.stopPropagation();
           const civId = btn.getAttribute('data-civ');

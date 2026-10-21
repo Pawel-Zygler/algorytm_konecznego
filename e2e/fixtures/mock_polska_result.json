@@ -1,101 +1,1919 @@
 {
-  "sacrality_score": 0.07500000000000001,
-  "spirit_supremacy_score": -1.0,
-  "legal_dualism_score": -1.0,
-  "law_source_pluralism_score": -1.0,
-  "aposteriori_apriori_score": -1.0,
-  "organism_mechanism_score": -1.0,
-  "personalism_score": -1.0,
-  "family_law_autonomy_score": -1.0,
-  "church_independence_score": -1.0,
-  "property_rights_stability_score": -1.0,
-  "inheritance_continuity_score": -1.0,
-  "morality_supremacy_score": -1.0,
-  "public_morality_totality_score": -1.0,
-  "administrative_responsibility_score": -1.0,
+  "meta": {
+    "aplikacja": "Algorytm Konecznego - Analiza Cywilizacyjna",
+    "metoda": "Historiozoficzna metoda Feliksa Konecznego",
+    "wersja": "1.4.6",
+    "data_analizy": "2026-10-21T16:48:40.980Z",
+    "url": "https://pl.wikipedia.org/wiki/Polska",
+    "tytuł_strony": "Polska – Wikipedia, wolna encyklopedia"
+  },
+  "klasyfikacja_dashboard": {
+    "cywilizacja_główna": "Łacińska",
+    "diagnoza_cywilizacyjna": "Dominacja norm personalistycznych i dualizm prawny (Prymat etyki nad ustawą)",
+    "sakralność": 0.06923076923076923,
+    "supremacja_ducha": 0.68,
+    "etyka_7_generaliów": null,
+    "diagnoza_generaliów": "",
+    "chyżość_historyczna_oponowanie_czasu": null,
+    "quincunx_pięciomian_bytu": null,
+    "diagnoza_quincunxa": ""
+  },
+  "kategorie_pięciomianu_quincunx": {},
+  "surowe_oceny_indeksów": {
+    "conscience_status_scores": {
+      "no_statutory_morality_only": {
+        "score": -1,
+        "explanation": "Tekst ma charakter encyklopedyczny, opisowy i statystyczny, brak w nim rozważań z zakresu filozofii prawa Feliksa Konecznego.",
+        "news_examples": [
+          "Analiza danych demograficznych państwa w Polsce",
+          "Przegląd struktury terytorialnej i administracyjnej w Polsce",
+          "Opis ram ustrojowych współczesnej administracji w Polsce"
+        ]
+      },
+      "conscience_as_supreme_judge": {
+        "score": -1,
+        "explanation": "Tekst opisuje fakty encyklopedyczne i struktury państwowe bez podejmowania problematyki sumienia jako suwerennego sędziego.",
+        "news_examples": [
+          "Konstytucyjne organy władzy państwowej w Polsce",
+          "Zasady funkcjonowania systemu parlamentarnego w Polsce",
+          "Ustrój polityczny i podział kompetencji w Polsce"
+        ]
+      },
+      "no_legislative_elephantiasis": {
+        "score": -1,
+        "explanation": "Brak danych normatywnych i historyzoficznych w tekście źródłowym do oceny przerostu ustawodawstwa.",
+        "news_examples": [
+          "Procesy legislacyjne i stanowienie praw w Polsce",
+          "Rozwój regulacji prawnych administracji w Polsce",
+          "Zmiany w systemie aktów normatywnych w Polsce"
+        ]
+      },
+      "refusal_of_immoral_orders": {
+        "score": -1,
+        "explanation": "Tekst stanowi opis encyklopedyczny i nie porusza etyczno-moralnych aspektów wykonywania rozkazów przez urzędników.",
+        "news_examples": [
+          "Hierarchia służbowa i struktura urzędnicza w Polsce",
+          "Obowiązki służbowe pracowników administracji w Polsce",
+          "Zasady dyscypliny w organach państwowych w Polsce"
+        ]
+      },
+      "personal_accountability_god": {
+        "score": -1,
+        "explanation": "Artykuł ma charakter czysto informacyjny i nie odnosi się do koncepcji osobistej odpowiedzialności moralnej przed Bogiem.",
+        "news_examples": [
+          "Refleksje nad etyką życia publicznego w Polsce",
+          "Kwestie światopoglądowe w sferze publicznej w Polsce",
+          "Wymiar moralny działalności instytucji w Polsce"
+        ]
+      },
+      "no_shylock_formalism": {
+        "score": -1,
+        "explanation": "Brak elementów analizy dogmatyzmu prawniczego lub formalizmu w przesłanym materiale encyklopedycznym.",
+        "news_examples": [
+          "Stosowanie przepisów prawnych przez sądy w Polsce",
+          "Interpretacja procedur w instytucjach państwa w Polsce",
+          "Działalność organów wymiaru sprawiedliwości w Polsce"
+        ]
+      },
+      "ethics_above_law": {
+        "score": -1,
+        "explanation": "Tekst nie zawiera rozważań filozoficznych o relacji etyki do stanowionego prawa w ujęciu Konecznego.",
+        "news_examples": [
+          "Relacje między normami etycznymi a prawem w Polsce",
+          "Kryteria sprawiedliwości w systemie prawnym w Polsce",
+          "Debaty nad prymatem wartości w porządku prawnym w Polsce"
+        ]
+      },
+      "personalism_sovereignty": {
+        "score": -1,
+        "explanation": "Przedstawiony tekst to ogólny opis statystyczno-geograficzny, pomijający personalistyczną wizję człowieka.",
+        "news_examples": [
+          "Prawa obywatelskie i ich ochrona prawna w Polsce",
+          "Pozycja jednostki wobec struktur państwowych w Polsce",
+          "Gwarancje swobód obywatelskich i personalizm w Polsce"
+        ]
+      },
+      "good_hegemony_over_law": {
+        "score": -1,
+        "explanation": "Brak odniesień do cywilizacyjnej kategorii prymatu Dobra i etyki totalnej w analizowanym tekście.",
+        "news_examples": [
+          "Kulturowe podstawy porządku społecznego w Polsce",
+          "Rola tradycji etycznej w życiu publicznym w Polsce",
+          "Wartości nadrzędne w konstytucji państwa w Polsce"
+        ]
+      },
+      "legal_dualism_privacy": {
+        "score": -1,
+        "explanation": "Tekst nie porusza zagadnienia dualizmu prawnego gwarantującego autonomię sfery prywatnej od publicznej.",
+        "news_examples": [
+          "Rozdział sfery prywatnej i publicznej prawa w Polsce",
+          "Autonomia jednostki wobec ingerencji państwa w Polsce",
+          "Granice regulacji publicznoprawnych w Polsce"
+        ]
+      },
+      "aposteriori_experience": {
+        "score": -1,
+        "explanation": "W tekście brakuje rozważań metodologicznych o prawie wyrastającym z historycznego doświadczenia (aposteriori).",
+        "news_examples": [
+          "Historyczny rozwój tradycji prawnych w Polsce",
+          "Doświadczenie dziejowe a kształtowanie ustroju w Polsce",
+          "Ewolucja instytucji społecznych na przestrzeni w Polsce"
+        ]
+      },
+      "no_casuistry_expropriation": {
+        "score": -1,
+        "explanation": "Brak krytyki kazuistyki prawniczej lub zjawisk wywłaszczenia sumienia w tym źródłowym tekście.",
+        "news_examples": [
+          "Kazuistyka i nadmiar interpretacji prawnych w Polsce",
+          "Problematyka biurokratycznej wykładni przepisów w Polsce",
+          "Rola orzecznictwa w praktyce urzędowej w Polsce"
+        ]
+      },
+      "no_byzantine_statolatry": {
+        "score": -1,
+        "explanation": "Tekst ma charakter neutralnego opisu państwowego, nie odnosi się do problemu statolatrii czy bizantynizmu.",
+        "news_examples": [
+          "Rozrost administracji państwowej i kompetencji w Polsce",
+          "Stosunek obywateli do instytucji centralnych w Polsce",
+          "Tendencje centralistyczne w zarządzaniu państwem w Polsce"
+        ]
+      },
+      "no_socialist_gregarious_fear": {
+        "score": -1,
+        "explanation": "Artykuł encyklopedyczny nie bada zagadnień socjologicznego konformizmu czy lęku przed gromadą.",
+        "news_examples": [
+          "Zjawiska konformizmu społecznego i postaw w Polsce",
+          "Presja kolektywna a niezależność obywateli w Polsce",
+          "Kształtowanie opinii publicznej i postaw w Polsce"
+        ]
+      },
+      "no_camp_turanian_coercion": {
+        "score": -1,
+        "explanation": "Brak odniesień do cywilizacji turańskiej oraz przymusu o charakterze obozowym w analizowanym artykule.",
+        "news_examples": [
+          "Metody zarządzania i rygorów instytucjonalnych w Polsce",
+          "Stopień swobody i militaryzacji życia publicznego w Polsce",
+          "Autorytarne tendencje w strukturach władzy w Polsce"
+        ]
+      }
+    },
+    "conscience_status_news_1": "Encyklopedyczny opis ustroju politycznego i administracyjnego państwa w Polsce",
+    "conscience_status_news_2": "Przedstawienie podstawowych danych statystycznych, geograficznych i historycznych o Polsce",
+    "conscience_status_news_3": "Charakterystyka miejsca struktur państwowych i organizacji międzynarodowych w Polsce",
+    "conscience_status_justification": "Przesłany tekst stanowi standardowy opis o charakterze encyklopedycznym (artykuł o państwie), przez co brak w nim bezpośrednich odniesień do szczegółowych wskaźników historiozoficznych Feliksa Konecznego z zakresu statusu sumienia i cywilizacji.",
+    "sacrality_scores": {
+      "RELIGIOUS_LAW_SUPREMACY": {
+        "score": 0,
+        "explanation": "Polska jest demokratyczną republiką parlamentarną o świeckim systemie prawnym.",
+        "news_examples": [
+          "Polska działa jako państwo świeckie w strukturach Unii Europejskiej",
+          "Polskie prawo stanowione jest przez parlament oparty na konstytucji",
+          "Współczesna Polska nie opiera swojego ustawodawstwa na prawie religijnym"
+        ]
+      },
+      "THEOCRATIC_AUTHORITY": {
+        "score": 0,
+        "explanation": "Władza w Polsce sprawowana jest przez organy cywilne wybrane w demokratycznych wyborach.",
+        "news_examples": [
+          "Władzę w Polsce sprawują prezydent oraz premier i parlament",
+          "Polski ustrój polityczny to republika parlamentarna o świeckim charakterze",
+          "Decyzje polityczne w Polsce podejmują świeccy przedstawiciele narodu"
+        ]
+      },
+      "FAMILY_RELIGIOUS_CONTROL": {
+        "score": 0,
+        "explanation": "Kwestie rodzinne w Polsce reguluje kodeks rodzinny i opiekuńczy, a nie prawo religijne.",
+        "news_examples": [
+          "Polskie sądownictwo rodzinne funkcjonuje na bazie przepisów kodeksu",
+          "Zawieranie małżeństw cywilnych reguluje polskie prawo państwowe",
+          "Współczesna polska rodzina podlega ochronie i przepisom państwowym"
+        ]
+      },
+      "RELIGIOUS_EDUCATION": {
+        "score": 0.1,
+        "explanation": "Edukacja publiczna w Polsce ma charakter państwowy i świecki z opcjonalną religią.",
+        "news_examples": [
+          "Polski system edukacji jest nadzorowany przez państwowe Ministerstwo",
+          "Szkoły publiczne w Polsce realizują podstawę programową MEN",
+          "Nauka w polskich placówkach oświatowych ma charakter świecki"
+        ]
+      },
+      "PROPERTY_RELIGIOUS_CONTROL": {
+        "score": 0,
+        "explanation": "Własność prywatna i publiczna w Polsce regulowana jest przez kodeks cywilny.",
+        "news_examples": [
+          "Polski rynek nieruchomości opiera się na cywilnoprawnych zasadach",
+          "Własność w Rzeczypospolitej Polskiej chroniona jest przez konstytucję",
+          "Gospodarka rynkowa w Polsce nie podlega zwierzchnictwu religijnemu"
+        ]
+      },
+      "SACRAL_CRIMINAL_LAW": {
+        "score": 0,
+        "explanation": "Prawo karne w Polsce opiera się wyłącznie na kodeksie karnym i zasadach świeckich.",
+        "news_examples": [
+          "Polski wymiar sprawiedliwości karze przestępstwa według kodeksu karnego",
+          "Sądy w Polsce wydają wyroki w imieniu Rzeczypospolitej Polskiej",
+          "Przestępstwa i wykroczenia w Polsce są rozliczane według prawa"
+        ]
+      },
+      "RELIGIOUS_TIME_CALENDAR": {
+        "score": 0.3,
+        "explanation": "Kalendarz w Polsce opiera się na powszechnym kalendarz gregoriańskim z dniami wolnymi.",
+        "news_examples": [
+          "Polska posługuje się międzynarodowym kalendarzem gregoriańskim w urzędach",
+          "Dni wolne od pracy w Polsce obejmują tradycyjne święta państwowe",
+          "Czas urzędowy i ekonomiczny w Polsce regulowany jest świecko"
+        ]
+      },
+      "SCIENCE_RELIGION_FUSION": {
+        "score": 0,
+        "explanation": "Nauka i uniwersytety w Polsce są niezależne i opierają się na metodologii naukowej.",
+        "news_examples": [
+          "Polskie uczelnie wyższe prowadzą badania w oparciu o naukę",
+          "System edukacji akademickiej w Polsce gwarantuje swobodę badań",
+          "Rozwój naukowy w Polsce nie podlega dogmatom religijnym"
+        ]
+      },
+      "ETHICS_RELIGION_IDENTITY": {
+        "score": 0.4,
+        "explanation": "Katolicyzm deklaruje większość Polaków, co wpływa na tradycję, przy świeckim państwie.",
+        "news_examples": [
+          "Większość mieszkańców Polski deklaruje przynależność do wiary katolickiej",
+          "Polska kultura i tradycja czerpią z dziedzictwa chrześcijańskiego",
+          "Etyka społeczna w Polsce zachowuje silne zakorzenienie w tradycji"
+        ]
+      },
+      "SACRAL_ECONOMICS": {
+        "score": 0,
+        "explanation": "Gospodarka Polski to rozwinięta gospodarka rynkowa opierta na kapitalizmie.",
+        "news_examples": [
+          "Polska posiada wysoko rozwiniętą gospodarkę rynkową w strukturach UE",
+          "Polski PKB generowany jest głównie przez sektor usług i przemysł",
+          "Handel i finanse w Polsce funkcjonują na zasadach wolnorynkowych"
+        ]
+      },
+      "SOCIAL_HIERARCHY_RELIGIOUS": {
+        "score": 0,
+        "explanation": "Struktura społeczna w Polsce opiera się na obywatelskiej równości wobec prawa.",
+        "news_examples": [
+          "Polska gwarantuje równość wszystkich obywateli w konstytucji",
+          "Struktura społeczna w Polsce nie dzieli ludzi według kryteriów wiary",
+          "Obywatele Polski posiadają równe prawa wyborcze i obywatelskie"
+        ]
+      },
+      "STATE_CHURCH_UNITY": {
+        "score": 0.1,
+        "explanation": "Polska jest państwem świeckim z zasadą autonomii i współdziałania państwa i kościołów.",
+        "news_examples": [
+          "Konstytucja RP zapewnia autonomię państwa i związków wyznaniowych",
+          "Polska utrzymuje relacje z Watykanem na zasadach dyplomatycznych",
+          "Rząd polski działa niezależnie od struktur hierarchii kościelnej"
+        ]
+      },
+      "APOSTASY_PUNISHMENT": {
+        "score": 0,
+        "explanation": "W Polsce zmiana wyznania lub odejście z Kościoła jest w pełni wolnym prawem obywatela.",
+        "news_examples": [
+          "Polskie prawo gwarantuje wolność sumienia i wyznania obywateli",
+          "Odejście od wiary w Polsce nie niesie żadnych konsekwencji prawnych",
+          "Obywatele Polski mogą swobodnie zmieniać swoje przekonania religijne"
+        ]
+      }
+    },
+    "legal_dualism_scores": {
+      "PRIVATE_RIGHTS_SPHERE": {
+        "score": 0.8,
+        "explanation": "Tekst wskazuje na ustrój oparty na Konstytucji Rzeczypospolitej Polskiej, gwarantującej ochronę praw prywatnych.",
+        "news_examples": [
+          "Polska chroni prawa własności obywateli",
+          "Gwarancje konstytucyjne dla sektora prywatnego w Polsce",
+          "Wpływ polskiego prawa na sferę prywatną"
+        ]
+      },
+      "FAMILY_AUTONOMY": {
+        "score": 0.7,
+        "explanation": "Polska jako republika parlamentarna szanuje autonomię rodzin, choć państwo reguluje kwestie prawne i społeczne.",
+        "news_examples": [
+          "Autonomia rodzin w polskim porządku prawnym",
+          "Prawa rodzinne w konstytucji Rzeczypospolitej",
+          "Ochrona instytucji rodziny w Polsce"
+        ]
+      },
+      "PROPERTY_PROTECTION": {
+        "score": 0.8,
+        "explanation": "Gospodarka rynkowa oraz wysoki wskaźnik wolności ekonomicznej w Polsce potwierdzają silną ochronę własności.",
+        "news_examples": [
+          "Rozwój gospodarki rynkowej w Polsce",
+          "Bezpieczeństwo inwestycji i własności w Warszawie",
+          "Ochrona własności prywatnej w polskim prawie"
+        ]
+      },
+      "NATURAL_INHERITANCE": {
+        "score": 0.7,
+        "explanation": "Polski system prawny opiera się na tradycyjnym prawie spadkowym gwarantującym dziedziczenie majątkowe.",
+        "news_examples": [
+          "Zasady dziedziczenia majątku w Polsce",
+          "Prawo spadkowe w Rzeczypospolitej Polskiej",
+          "Ochrona praw spadkobierców w polskim sądownictwie"
+        ]
+      },
+      "POWER_LIMITS": {
+        "score": 0.7,
+        "explanation": "Jako państwo demokratyczne, Polska posiada konstytucyjne ramy ograniczające władzę organów państwowych.",
+        "news_examples": [
+          "Ograniczenia władzy organów państwowych w Polsce",
+          "Rola konstytucji w limitowaniu władzy",
+          "Demokratyczny ustrój Polski a kontrola rządzących"
+        ]
+      },
+      "OPPOSITION_RIGHT": {
+        "score": 0.7,
+        "explanation": "Pluralizm polityczny i wolne wybory w Polsce gwarantują legalne istnienie oraz prawa opozycji.",
+        "news_examples": [
+          "Prawa opozycji politycznej w polskim parlamencie",
+          "Pluralizm polityczny w systemie Rzeczypospolitej",
+          "Wolność stowarzyszania się opozycji w Polsce"
+        ]
+      },
+      "STATE_MORALITY_SUBORDINATION": {
+        "score": 0.6,
+        "explanation": "Państwo polskie funkcjonuje w oparciu o uniwersalne zasady demokratyczne i europejskie standardy moralne.",
+        "news_examples": [
+          "Etyczne standardy w polskiej administracji",
+          "Moralność publiczna a prawo w Rzeczypospolitej",
+          "Wartości demokratyczne w polskim państwie"
+        ]
+      },
+      "DIVINE_VS_CAESAR": {
+        "score": 0.7,
+        "explanation": "Polska charakteryzuje się rozdziałem państwa od Kościoła przy zachowaniu dominującej roli tradycji katolickiej.",
+        "news_examples": [
+          "Relacje między państwem a Kościołem w Polsce",
+          "Wolność religijna w Rzeczypospolitej Polskiej",
+          "Pozycja kościołów i związków wyznaniowych w Polsce"
+        ]
+      },
+      "RULER_ETHICS_EQUALITY": {
+        "score": 0.7,
+        "explanation": "Zasada równości wobec prawa dotyczy również najwyższych urzędników państwowych w Polsce.",
+        "news_examples": [
+          "Równość polityków i obywateli wobec polskiego prawa",
+          "Odpowiedzialność rządzących przed polskimi sądami",
+          "Standardy etyczne polskich urzędników państwowych"
+        ]
+      },
+      "INDEPENDENT_JUDICIARY": {
+        "score": 0.6,
+        "explanation": "Polska posiada trójpodział władzy, choć sądownictwo podlega ciągłym debatom nad reformami instytucjonalnymi.",
+        "news_examples": [
+          "Niezależność sądów w Rzeczypospolitej Polskiej",
+          "Rola niezawisłych sędziów w polskim systemie",
+          "Reformy wymiaru sprawiedliwości w Warszawie"
+        ]
+      },
+      "OFFICIAL_RESPONSIBILITY": {
+        "score": 0.6,
+        "explanation": "Polscy urzędnicy ponoszą odpowiedzialność prawną i karną za działania w ramach pełnionych funkcji.",
+        "news_examples": [
+          "Odpowiedzialność karna polskich urzędników państwowych",
+          "Kontrola działalności administracji publicznej w Polsce",
+          "Procedury odszkodowawcze przeciwko urzędom w Polsce"
+        ]
+      },
+      "APOSTERIORI_LAW": {
+        "score": 0.7,
+        "explanation": "Polskie prawodawstwo ewolucyjnie czerpało z historycznych doświadczeń narodu oraz tradycji europejskiej.",
+        "news_examples": [
+          "Historyczne korzenie polskiego systemu prawnego",
+          "Ewolucja polskiego ustawodawstwa po 1989 roku",
+          "Tradycja prawna w transformacji ustrojowej Polski"
+        ]
+      },
+      "ASSOCIATION_AUTONOMY": {
+        "score": 0.8,
+        "explanation": "Polacy korzystają z szerokich swobód zrzeszania się, co potwierdza dynamiczny rozwój społeczeństwa obywatelskiego.",
+        "news_examples": [
+          "Wolność tworzenia stowarzyszeń i organizacji w Polsce",
+          "Rozwój społeczeństwa obywatelskiego w Warszawie",
+          "Autonomia organizacji społecznych w Rzeczypospolitej"
+        ]
+      },
+      "LAND_OWNERSHIP_FULL": {
+        "score": 0.8,
+        "explanation": "Własność ziemi w Polsce ma charakter pełny, z możliwością obrotu rynkowego i dziedziczenia.",
+        "news_examples": [
+          "Pełne prawo własności ziemi w Polsce",
+          "Rynek nieruchomości rolnych i miejskich w kraju",
+          "Zasady obrotu gruntami w Rzeczypospolitej Polskiej"
+        ]
+      },
+      "LOCAL_LAW_TOLERANCE": {
+        "score": 0.6,
+        "explanation": "Polska jest państwem unitarnym z samorządem terytorialnym, co zapewnia pewien stopień lokalnych regulacji.",
+        "news_examples": [
+          "Kompetencje samorządów terytorialnych w Polsce",
+          "Rola 16 województw w zarządzaniu krajem",
+          "Autonomia lokalna w polskim państwie unitarnym"
+        ]
+      },
+      "LAW_CONSCIENCE_EQUALITY": {
+        "score": 0.7,
+        "explanation": "Konstytucja RP chroni wolność sumienia i religii, dążąc do harmonii między prawem a etyką obywateli.",
+        "news_examples": [
+          "Wolność sumienia w polskiej konstytucji",
+          "Ochrona swobód światopoglądowych w Polsce",
+          "Relacje prawa krajowego z sumieniem obywateli"
+        ]
+      },
+      "FAMILY_EMANCIPATION": {
+        "score": 0.7,
+        "explanation": "Rodzina w Polsce cieszy się prawną ochroną jako podstawowa komórka społeczna, niezależna od ingerencji państwa.",
+        "news_examples": [
+          "Emancipacja i ochrona rodziny w polskim prawie",
+          "Wsparcie państwa dla polskich rodzin",
+          "Niezależność domowa i rodzinna w Polsce"
+        ]
+      },
+      "SOCIETY_PRIMACY": {
+        "score": 0.7,
+        "explanation": "Przemiany po 1989 roku potwierdziły pierwszeństwo wolnego społeczeństwa przed strukturami państwowymi w Polsce.",
+        "news_examples": [
+          "Rola społeczeństwa w transformacji ustrojowej Polski",
+          "Przewaga struktur społecznych nad państwowymi",
+          "Aktywność obywatelska w nowoczesnej Polsce"
+        ]
+      },
+      "SOCIETY_AS_GOAL": {
+        "score": 0.7,
+        "explanation": "Państwo polskie w założeniach ustrojowych służydobru obywateli, a nie traktuje ich instrumentalnie.",
+        "news_examples": [
+          "Dobro wspólne jako cel polskiego państwa",
+          "Polityka społeczna skierowana na dobro obywateli",
+          "Funkcja służebna instytucji publicznych w Polsce"
+        ]
+      },
+      "CHURCH_INDEPENDENCE": {
+        "score": 0.7,
+        "explanation": "Kościoły i związki wyznaniowe w Polsce posiadają autonomię i niezależność w swoich sprawach wewnętrznych.",
+        "news_examples": [
+          "Niezależność instytucji kościelnych w Polsce",
+          "Autonomia religijna w Rzeczypospolitej",
+          "Stosunki wyznaniowe w polskim państwie"
+        ]
+      },
+      "NO_STATOLATRY_PUBLIC_MONISM": {
+        "score": 0.7,
+        "explanation": "Polska odrzuciła dziedzictwo państwowości komunistycznej na rzecz demokracji i pluralizmu publicznego.",
+        "news_examples": [
+          "Odrzucenie kultu państwa w powojennej Polsce",
+          "Pluralizm w życiu publicznym Rzeczypospolitej",
+          "Demokratyczny model państwa bez statolatrii"
+        ]
+      },
+      "NO_PRIVATE_LAW_MONISM": {
+        "score": 0.8,
+        "explanation": "W polskim systemie prawnym wyraźnie oddzielono prawo prywatne od publicznego, chroniąc umowy i własność.",
+        "news_examples": [
+          "Rozdział prawa prywatnego od publicznego w Polsce",
+          "Swoboda umów w polskim prawie cywilnym",
+          "Ochrona relacji cywilnoprawnych w Rzeczypospolitej"
+        ]
+      },
+      "CITIZENS_ARE_FREE": {
+        "score": 0.8,
+        "explanation": "Obywatele Polski posiadają pełen wachlarz konstytucyjnych praw i wolności osobistych oraz politycznych.",
+        "news_examples": [
+          "Konstytucyjne wolności obywatelskie w Polsce",
+          "Prawa polityczne i osobiste Polaków",
+          "Swobody obywatelskie w demokratycznej Rzeczypospolitej"
+        ]
+      },
+      "NO_SACRAL_LAW_MONOPOLY": {
+        "score": 0.8,
+        "explanation": "Polska jest państwem świeckim o charakterze demokratycznym, bez monopolu prawa sakralnego.",
+        "news_examples": [
+          "Świecki charakter państwa polskiego",
+          "Brak sakralnego monopolu prawnego w Polsce",
+          "Konstytucyjny pluralizm światopoglądowy w Warszawie"
+        ]
+      },
+      "NO_EXCESS_REGULATION": {
+        "score": 0.5,
+        "explanation": "Współczesna gospodarka i administracja w Polsce zmagają się z biurokracją oraz licznymi przepisami.",
+        "news_examples": [
+          "Problem biurokracji i licznych przepisów w Polsce",
+          "Deregulacja gospodarcza w planach polskich władz",
+          "Wpływ unijnego i krajowego prawa na biznes w Polsce"
+        ]
+      }
+    },
+    "personalism_scores": {
+      "GOD_RELATION_PERSONAL_VS_COLLECTIVE": {
+        "score": 0.8,
+        "explanation": "W Polsce tradycja chrześcijańska, zapoczątkowana w 966 roku, mocno zakorzeniła osobistą relację z Bogiem.",
+        "news_examples": [
+          "Katolicyzm pozostaje dominującą religią w Polsce",
+          "Chrzest Mieszka I ukształtował polską kulturę",
+          "Dziedzictwo kulturowe Polski silnie opiera się na wierze"
+        ]
+      },
+      "RESPONSIBILITY_PERSONAL_VS_COLLECTIVE": {
+        "score": 0.7,
+        "explanation": "Współczesna Polska jako republika parlamentarna opiera się na indywidualnej odpowiedzialności obywateli.",
+        "news_examples": [
+          "Polska funkcjonuje jako demokratyczna republika parlamentarna",
+          "Obywatele Polski głosują w wyborach demokratycznych",
+          "Polska gospodarka opiera się na prywatnej przedsiębiorczości"
+        ]
+      },
+      "CONFESSION_PERSONAL_VS_COLLECTIVE": {
+        "score": 0.75,
+        "explanation": "Wolność wyznania w Polsce pozwala na indywidualne i osobiste praktykowanie wiary.",
+        "news_examples": [
+          "Większość Polaków deklaruje przynależność do Kościoła",
+          "Polska gwarantuje swobodę praktyk religijnych w prawie",
+          "Tradycja wyznaniowa w Polsce ma charakter osobisty"
+        ]
+      },
+      "FAMILY_EMANCIPATION_FROM_CLAN": {
+        "score": 0.7,
+        "explanation": "Polskie społeczeństwo odeszło od więzi klanowych na rzecz nowoczesnej rodziny i jednostki.",
+        "news_examples": [
+          "Polska liczy blisko trzydzieści siedem milionów mieszkańców",
+          "Struktura społeczna w Polsce opiera się na rodzinie",
+          "Polacy tworzą nowoczesne społeczeństwo oparte na prawie"
+        ]
+      },
+      "WOMAN_PERSONAL_FREEDOM": {
+        "score": 0.75,
+        "explanation": "Kobiety w Polsce posiadają pełne prawa obywatelskie i uczestniczą w życiu publicznym.",
+        "news_examples": [
+          "Polskie kobiety aktywnie pracują w sektorze usług",
+          "Konstytucja RP zapewnia równość obywateli w Polsce",
+          "Kobiety w Polsce piastują ważne funkcje publiczne"
+        ]
+      },
+      "PRIVATE_PROPERTY_INDEPENDENCE": {
+        "score": 0.8,
+        "explanation": "Polska gospodarka rynkowa gwarantuje nienaruszalność i niezależność prywatnej własności.",
+        "news_examples": [
+          "Polska rozwija wolną gospodarkę rynkową od lat",
+          "Polacy posiadają prawo do własności prywatnej",
+          "Wskaźnik wolności ekonomicznej w Polsce stale rośnie"
+        ]
+      },
+      "NEIGHBOR_DUTY_UNIVERSAL_VS_TRIBAL": {
+        "score": 0.65,
+        "explanation": "Etyka społeczna w Polsce czerpie z uniwersalizmu chrześcijańskiego, choć występują tendencje narodowe.",
+        "news_examples": [
+          "Polska należy do uniwersalistycznych struktur unijnych",
+          "Polacy angażują się w międzynarodową pomoc humanitarną",
+          "Społeczność w Polsce charakteryzuje się jednością etniczną"
+        ]
+      },
+      "WORK_AS_SANCTIFICATION_VS_COERCION": {
+        "score": 0.7,
+        "explanation": "Praca w Polsce ma charakter wolnego wyboru w ramach rozwiniętej gospodarki rynkowej.",
+        "news_examples": [
+          "Większość Polaków znajduje zatrudnienie w usługach",
+          "Polska gospodarka zapewnia dobre warunki pracy",
+          "Polacy wykazują dużą aktywność zawodową w kraju"
+        ]
+      },
+      "PERSONAL_RESPONSIBILITY_PRESENCE": {
+        "score": 0.75,
+        "explanation": "Polski system prawny i ustrojowy opiera się na koncepcji odpowiedzialnej jednostki.",
+        "news_examples": [
+          "Polska jest krajem demokratycznym z praworządnością",
+          "Obywatele w Polsce odpowiadają przed niezawisłymi sądami",
+          "Polska transformacja wzmocniła podmiotowość jednostki"
+        ]
+      },
+      "FAMILY_EMANCIPATION_GENERAL": {
+        "score": 0.7,
+        "explanation": "Rodzina w Polsce cieszy się autonomią i ochroną prawną jako podstawowa komórka.",
+        "news_examples": [
+          "Polska chroni instytucję rodziny w konstytucji",
+          "Rodziny w Polsce decydują o swoim modelu życia",
+          "Wsparcie państwa dla rodzin w Polsce rośnie"
+        ]
+      },
+      "STATUS_BY_BIRTH_PRIVILEGE": {
+        "score": 0.2,
+        "explanation": "Współczesna Polska odrzuciła przywileje stanowe, choć historia znała demokrację szlachecką.",
+        "news_examples": [
+          "Dawna Rzeczpospolita opierała się na demokracji szlacheckiej",
+          "Współczesna Polska zapewnia równość wobec prawa",
+          "Przywileje urodzeniowe w Polsce nie obwiązują"
+        ]
+      },
+      "STATUS_BY_CASTE_MEMBERSHIP": {
+        "score": 0.1,
+        "explanation": "W Polsce nie występują podziały kastywne, społeczeństwo ma charakter otwarty.",
+        "news_examples": [
+          "Polska zapewnia równe szanse edukacyjne i zawodowe",
+          "Społeczeństwo w Polsce nie zna pojęcia kasty",
+          "Awans społeczny w Polsce jest w pełni dostępny"
+        ]
+      },
+      "LEGAL_MONISM_PRESENCE": {
+        "score": 0.8,
+        "explanation": "Polska posiada jednolity system prawny obowiązujący na całym terytorium kraju.",
+        "news_examples": [
+          "Konstytucja Rzeczypospolitej Polskiej stanowi najwyższe prawo",
+          "Polska jako państwo unitarne ma jedno prawo",
+          "Sądy w Polsce stosują jednolite przepisy krajowe"
+        ]
+      },
+      "UNIFORMITY_MECHANICISM_PRESENCE": {
+        "score": 0.4,
+        "explanation": "Polska zachowuje różnorodność regionalną mimo unitarnego charakteru państwa.",
+        "news_examples": [
+          "Polska dzieli się na szesnaście zróżnicowanych województw",
+          "Kultura regionalna w Polsce jest bogata i pielęgnowana",
+          "Polska administracja uwzględnia specyfikę regionów"
+        ]
+      },
+      "HISTORICISM_PRESENCE": {
+        "score": 0.85,
+        "explanation": "Polska historia od roku 966 jest silnym punktem odniesienia dla tożsamości narodu.",
+        "news_examples": [
+          "Polska kultywuje pamięć o tysiącleciu swojej państwowości",
+          "W Polsce znajduje się wiele obiektów dziedzictwa UNESCO",
+          "Historia Polski kształtuje współczesną świadomość obywateli"
+        ]
+      },
+      "HEREDITARY_SURNAMES_PRESENCE": {
+        "score": 0.95,
+        "explanation": "W Polsce powszechnie stosuje się dziedziczne nazwiska rodowe.",
+        "news_examples": [
+          "Obywatele Polski posługują się dziedzicznymi nazwiskami",
+          "Polskie urzędy ewidencjonują nazwiska rodowe obywateli",
+          "Tradycja nazwisk w Polsce sięga głęboko w historię"
+        ]
+      }
+    },
+    "church_independence_scores": {
+      "hierarch_appointment": {
+        "score": -1,
+        "explanation": "Tekst nie zawiera danych o mianowaniu hierarchów kościelnych w Polsce.",
+        "news_examples": [
+          "Brak danych o powoływaniu biskupów w Polsce",
+          "Nominacje kościelne pozostają poza opisanym zakresem",
+          "Nieznane procedury obsadzania stanowisk w polskim kościele"
+        ]
+      },
+      "dogmatic_disputes": {
+        "score": -1,
+        "explanation": "Tekst nie odnosi się do sporów dogmatycznych w Polsce.",
+        "news_examples": [
+          "Brak informacji o sporach dogmatycznych w Polsce",
+          "Kwestie teologiczne pominięte w polskim opisie",
+          "Niewspomniane kontrowersje doktrynalne polskiego Kościoła"
+        ]
+      },
+      "economic_independence": {
+        "score": -1,
+        "explanation": "Tekst nie opisuje niezależności ekonomicznej Kościoła w Polsce.",
+        "news_examples": [
+          "Brak danych o finansach polskiego Kościoła",
+          "Status majątkowy instytucji kościelnych nieznany",
+          "Kwestie ekonomiczne religii pominięte w Polsce"
+        ]
+      },
+      "moral_sanctions_on_rulers": {
+        "score": -1,
+        "explanation": "Tekst nie zawiera informacji o sankcjach moralnych nakładanych na władców w Polsce.",
+        "news_examples": [
+          "Brak wzmianki o sankcjach moralnych dla władzy",
+          "Stosunek kościoła do moralności rządzących w Polsce",
+          "Nie oceniono wpływu etycznego na polski rząd"
+        ]
+      },
+      "canon_law_separation": {
+        "score": -1,
+        "explanation": "Tekst nie porusza kwestii odrębności prawa kanonicznego w Polsce.",
+        "news_examples": [
+          "Brak danych o prawie kanonicznym w Polsce",
+          "Relacje prawa państwowego i kanonicznego pominięte",
+          "Nieznana pozycja kodeksów kościelnych w Polsce"
+        ]
+      },
+      "brachium_saeculare": {
+        "score": -1,
+        "explanation": "Tekst nie wspomina o użyciu ramienia świeckiego na rzecz Kościoła w Polsce.",
+        "news_examples": [
+          "Brak informacji o brachium saeculare w Polsce",
+          "Wsparcie państwa dla kościoła nieopisane",
+          "Ramię świeckie bez odniesienia w polskich realiach"
+        ]
+      },
+      "total_ethics": {
+        "score": -1,
+        "explanation": "Tekst nie analizuje totalnej etyki religijnej w przestrzeni publicznej Polski.",
+        "news_examples": [
+          "Brak danych o etyce totalnej w polskim państwie",
+          "Moralność publiczna w Polsce nieanalizowana",
+          "Zasady Dekalogu w polskim urzędzie nieopisane"
+        ]
+      },
+      "divine_vs_caesar": {
+        "score": -1,
+        "explanation": "Tekst nie porusza dylematu posłuszeństwa Bogu zamiast Cezarowi w Polsce.",
+        "news_examples": [
+          "Brak danych o boskim prawie w Polsce",
+          "Granice posłuszeństwa państwu w polskim tekście",
+          "Relacja władzy boskiej i świeckiej w Polsce"
+        ]
+      },
+      "personalism_presence": {
+        "score": 0.5,
+        "explanation": "Tekst wspomina o prawach i wolnościach obywatelskich w demokratycznej Polsce.",
+        "news_examples": [
+          "Polska chroni wolność prasy w konstytucji",
+          "Obywatele Polski korzystają z praw demokratycznych",
+          "Status jednostki w polskim systemie prawnym"
+        ]
+      },
+      "freedom_of_conversion": {
+        "score": -1,
+        "explanation": "Tekst nie zawiera danych o wolności konwersji religijnej w Polsce.",
+        "news_examples": [
+          "Brak informacji o zmianie wyznania w Polsce",
+          "Wolność sumienia i konwersji nieopisana",
+          "Kwestie religijne obywateli Polski pominięte"
+        ]
+      },
+      "caesaropapism_absence": {
+        "score": 0.8,
+        "explanation": "Polska funkcjonuje jako republika parlamentarna wolna od tradycyjnego cezaropapizmu.",
+        "news_examples": [
+          "Polska jest demokratyczną republiką parlamentarną",
+          "Rozdział władzy świeckiej w polskim ustroju",
+          "Brak podporządkowania kościoła urzędowi w Polsce"
+        ]
+      },
+      "cuius_regio_absence": {
+        "score": 0.7,
+        "explanation": "Polska jako współczesne państwo gwarantuje wolność wyznania bez zasady cuius regio.",
+        "news_examples": [
+          "Polska zapewnia wolność religijną obywatelom",
+          "Brak przymusu wyznaniowego w polskim państwie",
+          "Pluralizm religijny w nowoczesnej Polsce"
+        ]
+      },
+      "statolatry_absence": {
+        "score": 0.7,
+        "explanation": "Polska jako państwo demokratyczne odrzuca totalitarną statolatrię.",
+        "news_examples": [
+          "Polska funkcjonuje jako państwo prawa",
+          "Odrzucenie kultu państwa w polskiej republice",
+          "Demokratyczny ustrój Polski sprzeciwia się statolatrii"
+        ]
+      },
+      "sacralism_absence": {
+        "score": 0.6,
+        "explanation": "Polska jest państwem świeckim z dominacją katolicyzmu bez teokratycznego sakralizmu.",
+        "news_examples": [
+          "Polska posiada status republiki parlamentarnej",
+          "Brak teokracji w politycznym ustroju Polski",
+          "Świecki charakter instytucji państwowych w Polsce"
+        ]
+      },
+      "confessional_bureaucracy_absence": {
+        "score": 0.8,
+        "explanation": "Polska administracja nie ma charakteru konfesyjnego biurokratycznego aparatu wyznaniowego.",
+        "news_examples": [
+          "Polska administracja działa w systemie świeckim",
+          "Brak urzędów konfesyjnych we współczesnej Polsce",
+          "Struktura państwowa Polski wolna od biurokracji wiary"
+        ]
+      }
+    },
+    "church_news_1": "Polska funkcjonuje jako demokratyczna republika parlamentarna.",
+    "church_news_2": "Współczesna Polska gwarantuje swobody obywatelskie i wolność prasy.",
+    "church_news_3": "Ustrój polityczny Polski opiera się na konstytucji z 1997 roku.",
+    "church_justification": "Analizowany tekst opisuje Polskę jako współczesną republikę parlamentarną, co pozwala ocenić podstawowe wskaźniki niezależności i świeckości.",
+    "public_morality_totality_scores": {
+      "two_consciences_rejection": {
+        "score": -1,
+        "explanation": "Tekst ma charakter encyklopedyczny i całkowicie pomija kwestie dualizmu sumienia urzędników w Polsce.",
+        "news_examples": [
+          "Analiza podwójnego sumienia urzędników w Polsce",
+          "Etyczne dylematy administracji publicznej w Polsce",
+          "Moralność urzędnicza w świetle prawa w Polsce"
+        ]
+      },
+      "state_bound_by_decalogue": {
+        "score": -1,
+        "explanation": "W omawianym opisie encyklopedycznym Polski całkowicie pominięto relację państwa do zasad Dekalogu.",
+        "news_examples": [
+          "Zasady Dekalogu w polskim prawie państwowym",
+          "Wartości chrześcijańskie a polskie ustawodawstwo",
+          "Decydująca rola etyki religijnej w Polsce"
+        ]
+      },
+      "politics_as_ethical_domain": {
+        "score": -1,
+        "explanation": "Tekst źródłowy całkowicie pomija refleksję nad polityką jako domeną ściśle etyczną w Polsce.",
+        "news_examples": [
+          "Etyzacja życia politycznego w Rzeczypospolitej",
+          "Moralny wymiar decyzji rządzących w Polsce",
+          "Polityka jako moralny obowiązek w Polsce"
+        ]
+      },
+      "unethical_law_is_lawless": {
+        "score": -1,
+        "explanation": "Tekst nie porusza filozoficznego problemu bezprawia ustaw nieetycznych w polskim systemie.",
+        "news_examples": [
+          "Nieetyczne ustawy a bezprawie w Polsce",
+          "Sprawiedliwość naturalna w polskim sądownictwie",
+          "Problem moralności stanowionego prawa w Polsce"
+        ]
+      },
+      "evil_in_name_of_state_remains_evil": {
+        "score": -1,
+        "explanation": "Brak odniesień do czynienia zła w imię racji stanu w analizowanym tekście encyklopedycznym o Polsce.",
+        "news_examples": [
+          "Zło popełniane w interesie państwa polskiego",
+          "Racja stanu a uniwersalne zasady moralne w Polsce",
+          "Odpowiedzialność moralna za czyny państwowe w Polsce"
+        ]
+      },
+      "stricter_ethics_for_public_figures": {
+        "score": -1,
+        "explanation": "Tekst całkowicie pomija kwestię zaostrzonych wymogów moralnych wobec polityków i urzędników w Polsce.",
+        "news_examples": [
+          "Wyższe standardy etyczne dla elit w Polsce",
+          "Odpowiedzialność moralna polskich polityków",
+          "Etyka władzy publicznej w Rzeczypospolitej"
+        ]
+      },
+      "duty_to_fight_public_evil": {
+        "score": -1,
+        "explanation": "W opisie encyklopedycznym brakuje wątku moralnego obowiązku walki ze złem publicznym w Polsce.",
+        "news_examples": [
+          "Społeczny obowiązek zwalczania zła w Polsce",
+          "Reakcja obywateli na bezprawie w Polsce",
+          "Walka z patologiami życia publicznego w Polsce"
+        ]
+      },
+      "ethics_over_law_primacy_public": {
+        "score": -1,
+        "explanation": "Tekst nie odnosi się do relacji prymatu etyki nad stanowionym prawem publicznym w Polsce.",
+        "news_examples": [
+          "Wyższość norm moralnych nad prawem w Polsce",
+          "Konflikt sumienia z literą prawa w Polsce",
+          "Etyczne fundamenty polskiego ustawodawstwa"
+        ]
+      },
+      "personal_responsibility_in_public": {
+        "score": -1,
+        "explanation": "Kwestia osobistej odpowiedzialności moralnej w administracji Polski została całkowicie pominięta.",
+        "news_examples": [
+          "Osobista odpowiedzialność urzędników w Polsce",
+          "Personalizm w strukturach państwowych Polski",
+          "Koniec anonimowości biurokratycznej w Polsce"
+        ]
+      },
+      "legal_dualism_presence": {
+        "score": -1,
+        "explanation": "Tekst encyklopedyczny nie podejmuje zagadnienia dualizmu prawnego (prywatnego i publicznego) w Polsce.",
+        "news_examples": [
+          "Dualizm prawny w polskim systemie",
+          "Rozdział prawa cywilnego od publicznego w Polsce",
+          "Autonomia prawa prywatnego w Rzeczypospolitej"
+        ]
+      },
+      "good_as_dominant_category": {
+        "score": -1,
+        "explanation": "Tekst nie porusza metafizyczno-politycznej kategorii dobra jako dominującej w życiu publicznym Polski.",
+        "news_examples": [
+          "Kategoria dobra wspólnego w Polsce",
+          "Moralny ład w państwie polskim",
+          "Dobro powszechne jako cel polityki w Polsce"
+        ]
+      },
+      "dual_ethics_absence": {
+        "score": -1,
+        "explanation": "Problem istnienia podwójnej etyki (prywatnej i publicznej) nie pojawia się w tym tekście o Polsce.",
+        "news_examples": [
+          "Odrzucenie podwójnej moralności w Polsce",
+          "Jednolitość etyczna życia publicznego w Polsce",
+          "Krytyka dwulicowości politycznej w Polsce"
+        ]
+      },
+      "physical_force_supremacy_absence": {
+        "score": -1,
+        "explanation": "W opisie państwa polskiego pominięto zagadnienie prymatu siły fizycznej nad prawem i etyką.",
+        "news_examples": [
+          "Odrzucenie przemocy w polskiej polityce",
+          "Rządy prawa zamiast siły w Polsce",
+          "Przewaga etyki nad fizyczną dominacją w Polsce"
+        ]
+      },
+      "statolatry_absence": {
+        "score": -1,
+        "explanation": "Tekst o charakterze ogólnym i statystycznym nie porusza kwestii ubóstwiania państwa (statolatrii) w Polsce.",
+        "news_examples": [
+          "Krytyka kultu państwa w Rzeczypospolitej",
+          "Granice ingerencji państwa w życie Polaków",
+          "Odrzucenie statolatrii przez polskie społeczeństwo"
+        ]
+      },
+      "legalism_replacing_conscience_absence": {
+        "score": -1,
+        "explanation": "Kwestia zastępowania sumienia przez ślepy legalizm w urzędach Polski została całkowicie pominięta.",
+        "news_examples": [
+          "Sprzeciw wobec ślepego legalizmu w Polsce",
+          "Sumienie ponad paragrafami w urzędach Polski",
+          "Krytyka formalizmu urzędniczego w Polsce"
+        ]
+      },
+      "caesaropapism_absence": {
+        "score": -1,
+        "explanation": "Tekst encyklopedyczny nie podejmuje problematyki cezaropapizmu ani relacji władzy państwowej do religii w Polsce.",
+        "news_examples": [
+          "Niezależność sfery duchowej od państwa w Polsce",
+          "Brak cezaropapizmu w historii Polski",
+          "Stosunki państwo-kościół w Rzeczypospolitej"
+        ]
+      }
+    },
+    "public_morality_news_1": "Polska jako państwo demokratyczne w Europie",
+    "public_morality_news_2": "Ustrój polityczny i podział terytorialny Polski",
+    "public_morality_news_3": "Rozwój gospodarczy i społeczny współczesnej Polski",
+    "public_morality_justification": "Przeanalizowany tekst jest ogólnym, encyklopedycznym opisem Polski, który całkowicie pomija szczegółowe zagadnienia filozoficzno-historiozoficzne Konecznego dotyczące moralności publicznej."
+  },
+  "sacrality_score": 0.06923076923076923,
+  "spirit_supremacy_score": 0.68,
+  "legal_dualism_score": 0.704,
+  "law_source_pluralism_score": -1,
+  "aposteriori_apriori_score": -1,
+  "organism_mechanism_score": -1,
+  "personalism_score": 0.6625,
+  "family_law_autonomy_score": -1,
+  "church_independence_score": 0.6833333333333335,
+  "property_rights_stability_score": -1,
+  "inheritance_continuity_score": -1,
+  "morality_supremacy_score": -1,
+  "public_morality_totality_score": -1,
+  "administrative_responsibility_score": -1,
   "mode": "jmantis",
-  "primary_civilization": "Bizantyńska",
-  "civilization_diagnosis": "Monizm Prawa Publicznego (Cezaropapizm, biurokracja, dwoistość sumienia)",
+  "primary_civilization": "Łacińska",
+  "civilization_diagnosis": "Dominacja norm personalistycznych i dualizm prawny (Prymat etyki nad ustawą)",
   "explanation": null,
   "mantis_gates": [
     {
       "gate": 1,
       "name": "Bramka 1: Sakralność vs Świeckość (SACRALITY_INDEX)",
-      "score": 0.07500000000000001,
+      "score": 0.06923076923076923,
       "decision": "Ścieżka Świecko-Rozumowa (Łacińska / Bizantyńska / Turańska)"
     },
     {
       "gate": 2,
       "name": "Bramka 2: Dualizm Prawny vs Monizm (LEGAL_DUALISM_INDEX)",
-      "score": -1.0,
-      "decision": "Monizm Prawny — Pochłonięcie prawa przez państwo lub władcę (Bizantyńska / Turańska)"
+      "score": 0.704,
+      "decision": "Dualizm Prawny — Rozdział prawa prywatnego i publicznego (Łacińska)"
     },
     {
       "gate": 3,
-      "name": "Bramka 3: Relacja Władza-Religia (CHURCH_INDEPENDENCE)",
-      "score": -1.0,
-      "decision": "Cezaropapizm / Podporządkowanie Religii Państwu (Bizantynizm)"
+      "name": "Bramka 3: Niezależność Religii od Państwa (CHURCH_INDEPENDENCE)",
+      "score": 0.6833333333333335,
+      "decision": "Autonomia Kościoła i Sumienia (Prymat Etyki nad Władzą)"
     },
     {
       "gate": 4,
       "name": "Bramka 4: Status Sumienia (CONSCIENCE_STATUS)",
-      "score": 0.925,
-      "decision": "Dwoistość Sumienia — Etyka prywatna vs Racja Stanu"
+      "score": -1,
+      "decision": "Jednolita moralność w życiu prywatnym i publicznym (Brak dwóch sumień)"
     },
     {
       "gate": 5,
       "name": "Bramka 5: Podmiotowość Jednostki (PERSONALISM_INDEX)",
-      "score": -1.0,
-      "decision": "Statolatria — Obywatel zredukowany do funkcji w machinie państwowej"
+      "score": 0.6625,
+      "decision": "Personalizm — Osoba ludzka niezależnym podmiotem prawa i wolnej woli"
     }
   ],
+  "history_stats": {
+    "total_runs": 72,
+    "avg_quincunx": 0.91,
+    "avg_ethical_coherence": 7,
+    "avg_chyznosc": -1,
+    "avg_spirit": 0.47
+  },
   "raw_ratings": {
     "conscience_status_scores": {
       "no_statutory_morality_only": {
-        "score": 0.9,
-        "explanation": "Autonomia sumienia nad dekretami władzy",
+        "score": -1,
+        "explanation": "Tekst ma charakter encyklopedyczny, opisowy i statystyczny, brak w nim rozważań z zakresu filozofii prawa Feliksa Konecznego.",
         "news_examples": [
-          "Klauzula sumienia",
-          "Ochrona praw człowieka",
-          "Wolność przekonań"
+          "Analiza danych demograficznych państwa w Polsce",
+          "Przegląd struktury terytorialnej i administracyjnej w Polsce",
+          "Opis ram ustrojowych współczesnej administracji w Polsce"
         ]
       },
       "conscience_as_supreme_judge": {
-        "score": 0.95,
-        "explanation": "Sumienie jednostki głównym sędzią",
+        "score": -1,
+        "explanation": "Tekst opisuje fakty encyklopedyczne i struktury państwowe bez podejmowania problematyki sumienia jako suwerennego sędziego.",
         "news_examples": [
-          "Wyroki Trybunału",
-          "Słuszność etyczna",
-          "Autonomia moralna"
+          "Konstytucyjne organy władzy państwowej w Polsce",
+          "Zasady funkcjonowania systemu parlamentarnego w Polsce",
+          "Ustrój polityczny i podział kompetencji w Polsce"
+        ]
+      },
+      "no_legislative_elephantiasis": {
+        "score": -1,
+        "explanation": "Brak danych normatywnych i historyzoficznych w tekście źródłowym do oceny przerostu ustawodawstwa.",
+        "news_examples": [
+          "Procesy legislacyjne i stanowienie praw w Polsce",
+          "Rozwój regulacji prawnych administracji w Polsce",
+          "Zmiany w systemie aktów normatywnych w Polsce"
+        ]
+      },
+      "refusal_of_immoral_orders": {
+        "score": -1,
+        "explanation": "Tekst stanowi opis encyklopedyczny i nie porusza etyczno-moralnych aspektów wykonywania rozkazów przez urzędników.",
+        "news_examples": [
+          "Hierarchia służbowa i struktura urzędnicza w Polsce",
+          "Obowiązki służbowe pracowników administracji w Polsce",
+          "Zasady dyscypliny w organach państwowych w Polsce"
+        ]
+      },
+      "personal_accountability_god": {
+        "score": -1,
+        "explanation": "Artykuł ma charakter czysto informacyjny i nie odnosi się do koncepcji osobistej odpowiedzialności moralnej przed Bogiem.",
+        "news_examples": [
+          "Refleksje nad etyką życia publicznego w Polsce",
+          "Kwestie światopoglądowe w sferze publicznej w Polsce",
+          "Wymiar moralny działalności instytucji w Polsce"
+        ]
+      },
+      "no_shylock_formalism": {
+        "score": -1,
+        "explanation": "Brak elementów analizy dogmatyzmu prawniczego lub formalizmu w przesłanym materiale encyklopedycznym.",
+        "news_examples": [
+          "Stosowanie przepisów prawnych przez sądy w Polsce",
+          "Interpretacja procedur w instytucjach państwa w Polsce",
+          "Działalność organów wymiaru sprawiedliwości w Polsce"
+        ]
+      },
+      "ethics_above_law": {
+        "score": -1,
+        "explanation": "Tekst nie zawiera rozważań filozoficznych o relacji etyki do stanowionego prawa w ujęciu Konecznego.",
+        "news_examples": [
+          "Relacje między normami etycznymi a prawem w Polsce",
+          "Kryteria sprawiedliwości w systemie prawnym w Polsce",
+          "Debaty nad prymatem wartości w porządku prawnym w Polsce"
+        ]
+      },
+      "personalism_sovereignty": {
+        "score": -1,
+        "explanation": "Przedstawiony tekst to ogólny opis statystyczno-geograficzny, pomijający personalistyczną wizję człowieka.",
+        "news_examples": [
+          "Prawa obywatelskie i ich ochrona prawna w Polsce",
+          "Pozycja jednostki wobec struktur państwowych w Polsce",
+          "Gwarancje swobód obywatelskich i personalizm w Polsce"
+        ]
+      },
+      "good_hegemony_over_law": {
+        "score": -1,
+        "explanation": "Brak odniesień do cywilizacyjnej kategorii prymatu Dobra i etyki totalnej w analizowanym tekście.",
+        "news_examples": [
+          "Kulturowe podstawy porządku społecznego w Polsce",
+          "Rola tradycji etycznej w życiu publicznym w Polsce",
+          "Wartości nadrzędne w konstytucji państwa w Polsce"
+        ]
+      },
+      "legal_dualism_privacy": {
+        "score": -1,
+        "explanation": "Tekst nie porusza zagadnienia dualizmu prawnego gwarantującego autonomię sfery prywatnej od publicznej.",
+        "news_examples": [
+          "Rozdział sfery prywatnej i publicznej prawa w Polsce",
+          "Autonomia jednostki wobec ingerencji państwa w Polsce",
+          "Granice regulacji publicznoprawnych w Polsce"
+        ]
+      },
+      "aposteriori_experience": {
+        "score": -1,
+        "explanation": "W tekście brakuje rozważań metodologicznych o prawie wyrastającym z historycznego doświadczenia (aposteriori).",
+        "news_examples": [
+          "Historyczny rozwój tradycji prawnych w Polsce",
+          "Doświadczenie dziejowe a kształtowanie ustroju w Polsce",
+          "Ewolucja instytucji społecznych na przestrzeni w Polsce"
+        ]
+      },
+      "no_casuistry_expropriation": {
+        "score": -1,
+        "explanation": "Brak krytyki kazuistyki prawniczej lub zjawisk wywłaszczenia sumienia w tym źródłowym tekście.",
+        "news_examples": [
+          "Kazuistyka i nadmiar interpretacji prawnych w Polsce",
+          "Problematyka biurokratycznej wykładni przepisów w Polsce",
+          "Rola orzecznictwa w praktyce urzędowej w Polsce"
+        ]
+      },
+      "no_byzantine_statolatry": {
+        "score": -1,
+        "explanation": "Tekst ma charakter neutralnego opisu państwowego, nie odnosi się do problemu statolatrii czy bizantynizmu.",
+        "news_examples": [
+          "Rozrost administracji państwowej i kompetencji w Polsce",
+          "Stosunek obywateli do instytucji centralnych w Polsce",
+          "Tendencje centralistyczne w zarządzaniu państwem w Polsce"
+        ]
+      },
+      "no_socialist_gregarious_fear": {
+        "score": -1,
+        "explanation": "Artykuł encyklopedyczny nie bada zagadnień socjologicznego konformizmu czy lęku przed gromadą.",
+        "news_examples": [
+          "Zjawiska konformizmu społecznego i postaw w Polsce",
+          "Presja kolektywna a niezależność obywateli w Polsce",
+          "Kształtowanie opinii publicznej i postaw w Polsce"
+        ]
+      },
+      "no_camp_turanian_coercion": {
+        "score": -1,
+        "explanation": "Brak odniesień do cywilizacji turańskiej oraz przymusu o charakterze obozowym w analizowanym artykule.",
+        "news_examples": [
+          "Metody zarządzania i rygorów instytucjonalnych w Polsce",
+          "Stopień swobody i militaryzacji życia publicznego w Polsce",
+          "Autorytarne tendencje w strukturach władzy w Polsce"
         ]
       }
     },
     "sacrality_scores": {
-      "religious_law_supremacy": {
-        "score": 0.1,
-        "explanation": "Niska sakralizacja prawa państwowego w konstytucjonalizmie",
+      "RELIGIOUS_LAW_SUPREMACY": {
+        "score": 0,
+        "explanation": "Polska jest demokratyczną republiką parlamentarną o świeckim systemie prawnym.",
         "news_examples": [
-          "Art 25 Konstytucji RP",
-          "Autonomia Kościoła i Państwa",
-          "Prawo świeckie"
+          "Polska działa jako państwo świeckie w strukturach Unii Europejskiej",
+          "Polskie prawo stanowione jest przez parlament oparty na konstytucji",
+          "Współczesna Polska nie opiera swojego ustawodawstwa na prawie religijnym"
         ]
       },
-      "clerical_theocracy": {
-        "score": 0.05,
-        "explanation": "Brak ustroju teokratycznego",
+      "THEOCRATIC_AUTHORITY": {
+        "score": 0,
+        "explanation": "Władza w Polsce sprawowana jest przez organy cywilne wybrane w demokratycznych wyborach.",
         "news_examples": [
-          "Podział władz",
-          "Demokracja parlamentarna",
-          "Konstytucjonalizm"
+          "Władzę w Polsce sprawują prezydent oraz premier i parlament",
+          "Polski ustrój polityczny to republika parlamentarna o świeckim charakterze",
+          "Decyzje polityczne w Polsce podejmują świeccy przedstawiciele narodu"
+        ]
+      },
+      "FAMILY_RELIGIOUS_CONTROL": {
+        "score": 0,
+        "explanation": "Kwestie rodzinne w Polsce reguluje kodeks rodzinny i opiekuńczy, a nie prawo religijne.",
+        "news_examples": [
+          "Polskie sądownictwo rodzinne funkcjonuje na bazie przepisów kodeksu",
+          "Zawieranie małżeństw cywilnych reguluje polskie prawo państwowe",
+          "Współczesna polska rodzina podlega ochronie i przepisom państwowym"
+        ]
+      },
+      "RELIGIOUS_EDUCATION": {
+        "score": 0.1,
+        "explanation": "Edukacja publiczna w Polsce ma charakter państwowy i świecki z opcjonalną religią.",
+        "news_examples": [
+          "Polski system edukacji jest nadzorowany przez państwowe Ministerstwo",
+          "Szkoły publiczne w Polsce realizują podstawę programową MEN",
+          "Nauka w polskich placówkach oświatowych ma charakter świecki"
+        ]
+      },
+      "PROPERTY_RELIGIOUS_CONTROL": {
+        "score": 0,
+        "explanation": "Własność prywatna i publiczna w Polsce regulowana jest przez kodeks cywilny.",
+        "news_examples": [
+          "Polski rynek nieruchomości opiera się na cywilnoprawnych zasadach",
+          "Własność w Rzeczypospolitej Polskiej chroniona jest przez konstytucję",
+          "Gospodarka rynkowa w Polsce nie podlega zwierzchnictwu religijnemu"
+        ]
+      },
+      "SACRAL_CRIMINAL_LAW": {
+        "score": 0,
+        "explanation": "Prawo karne w Polsce opiera się wyłącznie na kodeksie karnym i zasadach świeckich.",
+        "news_examples": [
+          "Polski wymiar sprawiedliwości karze przestępstwa według kodeksu karnego",
+          "Sądy w Polsce wydają wyroki w imieniu Rzeczypospolitej Polskiej",
+          "Przestępstwa i wykroczenia w Polsce są rozliczane według prawa"
+        ]
+      },
+      "RELIGIOUS_TIME_CALENDAR": {
+        "score": 0.3,
+        "explanation": "Kalendarz w Polsce opiera się na powszechnym kalendarz gregoriańskim z dniami wolnymi.",
+        "news_examples": [
+          "Polska posługuje się międzynarodowym kalendarzem gregoriańskim w urzędach",
+          "Dni wolne od pracy w Polsce obejmują tradycyjne święta państwowe",
+          "Czas urzędowy i ekonomiczny w Polsce regulowany jest świecko"
+        ]
+      },
+      "SCIENCE_RELIGION_FUSION": {
+        "score": 0,
+        "explanation": "Nauka i uniwersytety w Polsce są niezależne i opierają się na metodologii naukowej.",
+        "news_examples": [
+          "Polskie uczelnie wyższe prowadzą badania w oparciu o naukę",
+          "System edukacji akademickiej w Polsce gwarantuje swobodę badań",
+          "Rozwój naukowy w Polsce nie podlega dogmatom religijnym"
+        ]
+      },
+      "ETHICS_RELIGION_IDENTITY": {
+        "score": 0.4,
+        "explanation": "Katolicyzm deklaruje większość Polaków, co wpływa na tradycję, przy świeckim państwie.",
+        "news_examples": [
+          "Większość mieszkańców Polski deklaruje przynależność do wiary katolickiej",
+          "Polska kultura i tradycja czerpią z dziedzictwa chrześcijańskiego",
+          "Etyka społeczna w Polsce zachowuje silne zakorzenienie w tradycji"
+        ]
+      },
+      "SACRAL_ECONOMICS": {
+        "score": 0,
+        "explanation": "Gospodarka Polski to rozwinięta gospodarka rynkowa opierta na kapitalizmie.",
+        "news_examples": [
+          "Polska posiada wysoko rozwiniętą gospodarkę rynkową w strukturach UE",
+          "Polski PKB generowany jest głównie przez sektor usług i przemysł",
+          "Handel i finanse w Polsce funkcjonują na zasadach wolnorynkowych"
+        ]
+      },
+      "SOCIAL_HIERARCHY_RELIGIOUS": {
+        "score": 0,
+        "explanation": "Struktura społeczna w Polsce opiera się na obywatelskiej równości wobec prawa.",
+        "news_examples": [
+          "Polska gwarantuje równość wszystkich obywateli w konstytucji",
+          "Struktura społeczna w Polsce nie dzieli ludzi według kryteriów wiary",
+          "Obywatele Polski posiadają równe prawa wyborcze i obywatelskie"
+        ]
+      },
+      "STATE_CHURCH_UNITY": {
+        "score": 0.1,
+        "explanation": "Polska jest państwem świeckim z zasadą autonomii i współdziałania państwa i kościołów.",
+        "news_examples": [
+          "Konstytucja RP zapewnia autonomię państwa i związków wyznaniowych",
+          "Polska utrzymuje relacje z Watykanem na zasadach dyplomatycznych",
+          "Rząd polski działa niezależnie od struktur hierarchii kościelnej"
+        ]
+      },
+      "APOSTASY_PUNISHMENT": {
+        "score": 0,
+        "explanation": "W Polsce zmiana wyznania lub odejście z Kościoła jest w pełni wolnym prawem obywatela.",
+        "news_examples": [
+          "Polskie prawo gwarantuje wolność sumienia i wyznania obywateli",
+          "Odejście od wiary w Polsce nie niesie żadnych konsekwencji prawnych",
+          "Obywatele Polski mogą swobodnie zmieniać swoje przekonania religijne"
+        ]
+      }
+    },
+    "legal_dualism_scores": {
+      "PRIVATE_RIGHTS_SPHERE": {
+        "score": 0.8,
+        "explanation": "Tekst wskazuje na ustrój oparty na Konstytucji Rzeczypospolitej Polskiej, gwarantującej ochronę praw prywatnych.",
+        "news_examples": [
+          "Polska chroni prawa własności obywateli",
+          "Gwarancje konstytucyjne dla sektora prywatnego w Polsce",
+          "Wpływ polskiego prawa na sferę prywatną"
+        ]
+      },
+      "FAMILY_AUTONOMY": {
+        "score": 0.7,
+        "explanation": "Polska jako republika parlamentarna szanuje autonomię rodzin, choć państwo reguluje kwestie prawne i społeczne.",
+        "news_examples": [
+          "Autonomia rodzin w polskim porządku prawnym",
+          "Prawa rodzinne w konstytucji Rzeczypospolitej",
+          "Ochrona instytucji rodziny w Polsce"
+        ]
+      },
+      "PROPERTY_PROTECTION": {
+        "score": 0.8,
+        "explanation": "Gospodarka rynkowa oraz wysoki wskaźnik wolności ekonomicznej w Polsce potwierdzają silną ochronę własności.",
+        "news_examples": [
+          "Rozwój gospodarki rynkowej w Polsce",
+          "Bezpieczeństwo inwestycji i własności w Warszawie",
+          "Ochrona własności prywatnej w polskim prawie"
+        ]
+      },
+      "NATURAL_INHERITANCE": {
+        "score": 0.7,
+        "explanation": "Polski system prawny opiera się na tradycyjnym prawie spadkowym gwarantującym dziedziczenie majątkowe.",
+        "news_examples": [
+          "Zasady dziedziczenia majątku w Polsce",
+          "Prawo spadkowe w Rzeczypospolitej Polskiej",
+          "Ochrona praw spadkobierców w polskim sądownictwie"
+        ]
+      },
+      "POWER_LIMITS": {
+        "score": 0.7,
+        "explanation": "Jako państwo demokratyczne, Polska posiada konstytucyjne ramy ograniczające władzę organów państwowych.",
+        "news_examples": [
+          "Ograniczenia władzy organów państwowych w Polsce",
+          "Rola konstytucji w limitowaniu władzy",
+          "Demokratyczny ustrój Polski a kontrola rządzących"
+        ]
+      },
+      "OPPOSITION_RIGHT": {
+        "score": 0.7,
+        "explanation": "Pluralizm polityczny i wolne wybory w Polsce gwarantują legalne istnienie oraz prawa opozycji.",
+        "news_examples": [
+          "Prawa opozycji politycznej w polskim parlamencie",
+          "Pluralizm polityczny w systemie Rzeczypospolitej",
+          "Wolność stowarzyszania się opozycji w Polsce"
+        ]
+      },
+      "STATE_MORALITY_SUBORDINATION": {
+        "score": 0.6,
+        "explanation": "Państwo polskie funkcjonuje w oparciu o uniwersalne zasady demokratyczne i europejskie standardy moralne.",
+        "news_examples": [
+          "Etyczne standardy w polskiej administracji",
+          "Moralność publiczna a prawo w Rzeczypospolitej",
+          "Wartości demokratyczne w polskim państwie"
+        ]
+      },
+      "DIVINE_VS_CAESAR": {
+        "score": 0.7,
+        "explanation": "Polska charakteryzuje się rozdziałem państwa od Kościoła przy zachowaniu dominującej roli tradycji katolickiej.",
+        "news_examples": [
+          "Relacje między państwem a Kościołem w Polsce",
+          "Wolność religijna w Rzeczypospolitej Polskiej",
+          "Pozycja kościołów i związków wyznaniowych w Polsce"
+        ]
+      },
+      "RULER_ETHICS_EQUALITY": {
+        "score": 0.7,
+        "explanation": "Zasada równości wobec prawa dotyczy również najwyższych urzędników państwowych w Polsce.",
+        "news_examples": [
+          "Równość polityków i obywateli wobec polskiego prawa",
+          "Odpowiedzialność rządzących przed polskimi sądami",
+          "Standardy etyczne polskich urzędników państwowych"
+        ]
+      },
+      "INDEPENDENT_JUDICIARY": {
+        "score": 0.6,
+        "explanation": "Polska posiada trójpodział władzy, choć sądownictwo podlega ciągłym debatom nad reformami instytucjonalnymi.",
+        "news_examples": [
+          "Niezależność sądów w Rzeczypospolitej Polskiej",
+          "Rola niezawisłych sędziów w polskim systemie",
+          "Reformy wymiaru sprawiedliwości w Warszawie"
+        ]
+      },
+      "OFFICIAL_RESPONSIBILITY": {
+        "score": 0.6,
+        "explanation": "Polscy urzędnicy ponoszą odpowiedzialność prawną i karną za działania w ramach pełnionych funkcji.",
+        "news_examples": [
+          "Odpowiedzialność karna polskich urzędników państwowych",
+          "Kontrola działalności administracji publicznej w Polsce",
+          "Procedury odszkodowawcze przeciwko urzędom w Polsce"
+        ]
+      },
+      "APOSTERIORI_LAW": {
+        "score": 0.7,
+        "explanation": "Polskie prawodawstwo ewolucyjnie czerpało z historycznych doświadczeń narodu oraz tradycji europejskiej.",
+        "news_examples": [
+          "Historyczne korzenie polskiego systemu prawnego",
+          "Ewolucja polskiego ustawodawstwa po 1989 roku",
+          "Tradycja prawna w transformacji ustrojowej Polski"
+        ]
+      },
+      "ASSOCIATION_AUTONOMY": {
+        "score": 0.8,
+        "explanation": "Polacy korzystają z szerokich swobód zrzeszania się, co potwierdza dynamiczny rozwój społeczeństwa obywatelskiego.",
+        "news_examples": [
+          "Wolność tworzenia stowarzyszeń i organizacji w Polsce",
+          "Rozwój społeczeństwa obywatelskiego w Warszawie",
+          "Autonomia organizacji społecznych w Rzeczypospolitej"
+        ]
+      },
+      "LAND_OWNERSHIP_FULL": {
+        "score": 0.8,
+        "explanation": "Własność ziemi w Polsce ma charakter pełny, z możliwością obrotu rynkowego i dziedziczenia.",
+        "news_examples": [
+          "Pełne prawo własności ziemi w Polsce",
+          "Rynek nieruchomości rolnych i miejskich w kraju",
+          "Zasady obrotu gruntami w Rzeczypospolitej Polskiej"
+        ]
+      },
+      "LOCAL_LAW_TOLERANCE": {
+        "score": 0.6,
+        "explanation": "Polska jest państwem unitarnym z samorządem terytorialnym, co zapewnia pewien stopień lokalnych regulacji.",
+        "news_examples": [
+          "Kompetencje samorządów terytorialnych w Polsce",
+          "Rola 16 województw w zarządzaniu krajem",
+          "Autonomia lokalna w polskim państwie unitarnym"
+        ]
+      },
+      "LAW_CONSCIENCE_EQUALITY": {
+        "score": 0.7,
+        "explanation": "Konstytucja RP chroni wolność sumienia i religii, dążąc do harmonii między prawem a etyką obywateli.",
+        "news_examples": [
+          "Wolność sumienia w polskiej konstytucji",
+          "Ochrona swobód światopoglądowych w Polsce",
+          "Relacje prawa krajowego z sumieniem obywateli"
+        ]
+      },
+      "FAMILY_EMANCIPATION": {
+        "score": 0.7,
+        "explanation": "Rodzina w Polsce cieszy się prawną ochroną jako podstawowa komórka społeczna, niezależna od ingerencji państwa.",
+        "news_examples": [
+          "Emancipacja i ochrona rodziny w polskim prawie",
+          "Wsparcie państwa dla polskich rodzin",
+          "Niezależność domowa i rodzinna w Polsce"
+        ]
+      },
+      "SOCIETY_PRIMACY": {
+        "score": 0.7,
+        "explanation": "Przemiany po 1989 roku potwierdziły pierwszeństwo wolnego społeczeństwa przed strukturami państwowymi w Polsce.",
+        "news_examples": [
+          "Rola społeczeństwa w transformacji ustrojowej Polski",
+          "Przewaga struktur społecznych nad państwowymi",
+          "Aktywność obywatelska w nowoczesnej Polsce"
+        ]
+      },
+      "SOCIETY_AS_GOAL": {
+        "score": 0.7,
+        "explanation": "Państwo polskie w założeniach ustrojowych służydobru obywateli, a nie traktuje ich instrumentalnie.",
+        "news_examples": [
+          "Dobro wspólne jako cel polskiego państwa",
+          "Polityka społeczna skierowana na dobro obywateli",
+          "Funkcja służebna instytucji publicznych w Polsce"
+        ]
+      },
+      "CHURCH_INDEPENDENCE": {
+        "score": 0.7,
+        "explanation": "Kościoły i związki wyznaniowe w Polsce posiadają autonomię i niezależność w swoich sprawach wewnętrznych.",
+        "news_examples": [
+          "Niezależność instytucji kościelnych w Polsce",
+          "Autonomia religijna w Rzeczypospolitej",
+          "Stosunki wyznaniowe w polskim państwie"
+        ]
+      },
+      "NO_STATOLATRY_PUBLIC_MONISM": {
+        "score": 0.7,
+        "explanation": "Polska odrzuciła dziedzictwo państwowości komunistycznej na rzecz demokracji i pluralizmu publicznego.",
+        "news_examples": [
+          "Odrzucenie kultu państwa w powojennej Polsce",
+          "Pluralizm w życiu publicznym Rzeczypospolitej",
+          "Demokratyczny model państwa bez statolatrii"
+        ]
+      },
+      "NO_PRIVATE_LAW_MONISM": {
+        "score": 0.8,
+        "explanation": "W polskim systemie prawnym wyraźnie oddzielono prawo prywatne od publicznego, chroniąc umowy i własność.",
+        "news_examples": [
+          "Rozdział prawa prywatnego od publicznego w Polsce",
+          "Swoboda umów w polskim prawie cywilnym",
+          "Ochrona relacji cywilnoprawnych w Rzeczypospolitej"
+        ]
+      },
+      "CITIZENS_ARE_FREE": {
+        "score": 0.8,
+        "explanation": "Obywatele Polski posiadają pełen wachlarz konstytucyjnych praw i wolności osobistych oraz politycznych.",
+        "news_examples": [
+          "Konstytucyjne wolności obywatelskie w Polsce",
+          "Prawa polityczne i osobiste Polaków",
+          "Swobody obywatelskie w demokratycznej Rzeczypospolitej"
+        ]
+      },
+      "NO_SACRAL_LAW_MONOPOLY": {
+        "score": 0.8,
+        "explanation": "Polska jest państwem świeckim o charakterze demokratycznym, bez monopolu prawa sakralnego.",
+        "news_examples": [
+          "Świecki charakter państwa polskiego",
+          "Brak sakralnego monopolu prawnego w Polsce",
+          "Konstytucyjny pluralizm światopoglądowy w Warszawie"
+        ]
+      },
+      "NO_EXCESS_REGULATION": {
+        "score": 0.5,
+        "explanation": "Współczesna gospodarka i administracja w Polsce zmagają się z biurokracją oraz licznymi przepisami.",
+        "news_examples": [
+          "Problem biurokracji i licznych przepisów w Polsce",
+          "Deregulacja gospodarcza w planach polskich władz",
+          "Wpływ unijnego i krajowego prawa na biznes w Polsce"
+        ]
+      }
+    },
+    "personalism_scores": {
+      "GOD_RELATION_PERSONAL_VS_COLLECTIVE": {
+        "score": 0.8,
+        "explanation": "W Polsce tradycja chrześcijańska, zapoczątkowana w 966 roku, mocno zakorzeniła osobistą relację z Bogiem.",
+        "news_examples": [
+          "Katolicyzm pozostaje dominującą religią w Polsce",
+          "Chrzest Mieszka I ukształtował polską kulturę",
+          "Dziedzictwo kulturowe Polski silnie opiera się na wierze"
+        ]
+      },
+      "RESPONSIBILITY_PERSONAL_VS_COLLECTIVE": {
+        "score": 0.7,
+        "explanation": "Współczesna Polska jako republika parlamentarna opiera się na indywidualnej odpowiedzialności obywateli.",
+        "news_examples": [
+          "Polska funkcjonuje jako demokratyczna republika parlamentarna",
+          "Obywatele Polski głosują w wyborach demokratycznych",
+          "Polska gospodarka opiera się na prywatnej przedsiębiorczości"
+        ]
+      },
+      "CONFESSION_PERSONAL_VS_COLLECTIVE": {
+        "score": 0.75,
+        "explanation": "Wolność wyznania w Polsce pozwala na indywidualne i osobiste praktykowanie wiary.",
+        "news_examples": [
+          "Większość Polaków deklaruje przynależność do Kościoła",
+          "Polska gwarantuje swobodę praktyk religijnych w prawie",
+          "Tradycja wyznaniowa w Polsce ma charakter osobisty"
+        ]
+      },
+      "FAMILY_EMANCIPATION_FROM_CLAN": {
+        "score": 0.7,
+        "explanation": "Polskie społeczeństwo odeszło od więzi klanowych na rzecz nowoczesnej rodziny i jednostki.",
+        "news_examples": [
+          "Polska liczy blisko trzydzieści siedem milionów mieszkańców",
+          "Struktura społeczna w Polsce opiera się na rodzinie",
+          "Polacy tworzą nowoczesne społeczeństwo oparte na prawie"
+        ]
+      },
+      "WOMAN_PERSONAL_FREEDOM": {
+        "score": 0.75,
+        "explanation": "Kobiety w Polsce posiadają pełne prawa obywatelskie i uczestniczą w życiu publicznym.",
+        "news_examples": [
+          "Polskie kobiety aktywnie pracują w sektorze usług",
+          "Konstytucja RP zapewnia równość obywateli w Polsce",
+          "Kobiety w Polsce piastują ważne funkcje publiczne"
+        ]
+      },
+      "PRIVATE_PROPERTY_INDEPENDENCE": {
+        "score": 0.8,
+        "explanation": "Polska gospodarka rynkowa gwarantuje nienaruszalność i niezależność prywatnej własności.",
+        "news_examples": [
+          "Polska rozwija wolną gospodarkę rynkową od lat",
+          "Polacy posiadają prawo do własności prywatnej",
+          "Wskaźnik wolności ekonomicznej w Polsce stale rośnie"
+        ]
+      },
+      "NEIGHBOR_DUTY_UNIVERSAL_VS_TRIBAL": {
+        "score": 0.65,
+        "explanation": "Etyka społeczna w Polsce czerpie z uniwersalizmu chrześcijańskiego, choć występują tendencje narodowe.",
+        "news_examples": [
+          "Polska należy do uniwersalistycznych struktur unijnych",
+          "Polacy angażują się w międzynarodową pomoc humanitarną",
+          "Społeczność w Polsce charakteryzuje się jednością etniczną"
+        ]
+      },
+      "WORK_AS_SANCTIFICATION_VS_COERCION": {
+        "score": 0.7,
+        "explanation": "Praca w Polsce ma charakter wolnego wyboru w ramach rozwiniętej gospodarki rynkowej.",
+        "news_examples": [
+          "Większość Polaków znajduje zatrudnienie w usługach",
+          "Polska gospodarka zapewnia dobre warunki pracy",
+          "Polacy wykazują dużą aktywność zawodową w kraju"
+        ]
+      },
+      "PERSONAL_RESPONSIBILITY_PRESENCE": {
+        "score": 0.75,
+        "explanation": "Polski system prawny i ustrojowy opiera się na koncepcji odpowiedzialnej jednostki.",
+        "news_examples": [
+          "Polska jest krajem demokratycznym z praworządnością",
+          "Obywatele w Polsce odpowiadają przed niezawisłymi sądami",
+          "Polska transformacja wzmocniła podmiotowość jednostki"
+        ]
+      },
+      "FAMILY_EMANCIPATION_GENERAL": {
+        "score": 0.7,
+        "explanation": "Rodzina w Polsce cieszy się autonomią i ochroną prawną jako podstawowa komórka.",
+        "news_examples": [
+          "Polska chroni instytucję rodziny w konstytucji",
+          "Rodziny w Polsce decydują o swoim modelu życia",
+          "Wsparcie państwa dla rodzin w Polsce rośnie"
+        ]
+      },
+      "STATUS_BY_BIRTH_PRIVILEGE": {
+        "score": 0.2,
+        "explanation": "Współczesna Polska odrzuciła przywileje stanowe, choć historia znała demokrację szlachecką.",
+        "news_examples": [
+          "Dawna Rzeczpospolita opierała się na demokracji szlacheckiej",
+          "Współczesna Polska zapewnia równość wobec prawa",
+          "Przywileje urodzeniowe w Polsce nie obwiązują"
+        ]
+      },
+      "STATUS_BY_CASTE_MEMBERSHIP": {
+        "score": 0.1,
+        "explanation": "W Polsce nie występują podziały kastywne, społeczeństwo ma charakter otwarty.",
+        "news_examples": [
+          "Polska zapewnia równe szanse edukacyjne i zawodowe",
+          "Społeczeństwo w Polsce nie zna pojęcia kasty",
+          "Awans społeczny w Polsce jest w pełni dostępny"
+        ]
+      },
+      "LEGAL_MONISM_PRESENCE": {
+        "score": 0.8,
+        "explanation": "Polska posiada jednolity system prawny obowiązujący na całym terytorium kraju.",
+        "news_examples": [
+          "Konstytucja Rzeczypospolitej Polskiej stanowi najwyższe prawo",
+          "Polska jako państwo unitarne ma jedno prawo",
+          "Sądy w Polsce stosują jednolite przepisy krajowe"
+        ]
+      },
+      "UNIFORMITY_MECHANICISM_PRESENCE": {
+        "score": 0.4,
+        "explanation": "Polska zachowuje różnorodność regionalną mimo unitarnego charakteru państwa.",
+        "news_examples": [
+          "Polska dzieli się na szesnaście zróżnicowanych województw",
+          "Kultura regionalna w Polsce jest bogata i pielęgnowana",
+          "Polska administracja uwzględnia specyfikę regionów"
+        ]
+      },
+      "HISTORICISM_PRESENCE": {
+        "score": 0.85,
+        "explanation": "Polska historia od roku 966 jest silnym punktem odniesienia dla tożsamości narodu.",
+        "news_examples": [
+          "Polska kultywuje pamięć o tysiącleciu swojej państwowości",
+          "W Polsce znajduje się wiele obiektów dziedzictwa UNESCO",
+          "Historia Polski kształtuje współczesną świadomość obywateli"
+        ]
+      },
+      "HEREDITARY_SURNAMES_PRESENCE": {
+        "score": 0.95,
+        "explanation": "W Polsce powszechnie stosuje się dziedziczne nazwiska rodowe.",
+        "news_examples": [
+          "Obywatele Polski posługują się dziedzicznymi nazwiskami",
+          "Polskie urzędy ewidencjonują nazwiska rodowe obywateli",
+          "Tradycja nazwisk w Polsce sięga głęboko w historię"
+        ]
+      }
+    },
+    "church_independence_scores": {
+      "hierarch_appointment": {
+        "score": -1,
+        "explanation": "Tekst nie zawiera danych o mianowaniu hierarchów kościelnych w Polsce.",
+        "news_examples": [
+          "Brak danych o powoływaniu biskupów w Polsce",
+          "Nominacje kościelne pozostają poza opisanym zakresem",
+          "Nieznane procedury obsadzania stanowisk w polskim kościele"
+        ]
+      },
+      "dogmatic_disputes": {
+        "score": -1,
+        "explanation": "Tekst nie odnosi się do sporów dogmatycznych w Polsce.",
+        "news_examples": [
+          "Brak informacji o sporach dogmatycznych w Polsce",
+          "Kwestie teologiczne pominięte w polskim opisie",
+          "Niewspomniane kontrowersje doktrynalne polskiego Kościoła"
+        ]
+      },
+      "economic_independence": {
+        "score": -1,
+        "explanation": "Tekst nie opisuje niezależności ekonomicznej Kościoła w Polsce.",
+        "news_examples": [
+          "Brak danych o finansach polskiego Kościoła",
+          "Status majątkowy instytucji kościelnych nieznany",
+          "Kwestie ekonomiczne religii pominięte w Polsce"
+        ]
+      },
+      "moral_sanctions_on_rulers": {
+        "score": -1,
+        "explanation": "Tekst nie zawiera informacji o sankcjach moralnych nakładanych na władców w Polsce.",
+        "news_examples": [
+          "Brak wzmianki o sankcjach moralnych dla władzy",
+          "Stosunek kościoła do moralności rządzących w Polsce",
+          "Nie oceniono wpływu etycznego na polski rząd"
+        ]
+      },
+      "canon_law_separation": {
+        "score": -1,
+        "explanation": "Tekst nie porusza kwestii odrębności prawa kanonicznego w Polsce.",
+        "news_examples": [
+          "Brak danych o prawie kanonicznym w Polsce",
+          "Relacje prawa państwowego i kanonicznego pominięte",
+          "Nieznana pozycja kodeksów kościelnych w Polsce"
+        ]
+      },
+      "brachium_saeculare": {
+        "score": -1,
+        "explanation": "Tekst nie wspomina o użyciu ramienia świeckiego na rzecz Kościoła w Polsce.",
+        "news_examples": [
+          "Brak informacji o brachium saeculare w Polsce",
+          "Wsparcie państwa dla kościoła nieopisane",
+          "Ramię świeckie bez odniesienia w polskich realiach"
+        ]
+      },
+      "total_ethics": {
+        "score": -1,
+        "explanation": "Tekst nie analizuje totalnej etyki religijnej w przestrzeni publicznej Polski.",
+        "news_examples": [
+          "Brak danych o etyce totalnej w polskim państwie",
+          "Moralność publiczna w Polsce nieanalizowana",
+          "Zasady Dekalogu w polskim urzędzie nieopisane"
+        ]
+      },
+      "divine_vs_caesar": {
+        "score": -1,
+        "explanation": "Tekst nie porusza dylematu posłuszeństwa Bogu zamiast Cezarowi w Polsce.",
+        "news_examples": [
+          "Brak danych o boskim prawie w Polsce",
+          "Granice posłuszeństwa państwu w polskim tekście",
+          "Relacja władzy boskiej i świeckiej w Polsce"
+        ]
+      },
+      "personalism_presence": {
+        "score": 0.5,
+        "explanation": "Tekst wspomina o prawach i wolnościach obywatelskich w demokratycznej Polsce.",
+        "news_examples": [
+          "Polska chroni wolność prasy w konstytucji",
+          "Obywatele Polski korzystają z praw demokratycznych",
+          "Status jednostki w polskim systemie prawnym"
+        ]
+      },
+      "freedom_of_conversion": {
+        "score": -1,
+        "explanation": "Tekst nie zawiera danych o wolności konwersji religijnej w Polsce.",
+        "news_examples": [
+          "Brak informacji o zmianie wyznania w Polsce",
+          "Wolność sumienia i konwersji nieopisana",
+          "Kwestie religijne obywateli Polski pominięte"
+        ]
+      },
+      "caesaropapism_absence": {
+        "score": 0.8,
+        "explanation": "Polska funkcjonuje jako republika parlamentarna wolna od tradycyjnego cezaropapizmu.",
+        "news_examples": [
+          "Polska jest demokratyczną republiką parlamentarną",
+          "Rozdział władzy świeckiej w polskim ustroju",
+          "Brak podporządkowania kościoła urzędowi w Polsce"
+        ]
+      },
+      "cuius_regio_absence": {
+        "score": 0.7,
+        "explanation": "Polska jako współczesne państwo gwarantuje wolność wyznania bez zasady cuius regio.",
+        "news_examples": [
+          "Polska zapewnia wolność religijną obywatelom",
+          "Brak przymusu wyznaniowego w polskim państwie",
+          "Pluralizm religijny w nowoczesnej Polsce"
+        ]
+      },
+      "statolatry_absence": {
+        "score": 0.7,
+        "explanation": "Polska jako państwo demokratyczne odrzuca totalitarną statolatrię.",
+        "news_examples": [
+          "Polska funkcjonuje jako państwo prawa",
+          "Odrzucenie kultu państwa w polskiej republice",
+          "Demokratyczny ustrój Polski sprzeciwia się statolatrii"
+        ]
+      },
+      "sacralism_absence": {
+        "score": 0.6,
+        "explanation": "Polska jest państwem świeckim z dominacją katolicyzmu bez teokratycznego sakralizmu.",
+        "news_examples": [
+          "Polska posiada status republiki parlamentarnej",
+          "Brak teokracji w politycznym ustroju Polski",
+          "Świecki charakter instytucji państwowych w Polsce"
+        ]
+      },
+      "confessional_bureaucracy_absence": {
+        "score": 0.8,
+        "explanation": "Polska administracja nie ma charakteru konfesyjnego biurokratycznego aparatu wyznaniowego.",
+        "news_examples": [
+          "Polska administracja działa w systemie świeckim",
+          "Brak urzędów konfesyjnych we współczesnej Polsce",
+          "Struktura państwowa Polski wolna od biurokracji wiary"
+        ]
+      }
+    },
+    "public_morality_totality_scores": {
+      "two_consciences_rejection": {
+        "score": -1,
+        "explanation": "Tekst ma charakter encyklopedyczny i całkowicie pomija kwestie dualizmu sumienia urzędników w Polsce.",
+        "news_examples": [
+          "Analiza podwójnego sumienia urzędników w Polsce",
+          "Etyczne dylematy administracji publicznej w Polsce",
+          "Moralność urzędnicza w świetle prawa w Polsce"
+        ]
+      },
+      "state_bound_by_decalogue": {
+        "score": -1,
+        "explanation": "W omawianym opisie encyklopedycznym Polski całkowicie pominięto relację państwa do zasad Dekalogu.",
+        "news_examples": [
+          "Zasady Dekalogu w polskim prawie państwowym",
+          "Wartości chrześcijańskie a polskie ustawodawstwo",
+          "Decydująca rola etyki religijnej w Polsce"
+        ]
+      },
+      "politics_as_ethical_domain": {
+        "score": -1,
+        "explanation": "Tekst źródłowy całkowicie pomija refleksję nad polityką jako domeną ściśle etyczną w Polsce.",
+        "news_examples": [
+          "Etyzacja życia politycznego w Rzeczypospolitej",
+          "Moralny wymiar decyzji rządzących w Polsce",
+          "Polityka jako moralny obowiązek w Polsce"
+        ]
+      },
+      "unethical_law_is_lawless": {
+        "score": -1,
+        "explanation": "Tekst nie porusza filozoficznego problemu bezprawia ustaw nieetycznych w polskim systemie.",
+        "news_examples": [
+          "Nieetyczne ustawy a bezprawie w Polsce",
+          "Sprawiedliwość naturalna w polskim sądownictwie",
+          "Problem moralności stanowionego prawa w Polsce"
+        ]
+      },
+      "evil_in_name_of_state_remains_evil": {
+        "score": -1,
+        "explanation": "Brak odniesień do czynienia zła w imię racji stanu w analizowanym tekście encyklopedycznym o Polsce.",
+        "news_examples": [
+          "Zło popełniane w interesie państwa polskiego",
+          "Racja stanu a uniwersalne zasady moralne w Polsce",
+          "Odpowiedzialność moralna za czyny państwowe w Polsce"
+        ]
+      },
+      "stricter_ethics_for_public_figures": {
+        "score": -1,
+        "explanation": "Tekst całkowicie pomija kwestię zaostrzonych wymogów moralnych wobec polityków i urzędników w Polsce.",
+        "news_examples": [
+          "Wyższe standardy etyczne dla elit w Polsce",
+          "Odpowiedzialność moralna polskich polityków",
+          "Etyka władzy publicznej w Rzeczypospolitej"
+        ]
+      },
+      "duty_to_fight_public_evil": {
+        "score": -1,
+        "explanation": "W opisie encyklopedycznym brakuje wątku moralnego obowiązku walki ze złem publicznym w Polsce.",
+        "news_examples": [
+          "Społeczny obowiązek zwalczania zła w Polsce",
+          "Reakcja obywateli na bezprawie w Polsce",
+          "Walka z patologiami życia publicznego w Polsce"
+        ]
+      },
+      "ethics_over_law_primacy_public": {
+        "score": -1,
+        "explanation": "Tekst nie odnosi się do relacji prymatu etyki nad stanowionym prawem publicznym w Polsce.",
+        "news_examples": [
+          "Wyższość norm moralnych nad prawem w Polsce",
+          "Konflikt sumienia z literą prawa w Polsce",
+          "Etyczne fundamenty polskiego ustawodawstwa"
+        ]
+      },
+      "personal_responsibility_in_public": {
+        "score": -1,
+        "explanation": "Kwestia osobistej odpowiedzialności moralnej w administracji Polski została całkowicie pominięta.",
+        "news_examples": [
+          "Osobista odpowiedzialność urzędników w Polsce",
+          "Personalizm w strukturach państwowych Polski",
+          "Koniec anonimowości biurokratycznej w Polsce"
+        ]
+      },
+      "legal_dualism_presence": {
+        "score": -1,
+        "explanation": "Tekst encyklopedyczny nie podejmuje zagadnienia dualizmu prawnego (prywatnego i publicznego) w Polsce.",
+        "news_examples": [
+          "Dualizm prawny w polskim systemie",
+          "Rozdział prawa cywilnego od publicznego w Polsce",
+          "Autonomia prawa prywatnego w Rzeczypospolitej"
+        ]
+      },
+      "good_as_dominant_category": {
+        "score": -1,
+        "explanation": "Tekst nie porusza metafizyczno-politycznej kategorii dobra jako dominującej w życiu publicznym Polski.",
+        "news_examples": [
+          "Kategoria dobra wspólnego w Polsce",
+          "Moralny ład w państwie polskim",
+          "Dobro powszechne jako cel polityki w Polsce"
+        ]
+      },
+      "dual_ethics_absence": {
+        "score": -1,
+        "explanation": "Problem istnienia podwójnej etyki (prywatnej i publicznej) nie pojawia się w tym tekście o Polsce.",
+        "news_examples": [
+          "Odrzucenie podwójnej moralności w Polsce",
+          "Jednolitość etyczna życia publicznego w Polsce",
+          "Krytyka dwulicowości politycznej w Polsce"
+        ]
+      },
+      "physical_force_supremacy_absence": {
+        "score": -1,
+        "explanation": "W opisie państwa polskiego pominięto zagadnienie prymatu siły fizycznej nad prawem i etyką.",
+        "news_examples": [
+          "Odrzucenie przemocy w polskiej polityce",
+          "Rządy prawa zamiast siły w Polsce",
+          "Przewaga etyki nad fizyczną dominacją w Polsce"
+        ]
+      },
+      "statolatry_absence": {
+        "score": -1,
+        "explanation": "Tekst o charakterze ogólnym i statystycznym nie porusza kwestii ubóstwiania państwa (statolatrii) w Polsce.",
+        "news_examples": [
+          "Krytyka kultu państwa w Rzeczypospolitej",
+          "Granice ingerencji państwa w życie Polaków",
+          "Odrzucenie statolatrii przez polskie społeczeństwo"
+        ]
+      },
+      "legalism_replacing_conscience_absence": {
+        "score": -1,
+        "explanation": "Kwestia zastępowania sumienia przez ślepy legalizm w urzędach Polski została całkowicie pominięta.",
+        "news_examples": [
+          "Sprzeciw wobec ślepego legalizmu w Polsce",
+          "Sumienie ponad paragrafami w urzędach Polski",
+          "Krytyka formalizmu urzędniczego w Polsce"
+        ]
+      },
+      "caesaropapism_absence": {
+        "score": -1,
+        "explanation": "Tekst encyklopedyczny nie podejmuje problematyki cezaropapizmu ani relacji władzy państwowej do religii w Polsce.",
+        "news_examples": [
+          "Niezależność sfery duchowej od państwa w Polsce",
+          "Brak cezaropapizmu w historii Polski",
+          "Stosunki państwo-kościół w Rzeczypospolitej"
         ]
       }
     }
-  },
-  "history_stats": {
-    "total_runs": 70,
-    "avg_quincunx": 0.91,
-    "avg_ethical_coherence": 7.0,
-    "avg_chyznosc": -1.0,
-    "avg_spirit": 0.38
   }
 }

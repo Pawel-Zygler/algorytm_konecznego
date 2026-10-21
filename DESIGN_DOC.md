@@ -169,38 +169,39 @@ Dashboard w nakładce Chrome (`extension/content.js`) jest podzielony na ergonom
 
 ```mermaid
 graph TD
-    Root[Panel Nakładki Algorytmu Konecznego v1.4.6]
+    Root["Panel Nakładki Algorytmu Konecznego v1.4.6"]
     
-    Root --> Header[Górny Pasek: Tytuł + Wersja + 💾 Zapisz Wyniki + Zamknij]
-    Root --> Dash[Koneczny Dashboard]
-    Root --> Tabs[Nawigacja Zakładkowa 1-6]
-    Root --> Details[Widoki Szczegółowe Zakładek z Kartami Akordeonowymi]
+    Root --> Header["Górny Pasek: Tytuł + Wersja + 💾 Zapisz Wyniki + Zamknij"]
+    Root --> Dash["Koneczny Dashboard"]
+    Root --> Tabs["Nawigacja Zakładkowa 1-6"]
+    Root --> Details["Widoki Szczegółowe Zakładek z Kartami Akordeonowymi"]
 
-    subgraph Dashboard Podsumowujący
-        Dash --> R1[Rząd 1: Cywilizacja\nChipy + Spektrum Wpływów + Moduł Drzew (4 Zakładki) + Zaawansowanie Zrzeszenia]
-        Dash --> R2[Rząd 2: Prawo\nDualizm vs Monizm Państwowy/Prywatny/Sakralny]
-        Dash --> R3[Rząd 3: Religia\nUniwersalna / Plemienna / Sakralna / Kastowa / Świecka]
-        Dash --> R4[Rząd 4: Cele Społeczeństwa\nSpoza Walki o Byt / Ustrój Obozowy / Machina / Formalizm]
-        Dash --> R5[Rząd 5: Emancypacja Rodziny\nMonogamia i Własność / Ustrój Rodowy / Poligamia / Statolatria]
-        Dash --> Kpi[5 Boksów KPI Kroków 1-5]
-        Dash --> Radar[Pajęczyna Quincunxa 5 Sfer + 6 Kart Statusu]
+    subgraph SG_Dash["Dashboard Podsumowujący"]
+        Dash --> R1["Rząd 1: Cywilizacja<br/>Chipy + Spektrum Wpływów + Moduł Drzew (5 Zakładek) + Zaawansowanie Zrzeszenia"]
+        Dash --> R2["Rząd 2: Prawo<br/>Dualizm vs Monizm Państwowy/Prywatny/Sakralny"]
+        Dash --> R3["Rząd 3: Religia<br/>Uniwersalna / Plemienna / Sakralna / Kastowa / Świecka"]
+        Dash --> R4["Rząd 4: Cele Społeczeństwa<br/>Spoza Walki o Byt / Ustrój Obozowy / Machina / Formalizm"]
+        Dash --> R5["Rząd 5: Emancypacja Rodziny<br/>Monogamia i Własność / Ustrój Rodowy / Poligamia / Statolatria"]
+        Dash --> Kpi["5 Boksów KPI Kroków 1-5"]
+        Dash --> Radar["Pajęczyna Quincunxa 5 Sfer + 6 Kart Statusu"]
     end
 
-    subgraph Moduł Drzew Decyzyjnych (4 Zakładki w Rzędzie 1)
-        R1 --> DTab1[Zakładka 1: 🌿 Drzewo Decyzyjne Mantis\nAlgorytm Pareto 80/20 & Bramki Informacyjne]
-        R1 --> DTab2[Zakładka 2: 🏛️ Schemat Feliksa Konecznego\nKlasyczny Podział od Cech Najwyższej Wagi / Ducha]
-        R1 --> DTab3[Zakładka 3: 🧬 Metoda Odwrotna Konecznego\nOd Ustroju Rodowego ku Emancypacji Sił Duchowych]
-        R1 --> DTab4[Zakładka 4: ⏳ Stosunek do Czasu Konecznego\nOd Czasomiernictwa do Historycyzmu i Chyżości Dziejowej]
+    subgraph SG_Trees["Moduł Drzew Decyzyjnych (5 Zakładek w Rzędzie 1)"]
+        R1 --> DTab1["Zakładka 1: 🌿 Drzewo Decyzyjne Mantis<br/>Algorytm Pareto 80/20 & Bramki Informacyjne"]
+        R1 --> DTab2["Zakładka 2: 🏛️ Schemat Feliksa Konecznego<br/>Klasyczny Podział od Cech Najwyższej Wagi / Ducha"]
+        R1 --> DTab3["Zakładka 3: 🧬 Metoda Odwrotna Konecznego<br/>Od Ustroju Rodowego ku Emancypacji Sił Duchowych"]
+        R1 --> DTab4["Zakładka 4: ⏳ Stosunek do Czasu Konecznego<br/>Od Czasomiernictwa do Historycyzmu i Chyżości Dziejowej"]
+        R1 --> DTab5["Zakładka 5: ⚖️ Cechy Łączące i Dzielące<br/>Systematyka Feliksa Konecznego z Pionem Łacińskim"]
     end
 
-    subgraph Zaawansowanie Cywilizacyjne Zrzeszenia - Mountain Climber Steps
-        R1 --> M6[Poziom 06: Naród Organiczny - 100%]
-        R1 --> M5[Poziom 05: Personalizm i Dualizm - 91%]
-        R1 --> M4[Poziom 04: Emancypacja Rodziny - 82%]
-        R1 --> M3[Poziom 03: Pętla Monizmu - 73%]
-        R1 --> M2[Poziom 02: Ród Imienny - 64%]
-        R1 --> M1[Poziom 01: Gromadztwo Bezimienne - 55%]
-        R1 --> SDetail[Interaktywny Panel Szczegółów Szczebla]
+    subgraph SG_Steps["Zaawansowanie Cywilizacyjne Zrzeszenia - Mountain Climber Steps"]
+        R1 --> M6["Poziom 06: Naród Organiczny - 100%"]
+        R1 --> M5["Poziom 05: Personalizm i Dualizm - 91%"]
+        R1 --> M4["Poziom 04: Emancypacja Rodziny - 82%"]
+        R1 --> M3["Poziom 03: Pętla Monizmu - 73%"]
+        R1 --> M2["Poziom 02: Ród Imienny - 64%"]
+        R1 --> M1["Poziom 01: Gromadztwo Bezimienne - 55%"]
+        R1 --> SDetail["Interaktywny Panel Szczegółów Szczebla"]
     end
 ```
 

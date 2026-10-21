@@ -19,7 +19,7 @@ test.describe('Smoke Suite: Inicjalizacja Wtyczki i Dashboardu na Wikipedii', ()
     await expect(konecznyTrigger).toBeVisible({ timeout: 10000 });
   });
 
-  test('Krok 2: Uruchomienie analizy, otwarcie panelu bocznego i weryfikacja 4 zakładek metodologicznych', async ({ page }) => {
+  test('Krok 2: Uruchomienie analizy, otwarcie panelu bocznego i weryfikacja 5 zakładek metodologicznych', async ({ page }) => {
     // 1. Wczytanie deterministycznego payloadu analizy Polski (izolacja od sieci i limitów API Gemini)
     const mockFixturePath = path.resolve(__dirname, '../fixtures/mock_polska_result.json');
     const mockData = JSON.parse(fs.readFileSync(mockFixturePath, 'utf-8'));
@@ -48,24 +48,33 @@ test.describe('Smoke Suite: Inicjalizacja Wtyczki i Dashboardu na Wikipedii', ()
     const panel = page.locator('#koneczny-panel');
     await expect(panel).toHaveClass(/open/, { timeout: 10000 });
 
-    // 6. Weryfikacja wyrenderowania Dashboardu Algorytmu Konecznego
+    // 6. Weryfikacja wyrenderowania Dashboardu Algorytmu Konecznego i diagnozy dla Polski
     const dashboard = page.locator('.koneczny-dashboard');
     await expect(dashboard).toBeVisible({ timeout: 15000 });
+    await expect(dashboard).toContainText('Łacińska');
+    await expect(dashboard).toContainText('Dominacja norm personalistycznych');
 
     // 7. Moduł drzewa decyzyjnego
     const decisionTree = page.locator('#decision-tree-container');
     await expect(decisionTree).toBeVisible();
 
-    // 8. Obecność wszystkich 4 zakładek metodologicznych
+    // 8. Obecność wszystkich 5 zakładek metodologicznych
     await expect(page.locator('.tree-subtab-btn[data-tree-tab="mantis"]')).toBeVisible();
     await expect(page.locator('.tree-subtab-btn[data-tree-tab="koneczny"]')).toBeVisible();
     await expect(page.locator('.tree-subtab-btn[data-tree-tab="koneczny_reverse"]')).toBeVisible();
     await expect(page.locator('.tree-subtab-btn[data-tree-tab="koneczny_time"]')).toBeVisible();
+    await expect(page.locator('.tree-subtab-btn[data-tree-tab="koneczny_pillar"]')).toBeVisible();
 
     // 9. Sprawdzenie interaktywnego przełączenia na zakładkę 4 (Stosunek do czasu)
     const timeTabBtn = page.locator('.tree-subtab-btn[data-tree-tab="koneczny_time"]');
     await timeTabBtn.click();
     await expect(page.locator('text=Dla przykładu dorysujmy sobie jeszcze tabelkę według stosunku do czasu').first()).toBeVisible();
+
+    // 10. Sprawdzenie przełączenia na zakładkę 5 (Systematyka - Pion Łaciński)
+    const pillarTabBtn = page.locator('.tree-subtab-btn[data-tree-tab="koneczny_pillar"]');
+    await pillarTabBtn.click();
+    await expect(page.locator('text=PION WZORCOWY (ODNIESIENIE)').first()).toBeVisible();
+    await expect(page.locator('text=Matryca Syntetyczna: Zestawienie 7 Cywilizacji').first()).toBeVisible();
   });
 
   test('Krok 3: Weryfikacja kontrolek nagłówka i przycisku eksportu raportu JSON', async ({ page }) => {

@@ -93,6 +93,7 @@ Automatyzacja w TypeScript (`e2e/`) zintegrowana z CI/CD:
 - **Diagnostyka:** logi ze znacznikami czasu, zrzuty ekranu, HTML Shadow DOM i trace.
 - **Polecenia:**
   - `make test-smoke` – szybki test wtyczki (domyślny)
+  - `make test-logs` – uruchomienie z logami zdarzeń na żywo
   - `make test-resume` – wznowienie od błędu (`--last-failed`)
   - `make test-repeat` – 3 cykle powtórzeń (stabilność)
   - `make test-ui` – interfejs graficzny Playwright

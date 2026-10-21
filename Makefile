@@ -1,4 +1,4 @@
-.PHONY: start run stop test test-smoke test-resume test-repeat test-ui test-debug test-trace test-report test-e2e test-all
+.PHONY: start run stop test test-smoke test-resume test-repeat test-ui test-debug test-trace test-logs test-api-logs test-report test-e2e test-all
 
 start:
 	@echo "🏛️ Uruchamianie backendu Algorytmu Konecznego na porcie 8005..."
@@ -42,6 +42,14 @@ test-debug:
 test-trace:
 	@echo "📸 Uruchamianie testów z wymuszonym generowaniem pełnego trace.zip..."
 	@npm run test:trace
+
+test-logs:
+	@echo "📋 Uruchamianie testów z logami konsoli przeglądarki na żywo (stdout + test-results/browser-console.log)..."
+	@npm run test:logs
+
+test-api-logs:
+	@echo "🔍 Uruchamianie testów z pełnymi logami API Playwright (pw:api)..."
+	@npm run test:api-logs
 
 test-report:
 	@echo "📊 Otwieranie raportu diagnostycznego HTML..."
