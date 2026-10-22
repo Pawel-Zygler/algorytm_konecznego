@@ -64,7 +64,8 @@ Gdy jakikolwiek test nie przejdzie, w katalogu `test-results/` oraz w raporcie H
 
 | Zadanie | Makefile | NPM Script |
 |---|---|---|
-| **Domyślne uruchomienie Smoke Testu** | `make test-smoke` | `npm test` lub `npm run test:smoke` |
+| **Smoke Suite (Kroki 1, 2, 3)** | `make test-smoke` | `npm test` lub `npm run test:smoke` |
+| **Regression Suite (Kroki 1, 2, 3, 4, 5)** | `make test-regression` | `npm run test:regression` lub `npm run test:e2e` |
 | **Uruchomienie z logami zdarzeń na żywo** | `make test-logs` | `npm run test:logs` |
 | **Uruchomienie z wewnętrznymi logami API silnika** | `make test-api-logs` | `npm run test:api-logs` |
 | **Wznowienie po poprawce błędu** | `make test-resume` | `npm run test:resume` |
@@ -82,9 +83,11 @@ Gdy jakikolwiek test nie przejdzie, w katalogu `test-results/` oraz w raporcie H
 ```
 e2e/
 ├── fixtures/
-│   ├── extension.fixture.ts     # Zarządzanie profilem, izolacja, przechwytywanie logów i zrzutów
-│   └── mock_polska_result.json  # Deterministyczny payload analizy (izolacja od limitów Gemini)
+│   ├── extension.fixture.ts                     # Zarządzanie profilem, izolacja, logi i zrzuty
+│   ├── mock_polska_result.json                  # Deterministyczny payload analizy Polski (Cyw. Łacińska)
+│   └── mock_german_confederation_result.json    # Deterministyczny payload German Confederation (Cyw. Bizantyńska)
 ├── specs/
-│   └── smoke.spec.ts            # Modułowe testy inicjalizacji, Dashboardu, zakładek i eksportu
-└── README.md                    # Niniejsza dokumentacja
+│   ├── smoke.spec.ts                            # Smoke Scope (Kroki 1, 2, 3)
+│   └── regression.spec.ts                       # Regression Scope (Kroki 1, 2, 3, 4, 5)
+└── README.md                                    # Niniejsza dokumentacja
 ```

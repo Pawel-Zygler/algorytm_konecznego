@@ -1,0 +1,1933 @@
+{
+  "meta": {
+    "aplikacja": "Algorytm Konecznego - Analiza Cywilizacyjna",
+    "metoda": "Historiozoficzna metoda Feliksa Konecznego",
+    "wersja": "1.4.6",
+    "data_analizy": "2026-10-22T09:25:08.970Z",
+    "url": "https://en.wikipedia.org/wiki/German_Confederation",
+    "tytuł_strony": "German Confederation - Wikipedia"
+  },
+  "klasyfikacja_dashboard": {
+    "cywilizacja_główna": "Bizantyńska",
+    "diagnoza_cywilizacyjna": "Monizm Prawa Publicznego (Cezaropapizm, biurokracja, dwoistość sumienia)",
+    "sakralność": -1,
+    "supremacja_ducha": 0.33,
+    "etyka_7_generaliów": null,
+    "diagnoza_generaliów": "",
+    "chyżość_historyczna_oponowanie_czasu": null,
+    "quincunx_pięciomian_bytu": null,
+    "diagnoza_quincunxa": ""
+  },
+  "kategorie_pięciomianu_quincunx": {},
+  "surowe_oceny_indeksów": {
+    "conscience_status_scores": {
+      "no_statutory_morality_only": {
+        "score": 0.4,
+        "explanation": "German Confederation relied heavily on formal treaties like the Final Act of Vienna.",
+        "news_examples": [
+          "Formal treaties governing the German Confederation legal acts",
+          "Statutory regulations within the German Confederation Diet",
+          "Legal compliance in the German Confederation member states"
+        ]
+      },
+      "conscience_as_supreme_judge": {
+        "score": 0.3,
+        "explanation": "Individual conscience subordinated to collective agreements of the German Confederation.",
+        "news_examples": [
+          "Subordination of conscience in the German Confederation politics",
+          "Diet decrees overriding individual conscience in the German Confederation",
+          "Absence of moral autonomy in the German Confederation structures"
+        ]
+      },
+      "no_legislative_elephantiasis": {
+        "score": 0.5,
+        "explanation": "Limited legislative scope focused mainly on security within the German Confederation.",
+        "news_examples": [
+          "Narrow legislative focus of the German Confederation Federal Convention",
+          "Treaty-based regulations across the German Confederation states",
+          "Minimalist statutory framework in the German Confederation"
+        ]
+      },
+      "refusal_of_immoral_orders": {
+        "score": 0.3,
+        "explanation": "Military alliance character of the German Confederation enforced strict obedience.",
+        "news_examples": [
+          "Military obedience demands in the German Confederation forces",
+          "Enforcement of federal decrees across the German Confederation",
+          "Suppression of dissent within the German Confederation armies"
+        ]
+      },
+      "personal_accountability_god": {
+        "score": 0.4,
+        "explanation": "Monarchic traditions retained religious elements in the German Confederation.",
+        "news_examples": [
+          "Monarchic divine right in the German Confederation member states",
+          "Religious affiliations of rulers in the German Confederation",
+          "Traditional Christian oaths in the German Confederation courts"
+        ]
+      },
+      "no_shylock_formalism": {
+        "score": 0.4,
+        "explanation": "Strict adherence to treaties defined the legalism of the German Confederation.",
+        "news_examples": [
+          "Rigid treaty enforcement within the German Confederation",
+          "Formalistic disputes at the German Confederation Diet",
+          "Legalistic interpretations of the German Confederation acts"
+        ]
+      },
+      "ethics_above_law": {
+        "score": 0.3,
+        "explanation": "Realpolitik and state interests dominated over abstract ethics in the German Confederation.",
+        "news_examples": [
+          "Primacy of power politics in the German Confederation",
+          "Austrian and Prussian hegemony in the German Confederation",
+          "Interstate agreements overriding ethics in the German Confederation"
+        ]
+      },
+      "personalism_sovereignty": {
+        "score": 0.3,
+        "explanation": "States and princes were sovereign, leaving little room for individual personalism.",
+        "news_examples": [
+          "Princely sovereignty within the German Confederation",
+          "Lack of citizen representation in the German Confederation Diet",
+          "Suppression of liberal personalism in the German Confederation"
+        ]
+      },
+      "good_hegemony_over_law": {
+        "score": 0.3,
+        "explanation": "Diplomatic interests and security dictated actions rather than moral hegemony.",
+        "news_examples": [
+          "Security-driven policies of the German Confederation",
+          "Diplomatic maneuvers among the German Confederation powers",
+          "Strategic imperatives shaping the German Confederation decisions"
+        ]
+      },
+      "legal_dualism_privacy": {
+        "score": 0.4,
+        "explanation": "Complex legal landscape across 39 states of the German Confederation.",
+        "news_examples": [
+          "Legal pluralism among the German Confederation states",
+          "Division of laws in the German Confederation territories",
+          "Federal versus state law in the German Confederation"
+        ]
+      },
+      "aposteriori_experience": {
+        "score": 0.4,
+        "explanation": "Post-Napoleonic restoration built on historical remnants in the German Confederation.",
+        "news_examples": [
+          "Restoration politics forming the German Confederation",
+          "Historical adaptation after the German Confederation creation",
+          "Evolution of institutions within the German Confederation"
+        ]
+      },
+      "no_casuistry_expropriation": {
+        "score": 0.4,
+        "explanation": "Bureaucratic and diplomatic negotiations characterized the German Confederation.",
+        "news_examples": [
+          "Diplomatic casuistry at the German Confederation meetings",
+          "Bureaucratic maneuvering in the German Confederation Diet",
+          "Complex jurisdiction disputes in the German Confederation"
+        ]
+      },
+      "no_byzantine_statolatry": {
+        "score": 0.5,
+        "explanation": "Decentralized confederation of states prevented total statolatry.",
+        "news_examples": [
+          "Decentralized nature of the German Confederation",
+          "Multiple sovereign monarchies within the German Confederation",
+          "Absence of a unified central state in the German Confederation"
+        ]
+      },
+      "no_socialist_gregarious_fear": {
+        "score": 0.5,
+        "explanation": "Pre-industrial and aristocratic dominance resisted socialist collectivism initially.",
+        "news_examples": [
+          "Aristocratic control over the German Confederation politics",
+          "Suppression of revolutionary sentiments in the German Confederation",
+          "Opposition to socialist movements in the German Confederation"
+        ]
+      },
+      "no_camp_turanian_coercion": {
+        "score": 0.4,
+        "explanation": "Autocratic suppression of 1848 revolutions mirrored coercive measures.",
+        "news_examples": [
+          "Suppression of the 1848 revolution in the German Confederation",
+          "Coercive intervention by Austria in the German Confederation",
+          "Authoritarian restoration across the German Confederation"
+        ]
+      }
+    },
+    "conscience_status_news_1": "Establishment of the German Confederation by the Congress of Vienna in 1815",
+    "conscience_status_news_2": "Political struggles and the Frankfurt Constitution within the German Confederation",
+    "conscience_status_news_3": "Dissolution of the German Confederation following the Austro-Prussian War of 1866",
+    "conscience_status_justification": "The German Confederation represented a loose association of sovereign states focused primarily on security and diplomacy, where institutional formalism and power politics of Austria and Prussia often superseded individual conscience and moral autonomy.",
+    "sacrality_scores": {
+      "RELIGIOUS_LAW_SUPREMACY": {
+        "score": -1,
+        "explanation": "Tekst dotyczy ustroju Związku Niemieckiego, brak danych o prawie sakralnym.",
+        "news_examples": [
+          "Związek Niemiecki opierał się na świeckim prawie państwowym.",
+          "Współczesne Niemcy utrzymują prymat prawa świeckiego nad religijnym.",
+          "Austria opiera swój system prawny na konstytucji świeckiej."
+        ]
+      },
+      "THEOCRATIC_AUTHORITY": {
+        "score": -1,
+        "explanation": "Brak informacji w analizowanym tekście na temat teokracji w Związku.",
+        "news_examples": [
+          "Władzę w Związku Niemieckim sprawowali świeccy monarchowie.",
+          "Współczesne państwa niemieckojęzyczne mają władze świeckie.",
+          "Monarchia austriacka wywodziła władzę z sukcesji świeckiej."
+        ]
+      },
+      "FAMILY_RELIGIOUS_CONTROL": {
+        "score": -1,
+        "explanation": "W tekście brak jakichkolwiek wzmianek o kontroli religijnej rodziny.",
+        "news_examples": [
+          "Prawo rodzinne w Niemczech podlega regulacjom cywilnym.",
+          "Małżeństwa cywilne są wyłączną normą prawną w Austrii.",
+          "Związek Niemiecki nie regulował spraw rodzinnych kościelnie."
+        ]
+      },
+      "RELIGIOUS_EDUCATION": {
+        "score": -1,
+        "explanation": "Analizowany fragment nie porusza kwestii edukacji religijnej.",
+        "news_examples": [
+          "Niemieckie szkoły publiczne podlegają nadzorowi państwowemu.",
+          "Edukacja w krajach związkowych Niemiec jest świecka.",
+          "Systemy oświatowe Prus i Austrii podlegały władzom świeckim."
+        ]
+      },
+      "PROPERTY_RELIGIOUS_CONTROL": {
+        "score": -1,
+        "explanation": "Brak danych w tekście dotyczących religijnej kontroli własności.",
+        "news_examples": [
+          "Własność w krajach niemieckich podlegała prawu cywilnemu.",
+          "Prawo własności we współczesnych Niemczech jest w pełni świeckie.",
+          "Majątki w Związku Niemieckim regulowały przepisy państwowe."
+        ]
+      },
+      "SACRAL_CRIMINAL_LAW": {
+        "score": -1,
+        "explanation": "Tekst nie zawiera informacji o sakralnym prawie karnym w Związku.",
+        "news_examples": [
+          "Prawo karne Związku Niemieckiego miało charakter świecki.",
+          "Kodeks karny Niemiec opiera się na zasadach praworządności.",
+          "Austria stosuje świecki kodeks karny bez sankcji religijnych."
+        ]
+      },
+      "RELIGIOUS_TIME_CALENDAR": {
+        "score": -1,
+        "explanation": "Analizowany tekst nie wspomina o kalendarzu religijnym.",
+        "news_examples": [
+          "Związek Niemiecki stosował państwowy kalendarz gregoriański.",
+          "Czas pracy i święta w Niemczech regulują ustawy państwowe.",
+          "System kalendarzowy w Austrii opiera się na prawie świeckim."
+        ]
+      },
+      "SCIENCE_RELIGION_FUSION": {
+        "score": -1,
+        "explanation": "W tekście brak informacji na temat powiązania nauki z religią.",
+        "news_examples": [
+          "Naukowe instytucje w Niemczech działały niezależnie od dogmatów.",
+          "Uniwersytety w Niemczech prowadzą badania bez kontroli religii.",
+          "Austriackie placówki naukowe zachowują autonomiczną świeckość."
+        ]
+      },
+      "ETHICS_RELIGION_IDENTITY": {
+        "score": -1,
+        "explanation": "Brak danych w tekście dotyczących utożsamienia etyki z religią.",
+        "news_examples": [
+          "Systemy prawne krajów niemieckich rozdzielały etykę od religii.",
+          "Współczesna etyka publiczna w Niemczech jest niezależna.",
+          "Prawo Związku Niemieckiego bazowało na umowach politycznych."
+        ]
+      },
+      "SACRAL_ECONOMICS": {
+        "score": -1,
+        "explanation": "Tekst wspomina jedynie świeckie waluty, brak sakralizacji ekonomii.",
+        "news_examples": [
+          "Związek Niemiecki wprowadzał świeckie waluty jak Vereinsthaler.",
+          "Gospodarka niemiecka opiera się na zasadach rynkowych.",
+          "Austriacki system finansowy działa bez regulacji religijnych."
+        ]
+      },
+      "SOCIAL_HIERARCHY_RELIGIOUS": {
+        "score": -1,
+        "explanation": "Brak w tekście informacji o religijnej hierarchii społecznej.",
+        "news_examples": [
+          "Hierarchia w Związku Niemieckim opierała się na stanie i tytule.",
+          "Struktura społeczna państw niemieckich miała charakter świecki.",
+          "Pozycja obywateli w Austrii nie zależy od wyznania."
+        ]
+      },
+      "STATE_CHURCH_UNITY": {
+        "score": -1,
+        "explanation": "Tekst podaje wyznania, lecz nie opisuje jedności państwa i kościoła.",
+        "news_examples": [
+          "Związek Niemiecki skupiał państwa katolickie i protestanckie.",
+          "Niemcy zachowują rozdział kościoła od państwa w konstytucji.",
+          "Austria gwarantuje wolność religijną i autonomię związków."
+        ]
+      },
+      "APOSTASY_PUNISHMENT": {
+        "score": -1,
+        "explanation": "W analizowanym tekście brak informacji o karaniu za apostazję.",
+        "news_examples": [
+          "Prawo Związku Niemieckiego nie przewidywało kar za apostazję.",
+          "Obywatele Niemiec mają pełną wolność zmiany wyznania.",
+          "Porządek prawny Austrii chroni wolność sumienia."
+        ]
+      }
+    },
+    "legal_dualism_scores": {
+      "PRIVATE_RIGHTS_SPHERE": {
+        "score": 0.4,
+        "explanation": "Sfera praw prywatnych była podporządkowana gwarancjom bezpieczeństwa państwowego i władzy monarchicznej.",
+        "news_examples": [
+          "Związek Niemiecki ogranicza swobody obywatelskie",
+          "Debata nad prawami prywatnymi we Frankfurcie",
+          "Monarchowie ingerują w sferę prywatną"
+        ]
+      },
+      "FAMILY_AUTONOMY": {
+        "score": -1,
+        "explanation": "Tekst nie odnosi się do kwestii autonomii rodziny w Związku Niemieckim.",
+        "news_examples": [
+          "Tradycyjne prawo rodzinne w państwach niemieckich",
+          "Brak regulacji spraw rodzinnych na poziomie Związku",
+          "Autonomia rodzinna w państwach Związku Niemieckiego"
+        ]
+      },
+      "PROPERTY_PROTECTION": {
+        "score": 0.5,
+        "explanation": "Ochrona własności była uznawana, lecz podlegała zwierzchnictwu władców państw członkowskich.",
+        "news_examples": [
+          "Spory o własność gruntów w Niemczech",
+          "Ochrona praw majątkowych w państwach Związku",
+          "Prusy i Austria wobec prawa własności"
+        ]
+      },
+      "NATURAL_INHERITANCE": {
+        "score": 0.5,
+        "explanation": "Dziedziczenie było fundamentem ustroju dynastycznego państw członkowskich Związku.",
+        "news_examples": [
+          "Spory sukcesyjne w księstwach niemieckich",
+          "Prawo dziedziczenia monarchów w Związku",
+          "Zasady dziedziczenia w państwach niemieckich"
+        ]
+      },
+      "POWER_LIMITS": {
+        "score": 0.2,
+        "explanation": "Władza monarchów była słabo ograniczona, co wykazała tłumiona rewolucja 1848 roku.",
+        "news_examples": [
+          "Absolutyzm monarchów w Związku Niemieckim",
+          "Brak skutecznych ograniczeń władzy książąt",
+          "Tłumienie dążeń konstytucyjnych w 1848 roku"
+        ]
+      },
+      "OPPOSITION_RIGHT": {
+        "score": 0.1,
+        "explanation": "Prawo do opozycji było tłumione przez monarchów i decyzje Związku Niemieckiego.",
+        "news_examples": [
+          "Związek Niemiecki tłumi ruchy liberalne",
+          "Zakaz działalności opozycyjnej w Prusach",
+          "Reakcja monarchów na rewolucję 1848 roku"
+        ]
+      },
+      "STATE_MORALITY_SUBORDINATION": {
+        "score": 0.2,
+        "explanation": "Państwo i bezpieczeństwo Związku stawiano wyżej niż uniwersalne zasady moralne.",
+        "news_examples": [
+          "Racja stanu Związku ponad etyką",
+          "Polityka Metternicha a zasady moralne",
+          "Interes dynastyczny głównym celem polityki"
+        ]
+      },
+      "DIVINE_VS_CAESAR": {
+        "score": 0.3,
+        "explanation": "Monarchowie łączyli sankcję boską z pełnią władzy państwowej.",
+        "news_examples": [
+          "Monarchowie niemieccy powołują się na prawo boskie",
+          "Relacja Kościoła i państwa w Związku",
+          "Dominacja władzy świeckiej w państwach niemieckich"
+        ]
+      },
+      "RULER_ETHICS_EQUALITY": {
+        "score": 0.2,
+        "explanation": "Monarchowie i władcy państw byli wyjęci spod powszechnych norm etyczno-prawnych.",
+        "news_examples": [
+          "Nierówność władców i poddanych wobec prawa",
+          "Monarchowie ponad powszechnym prawem",
+          "Brak odpowiedzialności etycznej monarchów"
+        ]
+      },
+      "INDEPENDENT_JUDICIARY": {
+        "score": 0.3,
+        "explanation": "Sądownictwo było w dużej mierze podporządkowane władzy monarchicznej.",
+        "news_examples": [
+          "Sądy zależne od decyzji książąt",
+          "Brak niezależnego sądownictwa w Związku",
+          "Brak centralnego sądu dla obywateli Związku"
+        ]
+      },
+      "OFFICIAL_RESPONSIBILITY": {
+        "score": 0.2,
+        "explanation": "Urzędnicy odpowiadali przed monarchą, a nie bezpośrednio przed obywatelami.",
+        "news_examples": [
+          "Urzędnicy pruscy odpowiedzialni przed królem",
+          "Brak osobistej odpowiedzialności urzędników",
+          "Biurokracja na służbie państw monarchicznych"
+        ]
+      },
+      "APOSTERIORI_LAW": {
+        "score": 0.4,
+        "explanation": "Prawo Związku opierało się na traktatach i dyplomacji, lecz nakładało odgórne ramy.",
+        "news_examples": [
+          "Akt Końcowy z 1820 roku reguluje Związek",
+          "Dyplomatyczne fundamenty prawa Związku",
+          "Traktaty wiedeńskie jako źródło prawa"
+        ]
+      },
+      "ASSOCIATION_AUTONOMY": {
+        "score": 0.2,
+        "explanation": "Swoboda zrzeszania się była silnie ograniczana przez władze państw członkowskich.",
+        "news_examples": [
+          "Ograniczenia dla stowarzyszeń w Związku",
+          "Tłumienie organizacji liberalnych w Niemczech",
+          "Kontrola państwa nad zgromadzeniami"
+        ]
+      },
+      "LAND_OWNERSHIP_FULL": {
+        "score": 0.5,
+        "explanation": "Pełne prawo własności ziemi ulegało ewolucji, lecz ciążyły na nim pozostałości feudalne.",
+        "news_examples": [
+          "Stosunki własności ziemskiej w Prusach",
+          "Reformy uwłaszczeniowe w państwach niemieckich",
+          "Własność ziemska a prawa stanowe"
+        ]
+      },
+      "LOCAL_LAW_TOLERANCE": {
+        "score": 0.6,
+        "explanation": "Związek tolerował znaczne różnice prawne i autonomię poszczególnych państw.",
+        "news_examples": [
+          "Różnorodność prawodawstwa w państwach Związku",
+          "Autonomia prawna państw członkowskich",
+          "Brak jednolitego kodeksu w Związku"
+        ]
+      },
+      "LAW_CONSCIENCE_EQUALITY": {
+        "score": 0.2,
+        "explanation": "Państwa Związku wymuszały posłuszeństwo, przedkładając prawo państwowe nad sumienie.",
+        "news_examples": [
+          "Sumienie obywateli podporządkowane państwu",
+          "Brak wolności sumienia w państwach monarchicznych",
+          "Cenzura i nacisk na jednomyślność"
+        ]
+      },
+      "FAMILY_EMANCIPATION": {
+        "score": -1,
+        "explanation": "Tekst nie zawiera informacji o procesach emancypacji rodziny.",
+        "news_examples": [
+          "Sprawy emancypacji rodziny w Niemczech",
+          "Tradycyjna struktura rodziny w XIX wieku",
+          "Brak państwowych regulacji rodziny"
+        ]
+      },
+      "SOCIETY_PRIMACY": {
+        "score": 0.2,
+        "explanation": "Społeczeństwo traktowano jako podmiot podporządkowany woli monarchów i państwa.",
+        "news_examples": [
+          "Prymat państwa nad społeczeństwem w Niemczech",
+          "Społeczeństwo celem kontroli monarchów",
+          "Odmowa praw obywatelskich przez Związek"
+        ]
+      },
+      "SOCIETY_AS_GOAL": {
+        "score": 0.2,
+        "explanation": "Celem Związku było bezpieczeństwo monarchii i dynastyczne utrzymanie władzy.",
+        "news_examples": [
+          "Związek Niemiecki służy bezpieczeństwu władców",
+          "Ochrona dynastii głównym celem Związku",
+          "Brak celów prospołecznych Związku"
+        ]
+      },
+      "CHURCH_INDEPENDENCE": {
+        "score": 0.4,
+        "explanation": "Kościoły podlegały znacznej kontroli i protektoratowi monarchów państw.",
+        "news_examples": [
+          "Kontrola państwa nad Kościołami w Niemczech",
+          "Relacje Kościoła katolickiego i protestanckiego",
+          "Wpływ monarchów na sprawy kościelne"
+        ]
+      },
+      "NO_STATOLATRY_PUBLIC_MONISM": {
+        "score": 0.2,
+        "explanation": "Związek narzucał nadrzędność prawa federalnego i absolutyzację państwa.",
+        "news_examples": [
+          "Nadrzędność prawa federalnego nad państwowym",
+          "Absolutyzacja państwa w monarchiach niemieckich",
+          "Krytyka etatyzmu Związku Niemieckiego"
+        ]
+      },
+      "NO_PRIVATE_LAW_MONISM": {
+        "score": 0.5,
+        "explanation": "Prawo prywatne zachowywało odrębność, choć bywało podporządkowane interesowi państwa.",
+        "news_examples": [
+          "Rozdzielenie prawa prywatnego od publicznego",
+          "Spory o autonomię prawa cywilnego",
+          "Kodeksy cywilne w państwach niemieckich"
+        ]
+      },
+      "CITIZENS_ARE_FREE": {
+        "score": 0.2,
+        "explanation": "Mieszkańcy państw byli głównie poddanymi monarchów, a nie wolnymi obywatelami.",
+        "news_examples": [
+          "Poddani zamiast wolnych obywateli w Związku",
+          "Ograniczenia wolności obywatelskich po 1848 r.",
+          "Walka o prawa obywatelskie we Frankfurcie"
+        ]
+      },
+      "NO_SACRAL_LAW_MONOPOLY": {
+        "score": 0.8,
+        "explanation": "Prawo nie miało charakteru sakralnego, lecz świecko-dynastyczny i prawno-państwowy.",
+        "news_examples": [
+          "Świecki charakter prawa Związku Niemieckiego",
+          "Brak monopolu prawa sakralnego w Związku",
+          "Prawo państwowe zastępuje reguły wyznaniowe"
+        ]
+      },
+      "NO_EXCESS_REGULATION": {
+        "score": 0.3,
+        "explanation": "Państwa Związku stosowały rozbudowaną regulację policyjną i cenzurę.",
+        "news_examples": [
+          "Cenzura i przeregulowanie w państwach Związku",
+          "Nadzór policyjny nad życiem publicznym",
+          "Ograniczenia prasy w Związku Niemieckim"
+        ]
+      }
+    },
+    "personalism_scores": {
+      "GOD_RELATION_PERSONAL_VS_COLLECTIVE": {
+        "score": -1,
+        "explanation": "Tekst podaje jedynie przynależność religijną państw, brak danych o relacji z Bogiem.",
+        "news_examples": [
+          "Spór o autonomię Kościoła w Niemczech",
+          "Religia a państwo w Związku Niemieckim",
+          "Kwestia wolności sumienia w państwach niemieckich"
+        ]
+      },
+      "RESPONSIBILITY_PERSONAL_VS_COLLECTIVE": {
+        "score": 0.2,
+        "explanation": "Struktura Związku opierała się na kolektywnej woli władców i organów państwowych.",
+        "news_examples": [
+          "Odpowiedzialność państw członkowskich w Związku Niemieckim",
+          "Decyzje Sejmu Rzeszy a suwerenność władców",
+          "Kolektywne bezpieczeństwo państw niemieckich w 1815"
+        ]
+      },
+      "CONFESSION_PERSONAL_VS_COLLECTIVE": {
+        "score": 0.3,
+        "explanation": "Wyznanie miało charakter państwowo-kolektywny w ramach poszczególnych księstw.",
+        "news_examples": [
+          "Podziały wyznaniowe w Związku Niemieckim",
+          "Katolicyzm i protestantyzm w państwach niemieckich",
+          "Rola wyznań w polityce Związku Niemieckiego"
+        ]
+      },
+      "FAMILY_EMANCIPATION_FROM_CLAN": {
+        "score": -1,
+        "explanation": "Tekst nie porusza zagadnienia emancypacji rodziny z rodu.",
+        "news_examples": [
+          "Prawo rodzinne w XIX-wiecznych Niemczech",
+          "Struktura rodowa dynastii w Związku Niemieckim",
+          "Pozycja rodziny w prawie państw niemieckich"
+        ]
+      },
+      "WOMAN_PERSONAL_FREEDOM": {
+        "score": -1,
+        "explanation": "Brak jakichkolwiek informacji o wolności osobistej kobiet w tekście.",
+        "news_examples": [
+          "Prawa kobiet w państwach Związku Niemieckiego",
+          "Sytuacja prawna kobiet w XIX-wiecznych Niemczech",
+          "Ruchy emancypacyjne w państwach niemieckich 1848"
+        ]
+      },
+      "PRIVATE_PROPERTY_INDEPENDENCE": {
+        "score": -1,
+        "explanation": "Tekst pomija kwestie własności prywatnej i jej niezależności.",
+        "news_examples": [
+          "Ochrona własności w państwach Związku Niemieckiego",
+          "Reformy gospodarcze w państwach niemieckich",
+          "Prawo własności a suwerenność książąt niemieckich"
+        ]
+      },
+      "NEIGHBOR_DUTY_UNIVERSAL_VS_TRIBAL": {
+        "score": 0.3,
+        "explanation": "Dominował interes państwowy i nacjonalizm nad uniwersalnym obowiązkiem.",
+        "news_examples": [
+          "Nacjonalizm a spójność Związku Niemieckiego",
+          "Rywalizacja prusko-austriacka o prymat w Niemczech",
+          "Pojęcie wspólnoty w niemieckich państwach 1815"
+        ]
+      },
+      "WORK_AS_SANCTIFICATION_VS_COERCION": {
+        "score": -1,
+        "explanation": "Tekst nie zawiera odniesień do charakteru pracy ludzkiej.",
+        "news_examples": [
+          "Warunki pracy w krajach Związku Niemieckiego",
+          "Uprzemysłowienie a praca w państwach niemieckich",
+          "Prawo pracy w XIX-wiecznych Niemczech"
+        ]
+      },
+      "PERSONAL_RESPONSIBILITY_PRESENCE": {
+        "score": 0.2,
+        "explanation": "Odpowiedzialność spoczywała na instytucjach i monarchach, a nie jednostkach.",
+        "news_examples": [
+          "Odpowiedzialność polityczna monarchów Związku Niemieckiego",
+          "Rola jednostki w rewolucji 1848 roku",
+          "Suwerenność monarchów a odpowiedzialność osobista"
+        ]
+      },
+      "FAMILY_EMANCIPATION_GENERAL": {
+        "score": -1,
+        "explanation": "Tekst nie porusza ogólnej kwestii emancypacji rodziny.",
+        "news_examples": [
+          "Status prawny rodziny w Związku Niemieckim",
+          "Ewolucja prawa rodzinnego w państwach niemieckich",
+          "Autonomia rodziny w XIX-wiecznym prawie niemieckim"
+        ]
+      },
+      "STATUS_BY_BIRTH_PRIVILEGE": {
+        "score": 0.8,
+        "explanation": "Władza i status opierały się na przywileju urodzenia i sukcesji dynastycznej.",
+        "news_examples": [
+          "Przywileje rodowe monarchów Związku Niemieckiego",
+          "Dynastyczne sukcesje w księstwach niemieckich",
+          "Arystokracja a władza w Związku Niemieckim"
+        ]
+      },
+      "STATUS_BY_CASTE_MEMBERSHIP": {
+        "score": 0.6,
+        "explanation": "Struktury stanowe wyznaczały pozycję społeczną w państwach Związku.",
+        "news_examples": [
+          "Podziały stanowe w państwach niemieckich",
+          "Rola stanów w Związku Niemieckim",
+          "Koniec feudalizmu w krajach niemieckich"
+        ]
+      },
+      "LEGAL_MONISM_PRESENCE": {
+        "score": 0.7,
+        "explanation": "Prawo związkowe stało ponad prawem poszczególnych państw członkowskich.",
+        "news_examples": [
+          "Nadrzędność prawa związkowego nad państwowym",
+          "Wiążące uchwały Sejmu Związku Niemieckiego",
+          "Jednolitość prawna w Związku Niemieckim"
+        ]
+      },
+      "UNIFORMITY_MECHANICISM_PRESENCE": {
+        "score": 0.6,
+        "explanation": "Związek dążył do mechanicznej jednomyślności i sztywnych zasad prawnych.",
+        "news_examples": [
+          "Wymóg jednomyślności w Sejmie Związkowym",
+          "Mechanizmy decyzyjne Związku Niemieckiego",
+          "Paraliż decyzyjny w Związku Niemieckim"
+        ]
+      },
+      "HISTORICISM_PRESENCE": {
+        "score": 0.8,
+        "explanation": "Związek utworzono w nawiązaniu do tradycji Świętego Cesarstwa Rzymskiego.",
+        "news_examples": [
+          "Dziedzictwo Świętego Cesarstwa w Związku Niemieckim",
+          "Kontynuacja historyczna państw niemieckich 1815",
+          "Kongres wiedeński a tradycja niemiecka"
+        ]
+      },
+      "HEREDITARY_SURNAMES_PRESENCE": {
+        "score": -1,
+        "explanation": "Tekst całkowicie pomija temat nazwisk dziedzicznych.",
+        "news_examples": [
+          "System nazwisk w państwach niemieckich",
+          "Ewidencja ludności w Związku Niemieckim",
+          "Prawo do nazwiska w XIX-wiecznych Niemczech"
+        ]
+      }
+    },
+    "church_independence_scores": {
+      "hierarch_appointment": {
+        "score": -1,
+        "explanation": "Tekst nie zawiera informacji na temat procedur nominacji hierarchów kościelnych w Związku Niemieckim.",
+        "news_examples": [
+          "Brak danych o nominacjach biskupich Związku",
+          "Brak informacji o wpływie władców niemieckich",
+          "Brak opisu procedur wyboru hierarchów Kościoła"
+        ]
+      },
+      "dogmatic_disputes": {
+        "score": -1,
+        "explanation": "W tekście brak jakichkolwiek wzmianek o rozstrzyganiu sporów dogmatycznych w państwach niemieckich.",
+        "news_examples": [
+          "Brak opisu sporów teologicznych w tekście",
+          "Brak informacji o ingerencji władz w dogmaty",
+          "Brak danych o rozstrzyganiu kwestii wiary"
+        ]
+      },
+      "economic_independence": {
+        "score": -1,
+        "explanation": "Tekst nie przedstawia danych dotyczących finansowania Kościoła ani jego majątku w Związku Niemieckim.",
+        "news_examples": [
+          "Brak danych o majątku Kościoła Związku",
+          "Brak informacji o finansowaniu instytucji religijnych",
+          "Brak opisu niezależności ekonomicznej kleru niemieckiego"
+        ]
+      },
+      "moral_sanctions_on_rulers": {
+        "score": -1,
+        "explanation": "Brak informacji w tekście na temat nakładania sankcji moralnych na władców przez Kościół.",
+        "news_examples": [
+          "Brak danych o sankcjach kościelnych na monarchów",
+          "Brak opisów ekskomunik w Związku Niemieckim",
+          "Brak informacji o ocenie moralnej władców"
+        ]
+      },
+      "canon_law_separation": {
+        "score": -1,
+        "explanation": "Tekst nie porusza kwestii odrębności prawa kanonicznego od państwowego w państwach niemieckich.",
+        "news_examples": [
+          "Brak danych o statusie prawa kanonicznego",
+          "Brak informacji o sądownictwie kościelnym Związku",
+          "Brak opisu relacji prawa państwowego i kanonicznego"
+        ]
+      },
+      "brachium_saeculare": {
+        "score": -1,
+        "explanation": "W analizowanym tekście brak danych na temat wykorzystywania aparat państwowego do egzekwowania wyroków kościelnych.",
+        "news_examples": [
+          "Brak informacji o świeckim ramieniu Kościoła",
+          "Brak danych o egzekwowaniu wyroków duchownych",
+          "Brak opisu współpracy przymusowej państwa z Kościołem"
+        ]
+      },
+      "total_ethics": {
+        "score": -1,
+        "explanation": "Tekst nie zawiera informacji o obowiązywaniu jednej etyki w życiu publicznym i prywatnym.",
+        "news_examples": [
+          "Brak danych o powszechności etyki chrześcijańskiej",
+          "Brak informacji o normach etycznych w polityce",
+          "Brak opisu etycznego wymiaru prawa Związku"
+        ]
+      },
+      "divine_vs_caesar": {
+        "score": -1,
+        "explanation": "Tekst nie opisuje rozgraniczenia sfery boskiej od cesarskiej w strukturach Związku Niemieckiego.",
+        "news_examples": [
+          "Brak danych o rozdziale Kościoła od państwa",
+          "Brak opisu kompetencji władzy świeckiej i duchownej",
+          "Brak informacji o granicach władzy monarchów"
+        ]
+      },
+      "personalism_presence": {
+        "score": -1,
+        "explanation": "W tekście brak informacji dotyczących obecności personalizmu chrześcijańskiego w prawie Związku.",
+        "news_examples": [
+          "Brak danych o podmiotowości człowieka w prawie",
+          "Brak opisu godności ludzkiej w strukturach",
+          "Brak informacji o wpływie personalizmu na ustawy"
+        ]
+      },
+      "freedom_of_conversion": {
+        "score": -1,
+        "explanation": "Tekst nie podaje informacji na temat wolności zmiany wyznania w państwach Związku Niemieckiego.",
+        "news_examples": [
+          "Brak danych o prawie do konwersji wyznaniowej",
+          "Brak informacji o swobodzie zmiany religii",
+          "Brak opisu regulacji dotyczących konwersji"
+        ]
+      },
+      "caesaropapism_absence": {
+        "score": -1,
+        "explanation": "Tekst nie analizuje występowania lub braku zjawiska cezaropapizmu w państwach niemieckich.",
+        "news_examples": [
+          "Brak danych o podporządkowaniu Kościoła monarchom",
+          "Brak informacji o zwierzchnictwie państwa nad religią",
+          "Brak opisu relacji władzy świeckiej do duchownej"
+        ]
+      },
+      "cuius_regio_absence": {
+        "score": -1,
+        "explanation": "Brak informacji w tekście na temat stosowania zasady cuius regio eius religio w Związku.",
+        "news_examples": [
+          "Brak danych o narzucaniu religii przez władców",
+          "Brak informacji o wolności wyznaniowej poddanych",
+          "Brak opisu wolności religijnej w księstwach"
+        ]
+      },
+      "statolatry_absence": {
+        "score": -1,
+        "explanation": "Tekst nie odnosi się do kwestii istnienia lub braku kultu państwa w Związku Niemieckim.",
+        "news_examples": [
+          "Brak danych o ubóstwieniu instytucji państwa",
+          "Brak informacji o ideologii państwowej Związku",
+          "Brak opisu stosunku do supremacji państwa"
+        ]
+      },
+      "sacralism_absence": {
+        "score": -1,
+        "explanation": "W tekście brak wzmianek o obecności lub braku sakralizacji struktur państwowych.",
+        "news_examples": [
+          "Brak danych o teokratycznych cechach Związku",
+          "Brak informacji o sakralizacji władzy monarchów",
+          "Brak opisu religijnego charakteru państwa"
+        ]
+      },
+      "confessional_bureaucracy_absence": {
+        "score": -1,
+        "explanation": "Tekst nie opisuje biurokracji konfesyjnej ani przekształcania duchownych w urzędników.",
+        "news_examples": [
+          "Brak danych o duchownych jako urzędnikach państwowych",
+          "Brak informacji o biurokratyzacji Kościoła",
+          "Brak opisu państwowej kontroli nad klerem"
+        ]
+      }
+    },
+    "church_news_1": "Utworzenie Związku Niemieckiego na kongresie wiedeńskim",
+    "church_news_2": "Rywalizacja Austrii i Prus w strukturach Związku",
+    "church_news_3": "Rozwiązanie Związku Niemieckiego po wojnie 1866 roku",
+    "church_justification": "Przesłany tekst jest opisem historyczno-politycznym Związku Niemieckiego z Wikipedii i nie zawiera żadnych szczegółowych informacji na temat relacji Państwo-Kościół ani niezawisłości instytucji religijnych.",
+    "public_morality_totality_scores": {
+      "two_consciences_rejection": {
+        "score": -1,
+        "explanation": "Tekst nie odnosi się do kwestii jednego sumienia w życiu publicznym i prywatnym.",
+        "news_examples": [
+          "Brak zasad moralnych w dyplomacji",
+          "Interes państwa ponad sumieniem",
+          "Polityka siły w Związku Niemieckim"
+        ]
+      },
+      "state_bound_by_decalogue": {
+        "score": -1,
+        "explanation": "Tekst nie porusza zagadnienia związania państwa normami Dekalogu.",
+        "news_examples": [
+          "Związek Niemiecki bez fundamentu etycznego",
+          "Rywalizacja Prus i Austrii bez zasad",
+          "Traktaty dyplomatyczne wypierają dekalog"
+        ]
+      },
+      "politics_as_ethical_domain": {
+        "score": 0.1,
+        "explanation": "Polityka Związku opierała się na rywalizacji mocarstw i utrzymaniu władzy monarchów, a nie etyce.",
+        "news_examples": [
+          "Stłumienie rewolucji 1848 roku siłą",
+          "Rywalizacja Austrii i Prus o dominację",
+          "Sojusz wojskowy zamiast zasad etyki"
+        ]
+      },
+      "unethical_law_is_lawless": {
+        "score": -1,
+        "explanation": "Tekst nie zawiera odniesień do koncepcji bezprawia ustawowego.",
+        "news_examples": [
+          "Nadrzędność prawa Związku nad krajowym",
+          "Surowe zasady Aktu Końcowego z 1820",
+          "Prawo tworzone dla ochrony monarchów"
+        ]
+      },
+      "evil_in_name_of_state_remains_evil": {
+        "score": -1,
+        "explanation": "Tekst nie ocenia moralnie działań państwa pod kątem absolutnego dobra i zła.",
+        "news_examples": [
+          "Użycie siły przeciwko rewolucjonistom",
+          "Znoszenie autonomii w imię bezpieczeństwa",
+          "Działania wojenne w wojnie 1866 roku"
+        ]
+      },
+      "stricter_ethics_for_public_figures": {
+        "score": -1,
+        "explanation": "Brak informacji o wymogach etycznych wobec dyplomatów i władców.",
+        "news_examples": [
+          "Dyplomaci na Kongresie Wiedeńskim",
+          "Władcy państw członkowskich Związku",
+          "Przedstawiciele Sejmu Związkowego w Frankfurcie"
+        ]
+      },
+      "duty_to_fight_public_evil": {
+        "score": 0.2,
+        "explanation": "Tekst wspomina o rewolucjach 1848 roku, które jednak zostały stłumione przez państwa.",
+        "news_examples": [
+          "Wybuch rewolucji liberalnych w 1848",
+          "Próba uchwalenia Konstytucji w Frankfurcie",
+          "Stłumienie ruchów wolnościowych przez monarchów"
+        ]
+      },
+      "ethics_over_law_primacy_public": {
+        "score": 0.1,
+        "explanation": "Prawo związkowe miało prymat nad prawem krajowym, bez odwołania do etyki.",
+        "news_examples": [
+          "Nadrzędność prawa federalnego nad stanowym",
+          "Wiążące uchwały Sejmu w Frankfurcie",
+          "Legalizm dyplomatyczny ustaleń Kongresu Wiedeńskiego"
+        ]
+      },
+      "personal_responsibility_in_public": {
+        "score": -1,
+        "explanation": "Tekst opisuje relacje między monarchiami bez wspominania o odpowiedzialności personalnej.",
+        "news_examples": [
+          "Anonimowa biurokracja w Sejmie Związkowym",
+          "Decyzje podejmowane jednomyślnie przez państwa",
+          "Brak odpowiedzialności osobistej samych władców"
+        ]
+      },
+      "legal_dualism_presence": {
+        "score": -1,
+        "explanation": "Tekst skupia się na prawie publicznym i strukturze sojuszu, pomijając prawo prywatne.",
+        "news_examples": [
+          "Podział na prawo stanowe i związkowe",
+          "Brak rozróżnienia na prawo prywatne",
+          "Dominacja prawa publicznego w Związku"
+        ]
+      },
+      "good_as_dominant_category": {
+        "score": 0.1,
+        "explanation": "Dominującą kategorią w tekście jest bezpieczeństwo i równowaga sił, a nie dobro.",
+        "news_examples": [
+          "Kwestie bezpieczeństwa celem Związku Niemieckiego",
+          "Równowaga sił między wielkimi mocarstwami",
+          "Sojusz wojskowy dla ochrony monarchii"
+        ]
+      },
+      "dual_ethics_absence": {
+        "score": 0.1,
+        "explanation": "Działania państw kierowane były interesem politycznym i siłą, co wskazuje na obecność podwójnej etyki.",
+        "news_examples": [
+          "Interes Prus i Austrii ponad sojuszem",
+          "Pragmatyzm dyplomacji na Kongresie Wiedeńskim",
+          "Stosowanie siły w polityce wewnętrznej"
+        ]
+      },
+      "physical_force_supremacy_absence": {
+        "score": 0.1,
+        "explanation": "Związek opierał się na sile militarnej i tłumieniu zamieszek wewnętrznych.",
+        "news_examples": [
+          "Stłumienie rewolucji za pomocą siły oręża",
+          "Wojna prusko-austriacka z 1866 roku",
+          "Sojusz wojskowy przeciw wrogom zewnętrznym"
+        ]
+      },
+      "statolatry_absence": {
+        "score": 0.3,
+        "explanation": "Związek był słabą konfederacją, choć poszczególne państwa członkowskie miały charakter autorytarny.",
+        "news_examples": [
+          "Słabość naczelnych organów Związku Niemieckiego",
+          "Brak jednego jednolitego państwa niemieckiego",
+          "Niezależność monarchii w Związku Niemieckim"
+        ]
+      },
+      "legalism_replacing_conscience_absence": {
+        "score": 0.2,
+        "explanation": "System opierał się na formalnych traktatach, zasadzie jednomyślności i dyplomacji proceduralnej.",
+        "news_examples": [
+          "Formalizm prawny Sejmu w Frankfurcie",
+          "Wymóg jednomyślności w podejmowaniu decyzji",
+          "Sztywne procedury Aktu Końcowego Związku"
+        ]
+      },
+      "caesaropapism_absence": {
+        "score": 0.3,
+        "explanation": "Tekst wspomina o wyznaniach katolickim i protestanckim bez szczegółów o relacji państwo-Kościół.",
+        "news_examples": [
+          "Współistnienie wyznań katolickiego i protestanckiego",
+          "Rola monarchów w państwowych Kościołach",
+          "Wielowyznaniowość krajów członkowskich Związku Niemieckiego"
+        ]
+      }
+    },
+    "public_morality_news_1": "Związek Niemiecki stłumił rewolucję 1848 roku",
+    "public_morality_news_2": "Prusy i Austria rywalizują w Frankfurcie",
+    "public_morality_news_3": "Wojna 1866 roku kończy istnienie Związku",
+    "public_morality_justification": "Tekst opisuje Związek Niemiecki jako strukturę polityczno-wojskową podporządkowaną interesom mocarstw i pozbawioną wymiaru etycznego."
+  },
+  "pełne_dane_wynikowe": {
+    "raw_ratings": {
+      "conscience_status_scores": {
+        "no_statutory_morality_only": {
+          "score": 0.4,
+          "explanation": "German Confederation relied heavily on formal treaties like the Final Act of Vienna.",
+          "news_examples": [
+            "Formal treaties governing the German Confederation legal acts",
+            "Statutory regulations within the German Confederation Diet",
+            "Legal compliance in the German Confederation member states"
+          ]
+        },
+        "conscience_as_supreme_judge": {
+          "score": 0.3,
+          "explanation": "Individual conscience subordinated to collective agreements of the German Confederation.",
+          "news_examples": [
+            "Subordination of conscience in the German Confederation politics",
+            "Diet decrees overriding individual conscience in the German Confederation",
+            "Absence of moral autonomy in the German Confederation structures"
+          ]
+        },
+        "no_legislative_elephantiasis": {
+          "score": 0.5,
+          "explanation": "Limited legislative scope focused mainly on security within the German Confederation.",
+          "news_examples": [
+            "Narrow legislative focus of the German Confederation Federal Convention",
+            "Treaty-based regulations across the German Confederation states",
+            "Minimalist statutory framework in the German Confederation"
+          ]
+        },
+        "refusal_of_immoral_orders": {
+          "score": 0.3,
+          "explanation": "Military alliance character of the German Confederation enforced strict obedience.",
+          "news_examples": [
+            "Military obedience demands in the German Confederation forces",
+            "Enforcement of federal decrees across the German Confederation",
+            "Suppression of dissent within the German Confederation armies"
+          ]
+        },
+        "personal_accountability_god": {
+          "score": 0.4,
+          "explanation": "Monarchic traditions retained religious elements in the German Confederation.",
+          "news_examples": [
+            "Monarchic divine right in the German Confederation member states",
+            "Religious affiliations of rulers in the German Confederation",
+            "Traditional Christian oaths in the German Confederation courts"
+          ]
+        },
+        "no_shylock_formalism": {
+          "score": 0.4,
+          "explanation": "Strict adherence to treaties defined the legalism of the German Confederation.",
+          "news_examples": [
+            "Rigid treaty enforcement within the German Confederation",
+            "Formalistic disputes at the German Confederation Diet",
+            "Legalistic interpretations of the German Confederation acts"
+          ]
+        },
+        "ethics_above_law": {
+          "score": 0.3,
+          "explanation": "Realpolitik and state interests dominated over abstract ethics in the German Confederation.",
+          "news_examples": [
+            "Primacy of power politics in the German Confederation",
+            "Austrian and Prussian hegemony in the German Confederation",
+            "Interstate agreements overriding ethics in the German Confederation"
+          ]
+        },
+        "personalism_sovereignty": {
+          "score": 0.3,
+          "explanation": "States and princes were sovereign, leaving little room for individual personalism.",
+          "news_examples": [
+            "Princely sovereignty within the German Confederation",
+            "Lack of citizen representation in the German Confederation Diet",
+            "Suppression of liberal personalism in the German Confederation"
+          ]
+        },
+        "good_hegemony_over_law": {
+          "score": 0.3,
+          "explanation": "Diplomatic interests and security dictated actions rather than moral hegemony.",
+          "news_examples": [
+            "Security-driven policies of the German Confederation",
+            "Diplomatic maneuvers among the German Confederation powers",
+            "Strategic imperatives shaping the German Confederation decisions"
+          ]
+        },
+        "legal_dualism_privacy": {
+          "score": 0.4,
+          "explanation": "Complex legal landscape across 39 states of the German Confederation.",
+          "news_examples": [
+            "Legal pluralism among the German Confederation states",
+            "Division of laws in the German Confederation territories",
+            "Federal versus state law in the German Confederation"
+          ]
+        },
+        "aposteriori_experience": {
+          "score": 0.4,
+          "explanation": "Post-Napoleonic restoration built on historical remnants in the German Confederation.",
+          "news_examples": [
+            "Restoration politics forming the German Confederation",
+            "Historical adaptation after the German Confederation creation",
+            "Evolution of institutions within the German Confederation"
+          ]
+        },
+        "no_casuistry_expropriation": {
+          "score": 0.4,
+          "explanation": "Bureaucratic and diplomatic negotiations characterized the German Confederation.",
+          "news_examples": [
+            "Diplomatic casuistry at the German Confederation meetings",
+            "Bureaucratic maneuvering in the German Confederation Diet",
+            "Complex jurisdiction disputes in the German Confederation"
+          ]
+        },
+        "no_byzantine_statolatry": {
+          "score": 0.5,
+          "explanation": "Decentralized confederation of states prevented total statolatry.",
+          "news_examples": [
+            "Decentralized nature of the German Confederation",
+            "Multiple sovereign monarchies within the German Confederation",
+            "Absence of a unified central state in the German Confederation"
+          ]
+        },
+        "no_socialist_gregarious_fear": {
+          "score": 0.5,
+          "explanation": "Pre-industrial and aristocratic dominance resisted socialist collectivism initially.",
+          "news_examples": [
+            "Aristocratic control over the German Confederation politics",
+            "Suppression of revolutionary sentiments in the German Confederation",
+            "Opposition to socialist movements in the German Confederation"
+          ]
+        },
+        "no_camp_turanian_coercion": {
+          "score": 0.4,
+          "explanation": "Autocratic suppression of 1848 revolutions mirrored coercive measures.",
+          "news_examples": [
+            "Suppression of the 1848 revolution in the German Confederation",
+            "Coercive intervention by Austria in the German Confederation",
+            "Authoritarian restoration across the German Confederation"
+          ]
+        }
+      },
+      "conscience_status_news_1": "Establishment of the German Confederation by the Congress of Vienna in 1815",
+      "conscience_status_news_2": "Political struggles and the Frankfurt Constitution within the German Confederation",
+      "conscience_status_news_3": "Dissolution of the German Confederation following the Austro-Prussian War of 1866",
+      "conscience_status_justification": "The German Confederation represented a loose association of sovereign states focused primarily on security and diplomacy, where institutional formalism and power politics of Austria and Prussia often superseded individual conscience and moral autonomy.",
+      "sacrality_scores": {
+        "RELIGIOUS_LAW_SUPREMACY": {
+          "score": -1,
+          "explanation": "Tekst dotyczy ustroju Związku Niemieckiego, brak danych o prawie sakralnym.",
+          "news_examples": [
+            "Związek Niemiecki opierał się na świeckim prawie państwowym.",
+            "Współczesne Niemcy utrzymują prymat prawa świeckiego nad religijnym.",
+            "Austria opiera swój system prawny na konstytucji świeckiej."
+          ]
+        },
+        "THEOCRATIC_AUTHORITY": {
+          "score": -1,
+          "explanation": "Brak informacji w analizowanym tekście na temat teokracji w Związku.",
+          "news_examples": [
+            "Władzę w Związku Niemieckim sprawowali świeccy monarchowie.",
+            "Współczesne państwa niemieckojęzyczne mają władze świeckie.",
+            "Monarchia austriacka wywodziła władzę z sukcesji świeckiej."
+          ]
+        },
+        "FAMILY_RELIGIOUS_CONTROL": {
+          "score": -1,
+          "explanation": "W tekście brak jakichkolwiek wzmianek o kontroli religijnej rodziny.",
+          "news_examples": [
+            "Prawo rodzinne w Niemczech podlega regulacjom cywilnym.",
+            "Małżeństwa cywilne są wyłączną normą prawną w Austrii.",
+            "Związek Niemiecki nie regulował spraw rodzinnych kościelnie."
+          ]
+        },
+        "RELIGIOUS_EDUCATION": {
+          "score": -1,
+          "explanation": "Analizowany fragment nie porusza kwestii edukacji religijnej.",
+          "news_examples": [
+            "Niemieckie szkoły publiczne podlegają nadzorowi państwowemu.",
+            "Edukacja w krajach związkowych Niemiec jest świecka.",
+            "Systemy oświatowe Prus i Austrii podlegały władzom świeckim."
+          ]
+        },
+        "PROPERTY_RELIGIOUS_CONTROL": {
+          "score": -1,
+          "explanation": "Brak danych w tekście dotyczących religijnej kontroli własności.",
+          "news_examples": [
+            "Własność w krajach niemieckich podlegała prawu cywilnemu.",
+            "Prawo własności we współczesnych Niemczech jest w pełni świeckie.",
+            "Majątki w Związku Niemieckim regulowały przepisy państwowe."
+          ]
+        },
+        "SACRAL_CRIMINAL_LAW": {
+          "score": -1,
+          "explanation": "Tekst nie zawiera informacji o sakralnym prawie karnym w Związku.",
+          "news_examples": [
+            "Prawo karne Związku Niemieckiego miało charakter świecki.",
+            "Kodeks karny Niemiec opiera się na zasadach praworządności.",
+            "Austria stosuje świecki kodeks karny bez sankcji religijnych."
+          ]
+        },
+        "RELIGIOUS_TIME_CALENDAR": {
+          "score": -1,
+          "explanation": "Analizowany tekst nie wspomina o kalendarzu religijnym.",
+          "news_examples": [
+            "Związek Niemiecki stosował państwowy kalendarz gregoriański.",
+            "Czas pracy i święta w Niemczech regulują ustawy państwowe.",
+            "System kalendarzowy w Austrii opiera się na prawie świeckim."
+          ]
+        },
+        "SCIENCE_RELIGION_FUSION": {
+          "score": -1,
+          "explanation": "W tekście brak informacji na temat powiązania nauki z religią.",
+          "news_examples": [
+            "Naukowe instytucje w Niemczech działały niezależnie od dogmatów.",
+            "Uniwersytety w Niemczech prowadzą badania bez kontroli religii.",
+            "Austriackie placówki naukowe zachowują autonomiczną świeckość."
+          ]
+        },
+        "ETHICS_RELIGION_IDENTITY": {
+          "score": -1,
+          "explanation": "Brak danych w tekście dotyczących utożsamienia etyki z religią.",
+          "news_examples": [
+            "Systemy prawne krajów niemieckich rozdzielały etykę od religii.",
+            "Współczesna etyka publiczna w Niemczech jest niezależna.",
+            "Prawo Związku Niemieckiego bazowało na umowach politycznych."
+          ]
+        },
+        "SACRAL_ECONOMICS": {
+          "score": -1,
+          "explanation": "Tekst wspomina jedynie świeckie waluty, brak sakralizacji ekonomii.",
+          "news_examples": [
+            "Związek Niemiecki wprowadzał świeckie waluty jak Vereinsthaler.",
+            "Gospodarka niemiecka opiera się na zasadach rynkowych.",
+            "Austriacki system finansowy działa bez regulacji religijnych."
+          ]
+        },
+        "SOCIAL_HIERARCHY_RELIGIOUS": {
+          "score": -1,
+          "explanation": "Brak w tekście informacji o religijnej hierarchii społecznej.",
+          "news_examples": [
+            "Hierarchia w Związku Niemieckim opierała się na stanie i tytule.",
+            "Struktura społeczna państw niemieckich miała charakter świecki.",
+            "Pozycja obywateli w Austrii nie zależy od wyznania."
+          ]
+        },
+        "STATE_CHURCH_UNITY": {
+          "score": -1,
+          "explanation": "Tekst podaje wyznania, lecz nie opisuje jedności państwa i kościoła.",
+          "news_examples": [
+            "Związek Niemiecki skupiał państwa katolickie i protestanckie.",
+            "Niemcy zachowują rozdział kościoła od państwa w konstytucji.",
+            "Austria gwarantuje wolność religijną i autonomię związków."
+          ]
+        },
+        "APOSTASY_PUNISHMENT": {
+          "score": -1,
+          "explanation": "W analizowanym tekście brak informacji o karaniu za apostazję.",
+          "news_examples": [
+            "Prawo Związku Niemieckiego nie przewidywało kar za apostazję.",
+            "Obywatele Niemiec mają pełną wolność zmiany wyznania.",
+            "Porządek prawny Austrii chroni wolność sumienia."
+          ]
+        }
+      },
+      "legal_dualism_scores": {
+        "PRIVATE_RIGHTS_SPHERE": {
+          "score": 0.4,
+          "explanation": "Sfera praw prywatnych była podporządkowana gwarancjom bezpieczeństwa państwowego i władzy monarchicznej.",
+          "news_examples": [
+            "Związek Niemiecki ogranicza swobody obywatelskie",
+            "Debata nad prawami prywatnymi we Frankfurcie",
+            "Monarchowie ingerują w sferę prywatną"
+          ]
+        },
+        "FAMILY_AUTONOMY": {
+          "score": -1,
+          "explanation": "Tekst nie odnosi się do kwestii autonomii rodziny w Związku Niemieckim.",
+          "news_examples": [
+            "Tradycyjne prawo rodzinne w państwach niemieckich",
+            "Brak regulacji spraw rodzinnych na poziomie Związku",
+            "Autonomia rodzinna w państwach Związku Niemieckiego"
+          ]
+        },
+        "PROPERTY_PROTECTION": {
+          "score": 0.5,
+          "explanation": "Ochrona własności była uznawana, lecz podlegała zwierzchnictwu władców państw członkowskich.",
+          "news_examples": [
+            "Spory o własność gruntów w Niemczech",
+            "Ochrona praw majątkowych w państwach Związku",
+            "Prusy i Austria wobec prawa własności"
+          ]
+        },
+        "NATURAL_INHERITANCE": {
+          "score": 0.5,
+          "explanation": "Dziedziczenie było fundamentem ustroju dynastycznego państw członkowskich Związku.",
+          "news_examples": [
+            "Spory sukcesyjne w księstwach niemieckich",
+            "Prawo dziedziczenia monarchów w Związku",
+            "Zasady dziedziczenia w państwach niemieckich"
+          ]
+        },
+        "POWER_LIMITS": {
+          "score": 0.2,
+          "explanation": "Władza monarchów była słabo ograniczona, co wykazała tłumiona rewolucja 1848 roku.",
+          "news_examples": [
+            "Absolutyzm monarchów w Związku Niemieckim",
+            "Brak skutecznych ograniczeń władzy książąt",
+            "Tłumienie dążeń konstytucyjnych w 1848 roku"
+          ]
+        },
+        "OPPOSITION_RIGHT": {
+          "score": 0.1,
+          "explanation": "Prawo do opozycji było tłumione przez monarchów i decyzje Związku Niemieckiego.",
+          "news_examples": [
+            "Związek Niemiecki tłumi ruchy liberalne",
+            "Zakaz działalności opozycyjnej w Prusach",
+            "Reakcja monarchów na rewolucję 1848 roku"
+          ]
+        },
+        "STATE_MORALITY_SUBORDINATION": {
+          "score": 0.2,
+          "explanation": "Państwo i bezpieczeństwo Związku stawiano wyżej niż uniwersalne zasady moralne.",
+          "news_examples": [
+            "Racja stanu Związku ponad etyką",
+            "Polityka Metternicha a zasady moralne",
+            "Interes dynastyczny głównym celem polityki"
+          ]
+        },
+        "DIVINE_VS_CAESAR": {
+          "score": 0.3,
+          "explanation": "Monarchowie łączyli sankcję boską z pełnią władzy państwowej.",
+          "news_examples": [
+            "Monarchowie niemieccy powołują się na prawo boskie",
+            "Relacja Kościoła i państwa w Związku",
+            "Dominacja władzy świeckiej w państwach niemieckich"
+          ]
+        },
+        "RULER_ETHICS_EQUALITY": {
+          "score": 0.2,
+          "explanation": "Monarchowie i władcy państw byli wyjęci spod powszechnych norm etyczno-prawnych.",
+          "news_examples": [
+            "Nierówność władców i poddanych wobec prawa",
+            "Monarchowie ponad powszechnym prawem",
+            "Brak odpowiedzialności etycznej monarchów"
+          ]
+        },
+        "INDEPENDENT_JUDICIARY": {
+          "score": 0.3,
+          "explanation": "Sądownictwo było w dużej mierze podporządkowane władzy monarchicznej.",
+          "news_examples": [
+            "Sądy zależne od decyzji książąt",
+            "Brak niezależnego sądownictwa w Związku",
+            "Brak centralnego sądu dla obywateli Związku"
+          ]
+        },
+        "OFFICIAL_RESPONSIBILITY": {
+          "score": 0.2,
+          "explanation": "Urzędnicy odpowiadali przed monarchą, a nie bezpośrednio przed obywatelami.",
+          "news_examples": [
+            "Urzędnicy pruscy odpowiedzialni przed królem",
+            "Brak osobistej odpowiedzialności urzędników",
+            "Biurokracja na służbie państw monarchicznych"
+          ]
+        },
+        "APOSTERIORI_LAW": {
+          "score": 0.4,
+          "explanation": "Prawo Związku opierało się na traktatach i dyplomacji, lecz nakładało odgórne ramy.",
+          "news_examples": [
+            "Akt Końcowy z 1820 roku reguluje Związek",
+            "Dyplomatyczne fundamenty prawa Związku",
+            "Traktaty wiedeńskie jako źródło prawa"
+          ]
+        },
+        "ASSOCIATION_AUTONOMY": {
+          "score": 0.2,
+          "explanation": "Swoboda zrzeszania się była silnie ograniczana przez władze państw członkowskich.",
+          "news_examples": [
+            "Ograniczenia dla stowarzyszeń w Związku",
+            "Tłumienie organizacji liberalnych w Niemczech",
+            "Kontrola państwa nad zgromadzeniami"
+          ]
+        },
+        "LAND_OWNERSHIP_FULL": {
+          "score": 0.5,
+          "explanation": "Pełne prawo własności ziemi ulegało ewolucji, lecz ciążyły na nim pozostałości feudalne.",
+          "news_examples": [
+            "Stosunki własności ziemskiej w Prusach",
+            "Reformy uwłaszczeniowe w państwach niemieckich",
+            "Własność ziemska a prawa stanowe"
+          ]
+        },
+        "LOCAL_LAW_TOLERANCE": {
+          "score": 0.6,
+          "explanation": "Związek tolerował znaczne różnice prawne i autonomię poszczególnych państw.",
+          "news_examples": [
+            "Różnorodność prawodawstwa w państwach Związku",
+            "Autonomia prawna państw członkowskich",
+            "Brak jednolitego kodeksu w Związku"
+          ]
+        },
+        "LAW_CONSCIENCE_EQUALITY": {
+          "score": 0.2,
+          "explanation": "Państwa Związku wymuszały posłuszeństwo, przedkładając prawo państwowe nad sumienie.",
+          "news_examples": [
+            "Sumienie obywateli podporządkowane państwu",
+            "Brak wolności sumienia w państwach monarchicznych",
+            "Cenzura i nacisk na jednomyślność"
+          ]
+        },
+        "FAMILY_EMANCIPATION": {
+          "score": -1,
+          "explanation": "Tekst nie zawiera informacji o procesach emancypacji rodziny.",
+          "news_examples": [
+            "Sprawy emancypacji rodziny w Niemczech",
+            "Tradycyjna struktura rodziny w XIX wieku",
+            "Brak państwowych regulacji rodziny"
+          ]
+        },
+        "SOCIETY_PRIMACY": {
+          "score": 0.2,
+          "explanation": "Społeczeństwo traktowano jako podmiot podporządkowany woli monarchów i państwa.",
+          "news_examples": [
+            "Prymat państwa nad społeczeństwem w Niemczech",
+            "Społeczeństwo celem kontroli monarchów",
+            "Odmowa praw obywatelskich przez Związek"
+          ]
+        },
+        "SOCIETY_AS_GOAL": {
+          "score": 0.2,
+          "explanation": "Celem Związku było bezpieczeństwo monarchii i dynastyczne utrzymanie władzy.",
+          "news_examples": [
+            "Związek Niemiecki służy bezpieczeństwu władców",
+            "Ochrona dynastii głównym celem Związku",
+            "Brak celów prospołecznych Związku"
+          ]
+        },
+        "CHURCH_INDEPENDENCE": {
+          "score": 0.4,
+          "explanation": "Kościoły podlegały znacznej kontroli i protektoratowi monarchów państw.",
+          "news_examples": [
+            "Kontrola państwa nad Kościołami w Niemczech",
+            "Relacje Kościoła katolickiego i protestanckiego",
+            "Wpływ monarchów na sprawy kościelne"
+          ]
+        },
+        "NO_STATOLATRY_PUBLIC_MONISM": {
+          "score": 0.2,
+          "explanation": "Związek narzucał nadrzędność prawa federalnego i absolutyzację państwa.",
+          "news_examples": [
+            "Nadrzędność prawa federalnego nad państwowym",
+            "Absolutyzacja państwa w monarchiach niemieckich",
+            "Krytyka etatyzmu Związku Niemieckiego"
+          ]
+        },
+        "NO_PRIVATE_LAW_MONISM": {
+          "score": 0.5,
+          "explanation": "Prawo prywatne zachowywało odrębność, choć bywało podporządkowane interesowi państwa.",
+          "news_examples": [
+            "Rozdzielenie prawa prywatnego od publicznego",
+            "Spory o autonomię prawa cywilnego",
+            "Kodeksy cywilne w państwach niemieckich"
+          ]
+        },
+        "CITIZENS_ARE_FREE": {
+          "score": 0.2,
+          "explanation": "Mieszkańcy państw byli głównie poddanymi monarchów, a nie wolnymi obywatelami.",
+          "news_examples": [
+            "Poddani zamiast wolnych obywateli w Związku",
+            "Ograniczenia wolności obywatelskich po 1848 r.",
+            "Walka o prawa obywatelskie we Frankfurcie"
+          ]
+        },
+        "NO_SACRAL_LAW_MONOPOLY": {
+          "score": 0.8,
+          "explanation": "Prawo nie miało charakteru sakralnego, lecz świecko-dynastyczny i prawno-państwowy.",
+          "news_examples": [
+            "Świecki charakter prawa Związku Niemieckiego",
+            "Brak monopolu prawa sakralnego w Związku",
+            "Prawo państwowe zastępuje reguły wyznaniowe"
+          ]
+        },
+        "NO_EXCESS_REGULATION": {
+          "score": 0.3,
+          "explanation": "Państwa Związku stosowały rozbudowaną regulację policyjną i cenzurę.",
+          "news_examples": [
+            "Cenzura i przeregulowanie w państwach Związku",
+            "Nadzór policyjny nad życiem publicznym",
+            "Ograniczenia prasy w Związku Niemieckim"
+          ]
+        }
+      },
+      "personalism_scores": {
+        "GOD_RELATION_PERSONAL_VS_COLLECTIVE": {
+          "score": -1,
+          "explanation": "Tekst podaje jedynie przynależność religijną państw, brak danych o relacji z Bogiem.",
+          "news_examples": [
+            "Spór o autonomię Kościoła w Niemczech",
+            "Religia a państwo w Związku Niemieckim",
+            "Kwestia wolności sumienia w państwach niemieckich"
+          ]
+        },
+        "RESPONSIBILITY_PERSONAL_VS_COLLECTIVE": {
+          "score": 0.2,
+          "explanation": "Struktura Związku opierała się na kolektywnej woli władców i organów państwowych.",
+          "news_examples": [
+            "Odpowiedzialność państw członkowskich w Związku Niemieckim",
+            "Decyzje Sejmu Rzeszy a suwerenność władców",
+            "Kolektywne bezpieczeństwo państw niemieckich w 1815"
+          ]
+        },
+        "CONFESSION_PERSONAL_VS_COLLECTIVE": {
+          "score": 0.3,
+          "explanation": "Wyznanie miało charakter państwowo-kolektywny w ramach poszczególnych księstw.",
+          "news_examples": [
+            "Podziały wyznaniowe w Związku Niemieckim",
+            "Katolicyzm i protestantyzm w państwach niemieckich",
+            "Rola wyznań w polityce Związku Niemieckiego"
+          ]
+        },
+        "FAMILY_EMANCIPATION_FROM_CLAN": {
+          "score": -1,
+          "explanation": "Tekst nie porusza zagadnienia emancypacji rodziny z rodu.",
+          "news_examples": [
+            "Prawo rodzinne w XIX-wiecznych Niemczech",
+            "Struktura rodowa dynastii w Związku Niemieckim",
+            "Pozycja rodziny w prawie państw niemieckich"
+          ]
+        },
+        "WOMAN_PERSONAL_FREEDOM": {
+          "score": -1,
+          "explanation": "Brak jakichkolwiek informacji o wolności osobistej kobiet w tekście.",
+          "news_examples": [
+            "Prawa kobiet w państwach Związku Niemieckiego",
+            "Sytuacja prawna kobiet w XIX-wiecznych Niemczech",
+            "Ruchy emancypacyjne w państwach niemieckich 1848"
+          ]
+        },
+        "PRIVATE_PROPERTY_INDEPENDENCE": {
+          "score": -1,
+          "explanation": "Tekst pomija kwestie własności prywatnej i jej niezależności.",
+          "news_examples": [
+            "Ochrona własności w państwach Związku Niemieckiego",
+            "Reformy gospodarcze w państwach niemieckich",
+            "Prawo własności a suwerenność książąt niemieckich"
+          ]
+        },
+        "NEIGHBOR_DUTY_UNIVERSAL_VS_TRIBAL": {
+          "score": 0.3,
+          "explanation": "Dominował interes państwowy i nacjonalizm nad uniwersalnym obowiązkiem.",
+          "news_examples": [
+            "Nacjonalizm a spójność Związku Niemieckiego",
+            "Rywalizacja prusko-austriacka o prymat w Niemczech",
+            "Pojęcie wspólnoty w niemieckich państwach 1815"
+          ]
+        },
+        "WORK_AS_SANCTIFICATION_VS_COERCION": {
+          "score": -1,
+          "explanation": "Tekst nie zawiera odniesień do charakteru pracy ludzkiej.",
+          "news_examples": [
+            "Warunki pracy w krajach Związku Niemieckiego",
+            "Uprzemysłowienie a praca w państwach niemieckich",
+            "Prawo pracy w XIX-wiecznych Niemczech"
+          ]
+        },
+        "PERSONAL_RESPONSIBILITY_PRESENCE": {
+          "score": 0.2,
+          "explanation": "Odpowiedzialność spoczywała na instytucjach i monarchach, a nie jednostkach.",
+          "news_examples": [
+            "Odpowiedzialność polityczna monarchów Związku Niemieckiego",
+            "Rola jednostki w rewolucji 1848 roku",
+            "Suwerenność monarchów a odpowiedzialność osobista"
+          ]
+        },
+        "FAMILY_EMANCIPATION_GENERAL": {
+          "score": -1,
+          "explanation": "Tekst nie porusza ogólnej kwestii emancypacji rodziny.",
+          "news_examples": [
+            "Status prawny rodziny w Związku Niemieckim",
+            "Ewolucja prawa rodzinnego w państwach niemieckich",
+            "Autonomia rodziny w XIX-wiecznym prawie niemieckim"
+          ]
+        },
+        "STATUS_BY_BIRTH_PRIVILEGE": {
+          "score": 0.8,
+          "explanation": "Władza i status opierały się na przywileju urodzenia i sukcesji dynastycznej.",
+          "news_examples": [
+            "Przywileje rodowe monarchów Związku Niemieckiego",
+            "Dynastyczne sukcesje w księstwach niemieckich",
+            "Arystokracja a władza w Związku Niemieckim"
+          ]
+        },
+        "STATUS_BY_CASTE_MEMBERSHIP": {
+          "score": 0.6,
+          "explanation": "Struktury stanowe wyznaczały pozycję społeczną w państwach Związku.",
+          "news_examples": [
+            "Podziały stanowe w państwach niemieckich",
+            "Rola stanów w Związku Niemieckim",
+            "Koniec feudalizmu w krajach niemieckich"
+          ]
+        },
+        "LEGAL_MONISM_PRESENCE": {
+          "score": 0.7,
+          "explanation": "Prawo związkowe stało ponad prawem poszczególnych państw członkowskich.",
+          "news_examples": [
+            "Nadrzędność prawa związkowego nad państwowym",
+            "Wiążące uchwały Sejmu Związku Niemieckiego",
+            "Jednolitość prawna w Związku Niemieckim"
+          ]
+        },
+        "UNIFORMITY_MECHANICISM_PRESENCE": {
+          "score": 0.6,
+          "explanation": "Związek dążył do mechanicznej jednomyślności i sztywnych zasad prawnych.",
+          "news_examples": [
+            "Wymóg jednomyślności w Sejmie Związkowym",
+            "Mechanizmy decyzyjne Związku Niemieckiego",
+            "Paraliż decyzyjny w Związku Niemieckim"
+          ]
+        },
+        "HISTORICISM_PRESENCE": {
+          "score": 0.8,
+          "explanation": "Związek utworzono w nawiązaniu do tradycji Świętego Cesarstwa Rzymskiego.",
+          "news_examples": [
+            "Dziedzictwo Świętego Cesarstwa w Związku Niemieckim",
+            "Kontynuacja historyczna państw niemieckich 1815",
+            "Kongres wiedeński a tradycja niemiecka"
+          ]
+        },
+        "HEREDITARY_SURNAMES_PRESENCE": {
+          "score": -1,
+          "explanation": "Tekst całkowicie pomija temat nazwisk dziedzicznych.",
+          "news_examples": [
+            "System nazwisk w państwach niemieckich",
+            "Ewidencja ludności w Związku Niemieckim",
+            "Prawo do nazwiska w XIX-wiecznych Niemczech"
+          ]
+        }
+      },
+      "church_independence_scores": {
+        "hierarch_appointment": {
+          "score": -1,
+          "explanation": "Tekst nie zawiera informacji na temat procedur nominacji hierarchów kościelnych w Związku Niemieckim.",
+          "news_examples": [
+            "Brak danych o nominacjach biskupich Związku",
+            "Brak informacji o wpływie władców niemieckich",
+            "Brak opisu procedur wyboru hierarchów Kościoła"
+          ]
+        },
+        "dogmatic_disputes": {
+          "score": -1,
+          "explanation": "W tekście brak jakichkolwiek wzmianek o rozstrzyganiu sporów dogmatycznych w państwach niemieckich.",
+          "news_examples": [
+            "Brak opisu sporów teologicznych w tekście",
+            "Brak informacji o ingerencji władz w dogmaty",
+            "Brak danych o rozstrzyganiu kwestii wiary"
+          ]
+        },
+        "economic_independence": {
+          "score": -1,
+          "explanation": "Tekst nie przedstawia danych dotyczących finansowania Kościoła ani jego majątku w Związku Niemieckim.",
+          "news_examples": [
+            "Brak danych o majątku Kościoła Związku",
+            "Brak informacji o finansowaniu instytucji religijnych",
+            "Brak opisu niezależności ekonomicznej kleru niemieckiego"
+          ]
+        },
+        "moral_sanctions_on_rulers": {
+          "score": -1,
+          "explanation": "Brak informacji w tekście na temat nakładania sankcji moralnych na władców przez Kościół.",
+          "news_examples": [
+            "Brak danych o sankcjach kościelnych na monarchów",
+            "Brak opisów ekskomunik w Związku Niemieckim",
+            "Brak informacji o ocenie moralnej władców"
+          ]
+        },
+        "canon_law_separation": {
+          "score": -1,
+          "explanation": "Tekst nie porusza kwestii odrębności prawa kanonicznego od państwowego w państwach niemieckich.",
+          "news_examples": [
+            "Brak danych o statusie prawa kanonicznego",
+            "Brak informacji o sądownictwie kościelnym Związku",
+            "Brak opisu relacji prawa państwowego i kanonicznego"
+          ]
+        },
+        "brachium_saeculare": {
+          "score": -1,
+          "explanation": "W analizowanym tekście brak danych na temat wykorzystywania aparat państwowego do egzekwowania wyroków kościelnych.",
+          "news_examples": [
+            "Brak informacji o świeckim ramieniu Kościoła",
+            "Brak danych o egzekwowaniu wyroków duchownych",
+            "Brak opisu współpracy przymusowej państwa z Kościołem"
+          ]
+        },
+        "total_ethics": {
+          "score": -1,
+          "explanation": "Tekst nie zawiera informacji o obowiązywaniu jednej etyki w życiu publicznym i prywatnym.",
+          "news_examples": [
+            "Brak danych o powszechności etyki chrześcijańskiej",
+            "Brak informacji o normach etycznych w polityce",
+            "Brak opisu etycznego wymiaru prawa Związku"
+          ]
+        },
+        "divine_vs_caesar": {
+          "score": -1,
+          "explanation": "Tekst nie opisuje rozgraniczenia sfery boskiej od cesarskiej w strukturach Związku Niemieckiego.",
+          "news_examples": [
+            "Brak danych o rozdziale Kościoła od państwa",
+            "Brak opisu kompetencji władzy świeckiej i duchownej",
+            "Brak informacji o granicach władzy monarchów"
+          ]
+        },
+        "personalism_presence": {
+          "score": -1,
+          "explanation": "W tekście brak informacji dotyczących obecności personalizmu chrześcijańskiego w prawie Związku.",
+          "news_examples": [
+            "Brak danych o podmiotowości człowieka w prawie",
+            "Brak opisu godności ludzkiej w strukturach",
+            "Brak informacji o wpływie personalizmu na ustawy"
+          ]
+        },
+        "freedom_of_conversion": {
+          "score": -1,
+          "explanation": "Tekst nie podaje informacji na temat wolności zmiany wyznania w państwach Związku Niemieckiego.",
+          "news_examples": [
+            "Brak danych o prawie do konwersji wyznaniowej",
+            "Brak informacji o swobodzie zmiany religii",
+            "Brak opisu regulacji dotyczących konwersji"
+          ]
+        },
+        "caesaropapism_absence": {
+          "score": -1,
+          "explanation": "Tekst nie analizuje występowania lub braku zjawiska cezaropapizmu w państwach niemieckich.",
+          "news_examples": [
+            "Brak danych o podporządkowaniu Kościoła monarchom",
+            "Brak informacji o zwierzchnictwie państwa nad religią",
+            "Brak opisu relacji władzy świeckiej do duchownej"
+          ]
+        },
+        "cuius_regio_absence": {
+          "score": -1,
+          "explanation": "Brak informacji w tekście na temat stosowania zasady cuius regio eius religio w Związku.",
+          "news_examples": [
+            "Brak danych o narzucaniu religii przez władców",
+            "Brak informacji o wolności wyznaniowej poddanych",
+            "Brak opisu wolności religijnej w księstwach"
+          ]
+        },
+        "statolatry_absence": {
+          "score": -1,
+          "explanation": "Tekst nie odnosi się do kwestii istnienia lub braku kultu państwa w Związku Niemieckim.",
+          "news_examples": [
+            "Brak danych o ubóstwieniu instytucji państwa",
+            "Brak informacji o ideologii państwowej Związku",
+            "Brak opisu stosunku do supremacji państwa"
+          ]
+        },
+        "sacralism_absence": {
+          "score": -1,
+          "explanation": "W tekście brak wzmianek o obecności lub braku sakralizacji struktur państwowych.",
+          "news_examples": [
+            "Brak danych o teokratycznych cechach Związku",
+            "Brak informacji o sakralizacji władzy monarchów",
+            "Brak opisu religijnego charakteru państwa"
+          ]
+        },
+        "confessional_bureaucracy_absence": {
+          "score": -1,
+          "explanation": "Tekst nie opisuje biurokracji konfesyjnej ani przekształcania duchownych w urzędników.",
+          "news_examples": [
+            "Brak danych o duchownych jako urzędnikach państwowych",
+            "Brak informacji o biurokratyzacji Kościoła",
+            "Brak opisu państwowej kontroli nad klerem"
+          ]
+        }
+      },
+      "church_news_1": "Utworzenie Związku Niemieckiego na kongresie wiedeńskim",
+      "church_news_2": "Rywalizacja Austrii i Prus w strukturach Związku",
+      "church_news_3": "Rozwiązanie Związku Niemieckiego po wojnie 1866 roku",
+      "church_justification": "Przesłany tekst jest opisem historyczno-politycznym Związku Niemieckiego z Wikipedii i nie zawiera żadnych szczegółowych informacji na temat relacji Państwo-Kościół ani niezawisłości instytucji religijnych.",
+      "public_morality_totality_scores": {
+        "two_consciences_rejection": {
+          "score": -1,
+          "explanation": "Tekst nie odnosi się do kwestii jednego sumienia w życiu publicznym i prywatnym.",
+          "news_examples": [
+            "Brak zasad moralnych w dyplomacji",
+            "Interes państwa ponad sumieniem",
+            "Polityka siły w Związku Niemieckim"
+          ]
+        },
+        "state_bound_by_decalogue": {
+          "score": -1,
+          "explanation": "Tekst nie porusza zagadnienia związania państwa normami Dekalogu.",
+          "news_examples": [
+            "Związek Niemiecki bez fundamentu etycznego",
+            "Rywalizacja Prus i Austrii bez zasad",
+            "Traktaty dyplomatyczne wypierają dekalog"
+          ]
+        },
+        "politics_as_ethical_domain": {
+          "score": 0.1,
+          "explanation": "Polityka Związku opierała się na rywalizacji mocarstw i utrzymaniu władzy monarchów, a nie etyce.",
+          "news_examples": [
+            "Stłumienie rewolucji 1848 roku siłą",
+            "Rywalizacja Austrii i Prus o dominację",
+            "Sojusz wojskowy zamiast zasad etyki"
+          ]
+        },
+        "unethical_law_is_lawless": {
+          "score": -1,
+          "explanation": "Tekst nie zawiera odniesień do koncepcji bezprawia ustawowego.",
+          "news_examples": [
+            "Nadrzędność prawa Związku nad krajowym",
+            "Surowe zasady Aktu Końcowego z 1820",
+            "Prawo tworzone dla ochrony monarchów"
+          ]
+        },
+        "evil_in_name_of_state_remains_evil": {
+          "score": -1,
+          "explanation": "Tekst nie ocenia moralnie działań państwa pod kątem absolutnego dobra i zła.",
+          "news_examples": [
+            "Użycie siły przeciwko rewolucjonistom",
+            "Znoszenie autonomii w imię bezpieczeństwa",
+            "Działania wojenne w wojnie 1866 roku"
+          ]
+        },
+        "stricter_ethics_for_public_figures": {
+          "score": -1,
+          "explanation": "Brak informacji o wymogach etycznych wobec dyplomatów i władców.",
+          "news_examples": [
+            "Dyplomaci na Kongresie Wiedeńskim",
+            "Władcy państw członkowskich Związku",
+            "Przedstawiciele Sejmu Związkowego w Frankfurcie"
+          ]
+        },
+        "duty_to_fight_public_evil": {
+          "score": 0.2,
+          "explanation": "Tekst wspomina o rewolucjach 1848 roku, które jednak zostały stłumione przez państwa.",
+          "news_examples": [
+            "Wybuch rewolucji liberalnych w 1848",
+            "Próba uchwalenia Konstytucji w Frankfurcie",
+            "Stłumienie ruchów wolnościowych przez monarchów"
+          ]
+        },
+        "ethics_over_law_primacy_public": {
+          "score": 0.1,
+          "explanation": "Prawo związkowe miało prymat nad prawem krajowym, bez odwołania do etyki.",
+          "news_examples": [
+            "Nadrzędność prawa federalnego nad stanowym",
+            "Wiążące uchwały Sejmu w Frankfurcie",
+            "Legalizm dyplomatyczny ustaleń Kongresu Wiedeńskiego"
+          ]
+        },
+        "personal_responsibility_in_public": {
+          "score": -1,
+          "explanation": "Tekst opisuje relacje między monarchiami bez wspominania o odpowiedzialności personalnej.",
+          "news_examples": [
+            "Anonimowa biurokracja w Sejmie Związkowym",
+            "Decyzje podejmowane jednomyślnie przez państwa",
+            "Brak odpowiedzialności osobistej samych władców"
+          ]
+        },
+        "legal_dualism_presence": {
+          "score": -1,
+          "explanation": "Tekst skupia się na prawie publicznym i strukturze sojuszu, pomijając prawo prywatne.",
+          "news_examples": [
+            "Podział na prawo stanowe i związkowe",
+            "Brak rozróżnienia na prawo prywatne",
+            "Dominacja prawa publicznego w Związku"
+          ]
+        },
+        "good_as_dominant_category": {
+          "score": 0.1,
+          "explanation": "Dominującą kategorią w tekście jest bezpieczeństwo i równowaga sił, a nie dobro.",
+          "news_examples": [
+            "Kwestie bezpieczeństwa celem Związku Niemieckiego",
+            "Równowaga sił między wielkimi mocarstwami",
+            "Sojusz wojskowy dla ochrony monarchii"
+          ]
+        },
+        "dual_ethics_absence": {
+          "score": 0.1,
+          "explanation": "Działania państw kierowane były interesem politycznym i siłą, co wskazuje na obecność podwójnej etyki.",
+          "news_examples": [
+            "Interes Prus i Austrii ponad sojuszem",
+            "Pragmatyzm dyplomacji na Kongresie Wiedeńskim",
+            "Stosowanie siły w polityce wewnętrznej"
+          ]
+        },
+        "physical_force_supremacy_absence": {
+          "score": 0.1,
+          "explanation": "Związek opierał się na sile militarnej i tłumieniu zamieszek wewnętrznych.",
+          "news_examples": [
+            "Stłumienie rewolucji za pomocą siły oręża",
+            "Wojna prusko-austriacka z 1866 roku",
+            "Sojusz wojskowy przeciw wrogom zewnętrznym"
+          ]
+        },
+        "statolatry_absence": {
+          "score": 0.3,
+          "explanation": "Związek był słabą konfederacją, choć poszczególne państwa członkowskie miały charakter autorytarny.",
+          "news_examples": [
+            "Słabość naczelnych organów Związku Niemieckiego",
+            "Brak jednego jednolitego państwa niemieckiego",
+            "Niezależność monarchii w Związku Niemieckim"
+          ]
+        },
+        "legalism_replacing_conscience_absence": {
+          "score": 0.2,
+          "explanation": "System opierał się na formalnych traktatach, zasadzie jednomyślności i dyplomacji proceduralnej.",
+          "news_examples": [
+            "Formalizm prawny Sejmu w Frankfurcie",
+            "Wymóg jednomyślności w podejmowaniu decyzji",
+            "Sztywne procedury Aktu Końcowego Związku"
+          ]
+        },
+        "caesaropapism_absence": {
+          "score": 0.3,
+          "explanation": "Tekst wspomina o wyznaniach katolickim i protestanckim bez szczegółów o relacji państwo-Kościół.",
+          "news_examples": [
+            "Współistnienie wyznań katolickiego i protestanckiego",
+            "Rola monarchów w państwowych Kościołach",
+            "Wielowyznaniowość krajów członkowskich Związku Niemieckiego"
+          ]
+        }
+      },
+      "public_morality_news_1": "Związek Niemiecki stłumił rewolucję 1848 roku",
+      "public_morality_news_2": "Prusy i Austria rywalizują w Frankfurcie",
+      "public_morality_news_3": "Wojna 1866 roku kończy istnienie Związku",
+      "public_morality_justification": "Tekst opisuje Związek Niemiecki jako strukturę polityczno-wojskową podporządkowaną interesom mocarstw i pozbawioną wymiaru etycznego."
+    },
+    "sacrality_score": -1,
+    "spirit_supremacy_score": 0.33,
+    "legal_dualism_score": 0.3304347826086957,
+    "law_source_pluralism_score": -1,
+    "aposteriori_apriori_score": -1,
+    "organism_mechanism_score": -1,
+    "personalism_score": 0.5,
+    "family_law_autonomy_score": -1,
+    "church_independence_score": -1,
+    "property_rights_stability_score": -1,
+    "inheritance_continuity_score": -1,
+    "morality_supremacy_score": -1,
+    "public_morality_totality_score": 0.16666666666666666,
+    "administrative_responsibility_score": -1,
+    "mode": "jmantis",
+    "primary_civilization": "Bizantyńska",
+    "civilization_diagnosis": "Monizm Prawa Publicznego (Cezaropapizm, biurokracja, dwoistość sumienia)",
+    "explanation": null,
+    "mantis_gates": [
+      {
+        "gate": 1,
+        "name": "Bramka 1: Sakralność vs Świeckość (SACRALITY_INDEX)",
+        "score": -1,
+        "decision": "Ścieżka Świecko-Rozumowa (Łacińska / Bizantyńska / Turańska)"
+      },
+      {
+        "gate": 2,
+        "name": "Bramka 2: Dualizm Prawny vs Monizm (LEGAL_DUALISM_INDEX)",
+        "score": 0.3304347826086957,
+        "decision": "Monizm Prawny — Pochłonięcie prawa przez państwo lub władcę (Bizantyńska / Turańska)"
+      },
+      {
+        "gate": 3,
+        "name": "Bramka 3: Relacja Władza-Religia (CHURCH_INDEPENDENCE)",
+        "score": -1,
+        "decision": "Cezaropapizm / Podporządkowanie Religii Państwu (Bizantynizm)"
+      },
+      {
+        "gate": 4,
+        "name": "Bramka 4: Status Sumienia (CONSCIENCE_STATUS)",
+        "score": 0.38666666666666666,
+        "decision": "Dwoistość Sumienia — Etyka prywatna vs Racja Stanu"
+      },
+      {
+        "gate": 5,
+        "name": "Bramka 5: Podmiotowość Jednostki (PERSONALISM_INDEX)",
+        "score": 0.5,
+        "decision": "Statolatria — Obywatel zredukowany do funkcji w machinie państwowej"
+      }
+    ],
+    "history_stats": {
+      "total_runs": 3,
+      "avg_quincunx": 0.35,
+      "avg_ethical_coherence": -1,
+      "avg_chyznosc": -1,
+      "avg_spirit": 0.39
+    }
+  }
+}

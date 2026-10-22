@@ -1,4 +1,4 @@
-.PHONY: start run stop test test-smoke test-resume test-repeat test-ui test-debug test-trace test-logs test-api-logs test-report test-e2e test-all
+.PHONY: start run stop test test-smoke test-regression test-resume test-repeat test-ui test-debug test-trace test-logs test-api-logs test-report test-e2e test-all
 
 start:
 	@echo "🏛️ Uruchamianie backendu Algorytmu Konecznego na porcie 8005..."
@@ -20,8 +20,12 @@ test:
 	@pytest tests/unit/
 
 test-smoke:
-	@echo "🧪 Uruchamianie Playwright Smoke Test (Chromium + Extension)..."
+	@echo "🧪 Uruchamianie Playwright Smoke Test (Kroki 1, 2, 3)..."
 	@npm run test:smoke
+
+test-regression:
+	@echo "🔄 Uruchamianie Playwright Regression Test (Kroki 1, 2, 3, 4, 5)..."
+	@npm run test:regression
 
 test-resume:
 	@echo "🔄 Wznawianie testów od ostatniego błędu (--last-failed)..."

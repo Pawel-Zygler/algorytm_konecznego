@@ -3182,7 +3182,7 @@
 
       return `
         <!-- WARIANT #2: QUINCUNX RADAR GRID -->
-        <div style="margin-top: 14px; padding: 14px 16px; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(139, 92, 246, 0.25); border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.3);">
+        <div class="quincunx-radar-box" style="margin-top: 14px; padding: 14px 16px; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(139, 92, 246, 0.25); border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.3);">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 6px;">
             <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: #a78bfa; display: flex; align-items: center; gap: 6px;">
               <span style="width: 7px; height: 7px; border-radius: 50%; background: #a78bfa; display: inline-block;"></span>
@@ -4997,12 +4997,6 @@
 
     const quincunxRadarHtml = generateQuincunxRadarGridHtml(data, activeCivKey, activeLegalKey, activeFamKey);
 
-    const sacralityScoreVal = data.sacrality_score >= 0 ? `${Math.round(data.sacrality_score * 100)}%` : 'N/A';
-    const spiritScoreVal = data.spirit_supremacy_score >= 0 ? `${Math.round(data.spirit_supremacy_score * 100)}%` : 'N/A';
-    const generaliaScoreVal = data.ethical_coherence_score >= 0 ? `${data.ethical_coherence_score.toFixed(1)} / 7.0` : 'N/A';
-    const chyznoscScoreVal = data.time_mastery_efficiency_score >= 0 ? `${Math.round(data.time_mastery_efficiency_score * 100)}%` : (data.time_mastery_history_score >= 0 ? `${Math.round(data.time_mastery_history_score * 100)}%` : 'N/A');
-    const quincunxScoreVal = data.quincunx_coherence_score >= 0 ? `${data.quincunx_coherence_score.toFixed(2)}` : 'N/A';
-
     const dashboardHtml = `
       <div class="koneczny-dashboard" style="margin: 12px 16px 16px 16px; padding: 14px 14px; background: linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%); border: 1px solid rgba(139, 92, 246, 0.35); border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.35); backdrop-filter: blur(8px);">
         <!-- Rząd 1: Cywilizacja -->
@@ -5052,38 +5046,6 @@
           <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; margin-bottom: 5px;">Emancypacja rodziny</div>
           <div style="display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: 5px; align-items: center; padding-bottom: 2px;">
             ${renderChips(famOptions, activeFamKey)}
-          </div>
-        </div>
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px;">
-          <div style="background: rgba(15, 23, 42, 0.6); padding: 8px 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); text-align: center;">
-            <div style="font-size: 9.5px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Krok 1: Sakralność</div>
-            <div style="font-size: 15px; font-weight: 800; color: ${data.sacrality_score >= 0.5 ? '#ef4444' : '#34d399'}; margin-top: 2px;">${sacralityScoreVal}</div>
-            <div style="font-size: 9px; color: #cbd5e1; margin-top: 1px;">Score: ${data.sacrality_score >= 0 ? data.sacrality_score.toFixed(2) : 'N/A'}</div>
-          </div>
-
-          <div style="background: rgba(15, 23, 42, 0.6); padding: 8px 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); text-align: center;">
-            <div style="font-size: 9.5px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Krok 2: Ducha</div>
-            <div style="font-size: 15px; font-weight: 800; color: #60a5fa; margin-top: 2px;">${spiritScoreVal}</div>
-            <div style="font-size: 9px; color: #cbd5e1; margin-top: 1px;">Score: ${data.spirit_supremacy_score >= 0 ? data.spirit_supremacy_score.toFixed(2) : 'N/A'}</div>
-          </div>
-
-          <div style="background: rgba(15, 23, 42, 0.6); padding: 8px 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); text-align: center;">
-            <div style="font-size: 9.5px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Krok 3: Etyka</div>
-            <div style="font-size: 15px; font-weight: 800; color: #34d399; margin-top: 2px;">${generaliaScoreVal}</div>
-            <div style="font-size: 9px; color: #cbd5e1; margin-top: 1px;">Siedem Niewiadomych</div>
-          </div>
-
-          <div style="background: rgba(15, 23, 42, 0.6); padding: 8px 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); text-align: center;">
-            <div style="font-size: 9.5px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Krok 4: Chyżość</div>
-            <div style="font-size: 15px; font-weight: 800; color: #f59e0b; margin-top: 2px;">${chyznoscScoreVal}</div>
-            <div style="font-size: 9px; color: #cbd5e1; margin-top: 1px;">Wydajność czasu</div>
-          </div>
-
-          <div style="background: rgba(15, 23, 42, 0.6); padding: 8px 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); text-align: center;">
-            <div style="font-size: 9.5px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Krok 5: Quincunx</div>
-            <div style="font-size: 15px; font-weight: 800; color: #a78bfa; margin-top: 2px;">${quincunxScoreVal}</div>
-            <div style="font-size: 9px; color: #cbd5e1; margin-top: 1px;">Współmierność</div>
           </div>
         </div>
 

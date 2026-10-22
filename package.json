@@ -6,7 +6,8 @@
   "scripts": {
     "test": "npm run test:smoke",
     "test:smoke": "NODE_OPTIONS=\"--import tsx\" playwright test e2e/specs/smoke.spec.ts",
-    "test:e2e": "NODE_OPTIONS=\"--import tsx\" playwright test",
+    "test:regression": "NODE_OPTIONS=\"--import tsx\" playwright test e2e/specs/regression.spec.ts",
+    "test:e2e": "NODE_OPTIONS=\"--import tsx\" playwright test e2e/specs/regression.spec.ts",
     "test:resume": "NODE_OPTIONS=\"--import tsx\" playwright test --last-failed",
     "test:repeat": "NODE_OPTIONS=\"--import tsx\" playwright test e2e/specs/smoke.spec.ts --repeat-each=3",
     "test:debug": "NODE_OPTIONS=\"--import tsx\" playwright test --debug",

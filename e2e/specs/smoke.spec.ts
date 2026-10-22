@@ -54,6 +54,48 @@ test.describe('Smoke Suite: Inicjalizacja Wtyczki i Dashboardu na Wikipedii', ()
     await expect(dashboard).toContainText('Łacińska');
     await expect(dashboard).toContainText('Dominacja norm personalistycznych');
 
+    // Asercja: polska nie jest sakralna - wtedy pass (wskaźnik sakralności < 0.40 i aktywny węzeł niskiej sakralności)
+    const sacralityScore = mockData.pełne_dane_wynikowe?.sacrality_score ?? mockData.klasyfikacja_dashboard?.sakralność;
+    expect(sacralityScore, 'Polska nie jest sakralna (wskaźnik sakralności musi być < 0.40)').toBeLessThan(0.40);
+    await expect(dashboard.locator('text=Sakralność Niska (<0.40)').first()).toBeVisible();
+    await expect(dashboard).not.toContainText('Sakralizm (Religia ponad etyką)');
+
+    // Asercja 1: ZAAWANSOWANIE CYWILIZACYJNE ZRZESZENIA dla Polski
+    const timelineBox = dashboard.locator('.civ-timeline-box');
+    await expect(timelineBox).toBeVisible();
+    await expect(timelineBox).toContainText('ZAAWANSOWANIE CYWILIZACYJNE ZRZESZENIA');
+    await expect(timelineBox).toContainText('Trójkątne schody wspinaczki od gromadztwa po naród');
+    await expect(timelineBox.locator('#civ-stage-badge')).toContainText('Stage #05');
+    await expect(timelineBox.locator('button.civ-stage-btn[data-stage="4"]')).toContainText('POZIOM 05');
+    await expect(timelineBox.locator('button.civ-stage-btn[data-stage="4"]')).toContainText('Personalizm');
+    await expect(timelineBox.locator('button.civ-stage-btn[data-stage="4"]')).toContainText('OBECNY POZIOM');
+    await expect(timelineBox.locator('#civ-stage-details-container')).toContainText('05. Personalizm (Emancypacja Osoby Ludzkiej)');
+    await expect(timelineBox.locator('#civ-stage-details-container')).toContainText('Dualizm Prawny (Rozdzielność prawa prywatnego i publicznego)');
+    await expect(timelineBox.locator('#civ-stage-details-container')).toContainText('Prymat Etyki nad Ustawą');
+
+    // Asercja 2: PAJĘCZYNA QUINCUNXA (5 SFER BYTU) dla Polski
+    const quincunxBox = dashboard.locator('.quincunx-radar-box');
+    await expect(quincunxBox).toBeVisible();
+    await expect(quincunxBox).toContainText('PAJĘCZYNA QUINCUNXA (5 SFER BYTU)');
+    await expect(quincunxBox).toContainText('PAJĘCZYNA QUINCUNXA (5 SFER)');
+    await expect(quincunxBox).toContainText('Dobro');
+    await expect(quincunxBox).toContainText('Prawda');
+    await expect(quincunxBox).toContainText('Zdrowie');
+    await expect(quincunxBox).toContainText('Dobrobyt');
+    await expect(quincunxBox).toContainText('Piękno');
+    await expect(quincunxBox).toContainText('DOMINACJA');
+    await expect(quincunxBox).toContainText('Łacińska');
+    await expect(quincunxBox).toContainText('TRÓJPRAWO');
+    await expect(quincunxBox).toContainText('Dualizm (Prawo Prywatne / Publiczne)');
+    await expect(quincunxBox).toContainText('ETYKA');
+    await expect(quincunxBox).toContainText('Hegemonia Etyki (Etyka ponad prawem)');
+    await expect(quincunxBox).toContainText('KATEGORIA CZASU');
+    await expect(quincunxBox).toContainText('Linearny / Progresywny (Planowanie pokoleniowe)');
+    await expect(quincunxBox).toContainText('OSOBA / KLAN');
+    await expect(quincunxBox).toContainText('Personalizm (Godność osoby ludzkiej)');
+    await expect(quincunxBox).toContainText('CZYSTOŚĆ METODY');
+    await expect(quincunxBox).toContainText('89%');
+
     // 7. Moduł drzewa decyzyjnego
     const decisionTree = page.locator('#decision-tree-container');
     await expect(decisionTree).toBeVisible();
