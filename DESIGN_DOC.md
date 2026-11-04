@@ -171,7 +171,7 @@ Dashboard w nakładce Chrome (`extension/content.js`) jest podzielony na ergonom
 graph TD
     Root["Panel Nakładki Algorytmu Konecznego v1.4.6"]
     
-    Root --> Header["Górny Pasek: Tytuł + Wersja + 💾 Zapisz Wyniki + Zamknij"]
+    Root --> Header["Górny Pasek: Tytuł + Wersja + 💾 Zapisz Wyniki + ⛶ Pełny Ekran + Zamknij"]
     Root --> Dash["Koneczny Dashboard"]
     Root --> Tabs["Nawigacja Zakładkowa 1-6"]
     Root --> Details["Widoki Szczegółowe Zakładek z Kartami Akordeonowymi"]
@@ -338,11 +338,18 @@ Dane zawarte w obiekcie eksportu zasilają poszczególne panele wizualne nakład
      - **Poziom 04: Emancypacja Rodziny** – indywidualna własność majątkowa, monogamia dożywotnia.
      - **Poziom 05: Personalizm** – emancypacja osoby ludzkiej, prymat sumienia, dualizm prawny.
      - **Poziom 06: Naród** – dobrowolne zrzeszenie nadrzędne złączone wspólnym etosem i kulturą duchową.
-4. **Matryca Czwórmianu Ustrojowego**:
-   - **Prawo:** `Dualizm Prawny` (aktywny przy prymacie prawa prywatnego) vs `Monizm Prawa Publicznego` (państwowy) vs `Monizm Prawa Prywatnego` (władcy) vs `Monizm Sakralny`.
-   - **Religia:** `Uniwersalna (Etyczna)` vs `Plemienna / Narodowa` vs `Państwowa / Sakralna` vs `Kastowa` vs `Areligijność / Świeckość`.
-   - **Cele Społeczeństwa:** `Spoza Walki o Byt (Naród & Osoba)` vs `Walka o Byt (Ustrój Obozowy)` vs `Machina Państwowa (Biurokracja)` vs `Formalizm / Rytuał` vs `Kultywowanie Rodu`.
-   - **Emancypacja Rodziny:** `Pełna Emancypacja (Monogamia i Własność Indywidualna)` vs `Klany Rodowe` vs `Poligamia / Brak Emancypacji` vs `Statolatria / Kolektywizm`.
+4. **Matryca Czwórmianu Ustrojowego i Klasyfikacji Cywilizacyjnej (Interaktywne Przyciski Info ℹ️)**:
+   - Każda z 5 sekcji dashboardu posiada dedykowany przycisk `ℹ Info` na aktywnym chipie wyniku oraz w nagłówku sekcji (`ℹ Dlaczego ten wynik?`):
+     - **Sekcja 1: Cywilizacja** (`civ`): Łacińska, Bizantyńska, Turańska, Arabska, Żydowska, Bramińska, Chińska, Acywilizacyjna.
+     - **Sekcja 2: Prawo** (`legal`): `Dualizm Prawny` vs `Monizm Prawa Publicznego` (państwowy) vs `Monizm Prawa Prywatnego` (władcy) vs `Monizm Sakralny`.
+     - **Sekcja 3: Religia** (`rel`): `Uniwersalna (Etyczna)` vs `Plemienna / Narodowa` vs `Państwowa / Sakralna` vs `Kastowa` vs `Areligijność / Świeckość`.
+     - **Sekcja 4: Cele Społeczeństwa** (`goal`): `Spoza Walki o Byt (Naród & Osoba)` vs `Walka o Byt (Ustrój Obozowy)` vs `Machina Państwowa (Biurokracja)` vs `Formalizm / Rytuał` vs `Kultywowanie Rodu`.
+     - **Sekcja 5: Emancypacja Rodziny** (`fam`): `Pełna Emancypacja (Monogamia i Własność Indywidualna)` vs `Klany Rodowe` vs `Poligamia / Brak Emancypacji` vs `Statolatria / Kolektywizm`.
+   - **Interaktywny Popover Analityczny (Hover / Click Pinning)**:
+     - Wyświetla pełne historiozoficzne uzasadnienie wg prof. Feliksa Konecznego.
+     - **Kryterium Rozróżniające (Kontrastowe):** jednoznacznie wyjaśnia, dlaczego przypisano badaną cywilizację, a nie inną konkurującą (np. dlaczego Żydowska, a nie Arabska – uniwersalny teokratyczny monizm islamu vs. rodowo-narodowy ekskluzywizm i podwójna etyka; dlaczego Łacińska, a nie Bizantyńska – nienaruszalny dualizm prawa prywatnego i personalizm vs. omnipotencja państwa i etatyzm; dlaczego nie sakralna itd.).
+     - Wskazuje **najbardziej dominujący wskaźnik** w analizowanym tekście wraz z jego wynikiem (%) oraz uzasadnieniem LLM.
+     - Podaje **dokładnie 2 faktyczne, dosłowne cytaty źródłowe (verbatim) z badanego tekstu w estetyce NotebookLM**: długie, wielozdaniowe fragmenty tekstu z kontekstem źródłowym, plakietkami dowodowymi i historiozoficznym uzasadnieniem korelacji.
 5. **Karty Kroku 1 do 5 (Wskaźniki Szczegółowe)**:
    - Wyświetlają kafelki metryczne: Sakralność (`sakralność`), Supremacja Ducha (`supremacja_ducha`), Generalia Etyki (`etyka_7_generaliów`), Chyżość Historyczna (`chyżość_historyczna_oponowanie_czasu`) oraz Quincunx (`quincunx_pięciomian_bytu`).
 6. **Pajęczyna Quincunxa (Wykres Radarowy SVG)**:

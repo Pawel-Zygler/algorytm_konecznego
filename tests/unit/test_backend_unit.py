@@ -348,6 +348,83 @@ def test_analyze_sample_jmantis_chinese(monkeypatch):
     assert "Świecko" in res["mantis_gates"][0]["decision"]
     assert "Chińska" in res["mantis_gates"][2]["decision"]
 
+def test_pdf_download_headers_and_parsing(monkeypatch):
+    """Test 21: Verify PDF download uses browser headers and parses extracted text."""
+    import fitz
+    import requests
+
+    doc = fitz.open()
+    page = doc.new_page()
+    page.insert_text((50, 72), "Projekt ustawy z druku sejmowego.")
+    pdf_bytes = doc.tobytes()
+
+    captured_headers = {}
+
+    class MockResponse:
+        status_code = 200
+        content = pdf_bytes
+        def raise_for_status(self):
+            pass
+
+    def mock_session_get(self, url, **kwargs):
+        captured_headers.update(dict(self.headers))
+        return MockResponse()
+
+    monkeypatch.setattr(requests.Session, "get", mock_session_get)
+
+    def mock_analyze_sample_lite(text, api_key=None):
+        assert "Projekt ustawy" in text
+        return {
+            "mode": "lite",
+            "sacrality_score": 0.0,
+            "spirit_supremacy_score": 0.8,
+            "primary_civilization": "Łacińska",
+            "raw_ratings": {}
+        }
+
+    monkeypatch.setattr(analyzer, "analyze_sample_lite", mock_analyze_sample_lite)
+
+    response = client.post("/api/analyze", json={
+        "pdf_url": "https://orka.sejm.gov.pl/Druki10ka.nsf/0/7C7FD6F6C20FF209C1258E5100241710/%24File/3003.pdf",
+        "api_key": "test_key",
+        "mode": "lite"
+    })
+
+    assert response.status_code == 200
+    assert "User-Agent" in captured_headers
+    assert "Mozilla" in captured_headers["User-Agent"]
+    assert "Accept" in captured_headers
+
+def test_pdf_download_empty_error(monkeypatch):
+    """Test 22: Verify empty PDF or scan without OCR returns 400 with helpful message."""
+    import fitz
+    import requests
+
+    doc = fitz.open()
+    doc.new_page()  # Empty page
+    pdf_bytes = doc.tobytes()
+
+    class MockResponse:
+        status_code = 200
+        content = pdf_bytes
+        def raise_for_status(self):
+            pass
+
+    def mock_session_get(self, url, **kwargs):
+        return MockResponse()
+
+    monkeypatch.setattr(requests.Session, "get", mock_session_get)
+
+    response = client.post("/api/analyze", json={
+        "pdf_url": "https://example.com/empty.pdf",
+        "api_key": "test_key",
+        "mode": "lite"
+    })
+
+    assert response.status_code == 400
+    assert "warstwy tekstowej" in response.json()["detail"]
+
+
 
 
 

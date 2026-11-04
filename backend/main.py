@@ -1,6 +1,7 @@
 import os
 import logging
 from fastapi import FastAPI, HTTPException, Header, BackgroundTasks
+from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional, Dict, Any
@@ -73,6 +74,17 @@ class AnalysisResponse(BaseModel):
     mantis_gates: Optional[list[Dict[str, Any]]] = None
     raw_ratings: Dict[str, Any] = {}
     history_stats: Dict[str, Any] = {}
+    source_text: Optional[str] = None
+
+BROWSER_HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,application/pdf,*/*;q=0.8",
+    "Accept-Language": "pl,en-US;q=0.7,en;q=0.3",
+    "Sec-Fetch-Dest": "document",
+    "Sec-Fetch-Mode": "navigate",
+    "Sec-Fetch-Site": "none",
+    "Sec-Fetch-User": "?1",
+}
 
 @app.post("/api/analyze", response_model=AnalysisResponse)
 async def analyze_text(request: AnalysisRequest, x_gemini_api_key: Optional[str] = Header(None)):
@@ -80,7 +92,9 @@ async def analyze_text(request: AnalysisRequest, x_gemini_api_key: Optional[str]
     
     if request.pdf_url:
         try:
-            res = requests.get(request.pdf_url, timeout=15)
+            session = requests.Session()
+            session.headers.update(BROWSER_HEADERS)
+            res = session.get(request.pdf_url, timeout=30)
             res.raise_for_status()
             doc = fitz.open(stream=res.content, filetype="pdf")
             extracted = []
@@ -88,12 +102,18 @@ async def analyze_text(request: AnalysisRequest, x_gemini_api_key: Optional[str]
                 extracted.append(page.get_text())
             text_to_analyze = "\n".join(extracted)
         except Exception as e:
+            logger.warning(f"Błąd pobierania PDF z {request.pdf_url}: {e}")
             raise HTTPException(status_code=400, detail=f"Błąd pobierania PDF: {str(e)}")
     elif request.text:
         text_to_analyze = request.text
         
     if not text_to_analyze.strip():
-        raise HTTPException(status_code=400, detail="Tekst wejściowy lub zawartość PDF nie może być pusta.")
+        if request.pdf_url:
+            raise HTTPException(
+                status_code=400,
+                detail="Pobrano plik PDF, lecz nie znaleziono w nim warstwy tekstowej (dokument może być skanem/obrazem bez OCR) lub jest pusty."
+            )
+        raise HTTPException(status_code=400, detail="Tekst wejściowy nie może być pusty.")
         
     req_key = (request.api_key or "").strip()
     hdr_key = (x_gemini_api_key or "").strip()
@@ -123,6 +143,7 @@ async def analyze_text(request: AnalysisRequest, x_gemini_api_key: Optional[str]
             history.save_analysis(target_url, request.title, result)
             stats = history.get_history_stats_for_url(target_url)
             result["history_stats"] = stats
+        result["source_text"] = text_to_analyze
             
         return result
     except Exception as e:
@@ -187,6 +208,15 @@ async def index_books(background_tasks: BackgroundTasks, force: bool = False):
 async def rag_status():
     """Returns current status of the RAG book index."""
     return rag.get_index_status()
+
+@app.get("/preview", response_class=HTMLResponse)
+async def preview_diagrams_page():
+    """Serwuje interaktywny atlas diagramów i tabel historiozoficznych do podglądu studyjnego."""
+    preview_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "preview_diagrams.html")
+    if os.path.exists(preview_path):
+        with open(preview_path, "r", encoding="utf-8") as f:
+            return HTMLResponse(content=f.read())
+    return HTMLResponse("<h1>Brak pliku preview_diagrams.html w katalogu głównym</h1>", status_code=404)
 
 if __name__ == "__main__":
     import uvicorn

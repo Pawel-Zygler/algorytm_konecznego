@@ -143,6 +143,21 @@ test.describe('Smoke Suite: Inicjalizacja Wtyczki i Dashboardu na Wikipedii', ()
     // Weryfikacja przycisku pobierania JSON w nagłówku
     const downloadBtn = page.locator('#koneczny-download-header');
     await expect(downloadBtn).toBeVisible({ timeout: 15000 });
+
+    // Weryfikacja przycisku trybu pełnoekranowego (Fullscreen) obok 'Zapisz wyniki'
+    const fullscreenBtn = page.locator('#koneczny-fullscreen-header');
+    await expect(fullscreenBtn).toBeVisible({ timeout: 15000 });
+    await expect(fullscreenBtn).toContainText('Pełny ekran');
+
+    // Test wejścia i wyjścia z trybu fullscreen
+    const panel = page.locator('#koneczny-panel');
+    await fullscreenBtn.click();
+    await expect(panel).toHaveClass(/fullscreen/);
+    await expect(fullscreenBtn).toContainText('Zwiń ekran');
+
+    await fullscreenBtn.click();
+    await expect(panel).not.toHaveClass(/fullscreen/);
+    await expect(fullscreenBtn).toContainText('Pełny ekran');
   });
 
 });

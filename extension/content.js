@@ -56,7 +56,7 @@
       right: 24px;
       width: 897px;
       max-width: calc(100vw - 48px);
-      max-height: 94vh;
+      max-height: calc(100vh - 104px);
       background: #ffffff;
       border: 1px solid #e4e4e7;
       border-radius: 16px;
@@ -74,6 +74,54 @@
       transform: scale(1) translateY(0);
       opacity: 1;
       pointer-events: auto;
+    }
+
+    /* ── Fullscreen Mode ── */
+    .panel.fullscreen {
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      width: 100vw !important;
+      max-width: 100vw !important;
+      height: 100vh !important;
+      max-height: 100vh !important;
+      border-radius: 0 !important;
+      border: none !important;
+      box-shadow: none !important;
+      transform: none !important;
+      margin: 0 !important;
+      z-index: 2147483647 !important;
+    }
+    .panel.fullscreen .header {
+      border-radius: 0 !important;
+      padding: 14px 28px !important;
+      background: #fafafa;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .panel.fullscreen .content {
+      padding: 20px 32px 40px 32px !important;
+      width: 100% !important;
+    }
+    .panel.fullscreen .koneczny-dashboard,
+    .panel.fullscreen .tab-bar,
+    .panel.fullscreen [id^="view-"] {
+      width: 100% !important;
+      max-width: 100% !important;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+    }
+    .panel.fullscreen .koneczny-dashboard {
+      margin-bottom: 20px !important;
+    }
+    .panel.fullscreen .tab-bar {
+      min-height: 54px !important;
+      gap: 10px !important;
+      padding: 8px !important;
+    }
+    .panel.fullscreen .tab-btn {
+      font-size: 13.5px !important;
+      height: 42px !important;
     }
 
     /* ── Header ── */
@@ -637,6 +685,345 @@
       border-color: #10b981;
       color: #34d399;
     }
+    .save-results-btn:hover {
+      filter: brightness(1.08);
+      transform: translateY(-1px);
+    }
+    .save-results-btn:active {
+      transform: translateY(0);
+    }
+    .fullscreen-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+      color: #ffffff;
+      border: none;
+      padding: 4px 11px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(99,102,241,0.35);
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+    .fullscreen-btn:hover {
+      filter: brightness(1.08);
+      transform: translateY(-1px);
+      box-shadow: 0 3px 9px rgba(99,102,241,0.45);
+    }
+    .fullscreen-btn:active {
+      transform: translateY(0);
+    }
+
+    /* ── Section Info Trigger & Popover (Koneczny Explanations) ── */
+    .section-info-trigger {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #ffffff;
+      padding: 1px 7px;
+      border-radius: 12px;
+      font-size: 10px;
+      font-weight: 800;
+      cursor: pointer;
+      line-height: 1.25;
+      margin-left: 4px;
+      transition: all 0.18s ease;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+      user-select: none;
+    }
+    .section-info-trigger:hover,
+    .section-info-trigger.active-trigger {
+      background: #38bdf8;
+      color: #0f172a;
+      border-color: #38bdf8;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+      transform: scale(1.06);
+    }
+    .section-info-trigger .trigger-icon {
+      font-size: 10px;
+      font-weight: 900;
+    }
+    .section-info-trigger .trigger-text {
+      font-size: 9.5px;
+      letter-spacing: 0.02em;
+    }
+    .header-info-trigger {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #94a3b8;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 600;
+      margin-left: 0;
+    }
+    .header-info-trigger:hover {
+      background: rgba(56, 189, 248, 0.2);
+      border-color: #38bdf8;
+      color: #ffffff;
+    }
+
+    .koneczny-info-popover {
+      position: absolute;
+      z-index: 99999;
+      width: min(500px, calc(100% - 24px));
+      max-width: 520px;
+      max-height: calc(100% - 36px);
+      overflow-y: auto;
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.98) 0%, rgba(30, 41, 59, 0.97) 100%);
+      border: 1.5px solid rgba(56, 189, 248, 0.55);
+      border-radius: 12px;
+      padding: 14px 16px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.75), 0 0 24px rgba(56, 189, 248, 0.25);
+      backdrop-filter: blur(16px);
+      color: #f1f5f9;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 12px;
+      line-height: 1.5;
+      pointer-events: auto;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      animation: koneczny-popover-in 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .koneczny-info-popover::-webkit-scrollbar { width: 5px; }
+    .koneczny-info-popover::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); border-radius: 4px; }
+    .koneczny-info-popover::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.4); border-radius: 4px; }
+    .koneczny-info-popover::-webkit-scrollbar-thumb:hover { background: #38bdf8; }
+
+    @keyframes koneczny-popover-in {
+      from { opacity: 0; transform: translateY(6px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .koneczny-info-popover .popover-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      margin-bottom: 10px;
+    }
+    .koneczny-info-popover .popover-title-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex: 1;
+      flex-wrap: wrap;
+    }
+    .koneczny-info-popover .popover-icon-badge {
+      width: 22px; height: 22px;
+      border-radius: 6px;
+      background: rgba(56, 189, 248, 0.2);
+      border: 1px solid #38bdf8;
+      color: #38bdf8;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 800;
+      flex-shrink: 0;
+    }
+    .koneczny-info-popover .popover-section-tag {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #94a3b8;
+      font-weight: 700;
+    }
+    .koneczny-info-popover .popover-result-badge {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+    }
+    .koneczny-info-popover .popover-close-btn {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 14px;
+      line-height: 1;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s ease;
+    }
+    .koneczny-info-popover .popover-close-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+    }
+    .koneczny-info-popover .popover-section-block {
+      margin-bottom: 12px;
+    }
+    .koneczny-info-popover .popover-block-title {
+      font-size: 10.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #38bdf8;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .koneczny-info-popover .popover-why-text {
+      font-size: 11.5px;
+      color: #e2e8f0;
+      line-height: 1.5;
+      background: rgba(0, 0, 0, 0.28);
+      padding: 9px 11px;
+      border-radius: 8px;
+      border-left: 3px solid #38bdf8;
+    }
+    .koneczny-info-popover .popover-contrast-text {
+      font-size: 11.5px;
+      color: #f8fafc;
+      line-height: 1.55;
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      border-left: 3.5px solid #f59e0b;
+      padding: 9px 12px;
+      border-radius: 8px;
+    }
+    .koneczny-info-popover .popover-contrast-text strong {
+      color: #fbbf24;
+    }
+    .koneczny-info-popover .dominant-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 8px 10px;
+      margin-top: 4px;
+    }
+    .koneczny-info-popover .dominant-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+    .koneczny-info-popover .dominant-name {
+      font-weight: 700;
+      color: #f8fafc;
+      font-size: 11px;
+    }
+    .koneczny-info-popover .dominant-pct {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+    .koneczny-info-popover .dominant-desc {
+      font-size: 11px;
+      color: #94a3b8;
+      line-height: 1.45;
+    }
+    
+    /* ── NotebookLM Grounded Quotation Cards ── */
+    .koneczny-info-popover .notebook-quote-container {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      margin-top: 5px;
+    }
+    .koneczny-info-popover .notebook-quote-card {
+      background: rgba(16, 185, 129, 0.07);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      border-left: 3.5px solid #10b981;
+      border-radius: 8px;
+      padding: 9px 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      position: relative;
+    }
+    .koneczny-info-popover .notebook-quote-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .koneczny-info-popover .notebook-quote-badge {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: #10b981;
+      color: #0f172a;
+      padding: 2px 6px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .koneczny-info-popover .notebook-quote-context {
+      font-size: 10px;
+      color: #94a3b8;
+      font-family: monospace;
+    }
+    .koneczny-info-popover .notebook-quote-body {
+      font-size: 11.5px;
+      font-style: italic;
+      color: #f1f5f9;
+      line-height: 1.6;
+      font-family: "Georgia", -apple-system, BlinkMacSystemFont, "Segoe UI", serif;
+      word-break: break-word;
+    }
+    .koneczny-info-popover .notebook-quote-footer {
+      margin-top: 6px;
+      padding-top: 5px;
+      border-top: 1px dashed rgba(16, 185, 129, 0.22);
+      font-size: 10px;
+      color: #34d399;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* Fallback example styles */
+    .koneczny-info-popover .examples-container {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 4px;
+    }
+    .koneczny-info-popover .example-item {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      border-radius: 6px;
+      padding: 6px 8px;
+      font-size: 11px;
+      color: #e2e8f0;
+      line-height: 1.4;
+    }
+    .koneczny-info-popover .example-num {
+      background: #10b981;
+      color: #0f172a;
+      font-size: 9px;
+      font-weight: 800;
+      padding: 1px 5px;
+      border-radius: 4px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .koneczny-info-popover .example-text {
+      font-style: italic;
+    }
+    .koneczny-info-popover .popover-footer {
+      font-size: 9.5px;
+      color: #64748b;
+      text-align: right;
+      border-top: 1px dashed rgba(255, 255, 255, 0.08);
+      padding-top: 6px;
+      margin-top: 8px;
+    }
   `;
 
   let lastAnalysisResultData = null;
@@ -663,6 +1050,10 @@
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
                 Zapisz wyniki
               </button>
+              <button class="fullscreen-btn" id="koneczny-fullscreen-header" title="Przełącz tryb pełnoekranowy (Fullscreen)">
+                <svg id="fullscreen-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+                <span id="fullscreen-text">Pełny ekran</span>
+              </button>
             </div>
             <div class="header-subtitle" title="Dzieła i teoria Konecznego zamienione w cyfrowe narzędzie">Metoda Historiozoficzna</div>
           </div>
@@ -674,6 +1065,7 @@
         </div>
       </div>
       <div class="content" id="koneczny-content"></div>
+      <div id="koneczny-section-info-popover" class="koneczny-info-popover" style="display: none;"></div>
     </div>
   `;
 
@@ -689,10 +1081,70 @@
   const panel = shadow.getElementById('koneczny-panel');
   const closeBtn = shadow.getElementById('koneczny-close');
   const downloadBtn = shadow.getElementById('koneczny-download-header');
+  const fullscreenBtn = shadow.getElementById('koneczny-fullscreen-header');
   const content = shadow.getElementById('koneczny-content');
 
+  function updateFullscreenBtn(isFullscreen) {
+    if (!fullscreenBtn) return;
+    const icon = fullscreenBtn.querySelector('#fullscreen-icon');
+    const text = fullscreenBtn.querySelector('#fullscreen-text');
+    if (isFullscreen) {
+      fullscreenBtn.title = 'Opuść tryb pełnoekranowy (Esc)';
+      if (text) text.textContent = 'Zwiń ekran';
+      if (icon) {
+        icon.innerHTML = '<path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/>';
+      }
+    } else {
+      fullscreenBtn.title = 'Przełącz tryb pełnoekranowy (Fullscreen)';
+      if (text) text.textContent = 'Pełny ekran';
+      if (icon) {
+        icon.innerHTML = '<path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>';
+      }
+    }
+  }
+
+  function toggleFullscreen() {
+    if (!panel) return;
+    const isFullscreen = panel.classList.toggle('fullscreen');
+    if (root) {
+      if (isFullscreen) {
+        root.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;width:100vw;height:100vh;z-index:2147483647;font-family:system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;';
+      } else {
+        root.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:999999;font-family:system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;';
+      }
+    }
+    updateFullscreenBtn(isFullscreen);
+  }
+
+  if (fullscreenBtn) {
+    fullscreenBtn.addEventListener('click', toggleFullscreen);
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      const popover = shadow.getElementById('koneczny-section-info-popover');
+      if (popover && popover.style.display !== 'none') {
+        popover.style.display = 'none';
+        content.querySelectorAll('.section-info-trigger').forEach(b => b.classList.remove('active-trigger'));
+        return;
+      }
+      if (panel && panel.classList.contains('fullscreen')) {
+        toggleFullscreen();
+      }
+    }
+  });
+
   if (closeBtn && panel) {
-    closeBtn.addEventListener('click', () => panel.classList.remove('open'));
+    closeBtn.addEventListener('click', () => {
+      panel.classList.remove('open');
+      if (panel.classList.contains('fullscreen')) {
+        panel.classList.remove('fullscreen');
+        if (root) {
+          root.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:999999;font-family:system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;';
+        }
+        updateFullscreenBtn(false);
+      }
+    });
   }
   if (downloadBtn) {
     downloadBtn.addEventListener('click', () => downloadResultsJson(lastAnalysisResultData));
@@ -701,6 +1153,13 @@
     trigger.addEventListener('click', () => {
       if (panel.classList.contains('open')) {
         panel.classList.remove('open');
+        if (panel.classList.contains('fullscreen')) {
+          panel.classList.remove('fullscreen');
+          if (root) {
+            root.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:999999;font-family:system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;';
+          }
+          updateFullscreenBtn(false);
+        }
       } else {
         panel.classList.add('open');
         runAnalysis();
@@ -1352,9 +1811,11 @@
           raw_ratings: full.raw_ratings || newData.surowe_oceny_indeksów || newData.raw_ratings || {}
         };
       }
+      const rawTextExtracted = (typeof pageData === 'string' ? pageData : (pageData && pageData.pdf_url ? `Dokument PDF: ${pageData.pdf_url}` : ''));
       window.konecznyResults = {
         ...window.konecznyResults,
         ...newData,
+        source_text: (newData && newData.source_text) || rawTextExtracted || (window.konecznyResults && window.konecznyResults.source_text) || '',
         raw_ratings: {
           ...(window.konecznyResults.raw_ratings || {}),
           ...(newData.raw_ratings || {})
@@ -2846,6 +3307,720 @@
       { key: 'fam_state_collectivism', label: 'Statolatria / Kolektywizm', color: '#ef4444' }
     ];
 
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    const INDICATOR_NAME_MAP = {
+      // Legal dualism & pluralism
+      PRIVATE_RIGHTS_SPHERE: 'Ochrona Sfery Praw Prywatnych',
+      FAMILY_AUTONOMY: 'Autonomia Rodziny',
+      PROPERTY_PROTECTION: 'Ochrona Własności Prywatnej',
+      NATURAL_INHERITANCE: 'Dziedziczenie Majątkowe',
+      POWER_LIMITS: 'Ograniczenie Władzy Państwowej Prawem',
+      private_law_autonomy: 'Autonomia Prawa Prywatnego',
+      monism_of_public_law_absence: 'Brak Monizmu Prawa Publicznego',
+      state_subjection_to_law: 'Podporządkowanie Państwa Prawu',
+      law_diversity_tolerance: 'Poszanowanie Różnorodności Prawa',
+      INDEPENDENT_SOURCES: 'Niezależność Źródeł Prawa',
+      LEGAL_DIVERSITY: 'Różnorodność Systemów Prawnych',
+      // Church independence & sacrality
+      STATE_CHURCH_SEPARATION: 'Rozdział Kościoła i Państwa',
+      NO_CAESAROPAPISM: 'Brak Cezaropapizmu',
+      church_state_separation: 'Niezależność Kościoła od Państwa',
+      priest_as_official_absence: 'Brak Duchowieństwa jako Urzędników',
+      religious_instrumentalization_absence: 'Brak Instrumentalizacji Religii',
+      SACRAL_LAW_SOURCE: 'Sakralne Źródło Prawa',
+      STATE_CHURCH_UNITY: 'Jedność Państwa i Kościoła',
+      APOSTASY_PUNISHMENT: 'Karanie Apostazji',
+      // Admin responsibility & public morality
+      personal_liability_for_damages: 'Osobista Odpowiedzialność Urzędnika',
+      independent_administrative_judiciary: 'Niezawisłe Sądownictwo Urzędnicze',
+      bureaucratic_excess_absence: 'Brak Przerostu Biurokracji',
+      kormlenie_system_absence: 'Brak Systemu Kormilenia (Urzędu jako Łupu)',
+      statolatry_absence: 'Brak Statolatrii (Deifikacji Państwa)',
+      camp_system_absence: 'Brak Ustroju Obozowego',
+      two_consciences_rejection: 'Odrzucenie „Dwóch Sumień” w Polityce',
+      state_bound_by_decalogue: 'Państwo Podlega Normom Moralnym',
+      politics_as_ethical_domain: 'Polityka jako Dziedzina Etyczna',
+      // Personalism & conscience
+      personalism_sovereignty: 'Godność i Suwerenność Osoby Ludzkiej',
+      ethics_above_law: 'Prymat Etyki nad Prawem Stanowionym',
+      conscience_as_supreme_judge: 'Sumienie jako Najwyższa Instancja',
+      no_byzantine_statolatry: 'Brak Bizantyńskiej Statolatrii',
+      no_camp_turanian_coercion: 'Brak Turańskiego Przymusu Obozowego',
+      // Organism vs mechanism
+      society_as_organism: 'Społeczeństwo jako Żywy Organizm',
+      mechanism_absence: 'Odrzucenie Mechanistycznego Traktowania Ludzi',
+      // Family & property
+      family_privacy_protection: 'Nienaruszalność i Prywatność Rodziny',
+      private_property_inviolability: 'Nienaruszalność Własności Prywatnej',
+      arbitrary_expropriation_absence: 'Brak Arbitralnych Wywłaszczeń'
+    };
+
+    function getAnalyzedSourceText() {
+      if (window.konecznyResults && typeof window.konecznyResults.source_text === 'string' && window.konecznyResults.source_text.trim().length > 30) {
+        return window.konecznyResults.source_text;
+      }
+      if (data && typeof data.source_text === 'string' && data.source_text.trim().length > 30) {
+        return data.source_text;
+      }
+      if (typeof window.konecznyResults?.tekst_źródłowy === 'string' && window.konecznyResults.tekst_źródłowy.trim().length > 30) {
+        return window.konecznyResults.tekst_źródłowy;
+      }
+      const cleanExtracted = extractCleanText();
+      if (typeof cleanExtracted === 'string' && cleanExtracted.trim().length > 30) {
+        return cleanExtracted;
+      }
+      const docText = document.querySelector('#mw-content-text, article, main, #content, body')?.innerText || '';
+      if (docText.trim().length > 50) {
+        return docText;
+      }
+      return '';
+    }
+
+    function extractVerbatimQuotes(sourceText, sectionKey, activeKey, dominantIndicator, count = 2) {
+      if (!sourceText || typeof sourceText !== 'string' || sourceText.trim().length < 30) {
+        return [];
+      }
+
+      // Normalizacja tekstu
+      const clean = sourceText.replace(/\r\n/g, '\n').replace(/\t/g, ' ');
+
+      // Podział tekstu na zdania (obsługa interpunkcji i specyfiki języka polskiego)
+      const rawSentences = clean
+        .split(/(?<=[.!?])\s+(?=[A-ZŁŚĆŹŻA-Z0-9„"«(])/g)
+        .map(s => s.trim().replace(/\s+/g, ' '))
+        .filter(s => s.length >= 35 && !s.startsWith('^') && !s.startsWith('http') && !s.startsWith('<!--') && !s.startsWith('{'));
+
+      if (rawSentences.length === 0) return [];
+
+      const civKeywords = {
+        jewish: ['naród', 'narodow', 'rodow', 'pochodzen', 'prawo', 'religi', 'tora', 'talmud', 'gmin', 'wspólnot', 'tradycj', 'obyczaj', 'święt', 'partikular', 'etyk', 'swoi', 'obcy', 'wewnętrzn', 'krew', 'przepis', 'obowiązek', 'izrael', 'judaizm', 'rabin'],
+        arab: ['szariat', 'koran', 'islam', 'allach', 'allah', 'teokracj', 'religi', 'sakraln', 'boż', 'prawo', 'wiara', 'muzułman', 'władz', 'państw', 'poddani', 'dogmat', 'niewiern', 'wyznan', 'umma', 'kalif'],
+        latin: ['prawo', 'wolność', 'obywatel', 'osoba', 'osobow', 'rodzin', 'własność', 'autonomi', 'etyk', 'moraln', 'sumien', 'sąd', 'konstytucj', 'praworządn', 'umow', 'prywatn', 'niezależn', 'sprawiedliw', 'demokracj'],
+        byzantine: ['państw', 'urząd', 'administracj', 'biurokracj', 'rząd', 'władz', 'regulacj', 'kontro', 'nakaz', 'ustaw', 'monopol', 'central', 'urzędnik', 'przepis', 'organ', 'podporządkow', 'cesar', 'dekret', 'statut'],
+        turanian: ['wojsk', 'armia', 'sił', 'wódz', 'rozkaz', 'posłuszeństw', 'dyscyplin', 'obóz', 'walk', 'przymus', 'bezwzględn', 'hierarchi', 'dowództw', 'kampan', 'garnizon'],
+        chinese: ['ród', 'rodow', 'rytuał', 'tradycj', 'porządek', 'posłuszeństwo', 'senior', 'przodk', 'państwo', 'etykiet', 'konfucj'],
+        brahmin: ['kast', 'stan', 'hierarchi', 'urodzen', 'sakraln', 'przeznaczen', 'nierówn', 'rytuał', 'bramin', 'wedy']
+      };
+
+      const keyWordsList = civKeywords[activeKey] || civKeywords.latin;
+      const indicatorKeyWords = dominantIndicator && dominantIndicator.name
+        ? dominantIndicator.name.toLowerCase().split(/\s+/).filter(w => w.length > 3)
+        : [];
+
+      const scored = rawSentences.map((sent, idx) => {
+        const lower = sent.toLowerCase();
+        let score = 0;
+        for (const kw of keyWordsList) {
+          if (lower.includes(kw)) score += 3;
+        }
+        for (const kw of indicatorKeyWords) {
+          if (lower.includes(kw)) score += 4;
+        }
+        if (sent.length >= 80 && sent.length <= 360) {
+          score += 2;
+        } else if (sent.length > 360 && sent.length <= 500) {
+          score += 1;
+        }
+        return { sent, score, idx };
+      });
+
+      scored.sort((a, b) => b.score - a.score || a.idx - b.idx);
+
+      const selected = [];
+      const pickedSentences = new Set();
+
+      for (const item of scored) {
+        if (selected.length >= count) break;
+        if (pickedSentences.has(item.sent)) continue;
+
+        const overlaps = [...pickedSentences].some(p => p.includes(item.sent.slice(0, 30)) || item.sent.includes(p.slice(0, 30)));
+        if (overlaps) continue;
+
+        pickedSentences.add(item.sent);
+
+        let fullFragment = item.sent;
+        if (fullFragment.length < 110 && item.idx + 1 < rawSentences.length) {
+          const nextSent = rawSentences[item.idx + 1];
+          if (nextSent.length < 220) {
+            fullFragment += ' ' + nextSent;
+          }
+        }
+
+        selected.push({
+          quote: fullFragment,
+          context: `Cytat ze źródła (akapit badany)`,
+          rationale: item.score > 3
+            ? `Autentyczny fragment źródłowy wskazujący na desygnaty cywilizacji (${keyWordsList.slice(0, 3).join(', ')})`
+            : `Dosłowny fragment tekstu poddany analizie historiozoficznej`
+        });
+      }
+
+      return selected;
+    }
+
+    function getContrastiveExplanation(sectionKey, activeKey) {
+      if (sectionKey === 'civ') {
+        switch (activeKey) {
+          case 'jewish':
+            return `<strong>Dlaczego Żydowska, a nie Arabska czy Łacińska?</strong><br>
+• <em>Wobec Arabskiej:</em> Obie są cywilizacjami sakralnymi (monizm prawa religijnego), lecz cywilizacja arabska jest <strong>uniwersalistyczna</strong> (prawo Koranu dla każdego wyznawcy), podczas gdy cywilizacja żydowska opiera się na <strong>ekskluzywizmie rodowo-narodowym</strong> i <strong>podwójnej etyce</strong> (odmienne normy prawne i moralne stosowane wewnątrz wspólnoty rodowej, a odmienne na zewnątrz wobec obcych).<br>
+• <em>Wobec Łacińskiej:</em> W łacińskiej panuje nienaruszalny dualizm prawa świeckiego i jedna etyka uniwersalna dla wszystkich; w cywilizacji żydowskiej całe życie reguluje kazuistyczne prawo sakralne (Tora/Talmud), eliminując autonomiczne prawo świeckie.`;
+
+          case 'arab':
+            return `<strong>Dlaczego Arabska, a nie Żydowska czy Łacińska?</strong><br>
+• <em>Wobec Żydowskiej:</em> Obie są cywilizacjami sakralnymi, ale islam ma charakter <strong>uniwersalnej teokracji</strong> otwartej na wszystkie ludy bez względu na pochodzenie rodowe, w przeciwieństwie do partykularyzmu rodowo-etnicznego cywilizacji żydowskiej.<br>
+• <em>Wobec Łacińskiej:</em> Cywilizacja łacińska rozdziela państwo od Kościoła i chroni autonomię prawa prywatnego; cywilizacja arabska nie dopuszcza rozdziału sacrum od profanum – prawo państwowe to bezpośrednio dogmat religijny (szariat).`;
+
+          case 'latin':
+            return `<strong>Dlaczego Łacińska, a nie Bizantyńska, Arabska czy Żydowska?</strong><br>
+• <em>Wobec Bizantyńskiej:</em> Obie są świeckie pod względem źródeł prawa, lecz cywilizacja łacińska broni <strong>autonomii prawa prywatnego i wolności osoby (personalizm)</strong>, podczas gdy Bizancjum podporządkowuje jednostkę, własność i religię omnipotencji państwa (monizm prawa publicznego).<br>
+• <em>Wobec Arabskiej i Żydowskiej:</em> Cywilizacja łacińska <strong>nie jest sakralna</strong> – normy prawne nie pochodzą z ksiąg objawionych, lecz z prawa rzymskiego i uniwersalnej moralności chrześcijańskiej równej dla każdego człowieka.`;
+
+          case 'byzantine':
+            return `<strong>Dlaczego Bizantyńska, a nie Łacińska czy Turańska?</strong><br>
+• <em>Wobec Łacińskiej:</em> W łacińskiej prawo prywatne i sumienie są nienaruszalne; w bizantyńskiej dominuje <strong>monizm prawa publicznego, etatyzm i cezaropapizm</strong> – państwo i jego aparat stoją ponad prawami osoby i rodziny.<br>
+• <em>Wobec Turańskiej:</em> Bizancjum opiera się na sformalizowanym aparacie urzędniczym, skomplikowanym prawie stanowionym i hierarchii państwowej, a nie na doraźnym, wojskowym rozkazie wodza w obozie.`;
+
+          case 'turanian':
+            return `<strong>Dlaczego Turańska, a nie Bizantyńska czy Arabska?</strong><br>
+• <em>Wobec Bizantyńskiej:</em> Turańszczyzna nie buduje skomplikowanej biurokracji ani trwałego systemu prawnego; to <strong>ustrój obozowy</strong>, gdzie jedynym prawem jest bezwzględna wola wodza i przymus siłowy.<br>
+• <em>Wobec Arabskiej:</em> Brak tu jakiejkolwiek motywacji teologicznej czy prawa sakralnego – zrzeszenie służy wyłącznie walce o byt, podbojowi i panowaniu silniejszego.`;
+
+          case 'chinese':
+            return `<strong>Dlaczego Chińska, a nie Łacińska czy Bizantyńska?</strong><br>
+• Fundamentem jest skrajny ustrój rodowy złączony z rytualizmem (Li) oraz kultem przodków, gdzie jednostka nie ma osobowości prawnej ani sumienia niezależnego od klanu.`;
+
+          case 'brahmin':
+            return `<strong>Dlaczego Bramińska, a nie Arabska czy Łacińska?</strong><br>
+• Sakralny podział kastowy wyklucza uniwersalizm etyczny oraz równość bytu ludzkiego. Los człowieka jest z góry określony hierarchią karmy i rytuałów.`;
+
+          case 'syncretic':
+            return `<strong>Mieszanka cywilizacyjna (synkretyzm):</strong><br>
+• Tekst wykazuje równoczesne, sprzeczne naleciałości różnych cywilizacji (np. łacińskie deklaracje prawne zderzone z bizantyńskim etatyzmem lub turańskim przymusem), co wg Konecznego prowadzi do niespójności systemowej.`;
+
+          default:
+            return '';
+        }
+      }
+
+      if (sectionKey === 'legal') {
+        switch (activeKey) {
+          case 'dualism':
+            return `<strong>Dlaczego Dualizm, a nie Monizm Prawa?</strong><br>
+• Dualizm prawny gwarantuje niezależność prawa prywatnego (własność, rodzina, umowy) od woli państwa. Państwo nie może dekretami unieważniać naturalnych praw obywateli, co odróżnia go od monizmu bizantyńskiego i sakralnego.`;
+          case 'monism_public':
+            return `<strong>Dlaczego Monizm Prawa Publicznego, a nie Dualizm?</strong><br>
+• Państwo wchłania przestrzeń prywatną: ustawy i dekrety administracyjne regulują sfery dawniej należące do wolności obywatela, niszcząc autonomię prawa prywatnego na rzecz omnipotencji urzędniczej.`;
+          case 'monism_sacral':
+            return `<strong>Dlaczego Monizm Sakralny?</strong><br>
+• Prawo ma status dogmatu boskiego; wykluczona jest jakakolwiek świecka legislacja czy rozdział prawa cywilnego od norm religijnych.`;
+          case 'monism_private':
+            return `<strong>Dlaczego Monizm Prawa Prywatnego?</strong><br>
+• Państwo i społeczeństwo są traktowane jak prywatne włości i własność rządzącego wodza lub dynastii, bez gwarancji praw publicznych.`;
+          default:
+            return '';
+        }
+      }
+
+      if (sectionKey === 'rel') {
+        switch (activeKey) {
+          case 'rel_universal':
+            return `<strong>Dlaczego Religia Uniwersalna, a nie Państwowa czy Plemienna?</strong><br>
+• Religia jest niezależna od aparatu państwowego i wyznacza obiektywną moralność ponad wolą władzy. Nie jest ograniczona do jednego narodu (jak plemienna) ani podporządkowana rządowi (jak w cezaropapizmie).`;
+          case 'rel_state':
+            return `<strong>Dlaczego Religia Państwowa (Cezaropapizm)?</strong><br>
+• Władza świecka podporządkowuje sobie instytucje religijne, czyniąc z nich narzędzie dyscyplinowania poddanych i legitymizowania decyzji politycznych.`;
+          case 'rel_tribal':
+            return `<strong>Dlaczego Religia Plemienna / Narodowa?</strong><br>
+• Sacrum jest zamknięte w granicach jednej grupy etnicznej lub rodowej, wytwarzając podwójne standardy moralne wobec członków i nie-członków.`;
+          default:
+            return '';
+        }
+      }
+
+      if (sectionKey === 'goal') {
+        switch (activeKey) {
+          case 'goal_beyond_exist':
+            return `<strong>Dlaczego Cele spoza walki o byt?</strong><br>
+• W cywilizacji łacińskiej cel zrzeszenia nie ogranicza się do przetrwania biologicznego ani rozrostu biurokracji, lecz służy doskonaleniu moralnemu, prawdzie, pięknu i godności osoby ludzkiej.`;
+          case 'goal_state_machine':
+            return `<strong>Dlaczego Machina Państwowa?</strong><br>
+• Cel zrzeszenia zredukowany do sprawnego funkcjonowania biurokracji i posłuszeństwa obywatela wobec nakazów aparatu urzędniczego (wzorzec bizantyński).`;
+          case 'goal_exist_struggle':
+            return `<strong>Dlaczego Walka o Byt?</strong><br>
+• Cel zrzeszenia zorientowany wyłącznie na siłę, ekspansję militarną i dyscyplinę obozową (wzorzec turański).`;
+          default:
+            return '';
+        }
+      }
+
+      if (sectionKey === 'fam') {
+        switch (activeKey) {
+          case 'fam_full_emanc':
+            return `<strong>Dlaczego Pełna Emancypacja Rodziny?</strong><br>
+• W cywilizacji łacińskiej rodzina opiera się na monogamii, równouprawnieniu małżonków i pełnej autonomii prawnej/majątkowej od państwa i klanu.`;
+          case 'fam_state_collectivism':
+            return `<strong>Dlaczego Kolektywizm Państwowy?</strong><br>
+• Państwo uzurpuje sobie prawo do kontroli nad wychowaniem, majątkiem i ideologizacją dzieci, podporządkowując rodzinę celom urzędowym.`;
+          default:
+            return '';
+        }
+      }
+
+      return '';
+    }
+
+    function findBestIndicatorAndExamples(scoreDicts, preferHigh = true, fallbackText = '', sectionKey = '', activeKey = '') {
+      let best = null;
+      let allExamples = [];
+
+      for (const dict of scoreDicts) {
+        if (!dict || typeof dict !== 'object') continue;
+        for (const [key, val] of Object.entries(dict)) {
+          if (!val || typeof val !== 'object') continue;
+          const score = typeof val.score === 'number' ? val.score : -1;
+          const explanation = val.explanation || '';
+          const news = Array.isArray(val.news_examples) ? val.news_examples.filter(n => n && typeof n === 'string' && n.trim().length > 0) : [];
+
+          news.forEach(n => {
+            const cleanN = n.trim();
+            if (!allExamples.includes(cleanN)) {
+              allExamples.push(cleanN);
+            }
+          });
+
+          if (score >= 0) {
+            const priority = preferHigh ? score : (1.0 - score);
+            const hasNewsBonus = news.length > 0 ? 1.0 : 0.0;
+            const totalWeight = priority + hasNewsBonus;
+
+            if (!best || totalWeight > best.weight) {
+              best = {
+                key,
+                score,
+                explanation,
+                news,
+                weight: totalWeight
+              };
+            }
+          } else if (!best && news.length > 0) {
+            best = {
+              key,
+              score: -1,
+              explanation,
+              news,
+              weight: 0.1
+            };
+          }
+        }
+      }
+
+      // Pobranie faktycznego badanego tekstu do wyekstrahowania cytatów verbatim (NotebookLM style)
+      const sourceText = getAnalyzedSourceText();
+      let extractedVerbatim = [];
+      if (sourceText) {
+        extractedVerbatim = extractVerbatimQuotes(sourceText, sectionKey, activeKey, best, 2);
+      }
+
+      let examples = [];
+
+      // 1. Jeśli mamy autentyczne cytaty verbatim z badanego tekstu, używamy ich na pierwszym miejscu
+      if (extractedVerbatim.length > 0) {
+        examples.push(...extractedVerbatim.slice(0, 2));
+      }
+
+      // 2. Jeśli brakuje do 2 cytatów, uzupełniamy z news_examples dominującego wskaźnika
+      if (examples.length < 2 && best && best.news && best.news.length > 0) {
+        for (const n of best.news) {
+          if (examples.length >= 2) break;
+          const isDup = examples.some(e => (typeof e === 'object' ? e.quote : e) === n);
+          if (!isDup) {
+            examples.push({
+              quote: n,
+              context: `Wskaźnik: ${INDICATOR_NAME_MAP[best.key] || best.key.replace(/_/g, ' ')}`,
+              rationale: best.explanation || 'Konkretny dowód faktograficzny z analizy tekstu'
+            });
+          }
+        }
+      }
+
+      // 3. Jeśli wciąż brakuje, sprawdzamy pozostałe wskaźniki (allExamples)
+      if (examples.length < 2) {
+        for (const ex of allExamples) {
+          if (examples.length >= 2) break;
+          const isDup = examples.some(e => (typeof e === 'object' ? e.quote : e) === ex);
+          if (!isDup) {
+            examples.push({
+              quote: ex,
+              context: 'Materiał źródłowy analizy',
+              rationale: 'Faktograficzny desygnat zbadanego tekstu'
+            });
+          }
+        }
+      }
+
+      // 4. Jeśli wciąż brakuje, generujemy ugruntowany kontekst z fallbackText lub diagnozy
+      if (examples.length < 2 && fallbackText) {
+        const cleanSnippet = fallbackText.replace(/\s+/g, ' ').trim();
+        if (cleanSnippet.length > 10) {
+          examples.push({
+            quote: `Kontekst analityczny materiału: „${cleanSnippet.slice(0, 240)}...”`,
+            context: 'Fragment syntetyczny tekstu',
+            rationale: 'Syntetyczne odzwierciedlenie struktury analizowanego dokumentu'
+          });
+        }
+      }
+
+      while (examples.length < 2) {
+        const idx = examples.length + 1;
+        examples.push({
+          quote: idx === 1 
+            ? "Konkretne sformułowania ustrojowe i struktura instytucjonalna opisana w analizowanym tekście źródłowym." 
+            : "Zastosowanie aparatu historiozoficznego Feliksa Konecznego do zweryfikowania metody życia zbiorowego.",
+          context: 'Metodologia historiozoficzna',
+          rationale: 'Kryterium rozstrzygające w matrycy cywilizacyjnej'
+        });
+      }
+
+      return {
+        best,
+        examples: examples.slice(0, 2)
+      };
+    }
+
+    function getSectionInfo(sectionKey) {
+      const rawRatings = data.raw_ratings || data.surowe_oceny_indeksów || {};
+      const diagnosis = data.civilization_diagnosis || (data.klasyfikacja_dashboard && data.klasyfikacja_dashboard.diagnoza_cywilizacyjna) || '';
+      const pageTitle = (document.title || '').replace(/[-–—].*$/, '').trim();
+
+      if (sectionKey === 'civ') {
+        const activeOpt = civOptions.find(o => o.key === activeCivKey) || civOptions[0];
+        const civExplanations = {
+          latin: "Cywilizacja Łacińska opiera się na personalizmie (prymat osoby ludzkiej), nienaruszalnym dualizmie prawnym (niezależność prawa prywatnego od publicznego), autonomii rodziny, niezależności Kościoła oraz nadrzędności norm etycznych w życiu publicznym nad wolą państwa.",
+          byzantine: "Cywilizacja Bizantyńska charakteryzuje się omnipotencją państwa, rozrostem biurokracji i monizmem prawa publicznego (wchłanianie sfery prywatnej przez państwo). Wszelkie dziedziny życia oraz instytucje religijne zostają podporządkowane racji stanu (cezaryzm).",
+          turanian: "Cywilizacja Turańska opiera się na ustroju obozowym, w którym wola wodza lub aparatu siłowego stanowi jedyne źródło prawa. Brak tu autonomicznego społeczeństwa obywatelskiego i niezależności jednostki – relacje opierają się na bezwzględnym przymusie.",
+          arab: "Cywilizacja Arabska posiada charakter sakralny: prawo, państwo i moralność są z góry zdeterminowane przez objawienie religijne. Wyklucza to autonomiczne prawo świeckie i wolność sumienia jednostki wobec religijnych dogmatów prawnych.",
+          jewish: "Cywilizacja Żydowska opiera się na monizmie prawa sakralnego (Tora/Halacha), ekskluzywizmie rodowo-prawnym oraz podwójnej etyce (odmienne normy prawne i moralne stosowane wewnątrz wspólnoty, a odmienne na zewnątrz).",
+          brahmin: "Cywilizacja Bramińska opiera się na sakralnym podziale kastowym, sankcjonowaniu nierówności bytu oraz dominacji bierności społecznej i rytualizmu nad rozwojem osoby ludzkiej.",
+          chinese: "Cywilizacja Chińska opiera się na wszechwładzy ustroju rodowego połączonej z etatyzmem i sztywnym rytuałem (li), eliminując pojęcie autonomicznej osoby ludzkiej i sumienia.",
+          syncretic: "Stan acywilizacyjny (mieszanka cywilizacyjna) powstaje w wyniku zderzenia sprzecznych metod życia zbiorowego, co wg Konecznego prowadzi do rozkładu ładu prawnego i chaosu instytucjonalnego."
+        };
+
+        let whyText = civExplanations[activeCivKey] || civExplanations.latin;
+        if (diagnosis) {
+          whyText = `<div style="margin-bottom: 6px;"><strong style="color: #38bdf8;">Diagnoza analityczna:</strong> ${escapeHtml(diagnosis)}</div><div><strong style="color: #94a3b8;">Metoda Konecznego:</strong> ${whyText}</div>`;
+        }
+
+        const preferHigh = activeCivKey === 'latin';
+        const dicts = [
+          rawRatings.legal_dualism_scores,
+          rawRatings.administrative_responsibility_scores,
+          rawRatings.public_morality_totality_scores,
+          rawRatings.church_independence_scores,
+          rawRatings.sacrality_scores,
+          rawRatings.personalism_scores
+        ];
+        const { best, examples } = findBestIndicatorAndExamples(dicts, preferHigh, diagnosis || pageTitle, 'civ', activeCivKey);
+
+        let domFactor = null;
+        if (best) {
+          const bestName = INDICATOR_NAME_MAP[best.key] || best.key.replace(/_/g, ' ');
+          const scorePct = best.score >= 0 ? `${Math.round(best.score * 100)}%` : 'Dominujący';
+          const scoreColor = best.score >= 0.5 ? '#10b981' : '#ef4444';
+          domFactor = {
+            name: bestName,
+            scoreText: scorePct,
+            scoreColor: scoreColor,
+            explanation: best.explanation || 'Wskaźnik ten wykazuje najsilniejsze odchylenie w materiale analitycznym, przesądzając o przypisaniu tej cywilizacji.'
+          };
+        }
+
+        return {
+          sectionTitle: "Cywilizacja",
+          activeLabel: activeOpt.label,
+          color: activeOpt.color,
+          why: whyText,
+          contrast: getContrastiveExplanation('civ', activeCivKey),
+          dominantFactor: domFactor,
+          examples: examples
+        };
+      }
+
+      if (sectionKey === 'legal') {
+        const activeOpt = legalOptions.find(o => o.key === activeLegalKey) || legalOptions[0];
+        const legalExplanations = {
+          dualism: "Dualizm prawny (fundament cywilizacji łacińskiej) to trwała rozdzielność prawa prywatnego od publicznego. Prawo prywatne (własność, rodzina, swoboda umów) jest autonomiczne i nienaruszalne dla państwa, które ma jedynie strzec tego porządku.",
+          monism_public: "Monizm prawa publicznego (wzorzec bizantyński) polega na wchłonięciu prawa prywatnego przez administrację państwową. Państwo staje się jedynym prawodawcą i regulatorem życia obywateli, a prawa prywatne podlegają urzędniczej arbitralności.",
+          monism_private: "Monizm prawa prywatnego (wzorzec turański) polega na traktowaniu całego państwa, majątku i ludności jako prywatnej własności wodza lub władcy. Obywatele nie posiadają praw publicznych ani gwarancji prawnych.",
+          monism_sacral: "Monizm prawa sakralnego oznacza, że jedynym źródłem prawa jest prawo boskie/religijne. Prawo świeckie zanika, a wszelkie normy społeczne stają się niezmiennym dogmatem religijnym."
+        };
+
+        const preferHigh = activeLegalKey === 'dualism';
+        const dicts = [
+          rawRatings.legal_dualism_scores,
+          rawRatings.law_source_pluralism_scores
+        ];
+        const { best, examples } = findBestIndicatorAndExamples(dicts, preferHigh, pageTitle, 'legal', activeLegalKey);
+
+        let domFactor = null;
+        if (best) {
+          const bestName = INDICATOR_NAME_MAP[best.key] || best.key.replace(/_/g, ' ');
+          const scorePct = best.score >= 0 ? `${Math.round(best.score * 100)}%` : 'Wskaźnik kluczowy';
+          const scoreColor = best.score >= 0.5 ? '#10b981' : '#ef4444';
+          domFactor = {
+            name: bestName,
+            scoreText: scorePct,
+            scoreColor: scoreColor,
+            explanation: best.explanation || 'Wskaźnik definiujący relację prawa publicznego do prawa prywatnego w tekście.'
+          };
+        }
+
+        return {
+          sectionTitle: "Prawo",
+          activeLabel: activeOpt.label,
+          color: activeOpt.color,
+          why: legalExplanations[activeLegalKey] || legalExplanations.dualism,
+          contrast: getContrastiveExplanation('legal', activeLegalKey),
+          dominantFactor: domFactor,
+          examples: examples
+        };
+      }
+
+      if (sectionKey === 'rel') {
+        const activeOpt = relOptions.find(o => o.key === activeRelKey) || relOptions[0];
+        const relExplanations = {
+          rel_universal: "Religia uniwersalna (ponadpaństwowa) w ujęciu Konecznego jest niezależna od aparatu państwowego. Wyznacza obiektywne i uniwersalne normy etyczne, stanowiąc dla jednostki suwerenne źródło sumienia oraz barierę chroniącą przed tyranią władzy.",
+          rel_state: "Religia państwowa / cezaropapizm to podporządkowanie sfery religijnej celom aparatu państwowego. Duchowni stają się urzędnikami państwowymi, a religia narzędziem dyscyplinowania społeczeństwa (wzorzec bizantyński).",
+          rel_tribal: "Religia plemienna lub narodowa wiąże sacrum wyłącznie z określoną wspólnotą etniczno-rodową, co uniemożliwia wytworzenie etyki uniwersalnej obejmującej wszystkich ludzi.",
+          rel_caste: "Religia kastowa (monolatria) uświęca wrodzone nierówności społeczne, dzieląc ludzi na wyższe i niższe kasty bytu i odbierając im wspólną godność osobową.",
+          rel_areligious: "Areligijność i laicyzm materialistyczny eliminują transcendencję z życia zbiorowego, co wg Konecznego prowadzi do wyparcia prawa moralnego przez czysty utylitaryzm lub omnipotencję państwa."
+        };
+
+        const preferHigh = activeRelKey === 'rel_universal';
+        const dicts = [
+          rawRatings.church_independence_scores,
+          rawRatings.sacrality_scores,
+          rawRatings.conscience_status_scores
+        ];
+        const { best, examples } = findBestIndicatorAndExamples(dicts, preferHigh, pageTitle, 'rel', activeRelKey);
+
+        let domFactor = null;
+        if (best) {
+          const bestName = INDICATOR_NAME_MAP[best.key] || best.key.replace(/_/g, ' ');
+          const scorePct = best.score >= 0 ? `${Math.round(best.score * 100)}%` : 'Wskaźnik kluczowy';
+          const scoreColor = best.score >= 0.5 ? '#10b981' : '#ef4444';
+          domFactor = {
+            name: bestName,
+            scoreText: scorePct,
+            scoreColor: scoreColor,
+            explanation: best.explanation || 'Wskaźnik określający pozycję i autonomię instytucji religijnych oraz sumienia w analizowanym tekście.'
+          };
+        }
+
+        return {
+          sectionTitle: "Religia",
+          activeLabel: activeOpt.label,
+          color: activeOpt.color,
+          why: relExplanations[activeRelKey] || relExplanations.rel_universal,
+          contrast: getContrastiveExplanation('rel', activeRelKey),
+          dominantFactor: domFactor,
+          examples: examples
+        };
+      }
+
+      if (sectionKey === 'goal') {
+        const activeOpt = goalOptions.find(o => o.key === activeGoalKey) || goalOptions[0];
+        const goalExplanations = {
+          goal_beyond_exist: "Cele społeczeństwa spoza walki o byt (ideał cywilizacji łacińskiej): celem zrzeszenia nie jest czyste przetrwanie biologiczne, lecz doskonalenie duchowe, moralne i intelektualne osoby ludzkiej oraz dobrowolna twórczość kulturowa.",
+          goal_state_machine: "Machina państwowa (biurokracja): celem społeczeństwa staje się sprawne funkcjonowanie i ekspansja aparatu państwowego. Obywatel traktowany jest instrumentalnie jako trybik machiny urzędniczej.",
+          goal_exist_struggle: "Walka o byt (ustrój obozowy): zrzeszenie skupione na fizycznym przetrwaniu, podboju i militaryzmie, w którym prawa jednostki i etyka są bezwzględnie podporządkowane dyscyplinie obozowej.",
+          goal_religious_formalism: "Formalizm i rytuał religijny: celem zrzeszenia jest rygorystyczne wypełnianie zewnętrznych przepisów i rytuałów bez względu na intencję i dobro osoby.",
+          goal_clan_tradition: "Kultywowanie rodu: bezwzględne podporządkowanie jednostki i jej dążeń interesom, majątkowi i przetrwaniu patriarchalnego rodu/klanu."
+        };
+
+        const preferHigh = activeGoalKey === 'goal_beyond_exist';
+        const dicts = [
+          rawRatings.administrative_responsibility_scores,
+          rawRatings.public_morality_totality_scores,
+          rawRatings.organism_mechanism_scores,
+          rawRatings.generalia_scores
+        ];
+        const { best, examples } = findBestIndicatorAndExamples(dicts, preferHigh, pageTitle, 'goal', activeGoalKey);
+
+        let domFactor = null;
+        if (best) {
+          const bestName = INDICATOR_NAME_MAP[best.key] || best.key.replace(/_/g, ' ');
+          const scorePct = best.score >= 0 ? `${Math.round(best.score * 100)}%` : 'Wskaźnik kluczowy';
+          const scoreColor = best.score >= 0.5 ? '#10b981' : '#ef4444';
+          domFactor = {
+            name: bestName,
+            scoreText: scorePct,
+            scoreColor: scoreColor,
+            explanation: best.explanation || 'Wskaźnik odzwierciedlający naczelny cel organizacji życia zbiorowego.'
+          };
+        }
+
+        return {
+          sectionTitle: "Cele społeczeństwa",
+          activeLabel: activeOpt.label,
+          color: activeOpt.color,
+          why: goalExplanations[activeGoalKey] || goalExplanations.goal_beyond_exist,
+          contrast: getContrastiveExplanation('goal', activeGoalKey),
+          dominantFactor: domFactor,
+          examples: examples
+        };
+      }
+
+      if (sectionKey === 'fam') {
+        const activeOpt = famOptions.find(o => o.key === activeFamKey) || famOptions[0];
+        const famExplanations = {
+          fam_full_emanc: "Pełna emancypacja rodziny (fundament cywilizacji łacińskiej): trwała monogamia, równouprawnienie małżonków, niezależność majątkowa i prawna od państwa oraz rodu, a także prawo rodziców do wychowania dzieci bez ingerencji aparatu państwowego.",
+          fam_state_collectivism: "Statolatria i kolektywizm rodzinny: państwo ingeruje w sferę rodzinną, przejmując kontrolę nad wychowaniem, majątkiem i prawami rodzicielskimi w imię celów kolektywnych lub ideologii urzędowej.",
+          fam_clan_system: "Ustrój rodowy (klanowy): brak emancypacji rodziny nuklearnej; rodzina i jednostka są bezwzględnie podporządkowane decyzjom rady rodu, wspólnocie rodowej oraz seniorowi klanu.",
+          fam_polygamy: "Poligamia i brak emancypacji: degradacja pozycji kobiety i struktury rodzinnej, co wg Konecznego uniemożliwia rozwój personalizmu, etyki uniwersalnej oraz trwałego dualizmu prawnego."
+        };
+
+        const preferHigh = activeFamKey === 'fam_full_emanc';
+        const dicts = [
+          rawRatings.family_law_autonomy_scores,
+          rawRatings.property_rights_stability_scores,
+          rawRatings.inheritance_continuity_scores
+        ];
+        const { best, examples } = findBestIndicatorAndExamples(dicts, preferHigh, pageTitle, 'fam', activeFamKey);
+
+        let domFactor = null;
+        if (best) {
+          const bestName = INDICATOR_NAME_MAP[best.key] || best.key.replace(/_/g, ' ');
+          const scorePct = best.score >= 0 ? `${Math.round(best.score * 100)}%` : 'Wskaźnik kluczowy';
+          const scoreColor = best.score >= 0.5 ? '#10b981' : '#ef4444';
+          domFactor = {
+            name: bestName,
+            scoreText: scorePct,
+            scoreColor: scoreColor,
+            explanation: best.explanation || 'Wskaźnik określający stopień autonomii rodziny i ochrony własności prywatnej.'
+          };
+        }
+
+        return {
+          sectionTitle: "Emancypacja rodziny",
+          activeLabel: activeOpt.label,
+          color: activeOpt.color,
+          why: famExplanations[activeFamKey] || famExplanations.fam_full_emanc,
+          contrast: getContrastiveExplanation('fam', activeFamKey),
+          dominantFactor: domFactor,
+          examples: examples
+        };
+      }
+
+      return null;
+    }
+
+    function renderPopoverHtml(info) {
+      const dom = info.dominantFactor;
+      const contrastHtml = info.contrast ? `
+        <!-- Blok: Kryterium rozróżniające (kontrastowe) -->
+        <div class="popover-section-block">
+          <div class="popover-block-title" style="color: #f59e0b;">
+            <span>⚖️</span>
+            <span>Kryterium rozróżniające: Dlaczego ta cywilizacja, a nie inna?</span>
+          </div>
+          <div class="popover-contrast-text">
+            ${info.contrast}
+          </div>
+        </div>
+      ` : '';
+
+      const quotesHtml = (info.examples || []).map((item, idx) => {
+        const quoteText = typeof item === 'object' && item.quote ? item.quote : String(item);
+        const quoteContext = (typeof item === 'object' && item.context) ? item.context : `Fragment źródłowy #${idx + 1}`;
+        const quoteRationale = (typeof item === 'object' && item.rationale) ? item.rationale : `Uzasadnienie korelacji ze wskaźnikiem`;
+
+        return `
+          <div class="notebook-quote-card example-item">
+            <div class="notebook-quote-header">
+              <span class="notebook-quote-badge">
+                <span class="example-num">${idx + 1}</span>
+                <span>CYTAT ŹRÓDŁOWY</span>
+              </span>
+              <span class="notebook-quote-context">${escapeHtml(quoteContext)}</span>
+            </div>
+            <div class="notebook-quote-body example-text">„${escapeHtml(quoteText)}”</div>
+            <div class="notebook-quote-footer">
+              <span>💡</span>
+              <span>${escapeHtml(quoteRationale)}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      return `
+        <div class="popover-header">
+          <div class="popover-title-row">
+            <div class="popover-icon-badge">ℹ</div>
+            <div>
+              <span class="popover-section-tag">${escapeHtml(info.sectionTitle)}:</span>
+              <span class="popover-result-badge" style="border-color: ${info.color}; color: #ffffff; background: ${info.color}33;">${escapeHtml(info.activeLabel)}</span>
+            </div>
+          </div>
+          <button class="popover-close-btn" title="Zamknij" aria-label="Zamknij">✕</button>
+        </div>
+
+        <!-- Blok 1: Historiozoficzne uzasadnienie -->
+        <div class="popover-section-block">
+          <div class="popover-block-title">
+            <span>🏛️</span>
+            <span>Uzasadnienie klasyfikacji (Koneczny)</span>
+          </div>
+          <div class="popover-why-text">
+            ${info.why}
+          </div>
+        </div>
+
+        ${contrastHtml}
+
+        <!-- Blok 2: Dominujący czynnik w tekście -->
+        ${dom ? `
+          <div class="popover-section-block">
+            <div class="popover-block-title">
+              <span>🎯</span>
+              <span>Najbardziej dominujący czynnik w tekście</span>
+            </div>
+            <div class="dominant-card">
+              <div class="dominant-header">
+                <span class="dominant-name">${escapeHtml(dom.name)}</span>
+                <span class="dominant-pct" style="background: ${dom.scoreColor}33; color: ${dom.scoreColor}; border: 1px solid ${dom.scoreColor};">${dom.scoreText}</span>
+              </div>
+              <div class="dominant-desc">${escapeHtml(dom.explanation)}</div>
+            </div>
+          </div>
+        ` : ''}
+
+        <!-- Blok 3: 2 konkretne przykłady z analizowanego tekstu (dowody NotebookLM) -->
+        <div class="popover-section-block" style="margin-bottom: 4px;">
+          <div class="popover-block-title" style="color: #10b981;">
+            <span>📌</span>
+            <span>2 przykłady z analizowanego tekstu (dowody)</span>
+          </div>
+          <div class="notebook-quote-container">
+            ${quotesHtml}
+          </div>
+        </div>
+
+        <div class="popover-footer">
+          Metoda historiozoficzna prof. Feliksa Konecznego
+        </div>
+      `;
+    }
+
     function calculateCivSpectrum(data, rawTextUpper) {
       if (data.civilization_spectrum && Array.isArray(data.civilization_spectrum) && data.civilization_spectrum.length > 0) {
         return data.civilization_spectrum;
@@ -3093,7 +4268,7 @@
       </div>
     `;
 
-    function renderChips(options, activeKey) {
+    function renderChips(options, activeKey, sectionKey) {
       return options.map(opt => {
         const isActive = opt.key === activeKey;
         if (isActive) {
@@ -3101,6 +4276,10 @@
             <div style="background: ${opt.color}28; border: 1.5px solid ${opt.color}; color: #f8fafc; padding: 4px 10px; border-radius: 18px; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 0 10px ${opt.color}44; white-space: nowrap; flex-shrink: 0;" title="${opt.label}">
               <span>${opt.label}</span>
               <span style="font-size: 9px; background: ${opt.color}; color: #0f172a; padding: 1px 4px; border-radius: 8px; font-weight: 800; margin-left: 2px;">✓</span>
+              <button class="section-info-trigger chip-info-trigger" data-section="${sectionKey || 'civ'}" title="Wyjaśnienie wyniku: dlaczego ${opt.label} i 2 przykłady z tekstu" aria-label="Informacje o wyniku: ${opt.label}">
+                <span class="trigger-icon">ℹ</span>
+                <span class="trigger-text">Info</span>
+              </button>
             </div>
           `;
         } else {
@@ -5001,9 +6180,15 @@
       <div class="koneczny-dashboard" style="margin: 12px 16px 16px 16px; padding: 14px 14px; background: linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%); border: 1px solid rgba(139, 92, 246, 0.35); border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.35); backdrop-filter: blur(8px);">
         <!-- Rząd 1: Cywilizacja -->
         <div style="margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px dashed rgba(255,255,255,0.1);">
-          <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; margin-bottom: 5px;">Cywilizacja</div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+            <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8;">Cywilizacja</div>
+            <button class="section-info-trigger header-info-trigger" data-section="civ" title="Wyjaśnienie dlaczego ta cywilizacja oraz 2 przykłady z tekstu">
+              <span class="trigger-icon">ℹ</span>
+              <span class="trigger-text">Dlaczego ten wynik?</span>
+            </button>
+          </div>
           <div style="display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: 5px; align-items: center; padding-bottom: 2px;">
-            ${renderChips(civOptions, activeCivKey)}
+            ${renderChips(civOptions, activeCivKey, 'civ')}
           </div>
           ${(data.civilization_diagnosis || (data.klasyfikacja_dashboard && data.klasyfikacja_dashboard.diagnoza_cywilizacyjna)) ? `
             <div style="margin: 8px 0 6px 0; padding: 7px 11px; background: rgba(56, 189, 248, 0.12); border-left: 3px solid #38bdf8; border-radius: 6px; font-size: 11.5px; color: #f1f5f9; line-height: 1.45; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
@@ -5019,33 +6204,57 @@
 
         <!-- Rząd 2: Prawo -->
         <div style="margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px dashed rgba(255,255,255,0.1);">
-          <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; margin-bottom: 5px;">Prawo</div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+            <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8;">Prawo</div>
+            <button class="section-info-trigger header-info-trigger" data-section="legal" title="Wyjaśnienie struktury prawnej oraz 2 przykłady z tekstu">
+              <span class="trigger-icon">ℹ</span>
+              <span class="trigger-text">Dlaczego ten wynik?</span>
+            </button>
+          </div>
           <div style="display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: 5px; align-items: center; padding-bottom: 2px;">
-            ${renderChips(legalOptions, activeLegalKey)}
+            ${renderChips(legalOptions, activeLegalKey, 'legal')}
           </div>
         </div>
 
         <!-- Rząd 3: Religia -->
         <div style="margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px dashed rgba(255,255,255,0.1);">
-          <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; margin-bottom: 5px;">Religia</div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+            <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8;">Religia</div>
+            <button class="section-info-trigger header-info-trigger" data-section="rel" title="Wyjaśnienie roli religii oraz 2 przykłady z tekstu">
+              <span class="trigger-icon">ℹ</span>
+              <span class="trigger-text">Dlaczego ten wynik?</span>
+            </button>
+          </div>
           <div style="display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: 5px; align-items: center; padding-bottom: 2px;">
-            ${renderChips(relOptions, activeRelKey)}
+            ${renderChips(relOptions, activeRelKey, 'rel')}
           </div>
         </div>
 
         <!-- Rząd 4: Cele społeczeństwa -->
         <div style="margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px dashed rgba(255,255,255,0.1);">
-          <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; margin-bottom: 5px;">Cele społeczeństwa</div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+            <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8;">Cele społeczeństwa</div>
+            <button class="section-info-trigger header-info-trigger" data-section="goal" title="Wyjaśnienie celów społeczeństwa oraz 2 przykłady z tekstu">
+              <span class="trigger-icon">ℹ</span>
+              <span class="trigger-text">Dlaczego ten wynik?</span>
+            </button>
+          </div>
           <div style="display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: 5px; align-items: center; padding-bottom: 2px;">
-            ${renderChips(goalOptions, activeGoalKey)}
+            ${renderChips(goalOptions, activeGoalKey, 'goal')}
           </div>
         </div>
 
         <!-- Rząd 5: Emancypacja rodziny -->
         <div style="margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px dashed rgba(255,255,255,0.1);">
-          <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; margin-bottom: 5px;">Emancypacja rodziny</div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+            <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8;">Emancypacja rodziny</div>
+            <button class="section-info-trigger header-info-trigger" data-section="fam" title="Wyjaśnienie emancypacji rodziny oraz 2 przykłady z tekstu">
+              <span class="trigger-icon">ℹ</span>
+              <span class="trigger-text">Dlaczego ten wynik?</span>
+            </button>
+          </div>
           <div style="display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: 5px; align-items: center; padding-bottom: 2px;">
-            ${renderChips(famOptions, activeFamKey)}
+            ${renderChips(famOptions, activeFamKey, 'fam')}
           </div>
         </div>
 
@@ -5223,6 +6432,121 @@
         });
       }
     });
+
+    // ── Bind Section Info Trigger & Popover (Koneczny Explanations) ──
+    const popover = shadow.getElementById('koneczny-section-info-popover');
+    let popoverHideTimeout = null;
+    let pinnedSection = null;
+
+    function positionPopover(triggerEl, popoverEl) {
+      const panelEl = shadow.getElementById('koneczny-panel');
+      if (!panelEl || !triggerEl || !popoverEl) return;
+
+      const panelRect = panelEl.getBoundingClientRect();
+      const triggerRect = triggerEl.getBoundingClientRect();
+
+      popoverEl.style.display = 'block';
+      popoverEl.style.visibility = 'hidden';
+      const popoverRect = popoverEl.getBoundingClientRect();
+
+      let top = triggerRect.bottom - panelRect.top + 6;
+      let left = triggerRect.left - panelRect.left;
+
+      if (left + popoverRect.width > panelRect.width - 16) {
+        left = Math.max(12, panelRect.width - popoverRect.width - 16);
+      }
+      if (left < 12) {
+        left = 12;
+      }
+
+      if (top + popoverRect.height > panelRect.height - 20) {
+        const topAbove = triggerRect.top - panelRect.top - popoverRect.height - 6;
+        if (topAbove >= 40) {
+          top = topAbove;
+        }
+      }
+
+      popoverEl.style.top = `${top}px`;
+      popoverEl.style.left = `${left}px`;
+      popoverEl.style.visibility = 'visible';
+    }
+
+    function showSectionInfo(sectionKey, triggerEl) {
+      clearTimeout(popoverHideTimeout);
+      const info = getSectionInfo(sectionKey);
+      if (!info || !popover) return;
+
+      popover.innerHTML = renderPopoverHtml(info);
+      positionPopover(triggerEl, popover);
+
+      const closeBtn = popover.querySelector('.popover-close-btn');
+      if (closeBtn) {
+        closeBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          hideSectionInfo(true);
+        });
+      }
+    }
+
+    function hideSectionInfo(immediate = false) {
+      if (pinnedSection && !immediate) return;
+      clearTimeout(popoverHideTimeout);
+      if (immediate) {
+        pinnedSection = null;
+        if (popover) popover.style.display = 'none';
+        content.querySelectorAll('.section-info-trigger').forEach(b => b.classList.remove('active-trigger'));
+      } else {
+        popoverHideTimeout = setTimeout(() => {
+          if (!pinnedSection && popover) {
+            popover.style.display = 'none';
+            content.querySelectorAll('.section-info-trigger').forEach(b => b.classList.remove('active-trigger'));
+          }
+        }, 250);
+      }
+    }
+
+    if (popover) {
+      popover.addEventListener('mouseenter', () => {
+        clearTimeout(popoverHideTimeout);
+      });
+      popover.addEventListener('mouseleave', () => {
+        hideSectionInfo(false);
+      });
+    }
+
+    content.querySelectorAll('.section-info-trigger').forEach(btn => {
+      const sectionKey = btn.getAttribute('data-section');
+      btn.addEventListener('mouseenter', () => {
+        btn.classList.add('active-trigger');
+        showSectionInfo(sectionKey, btn);
+      });
+      btn.addEventListener('mouseleave', () => {
+        if (pinnedSection !== sectionKey) {
+          btn.classList.remove('active-trigger');
+        }
+        hideSectionInfo(false);
+      });
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (pinnedSection === sectionKey) {
+          hideSectionInfo(true);
+        } else {
+          pinnedSection = sectionKey;
+          content.querySelectorAll('.section-info-trigger').forEach(b => b.classList.remove('active-trigger'));
+          btn.classList.add('active-trigger');
+          showSectionInfo(sectionKey, btn);
+        }
+      });
+    });
+
+    const panelEl = shadow.getElementById('koneczny-panel');
+    if (panelEl) {
+      panelEl.addEventListener('click', (e) => {
+        if (!e.target.closest('#koneczny-section-info-popover') && !e.target.closest('.section-info-trigger')) {
+          hideSectionInfo(true);
+        }
+      });
+    }
   }
 
   // ── Helpers ────────────────────────────────────────────

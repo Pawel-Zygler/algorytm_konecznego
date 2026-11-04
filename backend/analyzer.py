@@ -44,8 +44,8 @@ indicator_item = {
     "type": "object", 
     "properties": {
         "score": {"type": "number"}, 
-        "explanation": {"type": "string", "maxLength": 140}, 
-        "news_examples": {"type": "array", "items": {"type": "string", "maxLength": 75}, "minItems": 3, "maxItems": 3}
+        "explanation": {"type": "string", "maxLength": 1000}, 
+        "news_examples": {"type": "array", "items": {"type": "string", "maxLength": 1000}, "minItems": 1, "maxItems": 5}
     }, 
     "required": ["score", "explanation", "news_examples"]
 }

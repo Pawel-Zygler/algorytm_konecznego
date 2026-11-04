@@ -143,6 +143,21 @@ test.describe('Regression Suite: Pełna Weryfikacja Cywilizacyjna na Wikipedii',
     // Weryfikacja przycisku pobierania JSON w nagłówku
     const downloadBtn = page.locator('#koneczny-download-header');
     await expect(downloadBtn).toBeVisible({ timeout: 15000 });
+
+    // Weryfikacja przycisku trybu pełnoekranowego (Fullscreen) obok 'Zapisz wyniki'
+    const fullscreenBtn = page.locator('#koneczny-fullscreen-header');
+    await expect(fullscreenBtn).toBeVisible({ timeout: 15000 });
+    await expect(fullscreenBtn).toContainText('Pełny ekran');
+
+    // Test wejścia i wyjścia z trybu fullscreen
+    const panel = page.locator('#koneczny-panel');
+    await fullscreenBtn.click();
+    await expect(panel).toHaveClass(/fullscreen/);
+    await expect(fullscreenBtn).toContainText('Zwiń ekran');
+
+    await fullscreenBtn.click();
+    await expect(panel).not.toHaveClass(/fullscreen/);
+    await expect(fullscreenBtn).toContainText('Pełny ekran');
   });
 
   test('Krok 4: Asercja historiozoficzna: polska nie jest sakralna - wtedy pass', async ({ page }) => {
@@ -216,6 +231,48 @@ test.describe('Regression Suite: Pełna Weryfikacja Cywilizacyjna na Wikipedii',
     const quincunxBox = dashboard.locator('.quincunx-radar-box');
     await expect(quincunxBox).toContainText('DOMINACJA');
     await expect(quincunxBox).toContainText('Bizantyńska');
+
+    // 6. Asercja nowej funkcjonalności: Przyciski Info (ℹ) we wszystkich sekcjach
+    const infoTriggers = dashboard.locator('.section-info-trigger');
+    await expect(infoTriggers.first()).toBeVisible({ timeout: 5000 });
+    // Weryfikacja obecności przycisków info w sekcjach civ, legal, rel, goal, fam
+    await expect(dashboard.locator('.section-info-trigger[data-section="civ"]').first()).toBeVisible();
+    await expect(dashboard.locator('.section-info-trigger[data-section="legal"]').first()).toBeVisible();
+    await expect(dashboard.locator('.section-info-trigger[data-section="rel"]').first()).toBeVisible();
+    await expect(dashboard.locator('.section-info-trigger[data-section="goal"]').first()).toBeVisible();
+    await expect(dashboard.locator('.section-info-trigger[data-section="fam"]').first()).toBeVisible();
+
+    // 7. Test wywołania popovera dla Sekcji 1: Cywilizacja Bizantyńska
+    const civChipInfoBtn = dashboard.locator('.chip-info-trigger[data-section="civ"]');
+    await expect(civChipInfoBtn).toBeVisible();
+    await civChipInfoBtn.click();
+
+    const popover = page.locator('#koneczny-section-info-popover');
+    await expect(popover).toBeVisible({ timeout: 5000 });
+    await expect(popover).toContainText('Cywilizacja');
+    await expect(popover).toContainText('Bizantyńska');
+    await expect(popover).toContainText('Uzasadnienie klasyfikacji (Koneczny)');
+    await expect(popover).toContainText('Najbardziej dominujący czynnik w tekście');
+    await expect(popover).toContainText('2 przykłady z analizowanego tekstu (dowody)');
+
+    // Weryfikacja obecności dokładnie 2 ponumerowanych przykładów cytatów
+    const examples = popover.locator('.example-item');
+    await expect(examples).toHaveCount(2);
+    await expect(examples.nth(0).locator('.example-num')).toContainText('1');
+    await expect(examples.nth(1).locator('.example-num')).toContainText('2');
+
+    // 8. Test wywołania popovera dla innej sekcji (Prawo)
+    const legalHeaderInfoBtn = dashboard.locator('.header-info-trigger[data-section="legal"]');
+    await legalHeaderInfoBtn.click();
+    await expect(popover).toBeVisible();
+    await expect(popover).toContainText('Prawo');
+    await expect(popover).toContainText('Monizm Prawa Publicznego');
+    await expect(popover.locator('.example-item')).toHaveCount(2);
+
+    // 9. Zamknięcie popovera przyciskiem ✕
+    const closePopoverBtn = popover.locator('.popover-close-btn');
+    await closePopoverBtn.click();
+    await expect(popover).not.toBeVisible();
   });
 
 });

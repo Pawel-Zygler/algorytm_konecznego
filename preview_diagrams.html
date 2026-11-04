@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atlas Schematów Feliksa Konecznego – Podgląd z Zoom & Pan</title>
+  <meta name="description" content="Interaktywny podgląd oryginalnych diagramów historiozoficznych Feliksa Konecznego z pełną kontrolą powiększenia (Zoom In, Zoom Out, Pan) i matrycami syntetycznymi.">
+
+  <!-- Google Fonts: Outfit & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Mermaid.js for original flowcharts -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+
+  <style>
+    :root {
+      --bg-main: #060913;
+      --bg-panel: rgba(15, 23, 42, 0.88);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-active: rgba(56, 189, 248, 0.45);
+      --accent-cyan: #38bdf8;
+      --accent-emerald: #10b981;
+      --accent-purple: #a855f7;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+      --accent-blue: #0284c7;
+      --accent-pink: #ec4899;
+      --accent-violet: #8b5cf6;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      line-height: 1.5;
+      background-image: 
+        radial-gradient(circle at 12% 15%, rgba(56, 189, 248, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 88% 20%, rgba(168, 85, 247, 0.08) 0%, transparent 45%),
+        radial-gradient(circle at 50% 80%, rgba(16, 185, 129, 0.06) 0%, transparent 50%);
+      background-attachment: fixed;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(6, 9, 19, 0.94);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #10b981 0%, #0284c7 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 21px;
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.4);
+    }
+
+    .brand-title {
+      font-size: 16.5px;
+      font-weight: 800;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-subtitle {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .civ-filter-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .civ-pill {
+      font-size: 11px;
+      padding: 5px 11px;
+      border-radius: 7px;
+      font-weight: 800;
+      cursor: pointer;
+      border: 1px solid var(--border-subtle);
+      background: rgba(15, 23, 42, 0.85);
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .civ-pill:hover, .civ-pill.active {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+    .civ-pill.lacinska.active { border-color: var(--accent-emerald); background: rgba(16, 185, 129, 0.25); color: #6ee7b7; box-shadow: 0 0 16px rgba(16, 185, 129, 0.45); }
+    .civ-pill.bizantynska.active { border-color: var(--accent-purple); background: rgba(168, 85, 247, 0.25); color: #d8b4fe; }
+    .civ-pill.turanska.active { border-color: var(--accent-amber); background: rgba(245, 158, 11, 0.25); color: #fde68a; }
+    .civ-pill.arabska.active { border-color: var(--accent-blue); background: rgba(2, 132, 199, 0.25); color: #7dd3fc; }
+    .civ-pill.chinska.active { border-color: var(--accent-rose); background: rgba(244, 63, 94, 0.25); color: #fecdd3; }
+    .civ-pill.braminska.active { border-color: var(--accent-violet); background: rgba(139, 92, 246, 0.25); color: #c4b5fd; }
+    .civ-pill.zydowska.active { border-color: var(--accent-pink); background: rgba(236, 72, 153, 0.25); color: #fbcfe8; }
+
+    /* Nav Tabs */
+    .nav-tabs-wrapper {
+      background: rgba(15, 23, 42, 0.7);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 8px 24px;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 6px;
+      max-width: 1440px;
+      margin: 0 auto;
+    }
+
+    .tab-btn {
+      padding: 9px 15px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--text-muted);
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border-subtle);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .tab-btn.active {
+      color: #ffffff;
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%);
+      border: 1px solid var(--accent-cyan);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4), 0 0 14px rgba(56, 189, 248, 0.3);
+    }
+
+    main {
+      max-width: 1440px;
+      margin: 18px auto;
+      padding: 0 24px 60px;
+    }
+
+    .view-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(12px);
+    }
+
+    .view-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-subtle);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .view-title {
+      font-size: 19px;
+      font-weight: 900;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .view-desc {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .meta-tag {
+      font-size: 10.5px;
+      padding: 4px 9px;
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.05);
+      color: #cbd5e1;
+      font-family: 'Fira Code', monospace;
+      border: 1px solid var(--border-subtle);
+    }
+
+    /* =========================================================================
+       ZOOM & PAN VIEWPORT SYSTEM
+       ========================================================================= */
+    .diagram-wrapper {
+      margin: 18px 0;
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      overflow: hidden;
+      background: rgba(8, 14, 27, 0.98);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.5);
+    }
+
+    .zoom-toolbar {
+      background: rgba(15, 23, 42, 0.95);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .zoom-tools {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .zoom-btn {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #f8fafc;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s ease;
+    }
+    .zoom-btn:hover {
+      background: rgba(56, 189, 248, 0.2);
+      border-color: var(--accent-cyan);
+      color: #38bdf8;
+    }
+
+    .zoom-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .zoom-badge {
+      background: #0284c7;
+      color: #ffffff;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-family: 'Fira Code', monospace;
+      font-weight: 700;
+      font-size: 10.5px;
+    }
+
+    .zoom-hint {
+      font-size: 10.5px;
+      color: #64748b;
+    }
+
+    .diagram-pan-viewport {
+      width: 100%;
+      height: 600px;
+      overflow: hidden;
+      position: relative;
+      cursor: grab;
+      user-select: none;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    .diagram-pan-viewport:active {
+      cursor: grabbing;
+    }
+
+    .diagram-pan-canvas {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform-origin: center center;
+      transition: transform 0.08s ease-out;
+    }
+
+    .diagram-pan-canvas svg {
+      max-width: none !important;
+      max-height: none !important;
+      display: block;
+    }
+
+    /* Style rendered mermaid nodes */
+    .mermaid .node rect, 
+    .mermaid .node circle, 
+    .mermaid .node ellipse, 
+    .mermaid .node polygon {
+      stroke-width: 2px !important;
+      rx: 8px !important;
+      ry: 8px !important;
+    }
+
+    /* Matrix Table */
+    .matrix-table-wrap {
+      overflow-x: auto;
+      margin-top: 18px;
+      border-radius: 10px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      text-align: left;
+      min-width: 900px;
+    }
+
+    th {
+      background: rgba(15, 23, 42, 0.95);
+      color: #94a3b8;
+      font-weight: 800;
+      text-transform: uppercase;
+      font-size: 10px;
+      letter-spacing: 0.05em;
+      padding: 12px 14px;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.08);
+    }
+
+    td {
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: #cbd5e1;
+      vertical-align: top;
+      line-height: 1.45;
+    }
+
+    tr:nth-child(even) td {
+      background: rgba(255, 255, 255, 0.015);
+    }
+
+    td.pillar-cell {
+      background: rgba(16, 185, 129, 0.09) !important;
+      color: #ffffff;
+      font-weight: 700;
+      border-left: 2px solid var(--accent-emerald);
+      border-right: 2px solid var(--accent-emerald);
+    }
+
+    .quote-box {
+      background: rgba(30, 27, 75, 0.4);
+      border-left: 4px solid #a855f7;
+      border-radius: 0 10px 10px 0;
+      padding: 14px 18px;
+      margin-top: 18px;
+      font-size: 12px;
+      color: #e2e8f0;
+      font-style: italic;
+      line-height: 1.6;
+    }
+
+    .quote-author {
+      font-style: normal;
+      font-weight: 800;
+      color: #c084fc;
+      margin-top: 5px;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="brand">
+      <div class="brand-icon">🏛️</div>
+      <div>
+        <div class="brand-title">
+          <span>Atlas Schematów Feliksa Konecznego</span>
+          <span style="font-size: 9px; background: #10b981; color: #020617; padding: 2px 7px; border-radius: 4px; font-weight: 900;">ZOOM & PAN</span>
+        </div>
+        <div class="brand-subtitle">
+          Oryginalne diagramy ze sterowaniem powiększeniem (Zoom In/Out, kółko myszki, przeciąganie)
+        </div>
+      </div>
+    </div>
+
+    <!-- CIV FILTERS -->
+    <div class="civ-filter-group">
+      <span style="font-size: 10px; color: var(--text-muted); font-weight: 800;">PODŚWIETLENIE:</span>
+      <button class="civ-pill all active" onclick="setCivFilter('all')">Wszystkie</button>
+      <button class="civ-pill lacinska" onclick="setCivFilter('lacinska')">🏛️ Łacińska</button>
+      <button class="civ-pill bizantynska" onclick="setCivFilter('bizantynska')">👑 Bizantyńska</button>
+      <button class="civ-pill turanska" onclick="setCivFilter('turanska')">🏹 Turańska</button>
+      <button class="civ-pill arabska" onclick="setCivFilter('arabska')">🌙 Arabska</button>
+      <button class="civ-pill chinska" onclick="setCivFilter('chinska')">☯️ Chińska</button>
+      <button class="civ-pill braminska" onclick="setCivFilter('braminska')">🕉️ Bramińska</button>
+      <button class="civ-pill zydowska" onclick="setCivFilter('zydowska')">📜 Żydowska</button>
+    </div>
+  </header>
+
+  <!-- NAV TABS -->
+  <div class="nav-tabs-wrapper">
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchTab('mantis')">
+        <span>🌿 1. Drzewo Mantis AI (Pareto 80/20)</span>
+      </button>
+      <button class="tab-btn" onclick="switchTab('trojprawo')">
+        <span>⚖️ 2. Trójprawo i Własność</span>
+      </button>
+      <button class="tab-btn" onclick="switchTab('drabina')">
+        <span>🧗 3. Drabina Asocjacji i Naród</span>
+      </button>
+      <button class="tab-btn" onclick="switchTab('generalia')">
+        <span>🧭 4. 7 Generaliów Etyki</span>
+      </button>
+      <button class="tab-btn" onclick="switchTab('quincunx')">
+        <span>⭐ 5. Quincunx & Deformacje</span>
+      </button>
+      <button class="tab-btn" onclick="switchTab('mieszanki')">
+        <span>☣️ 6. Prawa Dziejowe i Mieszanki Trujące</span>
+      </button>
+      <button class="tab-btn" onclick="switchTab('systematyka')">
+        <span>📊 7. Pełna Matryca Systematyki</span>
+      </button>
+    </div>
+  </div>
+
+  <main id="app-root">
+    <!-- Rendered Dynamically -->
+  </main>
+
+  <script>
+    // Initialize Mermaid with larger typography and rich dark styling
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'base',
+      themeVariables: {
+        darkMode: true,
+        background: '#080e1b',
+        primaryColor: '#1e293b',
+        primaryTextColor: '#f8fafc',
+        primaryBorderColor: '#38bdf8',
+        lineColor: '#60a5fa',
+        secondaryColor: '#0f172a',
+        tertiaryColor: '#1e1b4b',
+        fontSize: '15px',
+        fontFamily: 'Outfit, sans-serif'
+      },
+      flowchart: {
+        curve: 'basis',
+        padding: 24,
+        nodeSpacing: 50,
+        rankSpacing: 50,
+        htmlLabels: true
+      }
+    });
+
+    let currentTab = 'mantis';
+
+    // 100% syntactically verified Mermaid definitions (escaped for HTML labels and special characters)
+    const diagramDefinitions = {
+      mantis: {
+        title: "🌿 Model 1: Drzewo Decyzyjne Mantis AI (Reguła Pareto 80/20)",
+        tag: "Bramki Informacyjne • Szybka Klasyfikacja",
+        desc: "Sekwencyjne odcinanie wariantów cywilizacyjnych od najważniejszych cech rozstrzygających.",
+        source: "Mantis AI Architecture • README.md",
+        quote: "20% kluczowych indeksów rozstrzyga ponad 80% przypadków historiozoficznych.",
+        quoteAuthor: "Algorytm Konecznego – Specyfikacja Silnika",
+        code: `flowchart TD
+    Start(["📄 Cały Kosmos Tekstu Badany"]) --> B1{"1. Sakralność vs Świeckość<br/>SACRALITY_INDEX"}
+    
+    B1 -- "Wysoka (>= 0.40)<br/>Ścieżka Sakralna" --> B6{"6. Moralność Publiczna<br/>PUBLIC_MORALITY_TOTALITY"}
+    B1 -- "Niska (< 0.40)<br/>Ścieżka Świecko-Rozumowa" --> B2{"2. Dualizm Prawny<br/>LEGAL_DUALISM_INDEX"}
+    
+    B2 -- "Dualizm Prawny<br/>Prymat Etyki nad Prawem" --> CivLatin["🏛️ CYWILIZACJA ŁACIŃSKA<br/>(Autonomia prawa prywatnego, wolność, sumienie)"]
+    B2 -- "Monizm Prawny<br/>Władza pochłania prawo prywatne" --> B3{"3. Relacja Władza - Religia - Duch<br/>CHURCH_INDEPENDENCE"}
+    
+    B3 -- "Cezaropapizm / Etatyzm<br/>Biurokracja Państwowa" --> B4{"4. Status Sumienia<br/>CONSCIENCE_STATUS"}
+    B3 -- "Monizm Siły / Wodza<br/>Władca właścicielem wszystkiego" --> B5{"5. Podmiotowość Jednostki<br/>PERSONALISM_INDEX"}
+    B3 -- "Areligijność / Kult Przodków<br/>Ustrój Rodowy i Konfucjanizm" --> CivChina["☯️ CYWILIZACJA CHIŃSKA<br/>(Monizm Etykietalno-Rodowy / Rytuał Li)"]
+    
+    B4 -- "Dwoistość Sumienia<br/>(Etyka prywatna vs racja stanu)" --> CivByz["👑 CYWILIZACJA BIZANTYŃSKA<br/>(Monizm Prawa Publicznego / Etatyzm)"]
+    B5 -- "Ustrój Obozowy / Brak Własności<br/>Człowiek narzędziem wodza" --> CivTur["🏹 CYWILIZACJA TURAŃSKA<br/>(Monizm Prawa Prywatnego Władcy)"]
+    
+    B6 -- "Monizm Prawa Sakralnego (Umma)<br/>Teokracja powszechna" --> CivArab["🌙 CYWILIZACJA ARABSKA<br/>(Monizm Szariatu / Poligamia)"]
+    B6 -- "Etyka Podwójna / Partykularna<br/>Partykularyzm rodowo-narodowy" --> CivJew["📜 CYWILIZACJA ŻYDOWSKA<br/>(Monizm Rodowo-Sakralny / Monogamia)"]`
+      },
+
+      trojprawo: {
+        title: "⚖️ Model 2: Rozstrzygnięcie przez Trójprawo i Źródła Własności",
+        tag: "Ius Civile • Ius Publicum • Ius Sacrum",
+        desc: "Czy prawo prywatne obywatela jest suwerenne wobec państwa i religii (Dualizm Prawny), czy też jedna sfera pochłania pozostałe (Monizm Prawny)?",
+        source: "Państwo i prawo w cywilizacji łacińskiej (1939)",
+        quote: "W cywilizacji łacińskiej prawo prywatne wyzwoliło się spod wszechwładzy państwa, stając się fundamentem wolności obywatelskiej. Gdziekolwiek prawo publiczne pochłania prywatne, tam gaśnie cywilizacja łacińska, a zaczyna się bizantynizm lub turańszczyzna.",
+        quoteAuthor: "Prof. Feliks Koneczny, Państwo i prawo w cywilizacji łacińskiej",
+        code: `flowchart TD
+    PrawoRoot(["⚖️ ROZSTRZYGNIĘCIE PRZEZ GENEZĘ PRAWA I WŁASNOŚCI"]) --> P1{"Czy prawo prywatne jest suwerenne wobec państwa i religii?"}
+    
+    P1 -- "TAK: Dualizm Prawny<br/>Autonomia prawa prywatnego i osoby" --> CivLatin["🏛️ CYWILIZACJA ŁACIŃSKA<br/>• Prawo prywatne nienaruszalne<br/>• Własność bezwzględna i dziedziczna<br/>• Państwo sługą prawa, nie panem"]
+    
+    P1 -- "NIE: Monizm Prawny<br/>Jedna sfera pochłania pozostałe" --> P2{"Która sfera zmonopolizowała prawo?"}
+    
+    P2 -- "SACRUM pochłania prawo<br/>(Prawo tożsame z religią)" --> P3{"Zasięg prawa sakralnego"}
+    P3 -- "Uniwersalne dla wiernych" --> CivArab["🌙 CYWILIZACJA ARABSKA<br/>(Monizm Szariatu / Umma)"]
+    P3 -- "Partykularne dla narodu wybranego" --> CivJew["📜 CYWILIZACJA ŻYDOWSKA<br/>(Monizm Halachy / Kahał)"]
+    P3 -- "Hierarchicznie kastowe" --> CivBram["🕉️ CYWILIZACJA BRAMIŃSKA<br/>(Prawo Manu / Warny)"]
+    
+    P2 -- "PAŃSTWO pożera prawo prywatne<br/>(Etatyzm / Samowola biurokracji)" --> CivByz["👑 CYWILIZACJA BIZANTYŃSKA<br/>(Monizm Prawa Publicznego / Cezaryzm)"]
+    P2 -- "WŁADCA właścicielem majątków<br/>(Brak własności prywatnej)" --> CivTur["🏹 CYWILIZACJA TURAŃSKA<br/>(Monizm Prawa Prywatnego Wodza)"]
+    P2 -- "RODZINA / RYTUAŁ zastępuje ustawy<br/>(Etykieta Li zamiast norm prawnych)" --> CivChina["☯️ CYWILIZACJA CHIŃSKA<br/>(Prawo Etykietalno-Rodowe)"]`
+      },
+
+      drabina: {
+        title: "🧗 Model 3: Drabina Zrzeszeń i Narodowości",
+        tag: "Od Gromadztwa ku Narodowi Organicznemu",
+        desc: "Jaki jest najwyższy osiągalny szczebel asocjacji w danej cywilizacji? Dlaczego tylko cywilizacja łacińska tworzy Naród?",
+        source: "O wielości cywilizacyj (Rozdział: Zrzeszenia a Naród)",
+        quote: "Naród jest najwyższym ze znanych dotychczas zrzeszeń ludzkich. Wytworzyć go zdołała tylko cywilizacja łacińska, albowiem wymaga on zrzeszenia wolnych osób, opartego na wspólnocie kultury duchowej i etyki, a nie na przymusie państwowym ani więzach krwi.",
+        quoteAuthor: "Prof. Feliks Koneczny, O wielości cywilizacyj",
+        code: `flowchart BT
+    L1["01. Gromadztwo bezimienne<br/>(Horda pierwotna, brak więzi rodowych)"] --> L2["02. Ród imienny / Klan<br/>(Solidarność krwi, patriarchat)"]
+    L2 --> L3["03. Społeczność plemienno-obozowa<br/>(Wódz, obóz wojenny, koczownicy)"]
+    L3 --> L4["04. Związek kastowo-rytualny<br/>(Zamknięte grupy hermetyczne)"]
+    L4 --> L5["05. Państwo mechaniczne / Biurokratyczne<br/>(Etatyzm bez poczucia więzi narodowej)"]
+    L5 --> L6["06. NARÓD ORGANICZNY (Szczyt Łaciński)<br/>(Wspólnota wolnych osób zjednoczona kulturą i etyką)"]
+    
+    CivTurCheck["🏹 TURAŃSKA: Zatrzymuje się na szczeblu 03"] -.-> L3
+    CivChinaCheck["☯️ CHIŃSKA: Zatrzymuje się na szczeblu 02"] -.-> L2
+    CivBramCheck["🕉️ BRAMIŃSKA: Zatrzymuje się na szczeblu 04"] -.-> L4
+    CivByzCheck["👑 BIZANTYŃSKA: Zatrzymuje się na szczeblu 05"] -.-> L5
+    CivLatinCheck["🏛️ ŁACIŃSKA: Jako JEDYNA osiąga szczebel 06"] ==> L6`
+      },
+
+      generalia: {
+        title: "🧭 Model 4: Siedem Generaliów Etyki (Siedem Niewiadomych)",
+        tag: "Szereg Personalistyczny vs Szereg Gromadnościowy",
+        desc: "Czy moralność obowiązuje jednakowo w życiu prywatnym i w polityce (Jedność Sumienia), czy występuje dwoistość sumienia i racja stanu?",
+        source: "Rozwój moralności (1938)",
+        quote: "Nie ma dwóch etyk: jednej dla zacisza domowego, a drugiej dla gabinetów ministrów i pól bitewnych. Wszelka podwójna moralność jest w istocie bezetycznością. Kto głosi, że w polityce nie obowiązują przykazania, ten niszczy sam fundament cywilizacji łacińskiej.",
+        quoteAuthor: "Prof. Feliks Koneczny, Rozwój moralności",
+        code: `flowchart TD
+    EthRoot(["🧭 ROZSTRZYGNIĘCIE PRZEZ 7 GENERALIÓW ETYKI"]) --> G1{"Czy istnieje JEDNO sumienie dla życia prywatnego i polityki?"}
+    
+    G1 -- "TAK: Jedność sumienia i moralności<br/>(To samo zło w domu, w rządzie i na wojnie)" --> G_Pers["SZEREG PERSONALISTYCZNY"]
+    G1 -- "NIE: Dwoistość moralna<br/>(Inna moralność dla swoich, inna dla państwa / obcych)" --> G_Grom["SZEREG GROMADNOŚCIOWY / ROZDWOJONY"]
+    
+    G_Pers --> EthLatin["🏛️ CYWILIZACJA ŁACIŃSKA<br/>• Źródło: Wewnętrzne poczucie obowiązku<br/>• Sprawiedliwość: Słuszność i miłosierdzie<br/>• Praca: Uświęcenie i rozwój ducha<br/>• Odpowiedzialność: Osobista przed Bogiem i prawem"]
+    
+    G_Grom --> G2{"Natura dwoistości moralnej"}
+    G2 -- "Racja Stanu ponad moralnością<br/>(Machiawelizm urzędowy)" --> EthByz["👑 CYWILIZACJA BIZANTYŃSKA<br/>(Moralność prywatna vs bezetyczność państwa)"]
+    G2 -- "Podwójna etyka wobec swoich i obcych<br/>(Partykularyzm kazuistyczny)" --> EthJew["📜 CYWILIZACJA ŻYDOWSKA<br/>(Etyka wewnątrz-rodowa vs poza-rodowa)"]
+    G2 -- "Moralność wojenna i naga siła<br/>(Zwycięstwo chana usprawiedliwia wszystko)" --> EthTur["🏹 CYWILIZACJA TURAŃSKA<br/>(Brak etyki w życiu publicznym)"]
+    G2 -- "Rytuał Li i etykieta zamiast sumienia" --> EthChina["☯️ CYWILIZACJA CHIŃSKA<br/>(Bezbłędny ceremoniał zamiast etyki)"]`
+      },
+
+      quincunx: {
+        title: "⭐ Model 5: Quincunx Bytu i Deformacje Sfer",
+        tag: "Prawda • Dobro • Piękno • Zdrowie • Dobrobyt",
+        desc: "Czy 5 sfer bytu zachowuje współmierność pod przodownictwem Etyki, czy doszło do patologicznego przerostu jednej ze sfer kosztem innych?",
+        source: "O wielości cywilizacyj (Rozdział: Quincunx)",
+        quote: "Pięciomian bytu ludzkiego wymaga harmonii. Gdy jedna ze sfer ulegnie przerostowi, cywilizacja popada w jednostronność i dekadencję. Tylko tam, gdzie Etyka panuje nad siłami bytu, zrzeszenie zachowuje żywotność dziejową.",
+        quoteAuthor: "Prof. Feliks Koneczny, O wielości cywilizacyj",
+        code: `flowchart TD
+    QRoot(["⭐ ANALIZA ARCHITEKTURY QUINCUNXA"]) --> QCheck{"Jaka jest relacja Dobra / Etyki do pozostałych 4 sfer?"}
+    
+    QCheck -- "Dobro dominuje, lecz szanuje autonomię Prawdy, Piękna, Zdrowia i Dobrobytu" --> QHarm["🏛️ PEŁNA WSPÓŁMIERNOŚĆ (Łacińska)<br/>Harmonia 5 sfer pod prymatem Etyki"]
+    
+    QCheck -- "Zwichnięcie hierarchii: Inna sfera pożera Dobro i Prawdę" --> QDeform{"Która kategoria uległa patologicznemu przerostowi?"}
+    
+    QDeform -- "DOBROBYT / FISKALIZM pożera Prawdę i Etykę<br/>(Bogactwo państwa celem nadrzędnym)" --> QByz["👑 CYWILIZACJA BIZANTYŃSKA<br/>(Monizm materializmu państwowego)"]
+    QDeform -- "ZDROWIE / SIŁA FIZYCZNA pożera Ducha<br/>(Kult tężyzny wojownika i oręża)" --> QTur["🏹 CYWILIZACJA TURAŃSKA<br/>(Kult siły biologicznej / wojna)"]
+    QDeform -- "PIĘKNO / FORMA pożera Etykę i Prawdę<br/>(Forma, ceremoniał, etykieta ważniejsza od prawdy)" --> QChina["☯️ CYWILIZACJA CHIŃSKA<br/>(Hipertrofia formy i rytuału)"]
+    QDeform -- "NEGACJA SFER CIELESNYCH<br/>(Atrofia Zdrowia i Dobrobytu na rzecz iluzji)" --> QBram["🕉️ CYWILIZACJA BRAMIŃSKA<br/>(Asceza bierna, pogarda dla materii)"]
+    QDeform -- "DOBRO utożsamione z RYTUAŁEM PRAWNYM<br/>(Mechanizacja moralności)" --> QJew["📜 CYWILIZACJA ŻYDOWSKA<br/>(Legalizm rytualny ponad bezstronną Prawdą)"]`
+      },
+
+      mieszanki: {
+        title: "☣️ Model 6: Prawa Dziejowe i Mieszanki Trujące",
+        tag: "Prawo Niewspółmierności • Zagrożenie Acywilizacyjne",
+        desc: "Co dzieje się, gdy dochodzi do synkretyzmu cywilizacji? Zasada Konecznego: Nie można być cywilizowanym na dwa sposoby naraz.",
+        source: "O wielości cywilizacyj • O ład w historii",
+        quote: "Nie ma syntez cywilizacyjnych; bywają tylko mieszanki, a mieszanki bywają trujące. Gdy dwa pierwiastki cywilizacyjne o sprzecznych metodach zetrą się w jednym organizmie społecznym, powstaje chaos etyczny i paraliż praworządności.",
+        quoteAuthor: "Prof. Feliks Koneczny, O wielości cywilizacyj",
+        code: `flowchart TD
+    SynkRoot(["⚠️ DYNAMIKA MIESZANEK CYWILIZACYJNYCH WG KONECZNEGO"]) --> MixChoice{"Próba połączenia Cywilizacji Łacińskiej z obcym żywiołem"}
+    
+    MixChoice -- "Łacina + Bizancjum<br/>(Etyka zastąpiona kultem państwa)" --> MixByz["⚔️ PRUSACYZM / ETATYZM NIEMIECKI<br/>• Państwo staje się absolutem<br/>• Pozory praworządności kryjące przemoc urzędową<br/>• Dryl, biurokracja i statolatria"]
+    
+    MixChoice -- "Łacina + Turan<br/>(Wolność zredukowana do anarchii)" --> MixTur["🐎 KOZACZYZNA / BOLSZEWIZM<br/>• Uznanie siły fizycznej za jedyne prawo<br/>• Zanik poszanowania dla własności i umowy<br/>• Wódz zastępuje sumienie"]
+    
+    MixChoice -- "Łacina + Żydowska<br/>(Personalizm zastąpiony kazuistyką)" --> MixJew["⚖️ HIPERTROFIA KAZUISTYKI PRAWNEJ<br/>• Formalizm proceduralny niszczy poczucie słuszności<br/>• Manipulacja literą prawa kosztem ducha prawa"]
+    
+    MixChoice -- "Turan + Bizancjum<br/>(Synteza obozu wojennego i biurokracji)" --> MixTurByz["🐻 CARSKA I RADZIECKA ROSJA<br/>• Despotyzm chana w szatach carskiego urzędu<br/>• Człowiek pozbawiony praw prywatnych"]
+    
+    MixChoice -- "Utrzymanie Pionu Łacińskiego<br/>(Odrzucenie synkretyzmów)" --> PureLatin["🛡️ SPÓJNOŚĆ CYWILIZACYJNA (Trwanie Narodu)<br/>• Autonomia rodziny i własności<br/>• Prymat etyki nad ustawą państwową"]`
+      }
+    };
+
+    // Zoom & Pan state management
+    const zoomStates = {};
+
+    function getZoomState(tabId) {
+      if (!zoomStates[tabId]) {
+        zoomStates[tabId] = { scale: 1.15, x: 0, y: 0, isDragging: false, startX: 0, startY: 0 };
+      }
+      return zoomStates[tabId];
+    }
+
+    function applyTransform(tabId) {
+      const state = getZoomState(tabId);
+      const canvas = document.getElementById('canvas-' + tabId);
+      const badge = document.getElementById('zoom-badge-' + tabId);
+      if (canvas) {
+        canvas.style.transform = `translate(${state.x}px, ${state.y}px) scale(${state.scale})`;
+      }
+      if (badge) {
+        badge.textContent = Math.round(state.scale * 100) + '%';
+      }
+    }
+
+    function zoomIn(tabId) {
+      const state = getZoomState(tabId);
+      state.scale = Math.min(state.scale + 0.18, 3.5);
+      applyTransform(tabId);
+    }
+
+    function zoomOut(tabId) {
+      const state = getZoomState(tabId);
+      state.scale = Math.max(state.scale - 0.18, 0.4);
+      applyTransform(tabId);
+    }
+
+    function zoomReset(tabId) {
+      const state = getZoomState(tabId);
+      state.scale = 1.0;
+      state.x = 0;
+      state.y = 0;
+      applyTransform(tabId);
+    }
+
+    function zoomFit(tabId) {
+      const state = getZoomState(tabId);
+      state.scale = 1.25;
+      state.x = 0;
+      state.y = 0;
+      applyTransform(tabId);
+    }
+
+    function setupPanZoomEvents(tabId) {
+      const viewport = document.getElementById('viewport-box-' + tabId);
+      if (!viewport) return;
+      const state = getZoomState(tabId);
+
+      viewport.onwheel = (e) => {
+        e.preventDefault();
+        const delta = e.deltaY < 0 ? 0.12 : -0.12;
+        state.scale = Math.min(Math.max(state.scale + delta, 0.4), 3.5);
+        applyTransform(tabId);
+      };
+
+      viewport.onmousedown = (e) => {
+        state.isDragging = true;
+        state.startX = e.clientX - state.x;
+        state.startY = e.clientY - state.y;
+        viewport.style.cursor = 'grabbing';
+      };
+
+      window.onmousemove = (e) => {
+        if (!state.isDragging) return;
+        state.x = e.clientX - state.startX;
+        state.y = e.clientY - state.startY;
+        applyTransform(tabId);
+      };
+
+      window.onmouseup = () => {
+        if (state.isDragging) {
+          state.isDragging = false;
+          viewport.style.cursor = 'grab';
+        }
+      };
+    }
+
+    // Civ table filter
+    function setCivFilter(civKey) {
+      document.querySelectorAll('.civ-pill').forEach(btn => {
+        btn.classList.toggle('active', btn.classList.contains(civKey));
+      });
+      document.querySelectorAll('tbody tr').forEach(row => {
+        const rowCiv = row.getAttribute('data-civ');
+        if (civKey === 'all' || !rowCiv || rowCiv === civKey) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+
+    // Switch Tab & render
+    function switchTab(tabKey) {
+      currentTab = tabKey;
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      event.currentTarget.classList.add('active');
+      renderCurrentTab();
+    }
+
+    async function renderCurrentTab() {
+      const root = document.getElementById('app-root');
+
+      // Systematics matrix view
+      if (currentTab === 'systematyka') {
+        root.innerHTML = renderSystematicsMatrixView();
+        return;
+      }
+
+      const mData = diagramDefinitions[currentTab];
+      if (!mData) return;
+
+      root.innerHTML = `
+        <div class="view-card">
+          <div class="view-header">
+            <div>
+              <div class="view-title">
+                <span>${mData.title}</span>
+                <span class="meta-tag">${mData.tag}</span>
+              </div>
+              <div class="view-desc">${mData.desc}</div>
+            </div>
+            <span class="meta-tag">${mData.source}</span>
+          </div>
+
+          <!-- DIAGRAM WITH ZOOM & PAN CONTROLS -->
+          <div class="diagram-wrapper">
+            <div class="zoom-toolbar">
+              <div class="zoom-tools">
+                <button class="zoom-btn" onclick="zoomIn('${currentTab}')">🔍+ Przybliż</button>
+                <button class="zoom-btn" onclick="zoomOut('${currentTab}')">🔍- Oddal</button>
+                <button class="zoom-btn" onclick="zoomReset('${currentTab}')">↺ 100%</button>
+                <button class="zoom-btn" onclick="zoomFit('${currentTab}')">⛶ Dopasuj (125%)</button>
+              </div>
+              <div class="zoom-info">
+                <span>Skala:</span>
+                <span class="zoom-badge" id="zoom-badge-${currentTab}">115%</span>
+                <span class="zoom-hint">💡 Scrolluj kółkiem myszki lub przeciągaj schemat</span>
+              </div>
+            </div>
+
+            <div class="diagram-pan-viewport" id="viewport-box-${currentTab}">
+              <div class="diagram-pan-canvas" id="canvas-${currentTab}">
+                <div style="color: #94a3b8; font-size: 13px;">Generowanie schematu...</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="quote-box">
+            „${mData.quote}”
+            <div class="quote-author">📜 ${mData.quoteAuthor}</div>
+          </div>
+        </div>
+      `;
+
+      // Programmatic Mermaid render to avoid DOM hidden container bugs
+      try {
+        const uniqueId = 'mermaid-svg-' + currentTab + '-' + Date.now();
+        const { svg } = await mermaid.render(uniqueId, mData.code);
+        const canvas = document.getElementById('canvas-' + currentTab);
+        if (canvas) {
+          canvas.innerHTML = svg;
+          setupPanZoomEvents(currentTab);
+          applyTransform(currentTab);
+        }
+      } catch (err) {
+        console.error('Błąd renderowania Mermaid:', err);
+        const canvas = document.getElementById('canvas-' + currentTab);
+        if (canvas) {
+          canvas.innerHTML = `<div style="color: #ef4444; font-size: 13px; padding: 20px;">Błąd renderowania: ${err.message || err}</div>`;
+        }
+      }
+    }
+
+    function renderSystematicsMatrixView() {
+      return `
+        <div class="view-card">
+          <div class="view-header">
+            <div>
+              <div class="view-title">
+                <span>📊 Pełna Matryca Systematyki Porównawczej Feliksa Konecznego</span>
+                <span class="meta-tag">Pion Łaciński jako Metr z Sèvres</span>
+              </div>
+              <div class="view-desc">Syntetyczne zestawienie fundamentów cywilizacji (cechy łączące i dzielące).</div>
+            </div>
+            <span class="meta-tag">O wielości cywilizacyj</span>
+          </div>
+
+          <div class="matrix-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 15%;">Wymiar / Kryterium</th>
+                  <th class="pillar-col" style="width: 25%;">🏛️ ŁACIŃSKA [PION WZORCOWY]</th>
+                  <th style="width: 12%;">👑 BIZANTYŃSKA</th>
+                  <th style="width: 12%;">🌙 ARABSKA</th>
+                  <th style="width: 12%;">☯️ CHIŃSKA</th>
+                  <th style="width: 12%;">🏹 TURAŃSKA</th>
+                  <th style="width: 12%;">🕉️ BRAMIŃSKA</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-civ="lacinska">
+                  <td style="font-weight: 800;">💎 Rodzina & Małżeństwo</td>
+                  <td class="pillar-cell">Emancypacja rodziny, Monogamia dożywotnia</td>
+                  <td>Emancypacja, Monogamiczna</td>
+                  <td>Ustrój rodowy, Poligamia</td>
+                  <td>Ustrój rodowy, Poligamizująca</td>
+                  <td>Ustrój rodowy, Poligamiczna</td>
+                  <td>Ustrój rodowy, kastowy</td>
+                </tr>
+                <tr data-civ="lacinska">
+                  <td style="font-weight: 800;">⏳ Stosunek do Czasu</td>
+                  <td class="pillar-cell">Posiada historyzm i celowość dziejową</td>
+                  <td>Era, lecz brak historyzmu</td>
+                  <td>Era, lecz brak historyzmu</td>
+                  <td>Cykle czasowe</td>
+                  <td>Czasomiernictwo do cyklów</td>
+                  <td>Tylko do kalendarza</td>
+                </tr>
+                <tr data-civ="lacinska">
+                  <td style="font-weight: 800;">👥 Społeczeństwo & Naród</td>
+                  <td class="pillar-cell">Wytwarza poczucie narodowe (Organiczny Naród)</td>
+                  <td>Etatyzm; brak narodu</td>
+                  <td>Umma; brak narodu</td>
+                  <td>Autonomia rodu; brak narodu</td>
+                  <td>Ustrój obozowy; brak narodu</td>
+                  <td>Autonomia kastowa; brak narodu</td>
+                </tr>
+                <tr data-civ="lacinska">
+                  <td style="font-weight: 800;">🏛️ Państwo & Władza</td>
+                  <td class="pillar-cell">Dualizm prawny; państwo sługą społeczeństwa</td>
+                  <td>Antropolatria cesarza; odrębne prawo publ.</td>
+                  <td>Despotyzm poddany Koranowi</td>
+                  <td>Antropolatria cesarza-ojca</td>
+                  <td>Wódz jedynym właścicielem</td>
+                  <td>Despotyzm sakralny</td>
+                </tr>
+                <tr data-civ="lacinska">
+                  <td style="font-weight: 800;">🕊️ Etyka w Życiu Publicznym</td>
+                  <td class="pillar-cell">Wymóg etyki; supremacja sił duchowych</td>
+                  <td>Bezetyczna w życiu publicznym</td>
+                  <td>Szariat ponad władcą</td>
+                  <td>Rytuał Li zamiast etyki</td>
+                  <td>Bezetyczna w życiu publicznym</td>
+                  <td>Bezetyczna w państwowych</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="quote-box">
+            „Cywilizacja łacińska z emancypacją rodziny, monogamiczna, posiada historyzm i poczucie narodowe, opiera państwo na społeczeństwie, od życia publicznego wymaga etyki, uznając supremację sił duchowych.”
+            <div class="quote-author">📜 Prof. Feliks Koneczny, O wielości cywilizacyj (Kraków)</div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Initial render
+    window.addEventListener('DOMContentLoaded', () => {
+      renderCurrentTab();
+    });
+  </script>
+</body>
+</html>
