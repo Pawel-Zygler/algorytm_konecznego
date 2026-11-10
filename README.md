@@ -10,8 +10,8 @@ Teoria cywilizacji Feliksa Konecznego w formie aplikacji i wtyczki do przegląda
 <details>
 <summary><b>Szybki start (Instalacja i uruchomienie)</b></summary>
 
-### 1. 🚀 Instalacja i uruchomienie
-``` Start any terminal:
+### 1. 🚀  Start any terminal:
+```
 1. git clone https://github.com/Pawel-Zygler/algorytm_konecznego.git
 2. cd algorytm_konecznego
 3. pip install -r backend/requirements.txt
