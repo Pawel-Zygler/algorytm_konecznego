@@ -10,13 +10,13 @@ Teoria cywilizacji Feliksa Konecznego w formie aplikacji i wtyczki do przegląda
 <details>
 <summary><b>Szybki start (Instalacja i uruchomienie)</b></summary>
 
-### 1. Backend
-```bash
-git clone https://github.com/Pawel-Zygler/algorytm_konecznego.git
-cd algorytm_konecznego
-pip install -r backend/requirements.txt
-cp backend/.env.template backend/.env  # wpisz GEMINI_API_KEY z Google AI Studio
-make start                            # serwer: http://127.0.0.1:8005 (stop: make stop)
+### 1. 🚀 Instalacja i uruchomienie
+``` Start any terminal:
+1. git clone https://github.com/Pawel-Zygler/algorytm_konecznego.git
+2. cd algorytm_konecznego
+3. pip install -r backend/requirements.txt
+4. cp backend/.env.template backend/.env  # wpisz GEMINI_API_KEY z Google AI Studio
+5. make start                            # serwer: http://127.0.0.1:8005 (stop: make stop)
 ```
 
 ### 2. Wtyczka Chrome / Edge
