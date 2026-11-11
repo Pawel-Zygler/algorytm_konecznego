@@ -10,7 +10,7 @@ Teoria cywilizacji Feliksa Konecznego w formie aplikacji i wtyczki do przegląda
 <details>
 <summary><b>Szybki start (Instalacja i uruchomienie)</b></summary>
 
-### 1. 🚀  Start any terminal:
+### 1. 🚀 Uruchomienie w terminalu:
 ```
 1. git clone https://github.com/Pawel-Zygler/algorytm_konecznego.git
 2. cd algorytm_konecznego
@@ -101,6 +101,6 @@ Automatyzacja w TypeScript (`e2e/`) zintegrowana z CI/CD:
   - `make test-report` – raport HTML
   - `make test-all` – testy jednostkowe + E2E
 
-Szczegóły: [e2e/README.md](e2e/README.md).
+Szczegóły: [e2e/README.md](e2e/README.md) oraz specyfikacja scenariuszy ISTQB w [docs/TEST_SCENARIOS.md](docs/TEST_SCENARIOS.md).
 
 </details>
