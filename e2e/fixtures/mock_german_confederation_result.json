@@ -943,7 +943,310 @@
     "public_morality_news_1": "Związek Niemiecki stłumił rewolucję 1848 roku",
     "public_morality_news_2": "Prusy i Austria rywalizują w Frankfurcie",
     "public_morality_news_3": "Wojna 1866 roku kończy istnienie Związku",
-    "public_morality_justification": "Tekst opisuje Związek Niemiecki jako strukturę polityczno-wojskową podporządkowaną interesom mocarstw i pozbawioną wymiaru etycznego."
+    "public_morality_justification": "Tekst opisuje Związek Niemiecki jako strukturę polityczno-wojskową podporządkowaną interesom mocarstw i pozbawioną wymiaru etycznego.",
+    "generalia_scores": {
+      "duty_source_personalistic": {
+        "score": 0.0,
+        "explanation": "W tradycji bizantyńsko-pruskiej Związku Niemieckiego obowiązek wynikał z odgórnego nakazu państwowego i okólnika biurokracji.",
+        "news_examples": [
+          "Zasada prymatu racji stanu w polityce kanclerskiej Bismarcka",
+          "Pruskie prawo krajowe ALR podporządkowujące jednostkę interesom monarchii",
+          "Etos bezwzględnego posłuszeństwa urzędniczego i dyscypliny wojskowej"
+        ]
+      },
+      "motivation_altruism": {
+        "score": 0.2,
+        "explanation": "Działania jednostki i instytucji były zorientowane na pragmatyczny utylitaryzm i potęgę państwa (Machtstaat).",
+        "news_examples": [
+          "Realpolitik i dążenie do hegemonii państwowej kosztem uniwersalnych norm moralnych",
+          "Utylitaryzm biurokratyczny w zarządzaniu prowincjami Cesarstwa",
+          "Instrumentalizacja etyki dla celów ekspansji politycznej"
+        ]
+      },
+      "responsibility_personal": {
+        "score": 0.3,
+        "explanation": "Odpowiedzialność osobista była rozmywana w hierarchii urzędniczej i dyscyplinie stanowej.",
+        "news_examples": [
+          "Odpowiedzialność korporacyjna i stanowa w pruskiej strukturze społecznej",
+          "Zasada immunitetu monarchy i urzędników państwowych przed sądem powszechnym",
+          "Rozmycie winy indywidualnej w machinach biurokratycznych"
+        ]
+      },
+      "justice_equity": {
+        "score": 0.1,
+        "explanation": "Sprawiedliwość była utożsamiana z rygorystycznym legalizmem i literą ustawy państwowej (Rechtspositivismus).",
+        "news_examples": [
+          "Niemiecki pozytywizm prawniczy odrzucający prawo naturalne na rzecz ustawy",
+          "Formalizm sądownictwa podległego koronie cesarskiej",
+          "Kodyfikacje pruskie podporządkowujące poczucie słuszności litery kodeksu"
+        ]
+      },
+      "conscience_autonomous": {
+        "score": 0.2,
+        "explanation": "Sumienie było zastępowane przez nakaz zwierzchnika i lojalność wobec dynastii i aparatu państwa.",
+        "news_examples": [
+          "Kulturkampf jako próba podporządkowania sumień i Kościoła państwu pruskiemu",
+          "Przysięga na wierność monarsze jako najwyższe zobowiązanie moralne",
+          "Tłumienie autonomicznych sprzeciwów sumienia w armii i administracji"
+        ]
+      },
+      "time_mastery_historicism": {
+        "score": 0.3,
+        "explanation": "Historyzm zdominowany przez państwową teleologię i mitologię imperialną zamiast bezinteresownej prawdy.",
+        "news_examples": [
+          "Oficjalna historiografia pruska usprawiedliwiająca rozbiory Polski",
+          "Centralistyczne sterowanie narracją historyczną w szkołach Cesarstwa",
+          "Mit państwa jako ostatecznego celu rozwoju historycznego (heglizm)"
+        ]
+      },
+      "work_ethos_sanctification": {
+        "score": 0.1,
+        "explanation": "Praca pojmowana była jako żelazna dyscyplina i trybik w mechanizmie państwowym, a nie uświęcenie wolnej osoby.",
+        "news_examples": [
+          "Etos pruskiego drylu i mechanicznego wypełniania obowiązków służbowych",
+          "Podporządkowanie świata pracy celom militaryzacji państwa",
+          "Rygorystyczne ustawy przeciwko swobodnym stowarzyszeniom pracowniczym"
+        ]
+      }
+    },
+    "time_mastery_scores": {
+      "scientific_chronology": {
+        "score": 0.8,
+        "explanation": "Stosowanie kalendarza nowożytnego i zegarowej dyscypliny w aparacie urzędniczym.",
+        "news_examples": [
+          "Precyzyjne rozkłady kolejowe i standaryzacja czasu w państwach niemieckich",
+          "Rejestry urzędowe w administracji pruskiej",
+          "Zegarmistrzostwo i mechanizacja pomiaru czasu pracy fabrycznej"
+        ]
+      },
+      "active_critical_tradition": {
+        "score": 0.4,
+        "explanation": "Tradycja podporządkowana lojalności dynastycznej i państwowej mitologii.",
+        "news_examples": [
+          "Cenzura krytycznych badań historycznych w państwach Związku Niemieckiego",
+          "Restrykcje uniwersyteckie w okresie uchwał karlowarskich (Karlsbader Beschlüsse)",
+          "Nadzór policyjny nad wolnomyślicielami i krytykami monarchii"
+        ]
+      },
+      "hereditary_surnames": {
+        "score": 0.9,
+        "explanation": "Ustalony system nazwisk dziedzicznych i rejestrów ludności.",
+        "news_examples": [
+          "Księgi stanu cywilnego w miastach hanzeatyckich i Prusach",
+          "Dokumenty meldunkowe policji pruskiej",
+          "Rejestry podatkowe ludności miejskiej i wiejskiej"
+        ]
+      },
+      "term_discipline": {
+        "score": 0.85,
+        "explanation": "Wysoka dyscyplina terminów administracyjnych i urzędowych.",
+        "news_examples": [
+          "Rygoryzm procedur biurokracji pruskiej i austriackiej",
+          "Punktualność wojskowa w armii Związku Niemieckiego",
+          "Egzekwowanie terminów podatkowych i celnych w Zollverein"
+        ]
+      },
+      "capitalization_of_time": {
+        "score": 0.5,
+        "explanation": "Część dorobku była pochłaniana przez centralizację i militaryzm.",
+        "news_examples": [
+          "Koszty wojen zbrojnych i militaryzacji gospodarki",
+          "Przymusowe podatki wojenne obciążające pokolenia",
+          "Biurokratyczne ograniczenia swobody obrotu ziemią"
+        ]
+      },
+      "sub_specie_aeternitatis": {
+        "score": 0.3,
+        "explanation": "Działania podporządkowane doczesnej potędze państwa zamiast transcendencji.",
+        "news_examples": [
+          "Kult siły i doczesnego sukcesu politycznego",
+          "Koncentracja na celach doraźnej równowagi mocarstw",
+          "Relatywizacja norm wiecznych na rzecz interesu państwowego"
+        ]
+      },
+      "time_rich_language": {
+        "score": 0.7,
+        "explanation": "Rozwinięty język niemiecki z bogatą terminologią prawno-administracyjną.",
+        "news_examples": [
+          "Język kodeksów prawnych i traktatów dyplomatycznych Związku Niemieckiego",
+          "Kultura filologiczna i słowniki braci Grimm",
+          "Precyzja leksykalna w terminologii urzędowej"
+        ]
+      },
+      "historicism_national_consciousness": {
+        "score": 0.5,
+        "explanation": "Świadomość narodowa budowana przez państwową inżynierię społeczną.",
+        "news_examples": [
+          "Ruchy zjednoczeniowe pod hegemonią pruską",
+          "Narodowa propaganda dynastyczna Hohenzollernów i Habsburgów",
+          "Konflikt między koncepcją wielkoniemiecką a małoniemiecką"
+        ]
+      },
+      "dated_documentation": {
+        "score": 0.9,
+        "explanation": "Systematyczne datowanie dokumentacji biurokratycznej i policyjnej.",
+        "news_examples": [
+          "Akta spraw policyjnych i ministerialnych Związku",
+          "Dokumenty celne Niemieckiego Związku Celnego",
+          "Protokoły obrad Sejmu Związkowego we Frankfurcie"
+        ]
+      },
+      "latin_historicism_unique": {
+        "score": 0.3,
+        "explanation": "Odejście od łacińskiej etyki czynu na rzecz pruskiego bizantynizmu.",
+        "news_examples": [
+          "Krytyka cywilizacji łacińskiej w pruskiej historiografii państwowej",
+          "Prymat porządku policyjnego nad wolnościami obywatelskimi",
+          "Podporządkowanie prawa interesom korony"
+        ]
+      },
+      "generational_voluntary_synthesis": {
+        "score": 0.4,
+        "explanation": "Więzi międzypokoleniowe wymuszane obowiązkiem służby państwowej.",
+        "news_examples": [
+          "Powszechny przymusowy pobór wojskowy",
+          "Szkoły kadetów kształtujące posłuszeństwo rozkazom",
+          "Ograniczenia stowarzyszeń studenckich (Burschenschaften)"
+        ]
+      },
+      "family_emancipation_workshop": {
+        "score": 0.4,
+        "explanation": "Rodzina podporządkowana nadzorowi państwowemu i prawu stanowości.",
+        "news_examples": [
+          "Nadzór państwa nad edukacją domową i szkołami prywatnymi",
+          "Ograniczenia praw majątkowych kobiet zamężnych w prawie pruskim",
+          "Ingerencja administracji w sprawy małżeńskie stanów wyższych"
+        ]
+      },
+      "truth_and_goodness_cult": {
+        "score": 0.3,
+        "explanation": "Prawda podporządkowana państwowej racji stanu i cenzurze.",
+        "news_examples": [
+          "Cenzura prewencyjna prasy i wydawnictw w państwach Związku",
+          "Procesy o zdradę stanu wobec publicystów liberalnych",
+          "Usuwanie profesorów o poglądach wolnościowych z uniwersytetów"
+        ]
+      },
+      "no_sacral_passive_stagnation": {
+        "score": 0.6,
+        "explanation": "Częściowy rozwój techniczny przy zachowaniu skostnienia ustrojowego.",
+        "news_examples": [
+          "Rozwój przemysłu ciężkiego w Zagłębiu Ruhry",
+          "Konserwatyzm ustrojowy monarchii niemieckich",
+          "Opór arystokracji wobec reform demokratycznych"
+        ]
+      },
+      "no_turanian_camp_presentism": {
+        "score": 0.5,
+        "explanation": "Mieszanka planowania biurokratycznego z cechami obozowego drylu.",
+        "news_examples": [
+          "Planowanie rozwoju sieci twierdz i garnizonów wojskowych",
+          "Koszary wojskowe jako model organizacji życia zbiorowego",
+          "Doraźne dekrety policyjne ograniczające swobody zgromadzeń"
+        ]
+      }
+    },
+    "quincunx_scores": {
+      "ethics_totality_public_private": {
+        "score": 0.2,
+        "explanation": "Rozdział etyki na prywatną i publiczną (podwójna moralność / makiawelizm).",
+        "news_examples": [
+          "Zasada podwójnego sumienia urzędnika lojalnego wobec państwa",
+          "Usprawiedliwianie niemoralnych działań dyplomatycznych dobrem państwa",
+          "Odrzucenie dekalogu w sferze polityki międzynarodowej"
+        ]
+      },
+      "good_above_law_force": {
+        "score": 0.15,
+        "explanation": "Prymat siły i litery prawa nad etyką i słusznością (Siła przed Prawem).",
+        "news_examples": [
+          "Doktryna Bismarcka 'krwi i żelaza' (Blut und Eisen)",
+          "Pozytywizm państwowy: prawo to wola suwerena zabezpieczona przymusem",
+          "Tłumienie praw mniejszości narodowych w imię jedności państwa"
+        ]
+      },
+      "personal_moral_accountability": {
+        "score": 0.3,
+        "explanation": "Zasłanianie się rozkazem przełożonego (Befehl ist Befehl).",
+        "news_examples": [
+          "Zasada bezwzględnego posłuszeństwa rozkazowi w armii i policji",
+          "Odrzucenie odpowiedzialności osobistej funkcjonariusza za skutki rozkazu",
+          "Hierarchiczna struktura wyłączająca samodzielną ocenę moralną"
+        ]
+      },
+      "natural_truth_pure_science": {
+        "score": 0.5,
+        "explanation": "Nauka i technika rozwijane głównie dla pożytku techniczno-wojskowego.",
+        "news_examples": [
+          "Badania nad chemią i hutnictwem na potrzeby armii",
+          "Utylitarny pragmatyzm w instytutach politechnicznych",
+          "Podporządkowanie badań geologicznych celom wydobycia surowców"
+        ]
+      },
+      "academic_educational_freedom": {
+        "score": 0.4,
+        "explanation": "Ograniczenia wolności akademickiej przez uchwały karlowarskie i kuratorów państwowych.",
+        "news_examples": [
+          "Nadzór kuratorów rządowych nad uniwersytetami w Prusach i Austrii",
+          "Zwalnianie nieprawomyślnych wykładowców akademickich",
+          "Państwowy monopol na programy kształcenia kadr urzędniczych"
+        ]
+      },
+      "public_scientific_health_duty": {
+        "score": 0.6,
+        "explanation": "Dbałość o zdrowie jako zabezpieczenie zdolności bojowej rekrutów.",
+        "news_examples": [
+          "Badania lekarskie komisji poborowych w państwach Związku",
+          "Regulacje sanitarne w koszarach wojskowych i szpitalach polowych",
+          "Początki państwowych ubezpieczeń zdrowotnych pod kontrolą kanclerską"
+        ]
+      },
+      "res_sacra_miser_ethics": {
+        "score": 0.35,
+        "explanation": "Cierpiący postrzegany przez pryzmat użyteczności dla potęgi państwa.",
+        "news_examples": [
+          "Domy pracy przymusowej dla żebraków i ubogich w Prusach",
+          "Ograniczanie pomocy społecznej tylko do osób zdolnych do pracy",
+          "Utylitarne podejście biurokracji do osób trwale niepełnosprawnych"
+        ]
+      },
+      "individual_hereditary_property": {
+        "score": 0.5,
+        "explanation": "Własność prywatna obciążona prerogatywami państwa i podatkami.",
+        "news_examples": [
+          "Prawo państwa do wywłaszczeń na cele wojskowe i fortyfikacyjne",
+          "Ograniczenia prawa własności ziemskiej na rzecz korony",
+          "Wysokie opłaty fiskalne i podatki gruntowe na armię"
+        ]
+      },
+      "honest_prosperity_duty": {
+        "score": 0.5,
+        "explanation": "Dążenie do dobrobytu regulowane przez państwowy etatyzm i monopole.",
+        "news_examples": [
+          "Monopole państwowe na sól i tytoń w państwach niemieckich",
+          "Etapowa industrializacja sterowana odgórnie przez rząd pruski",
+          "Faworyzowanie karteli powiązanych z aparatem państwowym"
+        ]
+      },
+      "beauty_allegory_of_good": {
+        "score": 0.4,
+        "explanation": "Sztuka instrumentalizowana dla propagandy militarnej i majestatu państwa.",
+        "news_examples": [
+          "Monumentalna architektura pruska mająca budzić lęk i podziw dla władzy",
+          "Malarstwo batalistyczne gloryfikujące wodzów i armię",
+          "Cenzura sztuki krytykującej porządek monarchiczny"
+        ]
+      },
+      "full_artistic_freedom": {
+        "score": 0.35,
+        "explanation": "Cenzura policyjna ograniczająca swobodę wypowiedzi artystycznej.",
+        "news_examples": [
+          "Zakaz wystawiania dramatów politycznych krytykujących władzę",
+          "Nadzór policyjny nad teatrami i salami koncertowymi",
+          "Emigracja poetów i pisarzy (np. Heinrich Heine) z przyczyn politycznych"
+        ]
+      }
+    }
   },
   "pełne_dane_wynikowe": {
     "raw_ratings": {
@@ -1870,7 +2173,310 @@
       "public_morality_news_1": "Związek Niemiecki stłumił rewolucję 1848 roku",
       "public_morality_news_2": "Prusy i Austria rywalizują w Frankfurcie",
       "public_morality_news_3": "Wojna 1866 roku kończy istnienie Związku",
-      "public_morality_justification": "Tekst opisuje Związek Niemiecki jako strukturę polityczno-wojskową podporządkowaną interesom mocarstw i pozbawioną wymiaru etycznego."
+      "public_morality_justification": "Tekst opisuje Związek Niemiecki jako strukturę polityczno-wojskową podporządkowaną interesom mocarstw i pozbawioną wymiaru etycznego.",
+      "generalia_scores": {
+        "duty_source_personalistic": {
+          "score": 0.0,
+          "explanation": "W tradycji bizantyńsko-pruskiej Związku Niemieckiego obowiązek wynikał z odgórnego nakazu państwowego i okólnika biurokracji.",
+          "news_examples": [
+            "Zasada prymatu racji stanu w polityce kanclerskiej Bismarcka",
+            "Pruskie prawo krajowe ALR podporządkowujące jednostkę interesom monarchii",
+            "Etos bezwzględnego posłuszeństwa urzędniczego i dyscypliny wojskowej"
+          ]
+        },
+        "motivation_altruism": {
+          "score": 0.2,
+          "explanation": "Działania jednostki i instytucji były zorientowane na pragmatyczny utylitaryzm i potęgę państwa (Machtstaat).",
+          "news_examples": [
+            "Realpolitik i dążenie do hegemonii państwowej kosztem uniwersalnych norm moralnych",
+            "Utylitaryzm biurokratyczny w zarządzaniu prowincjami Cesarstwa",
+            "Instrumentalizacja etyki dla celów ekspansji politycznej"
+          ]
+        },
+        "responsibility_personal": {
+          "score": 0.3,
+          "explanation": "Odpowiedzialność osobista była rozmywana w hierarchii urzędniczej i dyscyplinie stanowej.",
+          "news_examples": [
+            "Odpowiedzialność korporacyjna i stanowa w pruskiej strukturze społecznej",
+            "Zasada immunitetu monarchy i urzędników państwowych przed sądem powszechnym",
+            "Rozmycie winy indywidualnej w machinach biurokratycznych"
+          ]
+        },
+        "justice_equity": {
+          "score": 0.1,
+          "explanation": "Sprawiedliwość była utożsamiana z rygorystycznym legalizmem i literą ustawy państwowej (Rechtspositivismus).",
+          "news_examples": [
+            "Niemiecki pozytywizm prawniczy odrzucający prawo naturalne na rzecz ustawy",
+            "Formalizm sądownictwa podległego koronie cesarskiej",
+            "Kodyfikacje pruskie podporządkowujące poczucie słuszności litery kodeksu"
+          ]
+        },
+        "conscience_autonomous": {
+          "score": 0.2,
+          "explanation": "Sumienie było zastępowane przez nakaz zwierzchnika i lojalność wobec dynastii i aparatu państwa.",
+          "news_examples": [
+            "Kulturkampf jako próba podporządkowania sumień i Kościoła państwu pruskiemu",
+            "Przysięga na wierność monarsze jako najwyższe zobowiązanie moralne",
+            "Tłumienie autonomicznych sprzeciwów sumienia w armii i administracji"
+          ]
+        },
+        "time_mastery_historicism": {
+          "score": 0.3,
+          "explanation": "Historyzm zdominowany przez państwową teleologię i mitologię imperialną zamiast bezinteresownej prawdy.",
+          "news_examples": [
+            "Oficjalna historiografia pruska usprawiedliwiająca rozbiory Polski",
+            "Centralistyczne sterowanie narracją historyczną w szkołach Cesarstwa",
+            "Mit państwa jako ostatecznego celu rozwoju historycznego (heglizm)"
+          ]
+        },
+        "work_ethos_sanctification": {
+          "score": 0.1,
+          "explanation": "Praca pojmowana była jako żelazna dyscyplina i trybik w mechanizmie państwowym, a nie uświęcenie wolnej osoby.",
+          "news_examples": [
+            "Etos pruskiego drylu i mechanicznego wypełniania obowiązków służbowych",
+            "Podporządkowanie świata pracy celom militaryzacji państwa",
+            "Rygorystyczne ustawy przeciwko swobodnym stowarzyszeniom pracowniczym"
+          ]
+        }
+      },
+      "time_mastery_scores": {
+        "scientific_chronology": {
+          "score": 0.8,
+          "explanation": "Stosowanie kalendarza nowożytnego i zegarowej dyscypliny w aparacie urzędniczym.",
+          "news_examples": [
+            "Precyzyjne rozkłady kolejowe i standaryzacja czasu w państwach niemieckich",
+            "Rejestry urzędowe w administracji pruskiej",
+            "Zegarmistrzostwo i mechanizacja pomiaru czasu pracy fabrycznej"
+          ]
+        },
+        "active_critical_tradition": {
+          "score": 0.4,
+          "explanation": "Tradycja podporządkowana lojalności dynastycznej i państwowej mitologii.",
+          "news_examples": [
+            "Cenzura krytycznych badań historycznych w państwach Związku Niemieckiego",
+            "Restrykcje uniwersyteckie w okresie uchwał karlowarskich (Karlsbader Beschlüsse)",
+            "Nadzór policyjny nad wolnomyślicielami i krytykami monarchii"
+          ]
+        },
+        "hereditary_surnames": {
+          "score": 0.9,
+          "explanation": "Ustalony system nazwisk dziedzicznych i rejestrów ludności.",
+          "news_examples": [
+            "Księgi stanu cywilnego w miastach hanzeatyckich i Prusach",
+            "Dokumenty meldunkowe policji pruskiej",
+            "Rejestry podatkowe ludności miejskiej i wiejskiej"
+          ]
+        },
+        "term_discipline": {
+          "score": 0.85,
+          "explanation": "Wysoka dyscyplina terminów administracyjnych i urzędowych.",
+          "news_examples": [
+            "Rygoryzm procedur biurokracji pruskiej i austriackiej",
+            "Punktualność wojskowa w armii Związku Niemieckiego",
+            "Egzekwowanie terminów podatkowych i celnych w Zollverein"
+          ]
+        },
+        "capitalization_of_time": {
+          "score": 0.5,
+          "explanation": "Część dorobku była pochłaniana przez centralizację i militaryzm.",
+          "news_examples": [
+            "Koszty wojen zbrojnych i militaryzacji gospodarki",
+            "Przymusowe podatki wojenne obciążające pokolenia",
+            "Biurokratyczne ograniczenia swobody obrotu ziemią"
+          ]
+        },
+        "sub_specie_aeternitatis": {
+          "score": 0.3,
+          "explanation": "Działania podporządkowane doczesnej potędze państwa zamiast transcendencji.",
+          "news_examples": [
+            "Kult siły i doczesnego sukcesu politycznego",
+            "Koncentracja na celach doraźnej równowagi mocarstw",
+            "Relatywizacja norm wiecznych na rzecz interesu państwowego"
+          ]
+        },
+        "time_rich_language": {
+          "score": 0.7,
+          "explanation": "Rozwinięty język niemiecki z bogatą terminologią prawno-administracyjną.",
+          "news_examples": [
+            "Język kodeksów prawnych i traktatów dyplomatycznych Związku Niemieckiego",
+            "Kultura filologiczna i słowniki braci Grimm",
+            "Precyzja leksykalna w terminologii urzędowej"
+          ]
+        },
+        "historicism_national_consciousness": {
+          "score": 0.5,
+          "explanation": "Świadomość narodowa budowana przez państwową inżynierię społeczną.",
+          "news_examples": [
+            "Ruchy zjednoczeniowe pod hegemonią pruską",
+            "Narodowa propaganda dynastyczna Hohenzollernów i Habsburgów",
+            "Konflikt między koncepcją wielkoniemiecką a małoniemiecką"
+          ]
+        },
+        "dated_documentation": {
+          "score": 0.9,
+          "explanation": "Systematyczne datowanie dokumentacji biurokratycznej i policyjnej.",
+          "news_examples": [
+            "Akta spraw policyjnych i ministerialnych Związku",
+            "Dokumenty celne Niemieckiego Związku Celnego",
+            "Protokoły obrad Sejmu Związkowego we Frankfurcie"
+          ]
+        },
+        "latin_historicism_unique": {
+          "score": 0.3,
+          "explanation": "Odejście od łacińskiej etyki czynu na rzecz pruskiego bizantynizmu.",
+          "news_examples": [
+            "Krytyka cywilizacji łacińskiej w pruskiej historiografii państwowej",
+            "Prymat porządku policyjnego nad wolnościami obywatelskimi",
+            "Podporządkowanie prawa interesom korony"
+          ]
+        },
+        "generational_voluntary_synthesis": {
+          "score": 0.4,
+          "explanation": "Więzi międzypokoleniowe wymuszane obowiązkiem służby państwowej.",
+          "news_examples": [
+            "Powszechny przymusowy pobór wojskowy",
+            "Szkoły kadetów kształtujące posłuszeństwo rozkazom",
+            "Ograniczenia stowarzyszeń studenckich (Burschenschaften)"
+          ]
+        },
+        "family_emancipation_workshop": {
+          "score": 0.4,
+          "explanation": "Rodzina podporządkowana nadzorowi państwowemu i prawu stanowości.",
+          "news_examples": [
+            "Nadzór państwa nad edukacją domową i szkołami prywatnymi",
+            "Ograniczenia praw majątkowych kobiet zamężnych w prawie pruskim",
+            "Ingerencja administracji w sprawy małżeńskie stanów wyższych"
+          ]
+        },
+        "truth_and_goodness_cult": {
+          "score": 0.3,
+          "explanation": "Prawda podporządkowana państwowej racji stanu i cenzurze.",
+          "news_examples": [
+            "Cenzura prewencyjna prasy i wydawnictw w państwach Związku",
+            "Procesy o zdradę stanu wobec publicystów liberalnych",
+            "Usuwanie profesorów o poglądach wolnościowych z uniwersytetów"
+          ]
+        },
+        "no_sacral_passive_stagnation": {
+          "score": 0.6,
+          "explanation": "Częściowy rozwój techniczny przy zachowaniu skostnienia ustrojowego.",
+          "news_examples": [
+            "Rozwój przemysłu ciężkiego w Zagłębiu Ruhry",
+            "Konserwatyzm ustrojowy monarchii niemieckich",
+            "Opór arystokracji wobec reform demokratycznych"
+          ]
+        },
+        "no_turanian_camp_presentism": {
+          "score": 0.5,
+          "explanation": "Mieszanka planowania biurokratycznego z cechami obozowego drylu.",
+          "news_examples": [
+            "Planowanie rozwoju sieci twierdz i garnizonów wojskowych",
+            "Koszary wojskowe jako model organizacji życia zbiorowego",
+            "Doraźne dekrety policyjne ograniczające swobody zgromadzeń"
+          ]
+        }
+      },
+      "quincunx_scores": {
+        "ethics_totality_public_private": {
+          "score": 0.2,
+          "explanation": "Rozdział etyki na prywatną i publiczną (podwójna moralność / makiawelizm).",
+          "news_examples": [
+            "Zasada podwójnego sumienia urzędnika lojalnego wobec państwa",
+            "Usprawiedliwianie niemoralnych działań dyplomatycznych dobrem państwa",
+            "Odrzucenie dekalogu w sferze polityki międzynarodowej"
+          ]
+        },
+        "good_above_law_force": {
+          "score": 0.15,
+          "explanation": "Prymat siły i litery prawa nad etyką i słusznością (Siła przed Prawem).",
+          "news_examples": [
+            "Doktryna Bismarcka 'krwi i żelaza' (Blut und Eisen)",
+            "Pozytywizm państwowy: prawo to wola suwerena zabezpieczona przymusem",
+            "Tłumienie praw mniejszości narodowych w imię jedności państwa"
+          ]
+        },
+        "personal_moral_accountability": {
+          "score": 0.3,
+          "explanation": "Zasłanianie się rozkazem przełożonego (Befehl ist Befehl).",
+          "news_examples": [
+            "Zasada bezwzględnego posłuszeństwa rozkazowi w armii i policji",
+            "Odrzucenie odpowiedzialności osobistej funkcjonariusza za skutki rozkazu",
+            "Hierarchiczna struktura wyłączająca samodzielną ocenę moralną"
+          ]
+        },
+        "natural_truth_pure_science": {
+          "score": 0.5,
+          "explanation": "Nauka i technika rozwijane głównie dla pożytku techniczno-wojskowego.",
+          "news_examples": [
+            "Badania nad chemią i hutnictwem na potrzeby armii",
+            "Utylitarny pragmatyzm w instytutach politechnicznych",
+            "Podporządkowanie badań geologicznych celom wydobycia surowców"
+          ]
+        },
+        "academic_educational_freedom": {
+          "score": 0.4,
+          "explanation": "Ograniczenia wolności akademickiej przez uchwały karlowarskie i kuratorów państwowych.",
+          "news_examples": [
+            "Nadzór kuratorów rządowych nad uniwersytetami w Prusach i Austrii",
+            "Zwalnianie nieprawomyślnych wykładowców akademickich",
+            "Państwowy monopol na programy kształcenia kadr urzędniczych"
+          ]
+        },
+        "public_scientific_health_duty": {
+          "score": 0.6,
+          "explanation": "Dbałość o zdrowie jako zabezpieczenie zdolności bojowej rekrutów.",
+          "news_examples": [
+            "Badania lekarskie komisji poborowych w państwach Związku",
+            "Regulacje sanitarne w koszarach wojskowych i szpitalach polowych",
+            "Początki państwowych ubezpieczeń zdrowotnych pod kontrolą kanclerską"
+          ]
+        },
+        "res_sacra_miser_ethics": {
+          "score": 0.35,
+          "explanation": "Cierpiący postrzegany przez pryzmat użyteczności dla potęgi państwa.",
+          "news_examples": [
+            "Domy pracy przymusowej dla żebraków i ubogich w Prusach",
+            "Ograniczanie pomocy społecznej tylko do osób zdolnych do pracy",
+            "Utylitarne podejście biurokracji do osób trwale niepełnosprawnych"
+          ]
+        },
+        "individual_hereditary_property": {
+          "score": 0.5,
+          "explanation": "Własność prywatna obciążona prerogatywami państwa i podatkami.",
+          "news_examples": [
+            "Prawo państwa do wywłaszczeń na cele wojskowe i fortyfikacyjne",
+            "Ograniczenia prawa własności ziemskiej na rzecz korony",
+            "Wysokie opłaty fiskalne i podatki gruntowe na armię"
+          ]
+        },
+        "honest_prosperity_duty": {
+          "score": 0.5,
+          "explanation": "Dążenie do dobrobytu regulowane przez państwowy etatyzm i monopole.",
+          "news_examples": [
+            "Monopole państwowe na sól i tytoń w państwach niemieckich",
+            "Etapowa industrializacja sterowana odgórnie przez rząd pruski",
+            "Faworyzowanie karteli powiązanych z aparatem państwowym"
+          ]
+        },
+        "beauty_allegory_of_good": {
+          "score": 0.4,
+          "explanation": "Sztuka instrumentalizowana dla propagandy militarnej i majestatu państwa.",
+          "news_examples": [
+            "Monumentalna architektura pruska mająca budzić lęk i podziw dla władzy",
+            "Malarstwo batalistyczne gloryfikujące wodzów i armię",
+            "Cenzura sztuki krytykującej porządek monarchiczny"
+          ]
+        },
+        "full_artistic_freedom": {
+          "score": 0.35,
+          "explanation": "Cenzura policyjna ograniczająca swobodę wypowiedzi artystycznej.",
+          "news_examples": [
+            "Zakaz wystawiania dramatów politycznych krytykujących władzę",
+            "Nadzór policyjny nad teatrami i salami koncertowymi",
+            "Emigracja poetów i pisarzy (np. Heinrich Heine) z przyczyn politycznych"
+          ]
+        }
+      }
     },
     "sacrality_score": -1,
     "spirit_supremacy_score": 0.33,
@@ -1928,6 +2534,318 @@
       "avg_ethical_coherence": -1,
       "avg_chyznosc": -1,
       "avg_spirit": 0.39
+    },
+    "ethical_coherence_score": 1.2,
+    "generalia_diagnosis": "Dominacja Szeregu Gromadnościowego (Pozostałe cywilizacje)",
+    "mixture_alert": false,
+    "time_mastery_efficiency_score": 0.52,
+    "time_mastery_efficiency_diagnosis": "Umiarkowana Wydajność Cywilizacyjna (Stan Synkretyczny / Mieszanka)",
+    "quincunx_coherence_score": 0.45,
+    "quincunx_diagnosis": "CYWILIZACJA DEFEKTOWNA / UŁOMNA (Defekt sfery bytu)",
+    "surowe_oceny_indeksów": {
+      "generalia_scores": {
+        "duty_source_personalistic": {
+          "score": 0.0,
+          "explanation": "W tradycji bizantyńsko-pruskiej Związku Niemieckiego obowiązek wynikał z odgórnego nakazu państwowego i okólnika biurokracji.",
+          "news_examples": [
+            "Zasada prymatu racji stanu w polityce kanclerskiej Bismarcka",
+            "Pruskie prawo krajowe ALR podporządkowujące jednostkę interesom monarchii",
+            "Etos bezwzględnego posłuszeństwa urzędniczego i dyscypliny wojskowej"
+          ]
+        },
+        "motivation_altruism": {
+          "score": 0.2,
+          "explanation": "Działania jednostki i instytucji były zorientowane na pragmatyczny utylitaryzm i potęgę państwa (Machtstaat).",
+          "news_examples": [
+            "Realpolitik i dążenie do hegemonii państwowej kosztem uniwersalnych norm moralnych",
+            "Utylitaryzm biurokratyczny w zarządzaniu prowincjami Cesarstwa",
+            "Instrumentalizacja etyki dla celów ekspansji politycznej"
+          ]
+        },
+        "responsibility_personal": {
+          "score": 0.3,
+          "explanation": "Odpowiedzialność osobista była rozmywana w hierarchii urzędniczej i dyscyplinie stanowej.",
+          "news_examples": [
+            "Odpowiedzialność korporacyjna i stanowa w pruskiej strukturze społecznej",
+            "Zasada immunitetu monarchy i urzędników państwowych przed sądem powszechnym",
+            "Rozmycie winy indywidualnej w machinach biurokratycznych"
+          ]
+        },
+        "justice_equity": {
+          "score": 0.1,
+          "explanation": "Sprawiedliwość była utożsamiana z rygorystycznym legalizmem i literą ustawy państwowej (Rechtspositivismus).",
+          "news_examples": [
+            "Niemiecki pozytywizm prawniczy odrzucający prawo naturalne na rzecz ustawy",
+            "Formalizm sądownictwa podległego koronie cesarskiej",
+            "Kodyfikacje pruskie podporządkowujące poczucie słuszności litery kodeksu"
+          ]
+        },
+        "conscience_autonomous": {
+          "score": 0.2,
+          "explanation": "Sumienie było zastępowane przez nakaz zwierzchnika i lojalność wobec dynastii i aparatu państwa.",
+          "news_examples": [
+            "Kulturkampf jako próba podporządkowania sumień i Kościoła państwu pruskiemu",
+            "Przysięga na wierność monarsze jako najwyższe zobowiązanie moralne",
+            "Tłumienie autonomicznych sprzeciwów sumienia w armii i administracji"
+          ]
+        },
+        "time_mastery_historicism": {
+          "score": 0.3,
+          "explanation": "Historyzm zdominowany przez państwową teleologię i mitologię imperialną zamiast bezinteresownej prawdy.",
+          "news_examples": [
+            "Oficjalna historiografia pruska usprawiedliwiająca rozbiory Polski",
+            "Centralistyczne sterowanie narracją historyczną w szkołach Cesarstwa",
+            "Mit państwa jako ostatecznego celu rozwoju historycznego (heglizm)"
+          ]
+        },
+        "work_ethos_sanctification": {
+          "score": 0.1,
+          "explanation": "Praca pojmowana była jako żelazna dyscyplina i trybik w mechanizmie państwowym, a nie uświęcenie wolnej osoby.",
+          "news_examples": [
+            "Etos pruskiego drylu i mechanicznego wypełniania obowiązków służbowych",
+            "Podporządkowanie świata pracy celom militaryzacji państwa",
+            "Rygorystyczne ustawy przeciwko swobodnym stowarzyszeniom pracowniczym"
+          ]
+        }
+      },
+      "time_mastery_scores": {
+        "scientific_chronology": {
+          "score": 0.8,
+          "explanation": "Stosowanie kalendarza nowożytnego i zegarowej dyscypliny w aparacie urzędniczym.",
+          "news_examples": [
+            "Precyzyjne rozkłady kolejowe i standaryzacja czasu w państwach niemieckich",
+            "Rejestry urzędowe w administracji pruskiej",
+            "Zegarmistrzostwo i mechanizacja pomiaru czasu pracy fabrycznej"
+          ]
+        },
+        "active_critical_tradition": {
+          "score": 0.4,
+          "explanation": "Tradycja podporządkowana lojalności dynastycznej i państwowej mitologii.",
+          "news_examples": [
+            "Cenzura krytycznych badań historycznych w państwach Związku Niemieckiego",
+            "Restrykcje uniwersyteckie w okresie uchwał karlowarskich (Karlsbader Beschlüsse)",
+            "Nadzór policyjny nad wolnomyślicielami i krytykami monarchii"
+          ]
+        },
+        "hereditary_surnames": {
+          "score": 0.9,
+          "explanation": "Ustalony system nazwisk dziedzicznych i rejestrów ludności.",
+          "news_examples": [
+            "Księgi stanu cywilnego w miastach hanzeatyckich i Prusach",
+            "Dokumenty meldunkowe policji pruskiej",
+            "Rejestry podatkowe ludności miejskiej i wiejskiej"
+          ]
+        },
+        "term_discipline": {
+          "score": 0.85,
+          "explanation": "Wysoka dyscyplina terminów administracyjnych i urzędowych.",
+          "news_examples": [
+            "Rygoryzm procedur biurokracji pruskiej i austriackiej",
+            "Punktualność wojskowa w armii Związku Niemieckiego",
+            "Egzekwowanie terminów podatkowych i celnych w Zollverein"
+          ]
+        },
+        "capitalization_of_time": {
+          "score": 0.5,
+          "explanation": "Część dorobku była pochłaniana przez centralizację i militaryzm.",
+          "news_examples": [
+            "Koszty wojen zbrojnych i militaryzacji gospodarki",
+            "Przymusowe podatki wojenne obciążające pokolenia",
+            "Biurokratyczne ograniczenia swobody obrotu ziemią"
+          ]
+        },
+        "sub_specie_aeternitatis": {
+          "score": 0.3,
+          "explanation": "Działania podporządkowane doczesnej potędze państwa zamiast transcendencji.",
+          "news_examples": [
+            "Kult siły i doczesnego sukcesu politycznego",
+            "Koncentracja na celach doraźnej równowagi mocarstw",
+            "Relatywizacja norm wiecznych na rzecz interesu państwowego"
+          ]
+        },
+        "time_rich_language": {
+          "score": 0.7,
+          "explanation": "Rozwinięty język niemiecki z bogatą terminologią prawno-administracyjną.",
+          "news_examples": [
+            "Język kodeksów prawnych i traktatów dyplomatycznych Związku Niemieckiego",
+            "Kultura filologiczna i słowniki braci Grimm",
+            "Precyzja leksykalna w terminologii urzędowej"
+          ]
+        },
+        "historicism_national_consciousness": {
+          "score": 0.5,
+          "explanation": "Świadomość narodowa budowana przez państwową inżynierię społeczną.",
+          "news_examples": [
+            "Ruchy zjednoczeniowe pod hegemonią pruską",
+            "Narodowa propaganda dynastyczna Hohenzollernów i Habsburgów",
+            "Konflikt między koncepcją wielkoniemiecką a małoniemiecką"
+          ]
+        },
+        "dated_documentation": {
+          "score": 0.9,
+          "explanation": "Systematyczne datowanie dokumentacji biurokratycznej i policyjnej.",
+          "news_examples": [
+            "Akta spraw policyjnych i ministerialnych Związku",
+            "Dokumenty celne Niemieckiego Związku Celnego",
+            "Protokoły obrad Sejmu Związkowego we Frankfurcie"
+          ]
+        },
+        "latin_historicism_unique": {
+          "score": 0.3,
+          "explanation": "Odejście od łacińskiej etyki czynu na rzecz pruskiego bizantynizmu.",
+          "news_examples": [
+            "Krytyka cywilizacji łacińskiej w pruskiej historiografii państwowej",
+            "Prymat porządku policyjnego nad wolnościami obywatelskimi",
+            "Podporządkowanie prawa interesom korony"
+          ]
+        },
+        "generational_voluntary_synthesis": {
+          "score": 0.4,
+          "explanation": "Więzi międzypokoleniowe wymuszane obowiązkiem służby państwowej.",
+          "news_examples": [
+            "Powszechny przymusowy pobór wojskowy",
+            "Szkoły kadetów kształtujące posłuszeństwo rozkazom",
+            "Ograniczenia stowarzyszeń studenckich (Burschenschaften)"
+          ]
+        },
+        "family_emancipation_workshop": {
+          "score": 0.4,
+          "explanation": "Rodzina podporządkowana nadzorowi państwowemu i prawu stanowości.",
+          "news_examples": [
+            "Nadzór państwa nad edukacją domową i szkołami prywatnymi",
+            "Ograniczenia praw majątkowych kobiet zamężnych w prawie pruskim",
+            "Ingerencja administracji w sprawy małżeńskie stanów wyższych"
+          ]
+        },
+        "truth_and_goodness_cult": {
+          "score": 0.3,
+          "explanation": "Prawda podporządkowana państwowej racji stanu i cenzurze.",
+          "news_examples": [
+            "Cenzura prewencyjna prasy i wydawnictw w państwach Związku",
+            "Procesy o zdradę stanu wobec publicystów liberalnych",
+            "Usuwanie profesorów o poglądach wolnościowych z uniwersytetów"
+          ]
+        },
+        "no_sacral_passive_stagnation": {
+          "score": 0.6,
+          "explanation": "Częściowy rozwój techniczny przy zachowaniu skostnienia ustrojowego.",
+          "news_examples": [
+            "Rozwój przemysłu ciężkiego w Zagłębiu Ruhry",
+            "Konserwatyzm ustrojowy monarchii niemieckich",
+            "Opór arystokracji wobec reform demokratycznych"
+          ]
+        },
+        "no_turanian_camp_presentism": {
+          "score": 0.5,
+          "explanation": "Mieszanka planowania biurokratycznego z cechami obozowego drylu.",
+          "news_examples": [
+            "Planowanie rozwoju sieci twierdz i garnizonów wojskowych",
+            "Koszary wojskowe jako model organizacji życia zbiorowego",
+            "Doraźne dekrety policyjne ograniczające swobody zgromadzeń"
+          ]
+        }
+      },
+      "quincunx_scores": {
+        "ethics_totality_public_private": {
+          "score": 0.2,
+          "explanation": "Rozdział etyki na prywatną i publiczną (podwójna moralność / makiawelizm).",
+          "news_examples": [
+            "Zasada podwójnego sumienia urzędnika lojalnego wobec państwa",
+            "Usprawiedliwianie niemoralnych działań dyplomatycznych dobrem państwa",
+            "Odrzucenie dekalogu w sferze polityki międzynarodowej"
+          ]
+        },
+        "good_above_law_force": {
+          "score": 0.15,
+          "explanation": "Prymat siły i litery prawa nad etyką i słusznością (Siła przed Prawem).",
+          "news_examples": [
+            "Doktryna Bismarcka 'krwi i żelaza' (Blut und Eisen)",
+            "Pozytywizm państwowy: prawo to wola suwerena zabezpieczona przymusem",
+            "Tłumienie praw mniejszości narodowych w imię jedności państwa"
+          ]
+        },
+        "personal_moral_accountability": {
+          "score": 0.3,
+          "explanation": "Zasłanianie się rozkazem przełożonego (Befehl ist Befehl).",
+          "news_examples": [
+            "Zasada bezwzględnego posłuszeństwa rozkazowi w armii i policji",
+            "Odrzucenie odpowiedzialności osobistej funkcjonariusza za skutki rozkazu",
+            "Hierarchiczna struktura wyłączająca samodzielną ocenę moralną"
+          ]
+        },
+        "natural_truth_pure_science": {
+          "score": 0.5,
+          "explanation": "Nauka i technika rozwijane głównie dla pożytku techniczno-wojskowego.",
+          "news_examples": [
+            "Badania nad chemią i hutnictwem na potrzeby armii",
+            "Utylitarny pragmatyzm w instytutach politechnicznych",
+            "Podporządkowanie badań geologicznych celom wydobycia surowców"
+          ]
+        },
+        "academic_educational_freedom": {
+          "score": 0.4,
+          "explanation": "Ograniczenia wolności akademickiej przez uchwały karlowarskie i kuratorów państwowych.",
+          "news_examples": [
+            "Nadzór kuratorów rządowych nad uniwersytetami w Prusach i Austrii",
+            "Zwalnianie nieprawomyślnych wykładowców akademickich",
+            "Państwowy monopol na programy kształcenia kadr urzędniczych"
+          ]
+        },
+        "public_scientific_health_duty": {
+          "score": 0.6,
+          "explanation": "Dbałość o zdrowie jako zabezpieczenie zdolności bojowej rekrutów.",
+          "news_examples": [
+            "Badania lekarskie komisji poborowych w państwach Związku",
+            "Regulacje sanitarne w koszarach wojskowych i szpitalach polowych",
+            "Początki państwowych ubezpieczeń zdrowotnych pod kontrolą kanclerską"
+          ]
+        },
+        "res_sacra_miser_ethics": {
+          "score": 0.35,
+          "explanation": "Cierpiący postrzegany przez pryzmat użyteczności dla potęgi państwa.",
+          "news_examples": [
+            "Domy pracy przymusowej dla żebraków i ubogich w Prusach",
+            "Ograniczanie pomocy społecznej tylko do osób zdolnych do pracy",
+            "Utylitarne podejście biurokracji do osób trwale niepełnosprawnych"
+          ]
+        },
+        "individual_hereditary_property": {
+          "score": 0.5,
+          "explanation": "Własność prywatna obciążona prerogatywami państwa i podatkami.",
+          "news_examples": [
+            "Prawo państwa do wywłaszczeń na cele wojskowe i fortyfikacyjne",
+            "Ograniczenia prawa własności ziemskiej na rzecz korony",
+            "Wysokie opłaty fiskalne i podatki gruntowe na armię"
+          ]
+        },
+        "honest_prosperity_duty": {
+          "score": 0.5,
+          "explanation": "Dążenie do dobrobytu regulowane przez państwowy etatyzm i monopole.",
+          "news_examples": [
+            "Monopole państwowe na sól i tytoń w państwach niemieckich",
+            "Etapowa industrializacja sterowana odgórnie przez rząd pruski",
+            "Faworyzowanie karteli powiązanych z aparatem państwowym"
+          ]
+        },
+        "beauty_allegory_of_good": {
+          "score": 0.4,
+          "explanation": "Sztuka instrumentalizowana dla propagandy militarnej i majestatu państwa.",
+          "news_examples": [
+            "Monumentalna architektura pruska mająca budzić lęk i podziw dla władzy",
+            "Malarstwo batalistyczne gloryfikujące wodzów i armię",
+            "Cenzura sztuki krytykującej porządek monarchiczny"
+          ]
+        },
+        "full_artistic_freedom": {
+          "score": 0.35,
+          "explanation": "Cenzura policyjna ograniczająca swobodę wypowiedzi artystycznej.",
+          "news_examples": [
+            "Zakaz wystawiania dramatów politycznych krytykujących władzę",
+            "Nadzór policyjny nad teatrami i salami koncertowymi",
+            "Emigracja poetów i pisarzy (np. Heinrich Heine) z przyczyn politycznych"
+          ]
+        }
+      }
     }
   }
 }

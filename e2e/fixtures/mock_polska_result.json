@@ -943,7 +943,310 @@
     "public_morality_news_1": "Polska jako państwo demokratyczne w Europie",
     "public_morality_news_2": "Ustrój polityczny i podział terytorialny Polski",
     "public_morality_news_3": "Rozwój gospodarczy i społeczny współczesnej Polski",
-    "public_morality_justification": "Przeanalizowany tekst jest ogólnym, encyklopedycznym opisem Polski, który całkowicie pomija szczegółowe zagadnienia filozoficzno-historiozoficzne Konecznego dotyczące moralności publicznej."
+    "public_morality_justification": "Przeanalizowany tekst jest ogólnym, encyklopedycznym opisem Polski, który całkowicie pomija szczegółowe zagadnienia filozoficzno-historiozoficzne Konecznego dotyczące moralności publicznej.",
+    "generalia_scores": {
+      "duty_source_personalistic": {
+        "score": 1.0,
+        "explanation": "W Polsce obowiązek etyczny wypływa z autonomicznego sumienia i prawa naturalnego, wyprzedzając ustawy państwowe (szereg personalistyczny).",
+        "news_examples": [
+          "Orzecznictwo Trybunału Konstytucyjnego o godności człowieka jako źródle praw i wolności",
+          "Preambuła Konstytucji RP: odpowiedzialność przed Bogiem lub własnym sumieniem",
+          "Tradycja niepodległościowa i etos obywatelskiego oporu w historii Polski"
+        ]
+      },
+      "motivation_altruism": {
+        "score": 1.0,
+        "explanation": "W kulturze polskiej dominuje bezinteresowne poświęcenie dla Dobra Wspólnego (res publica) oraz Prawdy, odrzucając czysty utylitaryzm transakcyjny.",
+        "news_examples": [
+          "Kultura polskiego wolontariatu i powszechnej pomocy uchodźcom z Ukrainy w 2022 roku",
+          "Zasada solidaryzmu społecznego w polskim systemie prawno-ustrojowym",
+          "Etos polskiego państwa podziemnego i bezinteresownej służby Rzeczypospolitej"
+        ]
+      },
+      "responsibility_personal": {
+        "score": 1.0,
+        "explanation": "Polski system prawny i obyczajowy opiera się na bezwzględnej odpowiedzialności osobistej jednostki za własne czyny, wykluczając odpowiedzialność zbiorową.",
+        "news_examples": [
+          "Art. 42 Konstytucji RP: zasada indywidualnej odpowiedzialności karnej",
+          "Kodeks cywilny: osobista odpowiedzialność za szkodę z winy własnej",
+          "Odrzucenie odpowiedzialności klanowej i zbiorowej w polskim porządku prawnym"
+        ]
+      },
+      "justice_equity": {
+        "score": 1.0,
+        "explanation": "Sprawiedliwość w polskiej tradycji prawnej opiera się na słuszności (aequitas) i zasadach współżycia społecznego stojących ponad suchą literą prawa.",
+        "news_examples": [
+          "Klauzula zasad współżycia społecznego w art. 5 polskiego Kodeksu cywilnego",
+          "Pojęcie sprawiedliwości społecznej w orzecznictwie Sądu Najwyższego RP",
+          "Prymat słuszności i konstytucyjnej ochrony praw nabytych nad rygoryzmem formalnym"
+        ]
+      },
+      "conscience_autonomous": {
+        "score": 1.0,
+        "explanation": "Najwyższą instancją moralną jest autonomia sumienia obywatela, chroniona instytucjonalnie przed arbitralnym nakazem władzy.",
+        "news_examples": [
+          "Klauzula sumienia w polskim prawie medycznym i orzecznictwie Trybunału Konstytucyjnego",
+          "Konstytucyjne gwarancje wolności sumienia i wyznania w art. 53 Konstytucji RP",
+          "Prawo żołnierza i funkcjonariusza do odmowy wykonania zbrodniczego rozkazu"
+        ]
+      },
+      "time_mastery_historicism": {
+        "score": 1.0,
+        "explanation": "Polska cywilizacja wykazuje głęboki historyzm narodowy, ciągłość pamięci pokoleniowej oraz linearną rachubę czasu zorientowaną na przyszłość.",
+        "news_examples": [
+          "Ustawa o Instytucie Pamięci Narodowej i ochrona ciągłości historycznej państwa",
+          "Obchody Milenium Chrztu Polski i Tysiąclecia Państwa Polskiego jako wyraz historyzmu",
+          "Powszechna tradycja genealogiczna i szacunek dla mogił przodków w Dniu Wszystkich Świętych"
+        ]
+      },
+      "work_ethos_sanctification": {
+        "score": 1.0,
+        "explanation": "Praca ludzka uznawana jest w polskiej tradycji za źródło godności, samorealizacji i uświęcenia człowieka wolnego (Laborem exercens).",
+        "news_examples": [
+          "Encyklika Laborem Exercens św. Jana Pawła II o godności pracy ludzkiej",
+          "Konstytucyjna ochrona pracy pod szczególnym nadzorem Rzeczypospolitej Polskiej",
+          "Etos polskiego ruchu Solidarność z 1980 roku wyrastający z godności pracy"
+        ]
+      }
+    },
+    "time_mastery_scores": {
+      "scientific_chronology": {
+        "score": 1.0,
+        "explanation": "Naukowa rachuba czasu i powszechne stosowanie kalendarza gregoriańskiego opartego na erze nowożytnej.",
+        "news_examples": [
+          "Ustawa o czasie urzędowym na obszarze Rzeczypospolitej Polskiej",
+          "Główny Urząd Miar: państwowa atomowa skala czasu UTC(PL)",
+          "Standaryzacja uniwersytecka kalendarza akademickiego i badawczego"
+        ]
+      },
+      "active_critical_tradition": {
+        "score": 0.85,
+        "explanation": "Krytyczne podejście do dziedzictwa przodków, łączące szacunek dla tradycji z reformizmem i modernizacją.",
+        "news_examples": [
+          "Polska szkoła historyczna i spór o przyczyny upadku I Rzeczypospolitej",
+          "Debata publiczna wokół Konstytucji 3 Maja jako dzieła nowoczesnej reformy",
+          "Prace Instytutu Badań Literackich PAN nad krytyczną edycją dzieł klasyków"
+        ]
+      },
+      "hereditary_surnames": {
+        "score": 1.0,
+        "explanation": "Uniwersalny i trwały system nazwisk dziedzicznych stanowiący oparcie dla historyzmu prywatnego.",
+        "news_examples": [
+          "Kodeks rodzinny i opiekuńczy: dziedziczenie nazwiska rodowego",
+          "Księgi metrykalne i rejestr PESEL gwarantujące ciągłość rodową",
+          "Tradycja heraldyczna i genealogiczna polskich rodów szlacheckich i mieszczańskich"
+        ]
+      },
+      "term_discipline": {
+        "score": 0.8,
+        "explanation": "Pojęcie terminu, zawitych terminów procesowych i punktualności w polskim prawie i gospodarce.",
+        "news_examples": [
+          "Instytucja terminów zawitych w Kodeksie postępowania cywilnego",
+          "Terminowość realizacji zobowiązań handlowych w obrocie gospodarczym",
+          "Rygorystyczny harmonogram sesji parlamentarnych w Sejmie RP"
+        ]
+      },
+      "capitalization_of_time": {
+        "score": 0.85,
+        "explanation": "Przekazywanie dorobku materialnego i duchowego kolejnym pokoleniom zamiast zaczynania od zera.",
+        "news_examples": [
+          "Ochrona dziedzictwa narodowego w Narodowym Programie Rozwoju Czytelnictwa",
+          "Międzypokoleniowy transfer firm rodzinnych w polskiej gospodarce",
+          "Odbudowa Warszawy po II wojnie światowej jako triumf ciągłości kulturowej"
+        ]
+      },
+      "sub_specie_aeternitatis": {
+        "score": 0.9,
+        "explanation": "Długofalowe inwestycje społeczne i instytucjonalne wykraczające poza długość życia jednego pokolenia.",
+        "news_examples": [
+          "Fundacja Zakłady Kórnickie i wieczna donacja majątku narodowi",
+          "Wieloletni program budowy infrastruktury energetycznej i transportowej",
+          "Uniwersytet Jagielloński fundowany w 1364 roku trwający ponad stuleciami"
+        ]
+      },
+      "time_rich_language": {
+        "score": 0.95,
+        "explanation": "Precyzyjny system czasów i aspektów w języku polskim umożliwiający ścisłą chronologię narracji.",
+        "news_examples": [
+          "Słownik Języka Polskiego PAN: bogactwo polskich form aspektowych czasowników",
+          "Kultura literacka i precyzja terminologiczna polszczyzny naukowej",
+          "Zróżnicowanie leksykalne pojęć określających następstwo i trwanie w czasie"
+        ]
+      },
+      "historicism_national_consciousness": {
+        "score": 0.95,
+        "explanation": "Polska świadomość narodowa opiera się na pamięci historycznej i dziejach państwa od X wieku.",
+        "news_examples": [
+          "Święto Niepodległości 11 listopada jako manifestacja ciągłości narodowej",
+          "Muzeum Historii Polski w Warszawie jako centrum narracji historycznej",
+          "Szacunek dla powstań narodowych w tożsamości współczesnych Polaków"
+        ]
+      },
+      "dated_documentation": {
+        "score": 1.0,
+        "explanation": "Powszechny i rygorystyczny obowiązek datowania wszelkich aktów urzędowych, umów i dokumentów.",
+        "news_examples": [
+          "Art. 81 Kodeksu cywilnego: pojęcie daty pewnej dokumentu urzędowego",
+          "Kwalifikowany elektroniczny znacznik czasu w administracji publicznej",
+          "Dziennik Ustaw RP publikowany z bezwzględną chronologią promulgacji"
+        ]
+      },
+      "latin_historicism_unique": {
+        "score": 0.9,
+        "explanation": "Unikalny dla cywilizacji łacińskiej kult pamięci historycznej powiązany z etyką czynu.",
+        "news_examples": [
+          "Wpływ historiografii Jana Długosza na samowiedzę państwową Polski",
+          "Panteon Narodowy w Krakowie na Skałce i w Katedrze Wawelskiej",
+          "Świadomość przedmurza chrześcijaństwa (Antemurale Christianitatis)"
+        ]
+      },
+      "generational_voluntary_synthesis": {
+        "score": 0.85,
+        "explanation": "Dobrowolne łączenie się pokoleń wokół wspólnych celów narodowych i obrony wolności.",
+        "news_examples": [
+          "Współpraca weteranów Armii Krajowej z harcerstwem i młodzieżą szkolną",
+          "Wielopokoleniowy ruch 'Solidarności' zrzeszający 10 milionów Polaków",
+          "Dialog międzypokoleniowy w polskich organizacjach pozarządowych"
+        ]
+      },
+      "family_emancipation_workshop": {
+        "score": 0.85,
+        "explanation": "Rodzina monogamiczna jako podstawowy warsztat przekazywania tradycji i kapitału kulturowego.",
+        "news_examples": [
+          "Art. 18 Konstytucji RP: rodzina i małżeństwo pod opieką i ochroną państwa",
+          "Tradycja polskiego stołu wigilijnego łącząca pokolenia wokół wartości",
+          "Archiwa rodzinne i pamiątki domowe przekazywane z pokolenia na pokolenie"
+        ]
+      },
+      "truth_and_goodness_cult": {
+        "score": 0.85,
+        "explanation": "Dążenie do prawdy historycznej bez cenzury i bez idealizacji błędów przeszłości.",
+        "news_examples": [
+          "Odtajnienie archiwów totalitarnych i badania naukowe nad zbrodniami reżimów",
+          "Ustawowy zakaz cenzury prewencyjnej w art. 54 Konstytucji RP",
+          "Wolność badań historycznych i debaty akademickiej na polskich uczelniach"
+        ]
+      },
+      "no_sacral_passive_stagnation": {
+        "score": 0.9,
+        "explanation": "Odrzucenie biernego zastoju sakralnego na rzecz dynamicznego rozwoju cywilizacyjnego.",
+        "news_examples": [
+          "Dynamiczny wzrost polskiego PKB i innowacyjności technologicznej",
+          "Otwartość polskiego społeczeństwa na modernizację i integrację europejską",
+          "Inicjatywy naukowe i startupowe w polskich ośrodkach akademickich"
+        ]
+      },
+      "no_turanian_camp_presentism": {
+        "score": 0.9,
+        "explanation": "Odrzucenie wegetacji obozowej i uwięzienia w bezwymiarowej teraźniejszości na rzecz planowania.",
+        "news_examples": [
+          "Strategia Odpowiedzialnego Rozwoju i długookresowe plany transformacji",
+          "Rozwój prywatnych oszczędności emerytalnych i inwestycji długoterminowych",
+          "Plany wieloletnich inwestycji strategicznych w polską energetykę i naukę"
+        ]
+      }
+    },
+    "quincunx_scores": {
+      "ethics_totality_public_private": {
+        "score": 0.85,
+        "explanation": "Ta sama uniwersalna moralność obowiązuje obywatela w życiu prywatnym i urzędnika w życiu publicznym.",
+        "news_examples": [
+          "Kodeks Etyki Służby Cywilnej w Polsce nakazujący uczciwość i bezstronność",
+          "Odpowiedzialność karna funkcjonariuszy publicznych za przekroczenie uprawnień",
+          "Tradycja polskiej filozofii politycznej odrzucająca makiawelizm"
+        ]
+      },
+      "good_above_law_force": {
+        "score": 0.9,
+        "explanation": "Prymat Dobra i Etyki nad wolą polityczną i stanowionym prawem państwowym.",
+        "news_examples": [
+          "Preambuła Konstytucji RP odwołująca się do Prawdy, Sprawiedliwości i Dobra",
+          "Konstytucyjna kontrola zgodności ustaw z prawem naturalnym i prawami człowieka",
+          "Zasada demokratycznego państwa prawnego urzeczywistniającego sprawiedliwość społeczną"
+        ]
+      },
+      "personal_moral_accountability": {
+        "score": 0.95,
+        "explanation": "Osobista odpowiedzialność człowieka przed własnym sumieniem i Bogiem za wszelkie czyny i decyzje.",
+        "news_examples": [
+          "Wolność sumienia i wyznania w art. 53 Konstytucji RP",
+          "Instytucja ślubowania sędziowskiego kończącego się zwrotem 'Tak mi dopomóż Bóg'",
+          "Osobista odpowiedzialność dyscyplinarna przedstawicieli zawodów zaufania publicznego"
+        ]
+      },
+      "natural_truth_pure_science": {
+        "score": 0.9,
+        "explanation": "Bezinteresowne dążenie do Prawdy w nauce i badaniach bez podporządkowania dogmatom ideologicznym.",
+        "news_examples": [
+          "Ustawa - Prawo o szkolnictwie wyższym i nauce gwarantująca autonomię uczelni",
+          "Granty Narodowego Centrum Nauki na bezinteresowne badania podstawowe",
+          "Tradycja lwowsko-warszawskiej szkoły filozoficznej i polskiej szkoły matematycznej"
+        ]
+      },
+      "academic_educational_freedom": {
+        "score": 0.9,
+        "explanation": "Konstytucyjna autonomia uniwersytetów i swoboda badań naukowych w Polsce.",
+        "news_examples": [
+          "Art. 73 Konstytucji RP: wolność twórczości artystycznej i badań naukowych",
+          "Niezależność Polskiej Akademii Nauk i konferencji rektorów KRASP",
+          "Ochrona swobody debaty akademickiej i publikacji wyników badań"
+        ]
+      },
+      "public_scientific_health_duty": {
+        "score": 0.85,
+        "explanation": "Piecza o zdrowie publiczne oparta na wiedzy medycznej, higienie i powszechnej opiece.",
+        "news_examples": [
+          "Art. 68 Konstytucji RP: prawo każdego obywatela do ochrony zdrowia",
+          "Państwowa Inspekcja Sanitarna i Główny Inspektorat Farmaceutyczny",
+          "Powszechne programy szczepień ochronnych i profilaktyki onkologicznej"
+        ]
+      },
+      "res_sacra_miser_ethics": {
+        "score": 0.9,
+        "explanation": "Zasada 'res sacra miser' – chory i cierpiący człowiek jako podmiot szczególnej troski i szacunku.",
+        "news_examples": [
+          "Kodeks Etyki Lekarskiej nakazujący służbę życiu i zdrowiu ludzkiemu",
+          "Sieć hospicjów i opieki paliatywnej w polskim systemie ochrony zdrowia",
+          "Ustawa o prawach pacjenta i Rzeczniku Praw Pacjenta"
+        ]
+      },
+      "individual_hereditary_property": {
+        "score": 0.85,
+        "explanation": "Ochrona własności indywidualnej i prawa do dziedziczenia w rodzinie jako fundamentu wolności.",
+        "news_examples": [
+          "Art. 21 i 64 Konstytucji RP: ochrona prawa własności i prawa dziedziczenia",
+          "Rękojmia wiary publicznej ksiąg wieczystych chroniąca nienaruszalność własności",
+          "Zniesienie podatku od spadków i darowizn dla najbliższej rodziny"
+        ]
+      },
+      "honest_prosperity_duty": {
+        "score": 0.85,
+        "explanation": "Uczciwe pomnażanie majątku pracą traktowane jako cnota społeczna sprzyjająca dobroczynności.",
+        "news_examples": [
+          "Zasada swobody działalności gospodarczej w polskim Prawie przedsiębiorców",
+          "Rozwój filantropii korporacyjnej i fundacji dobroczynnych w Polsce",
+          "Społeczna gospodarka rynkowa jako konstytucyjny ustrój gospodarczy RP"
+        ]
+      },
+      "beauty_allegory_of_good": {
+        "score": 0.85,
+        "explanation": "Sztuka i twórczość kulturowa jako alegoria i uduchowienie Dobra oraz Prawdy.",
+        "news_examples": [
+          "Malarstwo Jana Matejki i dzieła Stanisława Wyspiańskiego uduchowiające historię",
+          "Twórczość Fryderyka Chopina i Henryka Mikołaja Góreckiego w kulturze światowej",
+          "Konserwacja zabytków architektury sakralnej i zamkowej jako dziedzictwa piękna"
+        ]
+      },
+      "full_artistic_freedom": {
+        "score": 0.9,
+        "explanation": "Pełna swoboda twórczości artystycznej chroniona w art. 73 Konstytucji RP.",
+        "news_examples": [
+          "Art. 73 Konstytucji RP: wolność korzystania z dóbr kultury i twórczości artystycznej",
+          "Festiwale teatralne, filmowe i muzyczne działające bez cenzury państwowej",
+          "Mecenat państwa i samorządów nad niezależnymi twórcami kultury"
+        ]
+      }
+    }
   },
   "sacrality_score": 0.06923076923076923,
   "spirit_supremacy_score": 0.68,
@@ -1914,6 +2217,316 @@
           "Stosunki państwo-kościół w Rzeczypospolitej"
         ]
       }
+    },
+    "generalia_scores": {
+      "duty_source_personalistic": {
+        "score": 1.0,
+        "explanation": "W Polsce obowiązek etyczny wypływa z autonomicznego sumienia i prawa naturalnego, wyprzedzając ustawy państwowe (szereg personalistyczny).",
+        "news_examples": [
+          "Orzecznictwo Trybunału Konstytucyjnego o godności człowieka jako źródle praw i wolności",
+          "Preambuła Konstytucji RP: odpowiedzialność przed Bogiem lub własnym sumieniem",
+          "Tradycja niepodległościowa i etos obywatelskiego oporu w historii Polski"
+        ]
+      },
+      "motivation_altruism": {
+        "score": 1.0,
+        "explanation": "W kulturze polskiej dominuje bezinteresowne poświęcenie dla Dobra Wspólnego (res publica) oraz Prawdy, odrzucając czysty utylitaryzm transakcyjny.",
+        "news_examples": [
+          "Kultura polskiego wolontariatu i powszechnej pomocy uchodźcom z Ukrainy w 2022 roku",
+          "Zasada solidaryzmu społecznego w polskim systemie prawno-ustrojowym",
+          "Etos polskiego państwa podziemnego i bezinteresownej służby Rzeczypospolitej"
+        ]
+      },
+      "responsibility_personal": {
+        "score": 1.0,
+        "explanation": "Polski system prawny i obyczajowy opiera się na bezwzględnej odpowiedzialności osobistej jednostki za własne czyny, wykluczając odpowiedzialność zbiorową.",
+        "news_examples": [
+          "Art. 42 Konstytucji RP: zasada indywidualnej odpowiedzialności karnej",
+          "Kodeks cywilny: osobista odpowiedzialność za szkodę z winy własnej",
+          "Odrzucenie odpowiedzialności klanowej i zbiorowej w polskim porządku prawnym"
+        ]
+      },
+      "justice_equity": {
+        "score": 1.0,
+        "explanation": "Sprawiedliwość w polskiej tradycji prawnej opiera się na słuszności (aequitas) i zasadach współżycia społecznego stojących ponad suchą literą prawa.",
+        "news_examples": [
+          "Klauzula zasad współżycia społecznego w art. 5 polskiego Kodeksu cywilnego",
+          "Pojęcie sprawiedliwości społecznej w orzecznictwie Sądu Najwyższego RP",
+          "Prymat słuszności i konstytucyjnej ochrony praw nabytych nad rygoryzmem formalnym"
+        ]
+      },
+      "conscience_autonomous": {
+        "score": 1.0,
+        "explanation": "Najwyższą instancją moralną jest autonomia sumienia obywatela, chroniona instytucjonalnie przed arbitralnym nakazem władzy.",
+        "news_examples": [
+          "Klauzula sumienia w polskim prawie medycznym i orzecznictwie Trybunału Konstytucyjnego",
+          "Konstytucyjne gwarancje wolności sumienia i wyznania w art. 53 Konstytucji RP",
+          "Prawo żołnierza i funkcjonariusza do odmowy wykonania zbrodniczego rozkazu"
+        ]
+      },
+      "time_mastery_historicism": {
+        "score": 1.0,
+        "explanation": "Polska cywilizacja wykazuje głęboki historyzm narodowy, ciągłość pamięci pokoleniowej oraz linearną rachubę czasu zorientowaną na przyszłość.",
+        "news_examples": [
+          "Ustawa o Instytucie Pamięci Narodowej i ochrona ciągłości historycznej państwa",
+          "Obchody Milenium Chrztu Polski i Tysiąclecia Państwa Polskiego jako wyraz historyzmu",
+          "Powszechna tradycja genealogiczna i szacunek dla mogił przodków w Dniu Wszystkich Świętych"
+        ]
+      },
+      "work_ethos_sanctification": {
+        "score": 1.0,
+        "explanation": "Praca ludzka uznawana jest w polskiej tradycji za źródło godności, samorealizacji i uświęcenia człowieka wolnego (Laborem exercens).",
+        "news_examples": [
+          "Encyklika Laborem Exercens św. Jana Pawła II o godności pracy ludzkiej",
+          "Konstytucyjna ochrona pracy pod szczególnym nadzorem Rzeczypospolitej Polskiej",
+          "Etos polskiego ruchu Solidarność z 1980 roku wyrastający z godności pracy"
+        ]
+      }
+    },
+    "time_mastery_scores": {
+      "scientific_chronology": {
+        "score": 1.0,
+        "explanation": "Naukowa rachuba czasu i powszechne stosowanie kalendarza gregoriańskiego opartego na erze nowożytnej.",
+        "news_examples": [
+          "Ustawa o czasie urzędowym na obszarze Rzeczypospolitej Polskiej",
+          "Główny Urząd Miar: państwowa atomowa skala czasu UTC(PL)",
+          "Standaryzacja uniwersytecka kalendarza akademickiego i badawczego"
+        ]
+      },
+      "active_critical_tradition": {
+        "score": 0.85,
+        "explanation": "Krytyczne podejście do dziedzictwa przodków, łączące szacunek dla tradycji z reformizmem i modernizacją.",
+        "news_examples": [
+          "Polska szkoła historyczna i spór o przyczyny upadku I Rzeczypospolitej",
+          "Debata publiczna wokół Konstytucji 3 Maja jako dzieła nowoczesnej reformy",
+          "Prace Instytutu Badań Literackich PAN nad krytyczną edycją dzieł klasyków"
+        ]
+      },
+      "hereditary_surnames": {
+        "score": 1.0,
+        "explanation": "Uniwersalny i trwały system nazwisk dziedzicznych stanowiący oparcie dla historyzmu prywatnego.",
+        "news_examples": [
+          "Kodeks rodzinny i opiekuńczy: dziedziczenie nazwiska rodowego",
+          "Księgi metrykalne i rejestr PESEL gwarantujące ciągłość rodową",
+          "Tradycja heraldyczna i genealogiczna polskich rodów szlacheckich i mieszczańskich"
+        ]
+      },
+      "term_discipline": {
+        "score": 0.8,
+        "explanation": "Pojęcie terminu, zawitych terminów procesowych i punktualności w polskim prawie i gospodarce.",
+        "news_examples": [
+          "Instytucja terminów zawitych w Kodeksie postępowania cywilnego",
+          "Terminowość realizacji zobowiązań handlowych w obrocie gospodarczym",
+          "Rygorystyczny harmonogram sesji parlamentarnych w Sejmie RP"
+        ]
+      },
+      "capitalization_of_time": {
+        "score": 0.85,
+        "explanation": "Przekazywanie dorobku materialnego i duchowego kolejnym pokoleniom zamiast zaczynania od zera.",
+        "news_examples": [
+          "Ochrona dziedzictwa narodowego w Narodowym Programie Rozwoju Czytelnictwa",
+          "Międzypokoleniowy transfer firm rodzinnych w polskiej gospodarce",
+          "Odbudowa Warszawy po II wojnie światowej jako triumf ciągłości kulturowej"
+        ]
+      },
+      "sub_specie_aeternitatis": {
+        "score": 0.9,
+        "explanation": "Długofalowe inwestycje społeczne i instytucjonalne wykraczające poza długość życia jednego pokolenia.",
+        "news_examples": [
+          "Fundacja Zakłady Kórnickie i wieczna donacja majątku narodowi",
+          "Wieloletni program budowy infrastruktury energetycznej i transportowej",
+          "Uniwersytet Jagielloński fundowany w 1364 roku trwający ponad stuleciami"
+        ]
+      },
+      "time_rich_language": {
+        "score": 0.95,
+        "explanation": "Precyzyjny system czasów i aspektów w języku polskim umożliwiający ścisłą chronologię narracji.",
+        "news_examples": [
+          "Słownik Języka Polskiego PAN: bogactwo polskich form aspektowych czasowników",
+          "Kultura literacka i precyzja terminologiczna polszczyzny naukowej",
+          "Zróżnicowanie leksykalne pojęć określających następstwo i trwanie w czasie"
+        ]
+      },
+      "historicism_national_consciousness": {
+        "score": 0.95,
+        "explanation": "Polska świadomość narodowa opiera się na pamięci historycznej i dziejach państwa od X wieku.",
+        "news_examples": [
+          "Święto Niepodległości 11 listopada jako manifestacja ciągłości narodowej",
+          "Muzeum Historii Polski w Warszawie jako centrum narracji historycznej",
+          "Szacunek dla powstań narodowych w tożsamości współczesnych Polaków"
+        ]
+      },
+      "dated_documentation": {
+        "score": 1.0,
+        "explanation": "Powszechny i rygorystyczny obowiązek datowania wszelkich aktów urzędowych, umów i dokumentów.",
+        "news_examples": [
+          "Art. 81 Kodeksu cywilnego: pojęcie daty pewnej dokumentu urzędowego",
+          "Kwalifikowany elektroniczny znacznik czasu w administracji publicznej",
+          "Dziennik Ustaw RP publikowany z bezwzględną chronologią promulgacji"
+        ]
+      },
+      "latin_historicism_unique": {
+        "score": 0.9,
+        "explanation": "Unikalny dla cywilizacji łacińskiej kult pamięci historycznej powiązany z etyką czynu.",
+        "news_examples": [
+          "Wpływ historiografii Jana Długosza na samowiedzę państwową Polski",
+          "Panteon Narodowy w Krakowie na Skałce i w Katedrze Wawelskiej",
+          "Świadomość przedmurza chrześcijaństwa (Antemurale Christianitatis)"
+        ]
+      },
+      "generational_voluntary_synthesis": {
+        "score": 0.85,
+        "explanation": "Dobrowolne łączenie się pokoleń wokół wspólnych celów narodowych i obrony wolności.",
+        "news_examples": [
+          "Współpraca weteranów Armii Krajowej z harcerstwem i młodzieżą szkolną",
+          "Wielopokoleniowy ruch 'Solidarności' zrzeszający 10 milionów Polaków",
+          "Dialog międzypokoleniowy w polskich organizacjach pozarządowych"
+        ]
+      },
+      "family_emancipation_workshop": {
+        "score": 0.85,
+        "explanation": "Rodzina monogamiczna jako podstawowy warsztat przekazywania tradycji i kapitału kulturowego.",
+        "news_examples": [
+          "Art. 18 Konstytucji RP: rodzina i małżeństwo pod opieką i ochroną państwa",
+          "Tradycja polskiego stołu wigilijnego łącząca pokolenia wokół wartości",
+          "Archiwa rodzinne i pamiątki domowe przekazywane z pokolenia na pokolenie"
+        ]
+      },
+      "truth_and_goodness_cult": {
+        "score": 0.85,
+        "explanation": "Dążenie do prawdy historycznej bez cenzury i bez idealizacji błędów przeszłości.",
+        "news_examples": [
+          "Odtajnienie archiwów totalitarnych i badania naukowe nad zbrodniami reżimów",
+          "Ustawowy zakaz cenzury prewencyjnej w art. 54 Konstytucji RP",
+          "Wolność badań historycznych i debaty akademickiej na polskich uczelniach"
+        ]
+      },
+      "no_sacral_passive_stagnation": {
+        "score": 0.9,
+        "explanation": "Odrzucenie biernego zastoju sakralnego na rzecz dynamicznego rozwoju cywilizacyjnego.",
+        "news_examples": [
+          "Dynamiczny wzrost polskiego PKB i innowacyjności technologicznej",
+          "Otwartość polskiego społeczeństwa na modernizację i integrację europejską",
+          "Inicjatywy naukowe i startupowe w polskich ośrodkach akademickich"
+        ]
+      },
+      "no_turanian_camp_presentism": {
+        "score": 0.9,
+        "explanation": "Odrzucenie wegetacji obozowej i uwięzienia w bezwymiarowej teraźniejszości na rzecz planowania.",
+        "news_examples": [
+          "Strategia Odpowiedzialnego Rozwoju i długookresowe plany transformacji",
+          "Rozwój prywatnych oszczędności emerytalnych i inwestycji długoterminowych",
+          "Plany wieloletnich inwestycji strategicznych w polską energetykę i naukę"
+        ]
+      }
+    },
+    "quincunx_scores": {
+      "ethics_totality_public_private": {
+        "score": 0.85,
+        "explanation": "Ta sama uniwersalna moralność obowiązuje obywatela w życiu prywatnym i urzędnika w życiu publicznym.",
+        "news_examples": [
+          "Kodeks Etyki Służby Cywilnej w Polsce nakazujący uczciwość i bezstronność",
+          "Odpowiedzialność karna funkcjonariuszy publicznych za przekroczenie uprawnień",
+          "Tradycja polskiej filozofii politycznej odrzucająca makiawelizm"
+        ]
+      },
+      "good_above_law_force": {
+        "score": 0.9,
+        "explanation": "Prymat Dobra i Etyki nad wolą polityczną i stanowionym prawem państwowym.",
+        "news_examples": [
+          "Preambuła Konstytucji RP odwołująca się do Prawdy, Sprawiedliwości i Dobra",
+          "Konstytucyjna kontrola zgodności ustaw z prawem naturalnym i prawami człowieka",
+          "Zasada demokratycznego państwa prawnego urzeczywistniającego sprawiedliwość społeczną"
+        ]
+      },
+      "personal_moral_accountability": {
+        "score": 0.95,
+        "explanation": "Osobista odpowiedzialność człowieka przed własnym sumieniem i Bogiem za wszelkie czyny i decyzje.",
+        "news_examples": [
+          "Wolność sumienia i wyznania w art. 53 Konstytucji RP",
+          "Instytucja ślubowania sędziowskiego kończącego się zwrotem 'Tak mi dopomóż Bóg'",
+          "Osobista odpowiedzialność dyscyplinarna przedstawicieli zawodów zaufania publicznego"
+        ]
+      },
+      "natural_truth_pure_science": {
+        "score": 0.9,
+        "explanation": "Bezinteresowne dążenie do Prawdy w nauce i badaniach bez podporządkowania dogmatom ideologicznym.",
+        "news_examples": [
+          "Ustawa - Prawo o szkolnictwie wyższym i nauce gwarantująca autonomię uczelni",
+          "Granty Narodowego Centrum Nauki na bezinteresowne badania podstawowe",
+          "Tradycja lwowsko-warszawskiej szkoły filozoficznej i polskiej szkoły matematycznej"
+        ]
+      },
+      "academic_educational_freedom": {
+        "score": 0.9,
+        "explanation": "Konstytucyjna autonomia uniwersytetów i swoboda badań naukowych w Polsce.",
+        "news_examples": [
+          "Art. 73 Konstytucji RP: wolność twórczości artystycznej i badań naukowych",
+          "Niezależność Polskiej Akademii Nauk i konferencji rektorów KRASP",
+          "Ochrona swobody debaty akademickiej i publikacji wyników badań"
+        ]
+      },
+      "public_scientific_health_duty": {
+        "score": 0.85,
+        "explanation": "Piecza o zdrowie publiczne oparta na wiedzy medycznej, higienie i powszechnej opiece.",
+        "news_examples": [
+          "Art. 68 Konstytucji RP: prawo każdego obywatela do ochrony zdrowia",
+          "Państwowa Inspekcja Sanitarna i Główny Inspektorat Farmaceutyczny",
+          "Powszechne programy szczepień ochronnych i profilaktyki onkologicznej"
+        ]
+      },
+      "res_sacra_miser_ethics": {
+        "score": 0.9,
+        "explanation": "Zasada 'res sacra miser' – chory i cierpiący człowiek jako podmiot szczególnej troski i szacunku.",
+        "news_examples": [
+          "Kodeks Etyki Lekarskiej nakazujący służbę życiu i zdrowiu ludzkiemu",
+          "Sieć hospicjów i opieki paliatywnej w polskim systemie ochrony zdrowia",
+          "Ustawa o prawach pacjenta i Rzeczniku Praw Pacjenta"
+        ]
+      },
+      "individual_hereditary_property": {
+        "score": 0.85,
+        "explanation": "Ochrona własności indywidualnej i prawa do dziedziczenia w rodzinie jako fundamentu wolności.",
+        "news_examples": [
+          "Art. 21 i 64 Konstytucji RP: ochrona prawa własności i prawa dziedziczenia",
+          "Rękojmia wiary publicznej ksiąg wieczystych chroniąca nienaruszalność własności",
+          "Zniesienie podatku od spadków i darowizn dla najbliższej rodziny"
+        ]
+      },
+      "honest_prosperity_duty": {
+        "score": 0.85,
+        "explanation": "Uczciwe pomnażanie majątku pracą traktowane jako cnota społeczna sprzyjająca dobroczynności.",
+        "news_examples": [
+          "Zasada swobody działalności gospodarczej w polskim Prawie przedsiębiorców",
+          "Rozwój filantropii korporacyjnej i fundacji dobroczynnych w Polsce",
+          "Społeczna gospodarka rynkowa jako konstytucyjny ustrój gospodarczy RP"
+        ]
+      },
+      "beauty_allegory_of_good": {
+        "score": 0.85,
+        "explanation": "Sztuka i twórczość kulturowa jako alegoria i uduchowienie Dobra oraz Prawdy.",
+        "news_examples": [
+          "Malarstwo Jana Matejki i dzieła Stanisława Wyspiańskiego uduchowiające historię",
+          "Twórczość Fryderyka Chopina i Henryka Mikołaja Góreckiego w kulturze światowej",
+          "Konserwacja zabytków architektury sakralnej i zamkowej jako dziedzictwa piękna"
+        ]
+      },
+      "full_artistic_freedom": {
+        "score": 0.9,
+        "explanation": "Pełna swoboda twórczości artystycznej chroniona w art. 73 Konstytucji RP.",
+        "news_examples": [
+          "Art. 73 Konstytucji RP: wolność korzystania z dóbr kultury i twórczości artystycznej",
+          "Festiwale teatralne, filmowe i muzyczne działające bez cenzury państwowej",
+          "Mecenat państwa i samorządów nad niezależnymi twórcami kultury"
+        ]
+      }
     }
-  }
+  },
+  "ethical_coherence_score": 7.0,
+  "generalia_diagnosis": "Dominacja Szeregu Personalistycznego (Cywilizacja Łacińska)",
+  "mixture_alert": false,
+  "time_mastery_efficiency_score": 0.89,
+  "time_mastery_efficiency_diagnosis": "Dominacja Cywilizacji Łacińskiej (Wysoka Chyżość Historyczna / Akumulacja Dorobku)",
+  "quincunx_coherence_score": 0.89,
+  "quincunx_diagnosis": "DOMINACJA NORMY ŁACIŃSKIEJ (Współmierność sfer bytu)"
 }

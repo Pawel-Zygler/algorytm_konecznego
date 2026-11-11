@@ -14,8 +14,8 @@ Dokument definiuje pełny rejestr scenariuszy testowych dla projektu **Algorytm 
                      │ ⚖️ Integracja / API (22)    │  FastAPI TestClient + SQLite + RAG
                      │ Tabele Decyzyjne, Kontrakty │  Czas: ~2-5s
                      ├─────────────────────────────┤
-                     │   🧱 Testy Jednostkowe (57) │  Pytest: BVA, EP, Quincunx Math
-                     │  100% Izolacji, Offline     │  Czas: ~5s
+                     │   🧱 Testy Jednostkowe (85) │  Pytest: BVA, EP, Quincunx, 5 Zakładek
+                     │  100% Izolacji, Offline     │  Czas: ~6s
                      └─────────────────────────────┘
 ```
 
@@ -61,7 +61,23 @@ Weryfikacja współpracy komponentów wewnętrznych: bazy SQLite (`history.py`),
 
 ---
 
-## 3. 🎭 Scenariusze Testowe End-to-End (E2E / Playwright)
+## 3. 📑 Scenariusze Testowe Kontraktu 5 Zakładek Dashboardu (Pytest Unit / Contract)
+
+Weryfikacja kompletności kontraktu interfejsu wtyczki Chrome na istniejących fikturach (`mock_polska_result.json`, `mock_german_confederation_result.json`): obecność Karty Głównej (Hero Card), opisu co mierzy dany wskaźnik, kompletu pytań z odpowiedziami i uzasadnieniem oraz dowodów w postaci linków wyszukiwania.
+
+| ID | Zakładka / Moduł | Zakres Weryfikacji Kontraktu | Liczba Pytań | Oczekiwane Elementy Kontraktu | Plik Testowy |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **TAB-01** | **1. Sakralność** | Karta Główna (`INDEKS SAKRALNOŚCI`), opis metodologiczny, 13 pytań, odpowiedzi, dowody | 13 wskaźników | Score %, etykieta poziomu, opis `"Mierzy, czy porządek..."`, wyjaśnienia > 10 znaków, lista dowodów `news_examples` z linkami | `tests/unit/test_tabs_contract.py` |
+| **TAB-02** | **2. Supremacja Ducha** | Karta Główna (`SUPREMACJA DUCHA`), opis wskaźnika, agregacja 12 podindeksów | > 80 wskaźników | Score %, etykieta statusu, opis `"Supremacja Ducha to agregacja..."`, podbloki: Dualizm, Kościół, Personalizm, Sumienie, Moralność Publiczna z pytaniami i linkami | `tests/unit/test_tabs_contract.py` |
+| **TAB-03** | **3. Personalizm** | Karta Główna (`SPÓJNOŚĆ GENERALIÓW ETYKI`), opis wskaźnika, 7 Generaliów Etyki | 7 wskaźników | Wartość `7.0 / 7.0` (lub diagnoza gromadnościowa), opis `"Siedem Niewiadomych Etyki..."`, wskaźniki: Obowiązek, Motywacja, Odpowiedzialność, Sprawiedliwość, Sumienie, Czas, Praca z 3 dowodami per wskaźnik | `tests/unit/test_tabs_contract.py` |
+| **TAB-04** | **4. Chyżość** | Karta Główna (`KROK 4: CHYŻOŚĆ HISTORYCZNA`), opis wskaźnika, 15 pytań opanowania czasu | 15 wskaźników | Score %, diagnoza wydajności cywilizacyjnej, opis `"Wydajność cywilizacyjna..."`, 15 wskaźników z pytaniami, odpowiedziami i dowodami | `tests/unit/test_tabs_contract.py` |
+| **TAB-05** | **5. Quincunx** | Karta Główna (`KROK 5: PIĘCIOMIAN BYTU`), opis wskaźnika, 11 pytań Quincunxa | 11 wskaźników | Score %, diagnoza współmierności bytu, opis `"Pięciomian Bytu (Quincunx)..."`, 11 wskaźników dla 5 sfer (Dobro, Prawda, Zdrowie, Dobrobyt, Piękno) z dowodami | `tests/unit/test_tabs_contract.py` |
+| **TAB-06** | **Renderowanie HTML** | Integralność szablonów DOM `buildDarkHero` i `buildCardsGroup` | Całość | Generowanie `.dark-hero-card`, `.answer-card`, `.explanation-text`, `.news-item-link` z poprawnym URL `https://www.google.com/search?q=...` i `.external-link-icon` | `tests/unit/test_tabs_contract.py` |
+| **TAB-07** | **Synchronizacja z content.js** | Audyt spójności definicji w kodzie wtyczki | Wszystkie META | Wszystkie klucze z fiktur występują w słownikach `SACRALITY_META`, `GENERALIA_META`, `TIME_MASTERY_META`, `QUINCUNX_META` w `extension/content.js` | `tests/unit/test_tabs_contract.py` |
+
+---
+
+## 4. 🎭 Scenariusze Testowe End-to-End (E2E / Playwright)
 
 Weryfikacja wtyczki w rzeczywistej przeglądarce Chromium (User Journeys), integracji z DOM stron trzecich (Wikipedia), paneli bocznych i eksportu danych.
 
@@ -80,14 +96,15 @@ Weryfikacja wtyczki w rzeczywistej przeglądarce Chromium (User Journeys), integ
 
 ---
 
-## 4. 🚀 Instrukcja Uruchamiania Zestawów Testowych
+## 5. 🚀 Instrukcja Uruchamiania Zestawów Testowych
 
 Wszystkie scenariusze można uruchamiać za pomocą standardowych poleceń `Makefile` lub `npm`:
 
 ```bash
-# 1. Uruchomienie wszystkich 57 szybkich testów jednostkowych i integracyjnych (< 6s)
+# 1. Uruchomienie wszystkich 85 szybkich testów jednostkowych i kontraktowych (< 6s)
 make test
 # lub: pytest tests/unit/
+# lub tylko testy kontraktu zakładek: pytest tests/unit/test_tabs_contract.py -v
 
 # 2. Uruchomienie testów Playwright Smoke Suite (E2E-01, E2E-02, E2E-03, E2E-04)
 make test-smoke
