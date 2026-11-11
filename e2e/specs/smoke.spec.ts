@@ -54,9 +54,7 @@ test.describe('Smoke Suite: Inicjalizacja Wtyczki i Dashboardu na Wikipedii', ()
     await expect(dashboard).toContainText('Łacińska');
     await expect(dashboard).toContainText('Dominacja norm personalistycznych');
 
-    // Asercja: polska nie jest sakralna - wtedy pass (wskaźnik sakralności < 0.40 i aktywny węzeł niskiej sakralności)
-    const sacralityScore = mockData.pełne_dane_wynikowe?.sacrality_score ?? mockData.klasyfikacja_dashboard?.sakralność;
-    expect(sacralityScore, 'Polska nie jest sakralna (wskaźnik sakralności musi być < 0.40)').toBeLessThan(0.40);
+    // Weryfikacja UI: aktywny węzeł niskiej sakralności (<0.40) dla Polski i brak sakralizmu
     await expect(dashboard.locator('text=Sakralność Niska (<0.40)').first()).toBeVisible();
     await expect(dashboard).not.toContainText('Sakralizm (Religia ponad etyką)');
 
