@@ -1393,7 +1393,7 @@
             ${curEngine.pillHtml}
           </div>
 
-          <!-- Prawy Moduł: BRELOCZEK / GADŻET (Wymiar zunifikowany: flex-1, h-32) -->
+          <!-- Prawy Moduł: HASŁO / GADŻET (Wymiar zunifikowany: flex-1, h-32) -->
           <div style="flex: 1; min-width: 190px; height: 110px; background: #252e42; color: #ffffff; padding: 12px 14px; border-radius: 14px; box-shadow: 0 4px 16px rgba(0,0,0,0.3); border: 1px solid rgba(16, 185, 129, 0.4); display: flex; flex-direction: column; justify-content: space-between; text-align: left;">
             <div style="display: flex; align-items: center; gap: 6px; font-size: 9.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #fbbf24;">
               <span id="loader-gadget-icon">☕</span>
@@ -1638,59 +1638,6 @@
       "\"Odpór Turańszczyźnie!\""
     ];
 
-    const keychainSlogans = [
-      "Prymat Norm Etycznych",
-      "Dualizm Prawa Publicznego",
-      "Autonomia Wolnego Sumienia",
-      "Etyka Ponad Prawem",
-      "Quincunx Pięciu Sfer",
-      "Własność Zawsze Prywatna",
-      "Emancypacja Małej Rodziny",
-      "Godność Osoby Ludzkiej",
-      "Precz Ze Statolatrią",
-      "Stop Przymusowi Państwa",
-      "Prawda Dobro Piękno",
-      "Wolna Praca Osoby",
-      "Ścisła Monogamia Dożywotnia",
-      "Naród Wolnych Obywateli",
-      "Prawo Zawsze Słuszne",
-      "Nie Dla Turańszczyzny",
-      "Czystość Metody Indukcyjnej",
-      "Chyżość Dziejów Narodu",
-      "Supremacja Ducha Ludzkiego",
-      "Wara Od Rodziny",
-      "Obrona Prawa Prywatnego",
-      "Stop Machinie Biurokracji",
-      "Zasada Strictum Ius",
-      "Równowaga Pięciu Bytów",
-      "Sumienie Ponad Ustawą",
-      "Wolność Równość Etyka",
-      "Moc Cywilizacji Łacińskiej",
-      "Odrzuć Monizm Państwowy",
-      "Salus Animarum Lex",
-      "Civitas Dei Wokół",
-      "Własność i Rodzina",
-      "Człowiek Nie Poddany",
-      "Ład Wolnych Zrzeszeń",
-      "Prymat Prawdy Obiektywnej",
-      "Zero Zbiorowej Odpowiedzialności",
-      "Etyczny Porządek Prawny",
-      "Ochrona Ogniska Domowego",
-      "Niezależność Wolnego Syna",
-      "Świadomość Ciągłości Dziejowej",
-      "Metoda Feliksa Konecznego",
-      "Odpór Prawu Publicznemu",
-      "Życie Bez Monizmu",
-      "Kultura Wolnego Czynu",
-      "Suwerenność Ludzkiej Osoby",
-      "Sprawiedliwość Oparta Etyką",
-      "Wolny Wybór Dobra",
-      "Cywilizacja Godności Człowieka",
-      "Trójprawo Pod Ochroną",
-      "Praworządność Oparta Sumieniem",
-      "Wierność Tradycji Łacińskiej"
-    ];
-
     function shuffle(array) {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -1703,12 +1650,11 @@
     shuffle(questions);
     shuffle(mugSlogans);
     shuffle(tshirtSlogans);
-    shuffle(keychainSlogans);
 
     let statIdx = 0;
     let questIdx = 0;
-    let gadgetCycle = 0; // 0: Mug, 1: Tshirt, 2: Keychain
-    let mIdx = 0, tIdx = 0, kIdx = 0;
+    let gadgetCycle = 0; // 0: Mug, 1: Tshirt
+    let mIdx = 0, tIdx = 0;
     let sequenceCounter = 0;
     let sequenceTarget = Math.floor(Math.random() * 2) + 2; // 2 or 3
 
@@ -1740,18 +1686,13 @@
           gadgetHeader.style.color = "#34d399";
           gadgetText.textContent = mugSlogans[mIdx % mugSlogans.length];
           mIdx++;
-        } else if (gadgetCycle === 1) {
+        } else {
           gadgetHeader.textContent = "👕 HASŁO NA KOSZULKĘ";
           gadgetHeader.style.color = "#60a5fa";
           gadgetText.textContent = tshirtSlogans[tIdx % tshirtSlogans.length];
           tIdx++;
-        } else {
-          gadgetHeader.textContent = "🔑 BRELOCZEK (3 SŁOWA)";
-          gadgetHeader.style.color = "#f59e0b";
-          gadgetText.textContent = keychainSlogans[kIdx % keychainSlogans.length];
-          kIdx++;
         }
-        gadgetCycle = (gadgetCycle + 1) % 3;
+        gadgetCycle = (gadgetCycle + 1) % 2;
       }
     }, 2800);
 
