@@ -243,9 +243,9 @@ class TestTab1SakralnoscContract:
             exp = item.get("explanation")
             assert isinstance(exp, str) and len(exp.strip()) > 10, f"Zbyt krótkie lub brakujące uzasadnienie w '{key}': {exp}"
 
-            # 3. Dowody w postaci linków (news_examples)
+            # 3. Dowody w postaci linków (news_examples) - zawsze dokładnie 3 pozycje
             proofs = item.get("news_examples")
-            assert isinstance(proofs, list) and len(proofs) >= 1, f"Brak dowodów (news_examples) dla '{key}'"
+            assert isinstance(proofs, list) and len(proofs) == 3, f"Wymóg kontraktu: lista dowodów musi mieć dokładnie 3 pozycje dla '{key}', znaleziono: {len(proofs) if isinstance(proofs, list) else None}"
             for proof in proofs:
                 assert isinstance(proof, str) and len(proof.strip()) > 3, f"Pusty lub niepoprawny dowód w '{key}': {proof}"
                 # Sprawdzenie generowania poprawnego linku wyszukiwania
@@ -295,12 +295,12 @@ class TestTab2SupremacjaDuchaContract:
             sub_dict = raw[sub_key]
             assert len(sub_dict) >= min_count, f"Podindeks '{sub_key}' ma {len(sub_dict)} elementów, oczekiwano min. {min_count}"
 
-            # Sprawdzenie losowych próbek pytań i dowodów
-            for k, val in list(sub_dict.items())[:3]:
+            # Sprawdzenie losowych próbek pytań i dowodów - zawsze dokładnie 3 linki dowodów
+            for k, val in list(sub_dict.items())[:5]:
                 assert "score" in val, f"Brak score w {sub_key}.{k}"
                 assert "explanation" in val and len(val["explanation"]) > 5, f"Brak explanation w {sub_key}.{k}"
                 assert "news_examples" in val and isinstance(val["news_examples"], list), f"Brak news_examples w {sub_key}.{k}"
-                assert len(val["news_examples"]) >= 1, f"Pusta lista news_examples w {sub_key}.{k}"
+                assert len(val["news_examples"]) == 3, f"Wymóg kontraktu: lista dowodów musi mieć dokładnie 3 pozycje w {sub_key}.{k}, znaleziono: {len(val['news_examples'])}"
 
 
 class TestTab3PersonalizmContract:
@@ -416,7 +416,7 @@ class TestTab4ChyznoscContract:
 
             assert "score" in item and (0.0 <= item["score"] <= 1.0 or item["score"] == -1.0)
             assert "explanation" in item and len(item["explanation"].strip()) > 10
-            assert "news_examples" in item and len(item["news_examples"]) >= 1
+            assert "news_examples" in item and len(item["news_examples"]) == 3, f"Wymóg kontraktu: lista dowodów musi mieć dokładnie 3 pozycje dla '{key}', znaleziono: {len(item.get('news_examples', []))}"
 
 
 class TestTab5QuincunxContract:
@@ -466,7 +466,38 @@ class TestTab5QuincunxContract:
 
             assert "score" in item and (0.0 <= item["score"] <= 1.0 or item["score"] == -1.0)
             assert "explanation" in item and len(item["explanation"].strip()) > 10
-            assert "news_examples" in item and len(item["news_examples"]) >= 1
+            assert "news_examples" in item and len(item["news_examples"]) == 3, f"Wymóg kontraktu: lista dowodów musi mieć dokładnie 3 pozycje dla '{key}', znaleziono: {len(item.get('news_examples', []))}"
+
+
+class TestStrictProofLinksContract:
+    """Weryfikacja ścisłego kontraktu: ZAWSZE DOKŁADNIE 3 linki dowodowe na każdy wskaźnik."""
+
+    def test_all_133_indicators_have_strictly_three_proof_links(self, any_civ_data):
+        """Weryfikuje, czy lista dowodów (news_examples) ma ZAWSZE DOKŁADNIE 3 pozycje dla KAŻDEGO wskaźnika w fikturze."""
+        data, civ_type = any_civ_data
+        raw = data.get("raw_ratings", {})
+
+        checked_count = 0
+        for group_name, group_dict in raw.items():
+            if not isinstance(group_dict, dict):
+                continue
+            for indicator_key, indicator_val in group_dict.items():
+                if isinstance(indicator_val, dict) and "news_examples" in indicator_val:
+                    proofs = indicator_val["news_examples"]
+                    assert isinstance(proofs, list), f"news_examples w {group_name}.{indicator_key} musi być listą"
+                    assert len(proofs) == 3, (
+                        f"Wymóg kontraktu: lista dowodów musi mieć zawsze dokładnie 3 pozycje/linki! "
+                        f"Znaleziono {len(proofs)} w {group_name}.{indicator_key}"
+                    )
+                    for idx, proof in enumerate(proofs):
+                        assert isinstance(proof, str) and len(proof.strip()) > 3, (
+                            f"Pusty lub zbyt krótki dowód #{idx+1} w {group_name}.{indicator_key}: {proof}"
+                        )
+                        url = f"https://www.google.com/search?q={urllib.parse.quote(proof)}"
+                        assert url.startswith("https://www.google.com/search?q=")
+                    checked_count += 1
+
+        assert checked_count >= 50, f"Sprawdzono zbyt mało wskaźników ({checked_count}), oczekiwano min. 50"
 
 
 # ==============================================================================

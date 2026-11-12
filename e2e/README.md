@@ -1,4 +1,4 @@
-# 🎭 Algorytm Konecznego – Playwright E2E Automation Framework
+# Algorytm Konecznego – Playwright E2E Automation Framework
 
 Kompleksowy framework testów automatycznych End-to-End dla wtyczki Chromium i Dashboardu **Algorytmu Konecznego** napisany w TypeScript w oparciu o silnik Playwright.
 
@@ -10,7 +10,7 @@ Zaprojektowany według 4 fundamentalnych filarów inżynierii testów automatycz
 
 ---
 
-## 🏛️ 4 Filary Architektury Frameworka
+## 4 Filary Architektury Frameworka
 
 ### 1. Repeatability (Powtarzalność)
 > *Każde uruchomienie testu musi być w 100% czyste, bez potrzeby jakichkolwiek manualnych czynności sprzątających przed kolejnym wciśnięciem `<ENTER>`.*
@@ -78,7 +78,7 @@ Gdy jakikolwiek test nie przejdzie, w katalogu `test-results/` oraz w raporcie H
 
 ---
 
-## 📁 Struktura Katalogów
+## Struktura Katalogów
 
 ```
 e2e/

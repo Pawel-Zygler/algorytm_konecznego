@@ -10,7 +10,7 @@ Teoria cywilizacji Feliksa Konecznego w formie aplikacji i wtyczki do przegląda
 <details>
 <summary><b>Szybki start (Instalacja i uruchomienie)</b></summary>
 
-### 1. 🚀 Uruchomienie w terminalu:
+### 1. Uruchomienie w terminalu:
 ```
 1. git clone https://github.com/Pawel-Zygler/algorytm_konecznego.git
 2. cd algorytm_konecznego
@@ -41,28 +41,28 @@ Teoria cywilizacji Feliksa Konecznego w formie aplikacji i wtyczki do przegląda
 <details>
 <summary><b>Tryby Silnika: Mantis, Lite i Full</b></summary>
 
-### 1. 🦗 Mantis AI (Reguła Pareto 80/20)
+### 1. Mantis AI (Reguła Pareto 80/20)
 Szybka klasyfikacja przez 6 sekwencyjnych bramek decyzyjnych:
 
 ```mermaid
 flowchart TD
-    Start([📄 Badany tekst]) --> B1{1. Sakralność vs Świeckość\nSACRALITY_INDEX}
+    Start([Badany tekst]) --> B1{1. Sakralność vs Świeckość\nSACRALITY_INDEX}
     
     B1 -- "Wysoka (>= 0.40)\nŚcieżka Sakralna" --> B6{6. Moralność Publiczna\nPUBLIC_MORALITY_TOTALITY}
     B1 -- "Niska (< 0.40)\nŚcieżka Świecka" --> B2{2. Dualizm Prawny\nLEGAL_DUALISM_INDEX}
     
-    B2 -- "Dualizm Prawny\nAutonomia prawa prywatnego" --> CivLatin["🏛️ CYWILIZACJA ŁACIŃSKA"]
+    B2 -- "Dualizm Prawny\nAutonomia prawa prywatnego" --> CivLatin["CYWILIZACJA ŁACIŃSKA"]
     B2 -- "Monizm Prawny\nWładza pochłania prawo" --> B3{3. Władza - Religia - Duch\nCHURCH_INDEPENDENCE}
     
     B3 -- "Cezaropapizm / Etatyzm\nBiurokracja" --> B4{4. Status Sumienia\nCONSCIENCE_STATUS}
     B3 -- "Monizm Siły / Wodza\nWładca właścicielem wszystkiego" --> B5{5. Podmiotowość Jednostki\nPERSONALISM_INDEX}
-    B3 -- "Areligijność / Kult Przodków\nUstrój Rodowy" --> CivChina["☯️ CYWILIZACJA CHIŃSKA"]
+    B3 -- "Areligijność / Kult Przodków\nUstrój Rodowy" --> CivChina["CYWILIZACJA CHIŃSKA"]
     
-    B4 -- "Dwoistość Sumienia\n(Etyka prywatna vs racja stanu)" --> CivByz["👑 CYWILIZACJA BIZANTYŃSKA"]
-    B5 -- "Ustrój Obozowy\nBrak własności prywatnej" --> CivTur["🏹 CYWILIZACJA TURAŃSKA"]
+    B4 -- "Dwoistość Sumienia\n(Etyka prywatna vs racja stanu)" --> CivByz["CYWILIZACJA BIZANTYŃSKA"]
+    B5 -- "Ustrój Obozowy\nBrak własności prywatnej" --> CivTur["CYWILIZACJA TURAŃSKA"]
     
-    B6 -- "Monizm Sakralny (Umma)\nPowszechna teokracja" --> CivArab["🌙 CYWILIZACJA ARABSKA"]
-    B6 -- "Etyka Podwójna\nPartykularyzm rodowo-sakralny" --> CivJew["📜 CYWILIZACJA ŻYDOWSKA"]
+    B6 -- "Monizm Sakralny (Umma)\nPowszechna teokracja" --> CivArab["CYWILIZACJA ARABSKA"]
+    B6 -- "Etyka Podwójna\nPartykularyzm rodowo-sakralny" --> CivJew["CYWILIZACJA ŻYDOWSKA"]
 ```
 
 - **Sakralność:** cywilizacje sakralne vs świecko-rozumowe.
@@ -74,12 +74,12 @@ flowchart TD
 
 ---
 
-### 2. ⚡ Lite Scan
+### 2. Lite Scan
 Szybki skan (1-3 prompty) kluczowych indeksów dający wstępny profil w parę sekund.
 
 ---
 
-### 3. ✨ Full Kosmos
+### 3. Full Kosmos
 Pełna synteza: 27 indeksów, 352 pytania, radar Quincunxa i Szereg Personalistyczny.
 
 </details>
