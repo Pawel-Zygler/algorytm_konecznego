@@ -1,24 +1,13 @@
-import { test, expect } from '../fixtures/extension.fixture';
-import path from 'path';
-import fs from 'fs';
+import { test, expect, mockHtmlFixture, mockAnalyzeFixture } from '../fixtures/extension.fixture';
 
 test.describe('Regression Suite: Zaawansowane Scenariusze Cywilizacyjne i Interfejsowe', () => {
 
   test('Scenariusz 1: German Confederation - weryfikacja profilu bizantyńskiego, radaru Quincunx i interaktywnych popoverów cytatów', async ({ page }) => {
-    // 1. Wczytanie fixture mocka analizy German Confederation
-    const mockFixturePath = path.resolve(__dirname, '../fixtures/mock_german_confederation_result.json');
-    const mockData = JSON.parse(fs.readFileSync(mockFixturePath, 'utf-8'));
+    // 1. Mockowanie strony Wikipedii i odpowiedzi backendu (/api/analyze)
+    await mockHtmlFixture(page, 'https://en.wikipedia.org/wiki/German_Confederation', 'mock_german_confederation.html');
+    await mockAnalyzeFixture(page, 'mock_german_confederation_result.json');
 
-    // 2. Mockowanie żądania backendu (/api/analyze)
-    await page.route('**/api/analyze', async (route) => {
-      await route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify(mockData),
-      });
-    });
-
-    // 3. Wejście na stronę Wikipedii German Confederation
+    // 2. Wejście na stronę Wikipedii German Confederation
     await page.goto('https://en.wikipedia.org/wiki/German_Confederation', {
       waitUntil: 'domcontentloaded',
       timeout: 30000,
@@ -83,16 +72,8 @@ test.describe('Regression Suite: Zaawansowane Scenariusze Cywilizacyjne i Interf
   });
 
   test('Scenariusz 2: Weryfikacja zaawansowanej nawigacji po 5 zakładkach systematyki i relacji do czasu', async ({ page }) => {
-    const mockFixturePath = path.resolve(__dirname, '../fixtures/mock_polska_result.json');
-    const mockData = JSON.parse(fs.readFileSync(mockFixturePath, 'utf-8'));
-
-    await page.route('**/api/analyze', async (route) => {
-      await route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify(mockData),
-      });
-    });
+    await mockHtmlFixture(page, 'https://pl.wikipedia.org/wiki/Polska', 'mock_polska.html');
+    await mockAnalyzeFixture(page, 'mock_polska_result.json');
 
     await page.goto('https://pl.wikipedia.org/wiki/Polska', {
       waitUntil: 'domcontentloaded',

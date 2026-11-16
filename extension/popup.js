@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
   const DEFAULT_BACKEND_URL = 'http://localhost:8005';
   
+  const executionModeSelect = document.getElementById('executionMode');
+  const backendUrlGroup = document.getElementById('backendUrlGroup');
   const backendUrlInput = document.getElementById('backendUrl');
   const apiKeyInput = document.getElementById('apiKey');
   const settingsForm = document.getElementById('settingsForm');
@@ -44,15 +46,55 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnTabLite) btnTabLite.addEventListener('click', () => switchTab('lite'));
   if (btnTabFull) btnTabFull.addEventListener('click', () => switchTab('full'));
 
+  function updateExecutionModeUI(mode) {
+    const isDirect = mode !== 'backend';
+    if (backendUrlGroup) {
+      backendUrlGroup.style.display = isDirect ? 'none' : '';
+    }
+    if (backendUrlInput) {
+      backendUrlInput.required = !isDirect;
+    }
+  }
+
+  function refreshStatusBadge(mode, url, key) {
+    if (mode !== 'backend') {
+      statusDot.className = 'status-dot';
+      if (key && key.trim()) {
+        statusDot.classList.add('connected');
+        statusText.textContent = 'Tryb Chrome (gotowy)';
+      } else {
+        statusDot.classList.add('error');
+        statusText.textContent = 'Wpisz klucz Gemini API';
+      }
+      return;
+    }
+    checkServerHealth(url);
+  }
+
+  if (executionModeSelect) {
+    executionModeSelect.addEventListener('change', () => {
+      const mode = executionModeSelect.value;
+      updateExecutionModeUI(mode);
+      refreshStatusBadge(mode, backendUrlInput.value.trim() || DEFAULT_BACKEND_URL, apiKeyInput.value.trim());
+    });
+  }
+
   // Load configuration from Chrome local storage
-  chrome.storage.local.get(['backendUrl', 'apiKey', 'selectedIndices', 'analysisMode'], (res) => {
+  chrome.storage.local.get(['executionMode', 'backendUrl', 'apiKey', 'selectedIndices', 'analysisMode'], (res) => {
     let url = res?.backendUrl || DEFAULT_BACKEND_URL;
     if (url.includes(':8000')) {
       url = url.replace(':8000', ':8005');
       chrome.storage.local.set({ backendUrl: url });
     }
     backendUrlInput.value = url;
-    apiKeyInput.value = res?.apiKey || '';
+    const savedKey = res?.apiKey || '';
+    apiKeyInput.value = savedKey;
+
+    const savedExecutionMode = res?.executionMode || 'direct';
+    if (executionModeSelect) {
+      executionModeSelect.value = savedExecutionMode;
+    }
+    updateExecutionModeUI(savedExecutionMode);
 
     const savedMode = res?.analysisMode || 'mantis';
     switchTab(savedMode);
@@ -65,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
       cb.checked = savedIndices.includes(cb.value);
     });
 
-    checkServerHealth(url);
+    refreshStatusBadge(savedExecutionMode, url, savedKey);
   });
 
   const selectAllBtn = document.getElementById('selectAllBtn');
@@ -92,7 +134,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const checkedBoxes = document.querySelectorAll('input[name="selectedIndices"]:checked');
     const selectedIndices = Array.from(checkedBoxes).map(cb => cb.value);
 
+    const execMode = executionModeSelect ? executionModeSelect.value : 'direct';
+
     chrome.storage.local.set({
+      executionMode: execMode,
       backendUrl: url,
       apiKey: key,
       selectedIndices: selectedIndices,
@@ -106,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
         saveBtn.classList.remove('btn-saved');
       }, 1500);
 
-      checkServerHealth(url);
+      refreshStatusBadge(execMode, url, key);
     });
   });
 

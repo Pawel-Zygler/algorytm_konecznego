@@ -16,13 +16,24 @@
   <main>
     <form id="settingsForm" autocomplete="off">
       <div class="form-group" style="margin-bottom: 0.625rem;">
+        <label for="executionMode">Tryb Uruchomienia</label>
+        <select id="executionMode" name="executionMode" style="width: 100%; padding: 0.45rem 0.6rem; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: #f8fafc; font-size: 0.85rem;">
+          <option value="direct">Bezpośredni w Chrome (bez backendu)</option>
+          <option value="backend">Lokalny Backend (Python / FastAPI)</option>
+        </select>
+      </div>
+
+      <div class="form-group" id="backendUrlGroup" style="margin-bottom: 0.625rem;">
         <label for="backendUrl">Adres URL Backendu</label>
         <input type="url" id="backendUrl" name="backendUrl" placeholder="http://localhost:8005" required>
       </div>
 
       <div class="form-group" style="margin-bottom: 0.75rem;">
-        <label for="apiKey">Klucz API</label>
-        <input type="password" id="apiKey" name="apiKey" placeholder="Zostanie pobrany z serwera (lub opcjonalnie własny klucz Gemini)">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+          <label for="apiKey" style="margin-bottom: 0;">Klucz API Gemini</label>
+          <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer" style="font-size: 0.75rem; color: #38bdf8; text-decoration: none; font-weight: 500;">Jak zdobyć klucz? &#8599;</a>
+        </div>
+        <input type="password" id="apiKey" name="apiKey" placeholder="Wklej swój klucz Gemini API (AIza...)">
       </div>
 
       <!-- Tab Navigation -->

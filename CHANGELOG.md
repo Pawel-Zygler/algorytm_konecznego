@@ -4,6 +4,19 @@ Wszystkie znaczące zmiany w projekcie **Algorytm Konecznego** (metoda historioz
 
 Format opiera się na zasadach [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
+## [1.6.0] - 2026-11-12
+
+### Dodano (Added)
+- **Samodzielny tryb wtyczki Chrome (bez backendu Pythona)**: Dodano pełny silnik analizy w Service Workerze MV3 (`extension/background.js`, `extension/services/konecznyEngine.js`, `extension/services/prompts.js`, `extension/services/geminiClient.js`, `extension/services/historyStorage.js`), który komunikuje się bezpośrednio z Gemini REST API i zapisuje historię w `chrome.storage.local`.
+- **Natywna obsługa plików PDF w trybie Chrome**: Service Worker pobiera PDF z `pdf_url` i przekazuje go multimodalnie do Gemini (`inlineData` dla plików ≤ 12 MB oraz Gemini Files API `fileData` dla większych plików).
+- **Wybór trybu pracy i link do klucza API w popupie**: Dodano przełącznik `Tryb Uruchomienia` (`Bezpośredni w Chrome` vs `Lokalny Backend`) oraz link `Jak zdobyć klucz?` w `extension/popup.html` / `popup.js`.
+- **Testy jednostkowe trybu bezbackendowego**: Dodano `tests/unit/test_extension_standalone.py` weryfikujące silnik JS, schematy promptów, rotację modeli Gemini oraz ścieżki PDF/HTML.
+
+### Naprawione (Fixed)
+- **Aktualizacja listy modeli Gemini w kliencie JS**: Zastąpiono wycofane modele (`gemini-1.5-flash`, `gemini-2.0-flash`) aktualną listą zgodną z `backend/config.py` (`gemini-3.6-flash`, `gemini-3.5-flash`, `gemini-flash-latest` itd.).
+
+---
+
 ## [1.5.0] - 2026-08-19
 
 ### Dodano (Added)

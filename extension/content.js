@@ -1723,19 +1723,86 @@
         if (selectedIndices && mode === 'full') reqBody.target_indices = selectedIndices;
       }
 
-      const response = await fetch(`${backendUrl}/api/analyze`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-Gemini-API-Key': apiKey },
-        body: JSON.stringify(reqBody)
-      });
+      const executionMode = config.executionMode;
+      const useDirectMode = executionMode === 'direct' || (!executionMode && Boolean(apiKey));
+      const extVer = chrome.runtime?.getManifest?.()?.version || '?';
+      console.log(
+        `[Koneczny v${extVer}] Start analizy:`,
+        {
+          executionMode: executionMode || 'auto',
+          useDirectMode,
+          analysisMode: mode,
+          isPdf: Boolean(reqBody.pdf_url),
+          textLen: reqBody.text ? reqBody.text.length : 0,
+          hasApiKey: Boolean(apiKey),
+        }
+      );
 
-      if (!response.ok) {
-        const err = await response.json().catch(() => ({}));
-        throw new Error(err.detail || `Błąd serwera: ${response.status}`);
+      let newData;
+      if (useDirectMode) {
+        const bgResult = await new Promise((resolve, reject) => {
+          let settled = false;
+          const port = chrome.runtime.connect({ name: 'koneczny-analyze' });
+          console.log(`[Koneczny v${extVer}] Połączono z Service Workerem (Port: koneczny-analyze)`);
+
+          port.onMessage.addListener((msg) => {
+            if (!msg || msg.type === 'KEEPALIVE') return;
+            if (msg.type === 'LOG') {
+              const fn = msg.level === 'error' ? console.error : msg.level === 'warn' ? console.warn : console.log;
+              fn(`[Koneczny SW] ${msg.message}`);
+              return;
+            }
+            if (msg.type === 'RESULT') {
+              settled = true;
+              try { port.disconnect(); } catch {}
+              resolve(msg);
+            }
+          });
+
+          port.onDisconnect.addListener(() => {
+            if (!settled) {
+              const errMsg = chrome.runtime.lastError?.message || 'Połączenie z Service Workerem wtyczki zostało przerwane.';
+              console.error(`[Koneczny v${extVer}] Port rozłączony przed odpowiedzią:`, errMsg);
+              reject(new Error(errMsg));
+            }
+          });
+
+          port.postMessage({ action: 'ANALYZE_TEXT', payload: reqBody, apiKey });
+        });
+
+        if (!bgResult || !bgResult.ok) {
+          console.error(`[Koneczny v${extVer}] Błąd analizy z Service Workera:`, bgResult?.error);
+          throw new Error(bgResult?.error || 'Błąd analizy bezpośredniej w Chrome.');
+        }
+        newData = bgResult.data;
+        console.log(`[Koneczny v${extVer}] Odebrano wynik analizy:`, {
+          primary_civilization: newData?.primary_civilization,
+          quincunx_coherence_score: newData?.quincunx_coherence_score,
+          analyzed_via: newData?.analyzed_via,
+        });
+      } else {
+        let response;
+        try {
+          response = await fetch(`${backendUrl}/api/analyze`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-Gemini-API-Key': apiKey },
+            body: JSON.stringify(reqBody)
+          });
+        } catch (netErr) {
+          if (!apiKey) {
+            throw new Error('Brak połączenia z lokalnym backendem. Uruchom serwer lub wpisz klucz Gemini API w ustawieniach wtyczki (tryb bezpośredni w Chrome).');
+          }
+          throw netErr;
+        }
+
+        if (!response.ok) {
+          const err = await response.json().catch(() => ({}));
+          throw new Error(err.detail || `Błąd serwera: ${response.status}`);
+        }
+        newData = await response.json();
       }
 
       clearInterval(window.konecznyLoadingInterval);
-      let newData = await response.json();
       if (newData && (newData.pełne_dane_wynikowe || newData.klasyfikacja_dashboard)) {
         const full = newData.pełne_dane_wynikowe || {};
         const dash = newData.klasyfikacja_dashboard || {};
@@ -3120,7 +3187,7 @@
       else if (pCiv.includes('turań')) activeCivKey = 'turanian';
       else if (pCiv.includes('arab') || pCiv.includes('sakral')) activeCivKey = 'arab';
       else if (pCiv.includes('żydow')) activeCivKey = 'jewish';
-      else if (pCiv.includes('bramin')) activeCivKey = 'brahmin';
+      else if (pCiv.includes('bramiń') || pCiv.includes('bramin')) activeCivKey = 'brahmin';
       else if (pCiv.includes('chiń')) activeCivKey = 'chinese';
       else if (pCiv.includes('mieszanka') || pCiv.includes('acywil')) activeCivKey = 'syncretic';
     } else {

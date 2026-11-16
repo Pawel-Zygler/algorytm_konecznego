@@ -1,10 +1,10 @@
-import { test, expect } from '../fixtures/extension.fixture';
-import path from 'path';
-import fs from 'fs';
+import { test, expect, mockHtmlFixture, mockAnalyzeFixture } from '../fixtures/extension.fixture';
 
 test.describe('Smoke Suite: Inicjalizacja Wtyczki i Dashboardu na Wikipedii', () => {
 
   test('Krok 1: Weryfikacja załadowania wtyczki i obecności pływającego portretu Konecznego', async ({ page }) => {
+    await mockHtmlFixture(page, 'https://pl.wikipedia.org/wiki/Polska', 'mock_polska.html');
+
     await page.goto('https://pl.wikipedia.org/wiki/Polska', {
       waitUntil: 'domcontentloaded',
       timeout: 30000,
@@ -20,20 +20,11 @@ test.describe('Smoke Suite: Inicjalizacja Wtyczki i Dashboardu na Wikipedii', ()
   });
 
   test('Krok 2: Uruchomienie analizy, otwarcie panelu bocznego i weryfikacja 5 zakładek metodologicznych', async ({ page }) => {
-    // 1. Wczytanie deterministycznego payloadu analizy Polski (izolacja od sieci i limitów API Gemini)
-    const mockFixturePath = path.resolve(__dirname, '../fixtures/mock_polska_result.json');
-    const mockData = JSON.parse(fs.readFileSync(mockFixturePath, 'utf-8'));
+    // 1. Mockowanie strony Wikipedii i odpowiedzi backendu (/api/analyze) dla 100% stabilności offline
+    await mockHtmlFixture(page, 'https://pl.wikipedia.org/wiki/Polska', 'mock_polska.html');
+    await mockAnalyzeFixture(page, 'mock_polska_result.json');
 
-    // 2. Mockowanie żądania backendu (/api/analyze) dla 100% stabilności i szybkości
-    await page.route('**/api/analyze', async (route) => {
-      await route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify(mockData),
-      });
-    });
-
-    // 3. Wejście na stronę Wikipedii Polski
+    // 2. Wejście na stronę Wikipedii Polski
     await page.goto('https://pl.wikipedia.org/wiki/Polska', {
       waitUntil: 'domcontentloaded',
       timeout: 30000,
@@ -118,16 +109,8 @@ test.describe('Smoke Suite: Inicjalizacja Wtyczki i Dashboardu na Wikipedii', ()
   });
 
   test('Krok 3: Weryfikacja kontrolek nagłówka i przycisku eksportu raportu JSON', async ({ page }) => {
-    const mockFixturePath = path.resolve(__dirname, '../fixtures/mock_polska_result.json');
-    const mockData = JSON.parse(fs.readFileSync(mockFixturePath, 'utf-8'));
-
-    await page.route('**/api/analyze', async (route) => {
-      await route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify(mockData),
-      });
-    });
+    await mockHtmlFixture(page, 'https://pl.wikipedia.org/wiki/Polska', 'mock_polska.html');
+    await mockAnalyzeFixture(page, 'mock_polska_result.json');
 
     await page.goto('https://pl.wikipedia.org/wiki/Polska', {
       waitUntil: 'domcontentloaded',

@@ -19,15 +19,19 @@ export const test = base.extend<ExtensionFixtures>({
     const tempPrefix = path.join(os.tmpdir(), 'pw-koneczny-profile-');
     const userDataDir = fs.mkdtempSync(tempPrefix);
 
+    const isHeadless = Boolean(process.env.CI || process.env.PW_HEADLESS);
+    const launchArgs = [
+      `--disable-extensions-except=${pathToExtension}`,
+      `--load-extension=${pathToExtension}`,
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-gpu',
+      ...(isHeadless ? ['--headless=new'] : []),
+    ];
+
     const context = await chromium.launchPersistentContext(userDataDir, {
-      headless: false,
-      args: [
-        `--disable-extensions-except=${pathToExtension}`,
-        `--load-extension=${pathToExtension}`,
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--disable-gpu',
-      ],
+      headless: false, // Must remain false for extensions; --headless=new handles headless mode in CI
+      args: launchArgs,
       viewport: { width: 1440, height: 900 },
     });
 
@@ -168,5 +172,36 @@ export const test = base.extend<ExtensionFixtures>({
     await use(extensionId);
   },
 });
+
+export async function mockHtmlFixture(
+  page: Page,
+  urlPattern: string | RegExp,
+  htmlFixtureName: string
+): Promise<void> {
+  const htmlPath = path.resolve(__dirname, htmlFixtureName);
+  const htmlBody = fs.readFileSync(htmlPath, 'utf-8');
+  await page.route(urlPattern, async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'text/html; charset=utf-8',
+      body: htmlBody,
+    });
+  });
+}
+
+export async function mockAnalyzeFixture(
+  page: Page,
+  jsonFixtureName: string
+): Promise<void> {
+  const jsonPath = path.resolve(__dirname, jsonFixtureName);
+  const jsonBody = fs.readFileSync(jsonPath, 'utf-8');
+  await page.route('**/api/analyze', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: jsonBody,
+    });
+  });
+}
 
 export { expect } from '@playwright/test';

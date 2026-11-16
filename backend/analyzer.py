@@ -761,7 +761,7 @@ def analyze_sample_jmantis(text: str, api_key: str = None) -> Dict[str, Any]:
         # ŚCIEŻKA SAKRALNA (Islam / Judaizm / Braminizm)
         text_upper = (text or "").upper()
         is_jewish_sacral = any(k in text_upper for k in ["IZRAEL", "ŻYDOWSK", "TORA", "TALMUD", "HALACHA", "JUDAIZM", "RABIN"]) and not any(k in text_upper for k in ["SZARIAT", "ISLAM", "KORAN", "ALLAH", "TALIB"])
-        is_brahmin_sacral = any(k in text_upper for k in ["BRAMIN", "KASTY", "HINDU", "WEDY", "MANU"])
+        is_brahmin_sacral = any(k in text_upper for k in ["BRAMIN", "KASTY", "HINDU", "WEDY", "MANU"]) and not any(k in text_upper for k in ["SZARIAT", "ISLAM", "KORAN", "ALLAH", "TALIB"])
 
         if is_jewish_sacral:
             primary_civ = "Żydowska"

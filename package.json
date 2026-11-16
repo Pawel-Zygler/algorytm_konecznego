@@ -1,6 +1,6 @@
 {
   "name": "algorytm-konecznego",
-  "version": "1.4.6",
+  "version": "1.6.0",
   "description": "Algorytm Konecznego - Test Automation Suite (Playwright TypeScript)",
   "private": true,
   "scripts": {
