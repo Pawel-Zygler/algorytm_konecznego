@@ -251,3 +251,24 @@ console.log(JSON.stringify(res));
 """)
     assert js_out["primary_civilization"] == "Arabska / Sakralna"
     assert "kastowy" not in js_out["civilization_diagnosis"].lower()
+
+
+@pytest.mark.unit
+def test_deutschland_mentioning_china_not_misclassified_as_chinese():
+    js_out = _run_node_esm("""
+import { applyMantisGates } from './services/konecznyEngine.js';
+const metrics = {
+  sacrality_score: 0,
+  legal_dualism_score: -1,
+  church_independence_score: -1,
+  conscience_status_score: -1,
+  personalism_score: -1,
+  public_morality_totality_score: -1,
+};
+const text = 'Deutschland ist die drittgrößte Volkswirtschaft der Welt nach den Vereinigten Staaten und China.';
+const res = applyMantisGates(text, metrics);
+console.log(JSON.stringify(res));
+""")
+    assert js_out["primary_civilization"] != "Chińska"
+    assert js_out["primary_civilization"] == "Nieokreślona (Brak danych)"
+    assert len(js_out["mantis_gates"]) == 5

@@ -28,7 +28,7 @@ Kluczowe pojęcia metody Konecznego:
 - Cywilizacja to metoda ustroju życia zbiorowego (Łacińska, Bizantyńska, Turańska, Arabska, Żydowska, Bramińska, Chińska).
 - Pięciomian Bytu (Quincunx): Dobro (moralność), Prawda (nauka), Zdrowie (higiena), Dobrobyt (ekonomia), Piękno (sztuka) — w cywilizacji łacińskiej spójne pod prymatem Dobra.
 - Dualizm prawny (rozdział prawa prywatnego i publicznego) vs Monizm prawny (prawo publiczne pochłania prywatne w Bizancjum, lub prawo prywatne władcy w Turańszczyźnie).
-- Personalizm (autonomia osoby i sumienia, jedno sumienie w życiu prywatnym i publicznym) vs Gromadnościowość (kolektywizm, dwoistość sumienia, etyka podwójna).
+- Personalizm (autonomia osoby i sumienia, jedno sumienie w życiu prywatnym i publicznym) vs Gromadnościowość (kolektywizm, dwoistość sumienia, etyka wspólnotowa).
 - Chyżość historyczna: zdolność do akumulacji dorobku pokoleń (chronologia, tradycja krytyczna, dziedziczne nazwiska, kapitalizacja czasu).
 - Prawa dziejowe: Nie można być cywilizowanym na dwa sposoby; syntezy międzycywilizacyjne są niemożliwe — mieszanki prowadzą do zaniku sił społecznych (stan acywilizacyjny).
 
@@ -407,7 +407,7 @@ export function resolveIndicesForMode(mode, targetIndices) {
  */
 export function buildTasksForAnalysis(text, mode, targetIndices, isPdf = false) {
   const indices = resolveIndicesForMode(mode, targetIndices);
-  const safeText = (text || '').slice(0, 8000);
+  const safeText = text || '';
 
   return indices.map((indexId) => {
     const def = INDEX_DEFINITIONS[indexId];

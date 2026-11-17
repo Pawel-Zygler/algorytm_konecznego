@@ -79,9 +79,9 @@ Proces przebiega w sekwencji 6 logicznych bramek decyzyjnych (*Information Gain 
    - Wykrywa rozdwojenie etyki: sumienie obowiązuje w życiu prywatnym, lecz zostaje zawieszone w działalności państwowej na rzecz „racji stanu” i statolatrii &rarr; **CYWILIZACJA BIZANTYŃSKA**.
 5. **Bramka 5: `PERSONALISM_INDEX` (Podmiotowość Jednostki vs Ustrój Obozowy)**:
    - Wykrywa redukcję człowieka do roli żołnierza/narzędzia w rękach wodza, ustrój obozowy oraz brak stabilnej własności ziemskiej &rarr; **CYWILIZACJA TURAŃSKA**.
-6. **Bramka 6: `PUBLIC_MORALITY_TOTALITY_INDEX` (Uniwersalizm vs Partykularyzm na Ścieżce Sakralnej)**:
+6. **Bramka 6: `PUBLIC_MORALITY_TOTALITY_INDEX` (Uniwersalizm vs Etyka Rodowo-Wspólnotowa na Ścieżce Sakralnej)**:
    - *Powszechny Monizm Sakralny (Umma):* Prawo religijne obowiązuje jednakowo każdego wiernego, teokracja uniwersalna (Szariat) &rarr; **CYWILIZACJA ARABSKA**.
-   - *Etyka Podwójna / Partykularna:* Inne normy etyczne wobec członków własnego rodu/narodu wybranego, inne wobec obcych (Halacha) &rarr; **CYWILIZACJA ŻYDOWSKA**.
+   - *Etyka Rodowo-Wspólnotowa:* Normy etyczne zorientowane na spójność wspólnoty rodowej i prawa przymierza &rarr; **CYWILIZACJA ŻYDOWSKA**.
 
 ```mermaid
 flowchart TD
@@ -102,7 +102,7 @@ flowchart TD
     B5 -- "Ustrój Obozowy / Brak Własności\nCzłowiek narzędziem wodza" --> CivTur["🏹 CYWILIZACJA TURAŃSKA\n(Monizm Prawa Prywatnego Władcy)"]
     
     B6 -- "Monizm Prawa Sakralnego (Umma)\nTeokracja powszechna" --> CivArab["🌙 CYWILIZACJA ARABSKA\n(Monizm Szariatu / Poligamia)"]
-    B6 -- "Etyka Podwójna / Partykularna\nPartykularyzm rodowo-narodowy" --> CivJew["📜 CYWILIZACJA ŻYDOWSKA\n(Monizm Rodowo-Sakralny / Monogamia)"]
+    B6 -- "Etyka Rodowo-Wspólnotowa\nPrawo sakralne wspólnoty" --> CivJew["📜 CYWILIZACJA ŻYDOWSKA\n(Monizm Rodowo-Sakralny / Monogamia)"]
 ```
 
 ---

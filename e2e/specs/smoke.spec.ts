@@ -125,6 +125,11 @@ test.describe('Smoke Suite: Inicjalizacja Wtyczki i Dashboardu na Wikipedii', ()
     const downloadBtn = page.locator('#koneczny-download-header');
     await expect(downloadBtn).toBeVisible({ timeout: 15000 });
 
+    // Weryfikacja sekundnika w nagłówku (licznik czasu ładowania i analizy)
+    const timerHeader = page.locator('#koneczny-header-timer');
+    await expect(timerHeader).toBeVisible({ timeout: 15000 });
+    await expect(timerHeader).toContainText('⏱️');
+
     // Weryfikacja przycisku trybu pełnoekranowego (Fullscreen) obok 'Zapisz wyniki'
     const fullscreenBtn = page.locator('#koneczny-fullscreen-header');
     await expect(fullscreenBtn).toBeVisible({ timeout: 15000 });
@@ -139,6 +144,114 @@ test.describe('Smoke Suite: Inicjalizacja Wtyczki i Dashboardu na Wikipedii', ()
     await fullscreenBtn.click();
     await expect(panel).not.toHaveClass(/fullscreen/);
     await expect(fullscreenBtn).toContainText('Pełny ekran');
+  });
+
+  test('Krok 4: Weryfikacja przełącznika językowego UK (wersja angielska dashboardu i nagłówka)', async ({ page }) => {
+    await mockHtmlFixture(page, 'https://pl.wikipedia.org/wiki/Polska', 'mock_polska.html');
+    await mockAnalyzeFixture(page, 'mock_polska_result.json');
+
+    await page.goto('https://pl.wikipedia.org/wiki/Polska', {
+      waitUntil: 'domcontentloaded',
+      timeout: 30000,
+    });
+
+    const konecznyTrigger = page.locator('#koneczny-trigger');
+    await expect(konecznyTrigger).toBeVisible({ timeout: 15000 });
+    await konecznyTrigger.click();
+
+    // 1. Sprawdzenie obecności przycisku językowego z flagą UK w nagłówku
+    const langBtn = page.locator('#koneczny-lang-header');
+    await expect(langBtn).toBeVisible({ timeout: 15000 });
+    await expect(langBtn.locator('#lang-btn-flag')).toContainText('🇬🇧');
+    await expect(langBtn.locator('#lang-btn-text')).toContainText('EN');
+
+    // Weryfikacja domyślnych polskich napisów w nagłówku i dashboardzie
+    const headerTitle = page.locator('.header-title');
+    await expect(headerTitle).toContainText('Analiza Algorytmem Konecznego');
+    const dashboard = page.locator('.koneczny-dashboard');
+    await expect(dashboard).toContainText('Cywilizacja');
+    await expect(dashboard).toContainText('Prawo');
+
+    // 2. Kliknięcie w celu przełączenia na język angielski
+    await langBtn.click();
+
+    // Weryfikacja flagi i tekstu na przycisku po przełączeniu (ikona PL)
+    await expect(langBtn.locator('#lang-btn-flag')).toContainText('🇵🇱');
+    await expect(langBtn.locator('#lang-btn-text')).toContainText('PL');
+
+    // Weryfikacja nagłówka po angielsku
+    await expect(headerTitle).toContainText('Koneczny Algorithm Analysis');
+    const dlHeaderBtn = page.locator('#koneczny-download-header');
+    await expect(dlHeaderBtn).toContainText('Export JSON');
+
+    // Weryfikacja przetłumaczonego dashboardu
+    await expect(dashboard).toContainText('Civilization');
+    await expect(dashboard).toContainText('Law');
+    await expect(dashboard).toContainText('Religion');
+    await expect(dashboard).toContainText('Societal Goals');
+    await expect(dashboard).toContainText('Family Emancipation');
+
+    // Weryfikacja pajęczyny Quincunxa po angielsku
+    const quincunxBox = dashboard.locator('.quincunx-radar-box');
+    await expect(quincunxBox).toContainText('QUINCUNX RADAR (5 SPHERES OF BEING)');
+    await expect(quincunxBox).toContainText('Goodness');
+    await expect(quincunxBox).toContainText('Truth');
+
+    // Weryfikacja schodów zaawansowania cywilizacyjnego po angielsku
+    const timelineBox = dashboard.locator('.civ-timeline-box');
+    await expect(timelineBox).toContainText('CIVILIZATIONAL ADVANCEMENT OF ASSOCIATION');
+    await expect(timelineBox).toContainText('Current Stage:');
+
+    // 3. Ponowne kliknięcie - powrót do języka polskiego
+    await langBtn.click();
+    await expect(langBtn.locator('#lang-btn-flag')).toContainText('🇬🇧');
+    await expect(langBtn.locator('#lang-btn-text')).toContainText('EN');
+    await expect(headerTitle).toContainText('Analiza Algorytmem Konecznego');
+    await expect(dashboard).toContainText('Cywilizacja');
+    await expect(dashboard).toContainText('Prawo');
+  });
+
+  test('Krok 5: Przełączenie języka w trakcie ładowania analizy nie przerywa loader\'a i nie wstawia pustego dashboardu', async ({ page }) => {
+    await mockHtmlFixture(page, 'https://pl.wikipedia.org/wiki/Polska', 'mock_polska.html');
+
+    // Opóźniona odpowiedź backendu (1.5 sekundy), aby sprawdzić zachowanie przycisku EN w trakcie ładowania
+    await page.route('**/api/analyze', async (route) => {
+      await new Promise(r => setTimeout(r, 1200));
+      const mockResultPath = require('path').resolve(__dirname, '../fixtures/mock_polska_result.json');
+      const mockResult = JSON.parse(require('fs').readFileSync(mockResultPath, 'utf-8'));
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify(mockResult),
+      });
+    });
+
+    await page.goto('https://pl.wikipedia.org/wiki/Polska', {
+      waitUntil: 'domcontentloaded',
+      timeout: 30000,
+    });
+
+    const konecznyTrigger = page.locator('#koneczny-trigger');
+    await expect(konecznyTrigger).toBeVisible({ timeout: 15000 });
+    await konecznyTrigger.click();
+
+    // Weryfikacja że loader jest aktywny
+    const loader = page.locator('.loader');
+    await expect(loader).toBeVisible({ timeout: 5000 });
+
+    // W trakcie trwania analizy przełączamy język na EN
+    const langBtn = page.locator('#koneczny-lang-header');
+    await langBtn.click();
+
+    // Loader wciąż musi być widoczny (nie został przerwany przez przedwczesny fałszywy render dashboardu)
+    await expect(loader).toBeVisible();
+    await expect(page.locator('.koneczny-dashboard')).not.toBeVisible();
+
+    // Po zakończeniu analizy dashboard pojawia się automatycznie w języku angielskim
+    const dashboard = page.locator('.koneczny-dashboard');
+    await expect(dashboard).toBeVisible({ timeout: 15000 });
+    await expect(dashboard).toContainText('Civilization');
+    await expect(dashboard).toContainText('Law');
   });
 
 });

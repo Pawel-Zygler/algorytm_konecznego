@@ -325,10 +325,9 @@ export function applyMantisGates(text, metrics) {
   let diag = '';
 
   if (isSacral) {
-    const hasJewish = ['IZRAEL', 'ŻYDOWSK', 'TORA', 'TALMUD', 'HALACHA', 'JUDAIZM', 'RABIN'].some((k) => textUpper.includes(k));
-    const hasIslamic = ['SZARIAT', 'ISLAM', 'KORAN', 'ALLAH', 'TALIB'].some((k) => textUpper.includes(k));
-    const isJewishSacral = hasJewish && !hasIslamic;
-    const isBrahminSacral = ['BRAMIN', 'KASTY', 'HINDU', 'WEDY', 'MANU'].some((k) => textUpper.includes(k)) && !hasIslamic && !hasJewish;
+    // Klasyfikacja podtypów sakralnych wyłącznie na podstawie profilu indeksów (bez słów kluczowych)
+    const isJewishSacral = conscienceScore >= 0.35 && persScore >= 0.40;
+    const isBrahminSacral = !isJewishSacral && sacScore >= 0.91 && persScore >= 0.20 && persScore <= 0.25 && conscienceScore >= 0.20;
 
     let subTypeDecision;
     let scopeDecision;
@@ -336,9 +335,9 @@ export function applyMantisGates(text, metrics) {
 
     if (isJewishSacral) {
       primaryCiv = 'Żydowska';
-      diag = 'Monizm Prawno-Sakralny (Etyka partykularno-rodowa, kazuistyka talmudyczna)';
-      subTypeDecision = 'Etyka Partykularna i Kazuistyka Rodowa (Cywilizacja Żydowska)';
-      scopeDecision = 'Partykularyzm Rodowo-Narodowy / Naród Wybrany (Etyka podwójna)';
+      diag = 'Monizm Prawno-Sakralny (Etyka rodowo-wspólnotowa, kazuistyka talmudyczna)';
+      subTypeDecision = 'Etyka Rodowo-Wspólnotowa (Cywilizacja Żydowska)';
+      scopeDecision = 'Etyka Rodowo-Wspólnotowa';
       famDecision = 'Monogamia Rodowa i Prawo Majątkowe Rodu';
     } else if (isBrahminSacral) {
       primaryCiv = 'Bramińska';
@@ -382,6 +381,36 @@ export function applyMantisGates(text, metrics) {
           : 'Szczątkowy Dualizm',
       },
     );
+  } else if (dualScore < 0) {
+    // Brak danych dla Bramki 2 (dualScore === -1) — nie zakładamy sztucznie Monizmu ani żadnej cywilizacji
+    primaryCiv = 'Nieokreślona (Brak danych)';
+    diag = 'Brak wystarczających danych o dualizmie prawnym i etyce w analizowanym fragmencie tekstu.';
+    gateSteps.push(
+      {
+        gate: 2,
+        name: 'Bramka 2: Dualizm Prawny vs Monizm (LEGAL_DUALISM_INDEX)',
+        score: dualScore,
+        decision: 'Brak danych w tekście (-1) — nie można rozstrzygnąć między Dualizmem a Monizmem',
+      },
+      {
+        gate: 3,
+        name: 'Bramka 3: Relacja Władza-Religia (CHURCH_INDEPENDENCE)',
+        score: churchScore,
+        decision: 'Brak danych w tekście (-1)',
+      },
+      {
+        gate: 4,
+        name: 'Bramka 4: Status Sumienia (CONSCIENCE_STATUS)',
+        score: conscienceScore,
+        decision: 'Brak danych w tekście (-1)',
+      },
+      {
+        gate: 5,
+        name: 'Bramka 5: Podmiotowość Jednostki (PERSONALISM_INDEX)',
+        score: persScore,
+        decision: 'Brak danych w tekście (-1)',
+      },
+    );
   } else {
     const isDual = dualScore >= 0.48;
 
@@ -419,8 +448,9 @@ export function applyMantisGates(text, metrics) {
         },
       );
     } else {
-      const isChinese = ['CHIŃSK', 'CHINY', 'CHINA', 'KONFUCI', 'DAO', 'TAO', 'RYTUAŁ LI', 'KULT PRZODKÓW', 'MANDAT NIEBIOS', 'PAŃSTWO ŚRODKA'].some((k) => textUpper.includes(k));
-      const isCampRegime = (persScore >= 0 && persScore < 0.25) || (churchScore >= 0 && churchScore < 0.20 && persScore < 0.30);
+      // Rozróżnienie cywilizacji monizmu świeckiego wyłącznie na podstawie profilu indeksów
+      const isCampRegime = (persScore >= 0 && persScore < 0.25) || (churchScore >= 0 && churchScore < 0.20 && persScore >= 0 && persScore < 0.30);
+      const isChinese = !isCampRegime && dualScore >= 0.05 && dualScore < 0.35 && churchScore >= 0.25 && conscienceScore >= 0.35 && persScore >= 0.35;
 
       let b3Dec;
       let b4Dec;

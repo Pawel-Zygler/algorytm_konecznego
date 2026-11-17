@@ -95,33 +95,81 @@
     }
     .panel.fullscreen .header {
       border-radius: 0 !important;
-      padding: 14px 28px !important;
+      padding: 14px 36px !important;
       background: #fafafa;
       box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      border-bottom: 1px solid #e4e4e7;
     }
     .panel.fullscreen .content {
-      padding: 20px 32px 40px 32px !important;
+      padding: 24px 36px 48px 36px !important;
       width: 100% !important;
+      box-sizing: border-box !important;
+      overflow-y: auto !important;
     }
     .panel.fullscreen .koneczny-dashboard,
     .panel.fullscreen .tab-bar,
-    .panel.fullscreen [id^="view-"] {
+    .panel.fullscreen [id^="view-"],
+    .panel.fullscreen .footer-section {
       width: 100% !important;
-      max-width: 100% !important;
-      margin-left: 0 !important;
-      margin-right: 0 !important;
+      max-width: 1240px !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+      box-sizing: border-box !important;
     }
     .panel.fullscreen .koneczny-dashboard {
+      margin-top: 6px !important;
       margin-bottom: 20px !important;
+      padding: 18px 22px !important;
     }
     .panel.fullscreen .tab-bar {
-      min-height: 54px !important;
-      gap: 10px !important;
-      padding: 8px !important;
+      min-height: 48px !important;
+      gap: 8px !important;
+      padding: 6px !important;
+      margin: 16px auto !important;
     }
     .panel.fullscreen .tab-btn {
-      font-size: 13.5px !important;
-      height: 42px !important;
+      font-size: 13px !important;
+      height: 40px !important;
+    }
+    .panel.fullscreen .dark-hero-card {
+      max-width: 780px !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+      margin-bottom: 16px !important;
+    }
+    .panel.fullscreen .view-intro-desc {
+      max-width: 820px !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+      text-align: center !important;
+    }
+    .panel.fullscreen .cards-grid {
+      display: grid !important;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)) !important;
+      gap: 14px !important;
+      align-items: start !important;
+    }
+    .panel.fullscreen .cards-grid .answer-card {
+      margin-top: 0 !important;
+    }
+    .panel.fullscreen .dashboard-categories-grid {
+      display: grid !important;
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 12px 18px !important;
+      margin-bottom: 14px !important;
+    }
+    .panel.fullscreen .dashboard-category-item {
+      padding: 10px 14px !important;
+      background: rgba(15, 23, 42, 0.45) !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      border-radius: 10px !important;
+      margin-bottom: 0 !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+    @media (max-width: 900px) {
+      .panel.fullscreen .dashboard-categories-grid {
+        grid-template-columns: 1fr !important;
+      }
     }
 
     /* ── Header ── */
@@ -530,6 +578,29 @@
       text-transform: uppercase;
       letter-spacing: .07em;
       margin-bottom: 10px;
+    }
+
+    /* ── Cards Grid Container ── */
+    .cards-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .cards-grid .answer-card {
+      margin-top: 0 !important;
+    }
+
+    /* ── Dashboard Categories Grid ── */
+    .dashboard-categories-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .dashboard-category-item {
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
     }
 
     /* ── Accordion Answer Card ── */
@@ -1045,7 +1116,8 @@
           <div>
             <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
               <div class="header-title">Analiza Algorytmem Konecznego</div>
-              <span style="font-size: 11px; background: #e2e8f0; color: #475569; padding: 2px 8px; border-radius: 4px; font-weight: 600;">v1.4.6</span>
+              <span style="font-size: 11px; background: #e2e8f0; color: #475569; padding: 2px 8px; border-radius: 4px; font-weight: 600;">v${chrome.runtime?.getManifest?.()?.version || '1.6.0'}</span>
+              <span id="koneczny-header-timer" style="display: none; align-items: center; gap: 4px; font-size: 11px; background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; padding: 2px 8px; border-radius: 4px; font-weight: 700; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; letter-spacing: 0.01em;" title="Czas ładowania dashboardu">⏱️ 0.0s</span>
               <button class="save-results-btn" id="koneczny-download-header" title="Zapisz pełny raport z wynikami analizy w formacie JSON" style="display: inline-flex; align-items: center; gap: 5px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #ffffff; border: none; padding: 4px 11px; border-radius: 6px; font-size: 11.5px; font-weight: 700; cursor: pointer; box-shadow: 0 2px 6px rgba(16,185,129,0.35); transition: all 0.2s ease;">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
                 Zapisz wyniki
@@ -1054,8 +1126,12 @@
                 <svg id="fullscreen-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
                 <span id="fullscreen-text">Pełny ekran</span>
               </button>
+              <button class="lang-toggle-btn" id="koneczny-lang-header" title="Switch language to English (UK) / Przełącz na wersję angielską" style="display: inline-flex; align-items: center; gap: 5px; background: #ffffff; color: #1e293b; border: 1.5px solid #cbd5e1; padding: 3px 9px; border-radius: 6px; font-size: 11.5px; font-weight: 800; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.08); transition: all 0.2s ease;">
+                <span id="lang-btn-flag" style="font-size: 14px; line-height: 1;">🇬🇧</span>
+                <span id="lang-btn-text">EN</span>
+              </button>
             </div>
-            <div class="header-subtitle" title="Dzieła i teoria Konecznego zamienione w cyfrowe narzędzie">Metoda Historiozoficzna</div>
+            <div class="header-subtitle" style="font-size: 10px; color: #71717a; margin-top: 2px; line-height: 1.25;" title="Narzędzie badawczo-edukacyjne oparte na historyczno-filozoficznej metodzie porównawczej prof. Feliksa Konecznego (1862–1949)">Narzędzie badawczo-edukacyjne oparte na historyczno-filozoficznej metodzie porównawczej prof. Feliksa Konecznego (1862–1949)</div>
           </div>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
@@ -1070,10 +1146,95 @@
   `;
 
   let currentEngineMode = 'mantis';
+  let currentLanguage = 'pl'; // 'pl' | 'en'
+  let isAnalysisRunning = false;
+
+  function t(plText, enText) {
+    return currentLanguage === 'en' ? enText : plText;
+  }
+
+  function hasCompletedResults() {
+    if (isAnalysisRunning) return false;
+    const res = window.konecznyResults;
+    if (!res) return false;
+    if (res.primary_civilization) return true;
+    if (res.civilization_weights && Object.keys(res.civilization_weights).length > 0) return true;
+    if (res.civilization_spectrum && res.civilization_spectrum.length > 0) return true;
+    if (res.raw_ratings && typeof res.raw_ratings === 'object') {
+      const hasValues = Object.values(res.raw_ratings).some(dict => dict && typeof dict === 'object' && Object.keys(dict).length > 0);
+      if (hasValues) return true;
+    }
+    return false;
+  }
+
+  function updateHeaderLanguageUI() {
+    const langFlagEl = shadow.getElementById('lang-btn-flag');
+    const langTextEl = shadow.getElementById('lang-btn-text');
+    const headerTitleEl = shadow.querySelector('.header-title');
+    const headerSubtitleEl = shadow.querySelector('.header-subtitle');
+    const dlHeaderBtn = shadow.getElementById('koneczny-download-header');
+    const fsBtn = shadow.getElementById('koneczny-fullscreen-header');
+    const langBtnEl = shadow.getElementById('koneczny-lang-header');
+    const isFs = panel && panel.classList.contains('fullscreen');
+
+    if (langFlagEl && langTextEl && langBtnEl) {
+      if (currentLanguage === 'en') {
+        langFlagEl.textContent = '🇵🇱';
+        langTextEl.textContent = 'PL';
+        langBtnEl.title = 'Przełącz na wersję polską / Switch to Polish';
+      } else {
+        langFlagEl.textContent = '🇬🇧';
+        langTextEl.textContent = 'EN';
+        langBtnEl.title = 'Switch language to English (UK) / Przełącz na wersję angielską';
+      }
+    }
+
+    if (headerTitleEl) {
+      headerTitleEl.textContent = t('Analiza Algorytmem Konecznego', 'Koneczny Algorithm Analysis');
+    }
+    if (headerSubtitleEl) {
+      headerSubtitleEl.textContent = t(
+        'Narzędzie badawczo-edukacyjne oparte na historyczno-filozoficznej metodzie porównawczej prof. Feliksa Konecznego (1862–1949)',
+        'Research and educational tool based on the comparative historiosophical method of Prof. Feliks Koneczny (1862–1949)'
+      );
+      headerSubtitleEl.title = headerSubtitleEl.textContent;
+    }
+    if (dlHeaderBtn) {
+      const textNode = Array.from(dlHeaderBtn.childNodes).find(n => n.nodeType === 3 && n.textContent.trim().length > 0);
+      if (textNode) {
+        textNode.textContent = t(' Zapisz wyniki', ' Export JSON');
+      }
+      dlHeaderBtn.title = t('Zapisz pełny raport z wynikami analizy w formacie JSON', 'Save full analysis report in JSON format');
+    }
+    if (fsBtn) {
+      updateFullscreenBtn(isFs);
+    }
+  }
+
+  function toggleLanguage() {
+    currentLanguage = currentLanguage === 'pl' ? 'en' : 'pl';
+    if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+      chrome.storage.local.set({ konecznyLang: currentLanguage });
+    }
+    updateHeaderLanguageUI();
+
+    // Jeśli analiza jest w trakcie ładowania, NIE przerywamy loader'a i nie ładujemy fałszywych wartości domyślnych
+    if (isAnalysisRunning) {
+      return;
+    }
+
+    if (hasCompletedResults()) {
+      renderResults();
+    }
+  }
 
   getStorageData().then(cfg => {
     if (cfg && cfg.analysisMode) {
       currentEngineMode = cfg.analysisMode;
+    }
+    if (cfg && cfg.konecznyLang) {
+      currentLanguage = cfg.konecznyLang === 'en' ? 'en' : 'pl';
+      updateHeaderLanguageUI();
     }
   });
 
@@ -1083,20 +1244,86 @@
   const downloadBtn = shadow.getElementById('koneczny-download-header');
   const fullscreenBtn = shadow.getElementById('koneczny-fullscreen-header');
   const content = shadow.getElementById('koneczny-content');
+  const headerTimer = shadow.getElementById('koneczny-header-timer');
+
+  function escapeHtml(str) {
+    if (str === null || str === undefined) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  let analysisTimerInterval = null;
+  let analysisStartTime = null;
+
+  function startHeaderTimer() {
+    if (analysisTimerInterval) {
+      clearInterval(analysisTimerInterval);
+      analysisTimerInterval = null;
+    }
+    const timerEl = shadow.getElementById('koneczny-header-timer');
+    analysisStartTime = performance.now();
+    if (timerEl) {
+      timerEl.style.display = 'inline-flex';
+      timerEl.style.background = '#eff6ff';
+      timerEl.style.borderColor = '#bfdbfe';
+      timerEl.style.color = '#1d4ed8';
+      timerEl.title = 'Trwa ładowanie i analiza tekstu...';
+      timerEl.textContent = '⏱️ 0.0s';
+    }
+
+    analysisTimerInterval = setInterval(() => {
+      if (!analysisStartTime) return;
+      const elapsed = ((performance.now() - analysisStartTime) / 1000).toFixed(1);
+      const el = shadow.getElementById('koneczny-header-timer');
+      if (el) {
+        el.textContent = `⏱️ ${elapsed}s`;
+      }
+    }, 100);
+  }
+
+  function stopHeaderTimer(success = true) {
+    if (analysisTimerInterval) {
+      clearInterval(analysisTimerInterval);
+      analysisTimerInterval = null;
+    }
+    const timerEl = shadow.getElementById('koneczny-header-timer');
+    if (!timerEl || !analysisStartTime) return null;
+    const elapsed = ((performance.now() - analysisStartTime) / 1000).toFixed(1);
+    if (success) {
+      timerEl.style.display = 'inline-flex';
+      timerEl.style.background = '#ecfdf5';
+      timerEl.style.borderColor = '#a7f3d0';
+      timerEl.style.color = '#047857';
+      timerEl.title = `Czas załadowania i analizy: ${elapsed}s`;
+      timerEl.textContent = `⏱️ ${elapsed}s`;
+    } else {
+      timerEl.style.display = 'inline-flex';
+      timerEl.style.background = '#fef2f2';
+      timerEl.style.borderColor = '#fecaca';
+      timerEl.style.color = '#b91c1c';
+      timerEl.title = `Analiza przerwana po: ${elapsed}s`;
+      timerEl.textContent = `⏱️ ${elapsed}s`;
+    }
+    return parseFloat(elapsed);
+  }
 
   function updateFullscreenBtn(isFullscreen) {
     if (!fullscreenBtn) return;
     const icon = fullscreenBtn.querySelector('#fullscreen-icon');
     const text = fullscreenBtn.querySelector('#fullscreen-text');
     if (isFullscreen) {
-      fullscreenBtn.title = 'Opuść tryb pełnoekranowy (Esc)';
-      if (text) text.textContent = 'Zwiń ekran';
+      fullscreenBtn.title = t('Opuść tryb pełnoekranowy (Esc)', 'Exit fullscreen (Esc)');
+      if (text) text.textContent = t('Zwiń ekran', 'Exit Fullscreen');
       if (icon) {
         icon.innerHTML = '<path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/>';
       }
     } else {
-      fullscreenBtn.title = 'Przełącz tryb pełnoekranowy (Fullscreen)';
-      if (text) text.textContent = 'Pełny ekran';
+      fullscreenBtn.title = t('Przełącz tryb pełnoekranowy (Fullscreen)', 'Toggle fullscreen mode');
+      if (text) text.textContent = t('Pełny ekran', 'Fullscreen');
       if (icon) {
         icon.innerHTML = '<path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>';
       }
@@ -1149,6 +1376,10 @@
   if (downloadBtn) {
     downloadBtn.addEventListener('click', () => downloadResultsJson(lastAnalysisResultData));
   }
+  const langHeaderBtn = shadow.getElementById('koneczny-lang-header');
+  if (langHeaderBtn) {
+    langHeaderBtn.addEventListener('click', toggleLanguage);
+  }
   if (trigger && panel) {
     trigger.addEventListener('click', () => {
       if (panel.classList.contains('open')) {
@@ -1185,8 +1416,9 @@
       meta: {
         aplikacja: "Algorytm Konecznego - Analiza Cywilizacyjna",
         metoda: "Historiozoficzna metoda Feliksa Konecznego",
-        wersja: "1.4.6",
+        wersja: chrome.runtime?.getManifest?.()?.version || "1.6.0",
         data_analizy: new Date().toISOString(),
+        czas_analizy_sekundy: data.analysis_duration_seconds !== undefined ? data.analysis_duration_seconds : null,
         url: window.location.href,
         tytuł_strony: document.title
       },
@@ -1351,8 +1583,10 @@
 
   // ── Analysis ──────────────────────────────────────────
   async function runAnalysis(targetIndexStr = null) {
+    isAnalysisRunning = true;
     window.lastAnalysisTargetIndex = targetIndexStr;
     if (trigger) trigger.classList.add('spinning');
+    startHeaderTimer();
 
     const config = await getStorageData().catch(() => ({}));
     window.konecznyConfig = config;
@@ -1409,26 +1643,26 @@
     `;
 
     const statements = [
-      "Szereguję dwoistości...",
+      "Szereguję dwoistości prawa...",
       "Przypisuję sakralność...",
-      "Rozpoznaję wpływy turańskie...",
-      "Mierzę wskaźnik gromadności...",
+      "Analizuję model prawa w zrzeszeniu...",
+      "Mierzę wskaźnik personalizmu...",
       "Szukam trójpodziału władzy...",
-      "Tropię cywilizację bizantyńską...",
+      "Badam stopień biurokratyzacji urzędniczej...",
       "Odkrywam prawo aposterioryczne...",
-      "De-maskuję statolatrię...",
+      "Weryfikuję zjawisko statolatrii...",
       "Sprawdzam stosunek do pracy...",
       "Diagnozuję historyzm...",
-      "Badam niezależność Kościoła...",
+      "Badam niezależność sfery sacrum i profanum...",
       "Analizuję quincunx dóbr...",
       "Mierzę aprioryzm ustrojowy...",
       "Liczę odsetek etyki w prawie...",
-      "Tropię rządy inżynierskie...",
+      "Analizuję rządy inżynierskie...",
       "Ocenię wyemancypowanie rodziny...",
       "Sprawdzam poczucie odpowiedzialności osobistej...",
       "Analizuję stosunek do czasu i pędu historycznego...",
-      "Rozliczam wskaźniki cywilizacji łacińskiej...",
-      "Szukam reliktów cywilizacji arabskiej w tekście...",
+      "Rozliczam wskaźniki syntezy prawnej...",
+      "Badam podział na prawo publiczne i prywatne...",
       "Oceniam czy prawo stoi ponad władcą...",
       "Przyglądam się autonomii zrzeszeń...",
       "Weryfikuję zjawisko biurokratyzacji...",
@@ -1436,99 +1670,99 @@
       "Sprawdzam spójność pięciu kategorii bytu...",
       "Oceniam dążenie do prawdy obiektywnej...",
       "Weryfikuję tolerancję dla praw lokalnych...",
-      "Odmierzam dawkę mechanicyzmu...",
+      "Odmierzam dawkę mechanicyzmu społecznego...",
       "Ważę słuszność ponad legalizmem...",
-      "Ewaluuję stopień militaryzacji społeczeństwa...",
+      "Ewaluuję stopień militaryzacji zrzeszenia...",
       "Sprawdzam, czy państwo jest celem samym w sobie...",
       "Analizuję prymat społeczeństwa nad państwem...",
-      "Tropię ewolucję prawa z doświadczeń...",
-      "Szukam narzucania zmyślonych praw apriorycznych...",
+      "Badam ewolucję prawa z doświadczeń...",
+      "Weryfikuję zjawisko praw apriorycznych...",
       "Oceniam podejście do dziedziczenia własności...",
-      "Tropię makiawelizm w decyzjach urzędniczych...",
+      "Weryfikuję zasady etyki w decyzjach urzędniczych...",
       "Weryfikuję niezależność sądownictwa od biurokracji...",
       "Badam poziom suwerenności rodziny w wychowaniu...",
-      "Kwalifikuję zjawisko turańskiego obozownictwa...",
-      "Mierzę skażenie prawa monizmem państwowym...",
+      "Analizuję relację przymusu państwowego do wolności osoby...",
+      "Mierzę stopień monizmu państwowego...",
       "Sprawdzam wolność stanowienia prawa prywatnego...",
       "Analizuję podział na sacrum i profanum w prawie...",
-      "Szukam śladów kazuistyki żydowskiej...",
-      "Kwalifikuję stan acywilizacyjnego kołobłędu...",
+      "Badam proporcję norm kazuistycznych do etycznych...",
+      "Weryfikuję stan spójności normatywnej...",
       "Ocenię proporcję bezinteresowności do utylitaryzmu...",
       "Sprawdzam suwerenność autokrytyki sumienia...",
       "Badam stopień uświęcenia pracy fizycznej i umysłowej...",
-      "Liczę wskaźniki emancypacji synów spod władzy rodu...",
-      "Tropię fiskalizm nieuzasadniony potrzebami społecznymi...",
+      "Liczę wskaźniki emancypacji osoby spod władzy rodu...",
+      "Weryfikuję fiskalizm nieuzasadniony potrzebami społecznymi...",
       "Ocenię surowość kar za naruszenie wolności osoby...",
       "Weryfikuję ciągłość er historycznych i tradycji...",
       "Sprawdzam, czy prawo traktowane jest jako odkrywane czy wymyślane...",
-      "Tropię zanik odpowiedzialności indywidualnej na rzecz kasty...",
+      "Badam odpowiedzialność indywidualną w zrzeszeniu...",
       "Mierzę spójność siedmiu generaliów etyki...",
       "Skanuję tekst pod kątem cezaropapizmu...",
-      "Ocenię stopień ujednostajnienia mas pod przymusem...",
-      "Odkrywam relikty prawniczości szariatu...",
+      "Ocenię stopień ujednostajnienia struktur społecznych...",
+      "Badam niezależność sądownictwa i prawo zwyczajowe...",
       "Mierzę poczucie godności osobistej w tekście...",
       "Weryfikuję poszanowanie dla umów prywatnych...",
-      "Tropię aprioryzm socjalistyczny i planistyczny...",
+      "Analizuję aprioryzm inżynierii społecznej...",
       "Analizuję rolę zwyczaju w stanowieniu prawa...",
-      "Kwalifikuję obecność monizmu publicznego...",
+      "Badam obecność monizmu publicznego...",
       "Prześwietlam przyczyny paraliżu kultury czynu...",
       "Sprawdzam równość władcy i obywatela wobec etyki...",
-      "Rozpoznaję wpływy cywilizacji bramińskiej...",
+      "Analizuję strukturę hierarchii i wolności osoby...",
       "Weryfikuję stopień komercjalizacji etyki i sądów...",
       "Mierzę kapitalizację czasu w dorobku pokoleń...",
-      "Tropię aprioryczne inżynierie ustrojowe...",
+      "Analizuję aprioryczne konstrukcje ustrojowe...",
       "Ocenię nienaruszalność prawa własności prywatnej..."
     ];
 
     const questions = [
       "Czy założenie kanału na YouTube narusza supremację ducha?",
-      "Ciekawe czy algorytmy TikToka to czysty aprioryzm?",
+      "Ciekawe czy algorytmy rekomendacji to czysty aprioryzm?",
       "Czy sztuczna inteligencja to nowy monizm prawny?",
-      "Czy na Twitterze da się zmierzyć chyżość historyczną?",
-      "Co bym wrzucił na Instagrama z wykładów w Wilnie?",
+      "Czy w sieci da się zmierzyć chyżość historyczną?",
+      "Co Feliks Koneczny napisałby o współczesnym internecie?",
       "Czy praca zdalna wzmacnia personalizm?",
-      "Czy subskrypcja Netflixa to przejaw cywilizacji turańskiej?",
-      "Czy kolonizacja Marsa będzie łacińska czy bizantyńska?",
+      "Czy subskrypcje cyfrowe zmieniają pojęcie własności prywatnej?",
+      "Jak ustrój przyszłości zrealizowałby quincunx bytu?",
       "Czy systemy blockchain wspierają pluralizm źródeł prawa?",
       "Czy smartwatche niszczą autonomię czasu?",
-      "Czy kryptowaluty wyemancypują nas od mechanizmu państwa?",
-      "Czy e-sport kształtuje poczucie odpowiedzialności gromadnej?",
+      "Czy decentralizacja wyemancypuje nas od mechanizmu państwa?",
+      "Czy e-sport kształtuje poczucie odpowiedzialności osobistej?",
       "Czy social media to nowy wymiar statolatrii?",
       "Czy modele językowe mają szansę pojąć quincunx?",
-      "Czy w Metaverse da się zastosować prawo aposterioryczne?",
-      "Czy kultura cancel-culture to objaw cywilizacji bramińskiej?",
-      "Czy programowanie obiektowe wywodzi się z cywilizacji łacińskiej?",
+      "Czy w metawersum da się zastosować prawo aposterioryczne?",
+      "Czy kultura cancel-culture wpływa na autokrytykę sumienia?",
+      "Czy programowanie obiektowe wywodzi się z prawa naturalnego?",
       "Czy Big Data zwiastuje powrót mechanicyzmu społecznego?",
       "Czy w cyberprzestrzeni zachowamy poczucie obowiązku?",
       "Ciekawe czy algorytmy rekomendacji są w pełni aprioryczne?",
-      "Czy Feliks Koneczny założyłby Patronite na rzecz badań cywilizacji?",
+      "Czy Feliks Koneczny badałby dzisiaj systemy informacyjne?",
       "Czy smart city to ostateczny tryumf inżynierii społecznej?",
-      "Czy asystenci głosowi niszczą naszą kulturę czynu?",
-      "Czy praca dla korporacji to powrót cywilizacji chińskiej?",
+      "Czy asystenci głosowi wspierają naszą kulturę czynu?",
+      "Czy struktura korporacyjna sprzyja personalizmowi?",
       "Czy open-source to współczesny pluralizm prawny?",
-      "Ciekawe czy mikropłatności to forma sakralnej ekonomii?",
+      "Ciekawe czy mikropłatności to forma sakralizacji ekonomii?",
       "Czy AI agent zastąpi poczucie odpowiedzialności osobistej?",
-      "Czy Cloud Computing to powrót do ustroju obozowego?",
+      "Czy Cloud Computing to powrót do centralizacji administracyjnej?",
       "Czy pojęcie 'User Experience' szanuje personalizm?",
       "Czy zalew powiadomień niszczy naszą autokrytykę sumienia?",
-      "Czy praca w Agile wywodzi się z łacińskiego aposterioryzmu?",
-      "Czy inteligentne kontenery na śmieci to statolatria?",
+      "Czy praca w Agile wywodzi się z aposterioryzmu?",
+      "Czy inteligentne systemy nadzoru to nowa statolatria?",
       "Czy w grach RPG panuje prymat etyki nad prawem?",
-      "Czy Algorytm Konecznego otrzyma odznaczenie cywilizacyjne?",
-      "Czy w VR da się wybudować autonomię rodziny?",
-      "Czy moderacja Reddita to forma gromadności żydowskiej?",
+      "Czy Algorytm Konecznego otrzyma odznaczenie naukowe?",
+      "Czy w VR da się zachować autonomię rodziny?",
+      "Czy regulaminy platform internetowych zachowują zasadę aequitas?",
       "Czy hackathony to uświęcenie pracy wolnej?",
-      "Czy tokeny NFT wspierają trwałość prawa własności?",
-      "Czy czat GPT jest odporny na acywilizacyjny kołobłęd?",
-      "Czy powiadomienia push wymuszają na nas wegetację?",
-      "Czy elektryczne hulajnogi to objaw bezdusznego mechanicyzmu?",
+      "Czy tokeny cyfrowe wspierają trwałość prawa własności?",
+      "Czy czat GPT jest odporny na błędy aprioryzmu?",
+      "Czy powiadomienia push wymuszają na nas bierność?",
+      "Czy automatyzacja nie zagraża bezdusznym mechanicyzmem?",
       "Czy autouzupełnianie tekstu odbiera nam kontrolę nad słowem?",
-      "Czy decentralizacja DAO to czysta cywilizacja łacińska?",
-      "Czy płatności zbliżeniowe przyspieszają emancypację rodziny?",
-      "Czy cyfrowe nomadztwo to powrót do turańskiego koczownictwa?",
-      "Czy kody QR w restauracjach niszczą tradycję uświęcenia pracy?",
-      "Czy inteligentne umowy (smart contracts) eliminują sędziowską słuszność?",
-      "Czy domotyka (smart home) chroni autonomię prywatnego ogniska?",
+      "Czy decentralizacja DAO to nowoczesny dualizm prawny?",
+      "Czy płatności cyfrowe przyspieszają emancypację rodziny?",
+      "Czy cyfrowe nomadztwo sprzyja autonomii rodziny?",
+      "Czy kody QR w restauracjach zmieniają kulturę obsługi?",
+      "Czy inteligentne umowy eliminują sędziowską słuszność?",
+      "Czy inteligentny dom chroni autonomię prywatnego ogniska?",
       "Czy media strumieniowe zniosły pojęcie ery historycznej?"
     ];
 
@@ -1536,11 +1770,11 @@
       "\"Etyka przed ustawą — kawę piję z prawa prywatnego.\"",
       "\"Nie budź mnie bez dualizmu prawnego.\"",
       "\"Mój kubek, moja autonomia rodziny.\"",
-      "\"Stres to objaw cywilizacji turańskiej.\"",
+      "\"Stres to objaw pośpiechu bez quincunxa.\"",
       "\"Prawda obiektywna i czarna kawa bez cukru.\"",
       "\"Statolatrii mówimy stanowcze NIE.\"",
       "\"Kawa z rana, quincunx poukładany.\"",
-      "\"W tym domu obowiązuje cywilizacja łacińska.\"",
+      "\"W tym domu obowiązuje prymat etyki nad ustawą.\"",
       "\"Precz z monizmem państwowym i zimną kawą!\"",
       "\"Sumienie autonomiczne, espresso bezkompromisowe.\"",
       "\"Moja chyżość historyczna: 100% po pierwszej kawie.\"",
@@ -1548,66 +1782,66 @@
       "\"Prawo aposterioryczne — sprawdzam temperaturę łyka.\"",
       "\"Etyka nie zna dwóch sumień, ani dwóch rodzajów kawy.\"",
       "\"Wypity łyk to kapitalizacja dorobku pokoleń.\"",
-      "\"Nie dla acywilizacyjnego kołobłędu przed 9:00!\"",
+      "\"Nie dla apriorycznego chaosu przed 9:00!\"",
       "\"Prymat etyki nad poniedziałkowym biurem.\"",
       "\"Personalizm w każdej kropli.\"",
       "\"Ten kubek chroni autonomia prawa własności.\"",
-      "\"Turańskie obozownictwo zwalczam ciepłą melisą.\"",
+      "\"Poranny pośpiech zwalczam filiżanką aequitas.\"",
       "\"Wolność osoby zaczyna się od porannej kawy.\"",
       "\"Zanim wydasz okólnik, daj mi wypić espresso.\"",
       "\"Słuszność etyczna ponad sztywną literą przepisu.\"",
-      "\"Zero gromadności w moim biurze!\"",
+      "\"Autonomia osoby w moim biurze!\"",
       "\"Herbata czy kawa? Aposterioryczny wybór tradycji.\"",
       "\"Moja rodzina jest wyemancypowana od biurokracji.\"",
       "\"Nawet po trzeciej kawie odrzucam aprioryzm ustrojowy.\"",
       "\"Kawa bez cukru jak ustrój bez przymusu.\"",
       "\"Pora na łyk wolności i personalizmu.\"",
-      "\"Łacińska kultura czynu wymaga kofeiny.\"",
-      "\"Nie mieszam cywilizacji, nie mieszam kawy.\"",
+      "\"Kultura czynu wymaga kofeiny.\"",
+      "\"Spójność etyczna i dobra kawa.\"",
       "\"Własność prywatna kubka jest nienaruszalna.\"",
       "\"Praca wolna i nieprzymuszona — z kubkiem w ręku.\"",
-      "\"Nie bierz mojego kubka — to monizm prywatny!\"",
+      "\"Nie bierz mojego kubka — to własność prywatna!\"",
       "\"Etyczny monoteizm i świeżo mielona kawa.\"",
       "\"Zgoda na nadgodziny? Tylko przy prymacie etyki.\"",
       "\"Statolatria kończy się tam, gdzie zaczyna się czarna kawa.\"",
       "\"Mój budzik szanuje chyżość historyczną.\"",
       "\"Bezinteresowność dobra i kubek na biurku.\"",
-      "\"Odrzucam kazuistykę prawniczą, wybieram espresso.\"",
+      "\"Odrzucam nadmierną kazuistykę, wybieram espresso.\"",
       "\"Nawet w poniedziałek zachowuję autokrytykę sumienia.\"",
       "\"Uświęcenie pracy umysłowej wymaga kofeiny.\"",
       "\"Nie ma zbawienia zbiorowego, jest tylko mój kubek.\"",
       "\"Prawo odkrywane w doświadczeniu, kawa parzona z pasją.\"",
       "\"Autonomia prywatnego ogniska domowego.\"",
-      "\"Żadnych apriorycznych inżynierii społecznych przed kawą!\"",
+      "\"Żadnych apriorycznych inżynierii przed kawą!\"",
       "\"Zasada aequitas miarkuje rygor poranka.\"",
       "\"Prymat słuszności nad legalizmem.\"",
-      "\"Koneczny pisał w Wilnie, ja piję w biurze.\"",
+      "\"Koneczny badał w Wilnie, ja analizuję przy kawie.\"",
       "\"Personalizm to nie egoizm — podziel się kawą!\""
     ];
 
     const tshirtSlogans = [
-      "\"Wytwór cywilizacji łacińskiej\"",
+      "\"Prymat etyki nad prawem\"",
       "\"Prawo nie stwarza etyki. Etyka stwarza prawo.\"",
-      "\"Dualizm Prawny — Ochrona Przed Państwem\"",
+      "\"Dualizm Prawny — Ochrona Przed Wszechwładzą Państwa\"",
       "\"Zero Statolatrii. Zero Przymusu.\"",
       "\"Jestem Osobą, Nie Elementem Masy\"",
-      "\"Personalizm > Zbawienie Zbiorowe\"",
-      "\"Cywilizacja Łacińska: Wolność & Odpowiedzialność\"",
-      "\"Nie Daj Się Wciągnąć w Acywilizacyjny Kołobłęd\"",
+      "\"Personalizm > Mechanicyzm Społeczny\"",
+      "\"Wolność Osoby & Odpowiedzialność Moralna\"",
+      "\"Odrzucam Społeczną Inżynierię\"",
       "\"Moje Sumienie Jest Autonomiczne\"",
       "\"Salus Animarum Suprema Lex\"",
       "\"Aposterioryzm — Uczmy Się z Historii\"",
       "\"Sprawdzam Quincunx Bytu\"",
-      "\"Stoik Łaciński w Świecie Biurokracji\"",
+      "\"Stoik w Świecie Rozrostu Biurokracji\"",
       "\"Stop Inżynierii Społecznej i Aprioryzmowi\"",
       "\"Etyka Prywatna = Etyka Publiczna\"",
       "\"Wolność Osoby, Autonomia Rodziny, Trwałość Własności\"",
-      "\"Ustrój Obozowy? Nie ze Mną!\"",
+      "\"Biurokratyczny Przymus? Nie ze Mną!\"",
       "\"Prawo Służy Człowiekowi, Nie Państwo Prawu\"",
       "\"Duch Ponad Materią\"",
       "\"Zwyczaj i Doświadczenie Przed Dekretem\"",
       "\"Prymat Słuszności (Aequitas) Nad Legalizmem\"",
-      "\"Zrozumieć Konecznego = Zrozumieć Świat\"",
+      "\"Metoda Porównawcza Feliksa Konecznego\"",
       "\"Monogamia & Własność Prywatna\"",
       "\"Nie Jestem Własnością Państwa Ani Władcy\"",
       "\"Chyżość Historyczna — Czas To Dorobek Pokoleń\"",
@@ -1616,26 +1850,26 @@
       "\"Obrona Autonomii Ogniska Domowego\"",
       "\"Sędzia Słuszny, Nie Biurokrata\"",
       "\"Uświęcenie Pracy Wolnej\"",
-      "\"Stop Kazuistyce i Manipulacji\"",
-      "\"Rozpoznaję Wpływy Bizantyńskie na Odległość\"",
+      "\"Stop Manipulacji Przepisami\"",
+      "\"Rozpoznaję Statolatrię na Odległość\"",
       "\"Nie Tylko Walka o Byt — Liczą Się Cele Wyższe\"",
-      "\"Trójpodział Władzy w Sercu Łacińskim\"",
+      "\"Trójpodział Władzy i Niezawisłość Sądów\"",
       "\"Architekt Etycznego Ładu\"",
       "\"Praca, Prawda, Piękno, Etyka, Zdrowie\"",
       "\"Precz z Państwowym Monizmem\"",
       "\"Moje Prawo Własności Jest Nienaruszalne\"",
       "\"Sprawdzam Odsetek Etyki w Twojej Ustawie\"",
-      "\"Koneczny Miał Rację.\"",
+      "\"Koneczny: Badanie Zrzeszeń Ludzkich\"",
       "\"Osoba Ludzka Jest Celem, Nie Środkiem\"",
       "\"Suwerenność Sumienia Przed Władzą\"",
       "\"Brak Zgody na Cezaropapizm\"",
       "\"Odpowiedzialność Osobista za Słowa i Czyny\"",
       "\"Nie Jestem Cyfrą w Statystyce Państwowej\"",
-      "\"Łacińska Dwoistość Prawa\"",
+      "\"Dualizm Prawa Prywatnego i Publicznego\"",
       "\"Tradycja Trwania i Rozwoju\"",
-      "\"Wolny Człowiek Wolnej Cywilizacji\"",
+      "\"Wolny Człowiek Wolnego Społeczeństwa\"",
       "\"Quincunx w Rozkwicie\"",
-      "\"Odpór Turańszczyźnie!\""
+      "\"Prymat Prawa Naturalnego i Słuszności!\""
     ];
 
     function shuffle(array) {
@@ -1719,7 +1953,7 @@
         if (!pageData || pageData.length < 50) {
           throw new Error('Niewystarczająca ilość tekstu na stronie.');
         }
-        reqBody = { text: pageData.substring(0, 8000), url: window.location.href, title: document.title, mode: mode };
+        reqBody = { text: pageData, url: window.location.href, title: document.title, mode: mode };
         if (selectedIndices && mode === 'full') reqBody.target_indices = selectedIndices;
       }
 
@@ -1803,6 +2037,7 @@
       }
 
       clearInterval(window.konecznyLoadingInterval);
+      const durationSec = stopHeaderTimer(true);
       if (newData && (newData.pełne_dane_wynikowe || newData.klasyfikacja_dashboard)) {
         const full = newData.pełne_dane_wynikowe || {};
         const dash = newData.klasyfikacja_dashboard || {};
@@ -1819,6 +2054,9 @@
           raw_ratings: full.raw_ratings || newData.surowe_oceny_indeksów || newData.raw_ratings || {}
         };
       }
+      if (durationSec !== null && !isNaN(durationSec) && newData) {
+        newData.analysis_duration_seconds = durationSec;
+      }
       const rawTextExtracted = (typeof pageData === 'string' ? pageData : (pageData && pageData.pdf_url ? `Dokument PDF: ${pageData.pdf_url}` : ''));
       window.konecznyResults = {
         ...window.konecznyResults,
@@ -1829,11 +2067,14 @@
           ...(newData.raw_ratings || {})
         }
       };
+      isAnalysisRunning = false;
       renderResults();
 
     } catch (err) {
+      isAnalysisRunning = false;
       if (trigger) trigger.classList.remove('spinning');
       clearInterval(window.konecznyLoadingInterval);
+      stopHeaderTimer(false);
 
       const errText = err.message || '';
       const isQuotaError = errText.includes('429') || errText.includes('Quota') || errText.includes('RESOURCE_EXHAUSTED') || errText.includes('limit');
@@ -1844,7 +2085,7 @@
             ${isQuotaError ? 'Przekroczono limit API Gemini (Quota 429)' : 'Błąd analizy danych'}
           </div>
           <div style="font-size: 13px; color: #fee2e2; line-height: 1.5; margin-bottom: 12px; font-family: monospace; white-space: pre-wrap; word-break: break-word; max-height: 140px; overflow-y: auto; background: rgba(0,0,0,0.2); padding: 8px 10px; border-radius: 6px;">
-            ${errText}
+            ${escapeHtml(errText)}
           </div>
           <div style="font-size: 12px; color: #fca5a5; border-top: 1px dashed rgba(239,68,68,0.3); padding-top: 10px; line-height: 1.4;">
             <strong>Powód braku danych:</strong> ${isQuotaError ? 'Klucz Gemini API osiągnął darmowy limit zapytań (RPM/RPD). Poczekaj około 30–60 sekund na odnowienie puli i spróbuj ponownie.' : 'Sprawdź połączenie z backendem (port 8005) oraz poprawność klucza Gemini API.'}
@@ -1886,6 +2127,16 @@
   function renderResults() {
     if (trigger) trigger.classList.remove('spinning');
     const data = window.konecznyResults;
+
+    const timerEl = shadow.getElementById('koneczny-header-timer');
+    if (timerEl && data && typeof data.analysis_duration_seconds === 'number') {
+      timerEl.style.display = 'inline-flex';
+      timerEl.style.background = '#ecfdf5';
+      timerEl.style.borderColor = '#a7f3d0';
+      timerEl.style.color = '#047857';
+      timerEl.title = `Czas załadowania i analizy: ${data.analysis_duration_seconds.toFixed(1)}s`;
+      timerEl.textContent = `⏱️ ${data.analysis_duration_seconds.toFixed(1)}s`;
+    }
 
     // Determine active tab dynamically based on requested index or calculated/selected indices
     let activeTabId = null;
@@ -2075,7 +2326,7 @@
       equity_over_letter: { name: 'Słuszność Etyczna vs Litera', question: 'Czy etyczne poczucie słuszności stoi ponad martwą literą prawa?', isDev: true },
       judge_conscience_role: { name: 'Rola Sędziego i Sumienia', question: 'Czy sędzia orzeka według sumienia i poczucia słuszności?', isDev: true },
       law_from_ethics: { name: 'Wyznaczenie Prawa z Etyki', question: 'Czy prawo wywodzi się z etyki jako jej pieczęć?', isDev: true },
-      no_shylock_formalism: { name: 'Brak Formalizmu Shylocka', question: 'Czy odrzuca się formalizm prawny używany do krzywdzenia?', isDev: true },
+      no_shylock_formalism: { name: 'Odrzucenie Ślepego Formalizmu', question: 'Czy odrzuca się formalizm prawny (strictum ius) używany do krzywdzenia?', isDev: true },
       state_under_decalogue: { name: 'Podległość Państwa Etyce', question: 'Czy ustawy państwa podlegają bezwzględnie Dekalogowi i normom moralnym?', isDev: true },
       justice_needs_mercy: { name: 'Miłosierdzie jako Korekta', question: 'Czy miłosierdzie uznaje się za niezbędną korektę sprawiedliwości?', isDev: true },
       no_legislative_elephantiasis: { name: 'Brak Elephantiasis Ustawodawczej', question: 'Czy odrzuca się skodyfikowanie wszystkiego pożerające sumienie?', isDev: true },
@@ -2084,7 +2335,7 @@
       legal_dualism: { name: 'Ścisły Dualizm Prawny', question: 'Czy istnieje ścisły rozdział prawa prywatnego od publicznego?', isDev: true },
       judicial_independence: { name: 'Niezawisłość Sędziowska', question: 'Czy sądy mają prawo oceny zgodności ustawy ze słusznością?', isDev: true },
       ethics_above_law: { name: 'Prymat Etyki nad Litera Prawa', question: 'Czy odrzuca się sytuację pożerania sumienia przez przepis?', isDev: true },
-      no_jewish_casuistry: { name: 'Brak Kazuistyki Żydowskiej', question: 'Czy odrzuca się sakralną kazuistykę zamiast sprawiedliwej myśli?', isDev: true },
+      no_jewish_casuistry: { name: 'Prymat Słuszności nad Kazuistyką', question: 'Czy odrzuca się nadmierną kazuistykę prawną zamiast sprawiedliwej myśli?', isDev: true },
       no_byzantine_statolatry: { name: 'Brak Bizantynizmu i Statolatrii', question: 'Czy odrzuca się przedkładanie "dobra państwa" nad etykę?', isDev: true },
       no_camp_turanian_law: { name: 'Brak Prawa Obozowego', question: 'Czy odrzuca się turański kaprys i siłę fizyczną jako prawo?', isDev: true },
       no_socialist_collectivism: { name: 'Brak Socjalistycznego Kolektywizmu', question: 'Czy odrzuca się zastępowanie sumienia wolą gromady?', isDev: true }
@@ -2096,7 +2347,7 @@
       no_legislative_elephantiasis: { name: 'Brak Elephantiasis Ustawodawczej', question: 'Czy odrzuca się skodyfikowanie wszystkiego krępujące sumienie?', isDev: true },
       refusal_of_immoral_orders: { name: 'Odmowa Zbrodniczego Rozkazu', question: 'Czy istnieje obowiązek odmowy wykonania rozkazu sprzecznego z sumieniem?', isDev: true },
       personal_accountability_god: { name: 'Osobisty Rachunek Sumienia', question: 'Czy istnieje instytucja osobistej odpowiedzialności przed Bogiem i sumieniem?', isDev: true },
-      no_shylock_formalism: { name: 'Odrzucenie Metody Shylocka', question: 'Czy odrzuca się naciąganie litery kodeksu wbrew słuszności?', isDev: true },
+      no_shylock_formalism: { name: 'Odrzucenie Ślepego Formalizmu (Strictum Ius)', question: 'Czy odrzuca się naciąganie litery kodeksu wbrew słuszności?', isDev: true },
       ethics_above_law: { name: 'Etyka Przodowniczką Prawa', question: 'Czy prawo wywodzi się z etyki (zamiast etyki jako działu administracji)?', isDev: true },
       personalism_sovereignty: { name: 'Suwerenność Personalistyczna', question: 'Czy jednostka uznawana jest za suwerenny podmiot z wolną wolą?', isDev: true },
       good_hegemony_over_law: { name: 'Prymat Dobra nad Prawem', question: 'Czy państwo i prawo podlegają tej samej etyce co życie prywatne?', isDev: true },
@@ -2500,7 +2751,7 @@
           </div>
         `;
       }
-      return html;
+      return html ? `<div class="cards-grid">${html}</div>` : '';
     }
 
     function buildDarkHero(title, pct, statusText, customValDisplay = null, description = null) {
@@ -3215,14 +3466,14 @@
     }
 
     const civOptions = [
-      { key: 'latin', label: 'Cywilizacja Łacińska', color: '#8b5cf6' },
-      { key: 'byzantine', label: 'Bizantyńska', color: '#ef4444' },
-      { key: 'turanian', label: 'Turańska', color: '#dc2626' },
-      { key: 'arab', label: 'Arabska', color: '#059669' },
-      { key: 'jewish', label: 'Żydowska', color: '#0284c7' },
-      { key: 'brahmin', label: 'Bramińska', color: '#d97706' },
-      { key: 'chinese', label: 'Chińska', color: '#eab308' },
-      { key: 'syncretic', label: 'Acywilizacyjna', color: '#f43f5e' }
+      { key: 'latin', label: t('Cywilizacja Łacińska', 'Latin Civilization'), color: '#8b5cf6' },
+      { key: 'byzantine', label: t('Bizantyńska', 'Byzantine'), color: '#ef4444' },
+      { key: 'turanian', label: t('Turańska', 'Turanian'), color: '#dc2626' },
+      { key: 'arab', label: t('Arabska', 'Arab'), color: '#059669' },
+      { key: 'jewish', label: t('Żydowska', 'Jewish'), color: '#0284c7' },
+      { key: 'brahmin', label: t('Bramińska', 'Brahmin'), color: '#d97706' },
+      { key: 'chinese', label: t('Chińska', 'Chinese'), color: '#eab308' },
+      { key: 'syncretic', label: t('Acywilizacyjna', 'A-civilizational'), color: '#f43f5e' }
     ];
 
     // --- STEP B: LEGAL STRUCTURE ASSIGNMENT (DUALIZM VS MONIZM) ---
@@ -3238,10 +3489,10 @@
     }
 
     const legalOptions = [
-      { key: 'dualism', label: 'Dualizm Prawny', color: '#10b981' },
-      { key: 'monism_public', label: 'Monizm Prawa Publicznego (Państwowy)', color: '#ef4444' },
-      { key: 'monism_private', label: 'Monizm Prawa Prywatnego (Władcy)', color: '#dc2626' },
-      { key: 'monism_sacral', label: 'Monizm Sakralny (Religijny)', color: '#f59e0b' }
+      { key: 'dualism', label: t('Dualizm Prawny', 'Legal Dualism'), color: '#10b981' },
+      { key: 'monism_public', label: t('Monizm Prawa Publicznego (Państwowy)', 'Public Law Monism (State)'), color: '#ef4444' },
+      { key: 'monism_private', label: t('Monizm Prawa Prywatnego (Władcy)', 'Private Law Monism (Ruler)'), color: '#dc2626' },
+      { key: 'monism_sacral', label: t('Monizm Sakralny (Religijny)', 'Sacral Law Monism (Religious)'), color: '#f59e0b' }
     ];
 
     // --- STEP C: RELIGION CATEGORY (ROW 3) ---
@@ -3263,11 +3514,11 @@
     }
 
     const relOptions = [
-      { key: 'rel_universal', label: 'Uniwersalna (Etyczna)', color: '#8b5cf6' },
-      { key: 'rel_tribal', label: 'Plemienna / Narodowa', color: '#0284c7' },
-      { key: 'rel_state', label: 'Państwowa / Sakralna', color: '#059669' },
-      { key: 'rel_caste', label: 'Kastowa / Monolatria', color: '#d97706' },
-      { key: 'rel_areligious', label: 'Areligijność / Świeckość', color: '#eab308' }
+      { key: 'rel_universal', label: t('Uniwersalna (Etyczna)', 'Universal (Ethical)'), color: '#8b5cf6' },
+      { key: 'rel_tribal', label: t('Plemienna / Narodowa', 'Tribal / National'), color: '#0284c7' },
+      { key: 'rel_state', label: t('Państwowa / Sakralna', 'State Church / Sacral'), color: '#059669' },
+      { key: 'rel_caste', label: t('Kastowa / Monolatria', 'Caste / Monolatry'), color: '#d97706' },
+      { key: 'rel_areligious', label: t('Areligijność / Świeckość', 'Secular / Areligious'), color: '#eab308' }
     ];
 
     // --- STEP D: SOCIETY GOALS CATEGORY (ROW 4) ---
@@ -3285,11 +3536,11 @@
     }
 
     const goalOptions = [
-      { key: 'goal_beyond_exist', label: 'Spoza Walki o Byt (Osoba & Naród)', color: '#8b5cf6' },
-      { key: 'goal_exist_struggle', label: 'Walka o Byt (Ustrój Obozowy)', color: '#dc2626' },
-      { key: 'goal_state_machine', label: 'Machina Państwowa (Biurokracja)', color: '#ef4444' },
-      { key: 'goal_religious_formalism', label: 'Formalizm / Rytuał', color: '#f59e0b' },
-      { key: 'goal_clan_tradition', label: 'Kultywowanie Rodu', color: '#eab308' }
+      { key: 'goal_beyond_exist', label: t('Spoza Walki o Byt (Osoba & Naród)', 'Beyond Survival (Person & Nation)'), color: '#8b5cf6' },
+      { key: 'goal_exist_struggle', label: t('Walka o Byt (Ustrój Obozowy)', 'Survival Struggle (Camp Order)'), color: '#dc2626' },
+      { key: 'goal_state_machine', label: t('Machina Państwowa (Biurokracja)', 'State Machine (Bureaucracy)'), color: '#ef4444' },
+      { key: 'goal_religious_formalism', label: t('Formalizm / Rytuał', 'Formalism / Ritual'), color: '#f59e0b' },
+      { key: 'goal_clan_tradition', label: t('Kultywowanie Rodu', 'Lineage & Clan Tradition'), color: '#eab308' }
     ];
 
     // --- STEP E: FAMILY EMANCIPATION CATEGORY (ROW 5) ---
@@ -3309,10 +3560,10 @@
     }
 
     const famOptions = [
-      { key: 'fam_full_emanc', label: 'Pełna Emancypacja (Monogamia & Własność)', color: '#10b981' },
-      { key: 'fam_clan_system', label: 'Ustrój Rodowy / Klany', color: '#eab308' },
-      { key: 'fam_polygamy', label: 'Poligamia / Brak Emancypacji', color: '#dc2626' },
-      { key: 'fam_state_collectivism', label: 'Statolatria / Kolektywizm', color: '#ef4444' }
+      { key: 'fam_full_emanc', label: t('Pełna Emancypacja (Monogamia & Własność)', 'Full Emancipation (Monogamy & Property)'), color: '#10b981' },
+      { key: 'fam_clan_system', label: t('Ustrój Rodowy / Klany', 'Clan System / Lineage'), color: '#eab308' },
+      { key: 'fam_polygamy', label: t('Poligamia / Brak Emancypacji', 'Polygamy / No Emancipation'), color: '#dc2626' },
+      { key: 'fam_state_collectivism', label: t('Statolatria / Kolektywizm', 'Statolatry / Collectivism'), color: '#ef4444' }
     ];
 
     function escapeHtml(str) {
@@ -3386,11 +3637,85 @@
       if (typeof cleanExtracted === 'string' && cleanExtracted.trim().length > 30) {
         return cleanExtracted;
       }
-      const docText = document.querySelector('#mw-content-text, article, main, #content, body')?.innerText || '';
-      if (docText.trim().length > 50) {
-        return docText;
+      const docNode = document.querySelector('.mw-parser-output, #mw-content-text, article, main, [role="main"], body');
+      if (docNode) {
+        const docText = extractTextFromNode(docNode);
+        if (docText.trim().length > 50) return docText;
       }
       return '';
+    }
+
+    function isBoilerplateSentence(s) {
+      if (!s || typeof s !== 'string') return true;
+      const lower = s.toLowerCase();
+      const junkPatterns = [
+        'appearance hide',
+        'standard wide color',
+        'from wikipedia',
+        'free encyclopedia',
+        'this article needs',
+        'needs more citations',
+        'needs additional citations',
+        'article talk read',
+        'edit view history',
+        'languages article',
+        'save tools',
+        'tools save',
+        'hide text small standard',
+        'jump to navigation',
+        'jump to search',
+        'z wikipedii',
+        'wolnej encyklopedii',
+        'ten artykuł',
+        'aus wikipedia',
+        'der freien enzyklopädie',
+        'dieser artikel',
+        'main article',
+        'see also',
+        'external links',
+        'retrieved from',
+        'pobrano z',
+        'kategorie:',
+        'category:',
+        'all rights reserved',
+        'privacy policy',
+        'terms of use',
+        'polityka prywatności',
+        'download as pdf',
+        'printable version',
+        'cite this page',
+        'what links here',
+        'special pages',
+        'permanent link',
+        'small standard large',
+        'automatic light dark',
+        'standard wide color',
+        'appearance hide'
+      ];
+      if (junkPatterns.some(j => lower.includes(j))) return true;
+
+      // Sprawdzenie zagęszczenia specyficznych słów interfejsu Wikipedii
+      const uiTokens = ['talk read', 'read edit', 'view history', 'save tools', 'appearance hide', 'automatic light', 'needs more citations', 'wikipedia'];
+      let tokenMatches = 0;
+      for (const tok of uiTokens) {
+        if (lower.includes(tok)) tokenMatches++;
+      }
+      return tokenMatches >= 2;
+    }
+
+    function cleanSentence(s) {
+      if (!s || typeof s !== 'string') return '';
+      return s
+        .replace(/\[\d+\]/g, '')
+        .replace(/\[[a-z\s]+\]/gi, (match) => {
+          const inner = match.slice(1, -1).toLowerCase();
+          if (['edit', 'edytuj', 'bearbeiten', 'citation needed', 'odp.', 'przypis', 'link'].some(k => inner.includes(k))) return '';
+          return match;
+        })
+        .replace(/\((?:listen|anhören)ⓘ\/?;?[^)]*\)/gi, '')
+        .replace(/https?:\/\/\S+/gi, '')
+        .replace(/\s+/g, ' ')
+        .trim();
     }
 
     function extractVerbatimQuotes(sourceText, sectionKey, activeKey, dominantIndicator, count = 2) {
@@ -3399,30 +3724,76 @@
       }
 
       // Normalizacja tekstu
-      const clean = sourceText.replace(/\r\n/g, '\n').replace(/\t/g, ' ');
+      const cleanText = sourceText.replace(/\r\n/g, '\n').replace(/\t/g, ' ');
 
-      // Podział tekstu na zdania (obsługa interpunkcji i specyfiki języka polskiego)
-      const rawSentences = clean
+      // Podział tekstu na zdania (z zachowaniem interpunkcji)
+      const rawSentences = cleanText
         .split(/(?<=[.!?])\s+(?=[A-ZŁŚĆŹŻA-Z0-9„"«(])/g)
-        .map(s => s.trim().replace(/\s+/g, ' '))
-        .filter(s => s.length >= 35 && !s.startsWith('^') && !s.startsWith('http') && !s.startsWith('<!--') && !s.startsWith('{'));
+        .map(s => cleanSentence(s))
+        .filter(s => s.length >= 40 && !isBoilerplateSentence(s) && !s.startsWith('^') && !s.startsWith('http') && !s.startsWith('<!--') && !s.startsWith('{'));
 
       if (rawSentences.length === 0) return [];
 
-      const civKeywords = {
-        jewish: ['naród', 'narodow', 'rodow', 'pochodzen', 'prawo', 'religi', 'tora', 'talmud', 'gmin', 'wspólnot', 'tradycj', 'obyczaj', 'święt', 'partikular', 'etyk', 'swoi', 'obcy', 'wewnętrzn', 'krew', 'przepis', 'obowiązek', 'izrael', 'judaizm', 'rabin'],
-        arab: ['szariat', 'koran', 'islam', 'allach', 'allah', 'teokracj', 'religi', 'sakraln', 'boż', 'prawo', 'wiara', 'muzułman', 'władz', 'państw', 'poddani', 'dogmat', 'niewiern', 'wyznan', 'umma', 'kalif'],
-        latin: ['prawo', 'wolność', 'obywatel', 'osoba', 'osobow', 'rodzin', 'własność', 'autonomi', 'etyk', 'moraln', 'sumien', 'sąd', 'konstytucj', 'praworządn', 'umow', 'prywatn', 'niezależn', 'sprawiedliw', 'demokracj'],
-        byzantine: ['państw', 'urząd', 'administracj', 'biurokracj', 'rząd', 'władz', 'regulacj', 'kontro', 'nakaz', 'ustaw', 'monopol', 'central', 'urzędnik', 'przepis', 'organ', 'podporządkow', 'cesar', 'dekret', 'statut'],
-        turanian: ['wojsk', 'armia', 'sił', 'wódz', 'rozkaz', 'posłuszeństw', 'dyscyplin', 'obóz', 'walk', 'przymus', 'bezwzględn', 'hierarchi', 'dowództw', 'kampan', 'garnizon'],
-        chinese: ['ród', 'rodow', 'rytuał', 'tradycj', 'porządek', 'posłuszeństwo', 'senior', 'przodk', 'państwo', 'etykiet', 'konfucj'],
-        brahmin: ['kast', 'stan', 'hierarchi', 'urodzen', 'sakraln', 'przeznaczen', 'nierówn', 'rytuał', 'bramin', 'wedy']
+      const keywordMap = {
+        // Byz / Public Law / State
+        byzantine: ['państw', 'urząd', 'administracj', 'biurokracj', 'rząd', 'władz', 'regulacj', 'kontro', 'nakaz', 'ustaw', 'monopol', 'central', 'urzędnik', 'przepis', 'organ', 'podporządkow', 'statut', 'cezar', 'dekret', 'pozytywizm', 'state', 'public law', 'government', 'administration', 'bureaucracy', 'statute', 'legislation', 'decree', 'centralized', 'official', 'regulation', 'control', 'authority', 'executive', 'ministry', 'subordination', 'positivism', 'staat', 'verwaltung', 'bürokratie', 'gesetz'],
+        monism_public: ['państw', 'urząd', 'administracj', 'biurokracj', 'rząd', 'władz', 'regulacj', 'ustaw', 'monopol', 'central', 'organ', 'pozytywizm', 'state', 'public law', 'government', 'administration', 'bureaucracy', 'statute', 'legislation', 'decree', 'centralized', 'official', 'regulation', 'control', 'authority', 'executive', 'ministry', 'subordination', 'positivism', 'staat', 'verwaltung', 'bürokratie', 'gesetz'],
+        rel_state: ['państwow', 'cezaropapizm', 'kościół', 'religi', 'podporządkow', 'state church', 'caesaropapism', 'subordination', 'clergy', 'staatskirche', 'unterordnung'],
+        goal_state_machine: ['machina państwowa', 'biurokracj', 'aparat', 'państw', 'urząd', 'state machine', 'bureaucracy', 'administrative', 'apparatus', 'staatsapparat', 'bürokratie'],
+        fam_state_collectivism: ['państwo', 'kolektyw', 'wychowanie', 'kontrola', 'szkoł', 'state', 'collective', 'control', 'family', 'parents', 'kollektiv', 'staat'],
+
+        // Latin / Private Law / Personalism
+        latin: ['prawo prywatne', 'dualizm', 'wolność', 'obywatel', 'osoba', 'osobow', 'rodzin', 'własność', 'autonomi', 'etyk', 'moraln', 'sumien', 'sąd', 'konstytucj', 'praworządn', 'umow', 'prywatn', 'niezależn', 'sprawiedliw', 'godność', 'monogami', 'private law', 'dualism', 'freedom', 'liberty', 'citizen', 'individual', 'person', 'family', 'property', 'autonomy', 'ethics', 'moral', 'conscience', 'court', 'constitution', 'rule of law', 'contract', 'justice', 'dignity', 'monogamy', 'privatrecht', 'freiheit', 'person', 'eigentum', 'rechtsstaat', 'verfassung'],
+        dualism: ['prawo prywatne', 'dualizm', 'prywatn', 'autonomi', 'swoboda', 'własność', 'umow', 'prawa człowieka', 'obywatel', 'private law', 'dualism', 'private', 'autonomy', 'property', 'contract', 'rights', 'civil law', 'privatrecht', 'bürgerliches recht'],
+        rel_universal: ['religia', 'uniwersaln', 'kościół', 'wiara', 'etyk', 'moraln', 'sumienie', 'autonomia', 'universal religion', 'church', 'faith', 'ethics', 'moral', 'conscience', 'independent', 'kirche', 'glaube'],
+        goal_beyond_exist: ['dobro', 'prawda', 'piękno', 'kultura', 'nauka', 'etyka', 'godność', 'doskonalenie', 'good', 'truth', 'beauty', 'culture', 'science', 'ethics', 'dignity', 'person', 'wahrheit', 'kultur'],
+        fam_full_emanc: ['rodzina', 'małżeństwo', 'monogamia', 'małżonk', 'rodzice', 'dzieci', 'autonomia', 'family', 'marriage', 'monogamy', 'spouse', 'parents', 'children', 'autonomy', 'familie', 'ehe', 'monogamie'],
+
+        // Turanian / Private Law of Ruler / Military
+        turanian: ['wojsk', 'armia', 'sił', 'wódz', 'rozkaz', 'posłuszeństw', 'dyscyplin', 'obóz', 'walk', 'przymus', 'bezwzględn', 'hierarchi', 'dowództw', 'garnizon', 'military', 'army', 'commander', 'leader', 'order', 'obedience', 'discipline', 'camp', 'coercion', 'force', 'command', 'militär', 'armee', 'befehl'],
+        monism_private: ['wódz', 'własność prywatna władcy', 'samowładca', 'rozkaz', 'posłuszeństwo', 'private property of ruler', 'autocrat', 'despot', 'commander', 'dictator', 'alleinherrscher'],
+        goal_exist_struggle: ['walka o byt', 'ekspansja', 'wojsk', 'militarn', 'siła', 'przetrwanie', 'struggle for existence', 'expansion', 'military', 'force', 'survival', 'überlebenskampf'],
+
+        // Arab / Islamic / Sacral
+        arab: ['szariat', 'koran', 'islam', 'allach', 'allah', 'teokracj', 'religi', 'sakraln', 'boż', 'prawo', 'wiara', 'muzułman', 'władz', 'państw', 'poddani', 'dogmat', 'niewiern', 'wyznan', 'umma', 'kalif', 'sharia', 'quran', 'islam', 'religious law', 'theocracy', 'sacred', 'caliphate', 'muslim', 'scharia'],
+        monism_sacral: ['prawo sakralne', 'szariat', 'boskie', 'religijne', 'dogmat', 'święte', 'sacred law', 'sharia', 'divine law', 'religious law', 'dogma', 'göttliches recht'],
+        rel_tribal: ['plemienna', 'narodowa', 'ród', 'klan', 'zamknięta', 'tribal', 'national', 'clan', 'ethnic religion', 'stammesreligion'],
+
+        // Jewish
+        jewish: ['naród', 'narodow', 'rodow', 'pochodzen', 'prawo', 'religi', 'tora', 'talmud', 'gmin', 'wspólnot', 'tradycj', 'obyczaj', 'święt', 'etyk', 'swoi', 'obcy', 'izrael', 'judaizm', 'rabin', 'torah', 'talmud', 'halakha', 'judaism', 'jewish', 'israel', 'rabbi', 'halacha', 'judentum'],
+
+        // Chinese
+        chinese: ['ród', 'rodow', 'rytuał', 'tradycj', 'porządek', 'posłuszeństwo', 'senior', 'przodk', 'państwo', 'etykiet', 'konfucj', 'clan', 'ancestor', 'ritual', 'confucian', 'lineage', 'dynasty', 'klan', 'ahnen', 'konfuzius'],
+        fam_clan_system: ['ród', 'klan', 'rada rodu', 'senior', 'przodkowie', 'patriarchalny', 'clan', 'lineage', 'patriarchal', 'ancestors', 'klan', 'sippe'],
+
+        // Brahmin
+        brahmin: ['kast', 'stan', 'hierarchi', 'urodzen', 'sakraln', 'przeznaczen', 'nierówn', 'rytuał', 'bramin', 'wedy', 'caste', 'hierarchy', 'brahmin', 'vedas', 'manu', 'karma', 'kaste']
       };
 
-      const keyWordsList = civKeywords[activeKey] || civKeywords.latin;
-      const indicatorKeyWords = dominantIndicator && dominantIndicator.name
-        ? dominantIndicator.name.toLowerCase().split(/\s+/).filter(w => w.length > 3)
-        : [];
+      const keyWordsList = keywordMap[activeKey] || keywordMap[sectionKey] || keywordMap.latin;
+
+      // Słowa kluczowe z dominującego wskaźnika i jego uzasadnienia (wyjaśniające, na podstawie czego zapadła decyzja)
+      const indicatorKeyWords = [];
+      if (dominantIndicator) {
+        if (dominantIndicator.key) {
+          dominantIndicator.key.toLowerCase().split(/[^a-z0-9]+/i).forEach(w => {
+            if (w.length >= 3) indicatorKeyWords.push(w);
+          });
+        }
+        const nameMapped = INDICATOR_NAME_MAP[dominantIndicator.key];
+        if (nameMapped) {
+          nameMapped.toLowerCase().split(/[^a-z0-9ąćęłńóśźż]+/i).forEach(w => {
+            if (w.length >= 3) indicatorKeyWords.push(w);
+          });
+        }
+        if (dominantIndicator.explanation && dominantIndicator.explanation.length > 5) {
+          dominantIndicator.explanation.toLowerCase().replace(/['"„”«»]/g, ' ').split(/[^a-z0-9ąćęłńóśźż]+/i).forEach(w => {
+            if (w.length >= 4 && !['tekst', 'podkreśla', 'opiera', 'wskazuje', 'bardzo', 'przez', 'oraz', 'jako', 'jest', 'brak', 'danych'].includes(w)) {
+              indicatorKeyWords.push(w);
+            }
+          });
+        }
+      }
 
       const scored = rawSentences.map((sent, idx) => {
         const lower = sent.toLowerCase();
@@ -3433,9 +3804,9 @@
         for (const kw of indicatorKeyWords) {
           if (lower.includes(kw)) score += 4;
         }
-        if (sent.length >= 80 && sent.length <= 360) {
+        if (sent.length >= 70 && sent.length <= 340) {
           score += 2;
-        } else if (sent.length > 360 && sent.length <= 500) {
+        } else if (sent.length > 340 && sent.length <= 480) {
           score += 1;
         }
         return { sent, score, idx };
@@ -3445,6 +3816,7 @@
 
       const selected = [];
       const pickedSentences = new Set();
+      const indLabel = dominantIndicator ? (INDICATOR_NAME_MAP[dominantIndicator.key] || dominantIndicator.key.replace(/_/g, ' ')) : '';
 
       for (const item of scored) {
         if (selected.length >= count) break;
@@ -3456,19 +3828,23 @@
         pickedSentences.add(item.sent);
 
         let fullFragment = item.sent;
-        if (fullFragment.length < 110 && item.idx + 1 < rawSentences.length) {
+        if (fullFragment.length < 100 && item.idx + 1 < rawSentences.length) {
           const nextSent = rawSentences[item.idx + 1];
-          if (nextSent.length < 220) {
+          if (nextSent.length < 200 && !isBoilerplateSentence(nextSent)) {
             fullFragment += ' ' + nextSent;
           }
         }
 
+        fullFragment = cleanSentence(fullFragment);
+
         selected.push({
           quote: fullFragment,
           context: `Cytat ze źródła (akapit badany)`,
-          rationale: item.score > 3
-            ? `Autentyczny fragment źródłowy wskazujący na desygnaty cywilizacji (${keyWordsList.slice(0, 3).join(', ')})`
-            : `Dosłowny fragment tekstu poddany analizie historiozoficznej`
+          rationale: indLabel
+            ? `Podstawa decyzji powiązana ze wskaźnikiem: ${indLabel}`
+            : (item.score > 3
+                ? `Autentyczny fragment źródłowy wskazujący na desygnaty: ${keyWordsList.slice(0, 3).join(', ')}`
+                : `Dosłowny fragment tekstu poddany analizie historiozoficznej`)
         });
       }
 
@@ -3480,12 +3856,12 @@
         switch (activeKey) {
           case 'jewish':
             return `<strong>Dlaczego Żydowska, a nie Arabska czy Łacińska?</strong><br>
-• <em>Wobec Arabskiej:</em> Obie są cywilizacjami sakralnymi (monizm prawa religijnego), lecz cywilizacja arabska jest <strong>uniwersalistyczna</strong> (prawo Koranu dla każdego wyznawcy), podczas gdy cywilizacja żydowska opiera się na <strong>ekskluzywizmie rodowo-narodowym</strong> i <strong>podwójnej etyce</strong> (odmienne normy prawne i moralne stosowane wewnątrz wspólnoty rodowej, a odmienne na zewnątrz wobec obcych).<br>
-• <em>Wobec Łacińskiej:</em> W łacińskiej panuje nienaruszalny dualizm prawa świeckiego i jedna etyka uniwersalna dla wszystkich; w cywilizacji żydowskiej całe życie reguluje kazuistyczne prawo sakralne (Tora/Talmud), eliminując autonomiczne prawo świeckie.`;
+• <em>Wobec Arabskiej:</em> Obie są cywilizacjami sakralnymi (monizm prawa religijnego), lecz cywilizacja arabska jest <strong>uniwersalistyczna</strong> (prawo Koranu dla każdego wyznawcy), podczas gdy cywilizacja żydowska opiera się na <strong>tradycji rodowo-sakralnej</strong> i <strong>etyce wspólnotowej</strong> (normy prawne i moralne zorientowane na spójność wspólnoty rodowej i prawa przymierza).<br>
+• <em>Wobec Łacińskiej:</em> W łacińskiej panuje nienaruszalny dualizm prawa świeckiego i jedna etyka uniwersalna dla wszystkich; w cywilizacji żydowskiej całe życie reguluje kazuistyczne prawo sakralne, eliminując autonomiczne prawo świeckie.`;
 
           case 'arab':
             return `<strong>Dlaczego Arabska, a nie Żydowska czy Łacińska?</strong><br>
-• <em>Wobec Żydowskiej:</em> Obie są cywilizacjami sakralnymi, ale islam ma charakter <strong>uniwersalnej teokracji</strong> otwartej na wszystkie ludy bez względu na pochodzenie rodowe, w przeciwieństwie do partykularyzmu rodowo-etnicznego cywilizacji żydowskiej.<br>
+• <em>Wobec Żydowskiej:</em> Obie są cywilizacjami sakralnymi, ale islam ma charakter <strong>uniwersalnej teokracji</strong> otwartej na wszystkie ludy bez względu na pochodzenie rodowe, w przeciwieństwie do etyki rodowo-wspólnotowej cywilizacji żydowskiej.<br>
 • <em>Wobec Łacińskiej:</em> Cywilizacja łacińska rozdziela państwo od Kościoła i chroni autonomię prawa prywatnego; cywilizacja arabska nie dopuszcza rozdziału sacrum od profanum – prawo państwowe to bezpośrednio dogmat religijny (szariat).`;
 
           case 'latin':
@@ -3549,7 +3925,7 @@
 • Władza świecka podporządkowuje sobie instytucje religijne, czyniąc z nich narzędzie dyscyplinowania poddanych i legitymizowania decyzji politycznych.`;
           case 'rel_tribal':
             return `<strong>Dlaczego Religia Plemienna / Narodowa?</strong><br>
-• Sacrum jest zamknięte w granicach jednej grupy etnicznej lub rodowej, wytwarzając podwójne standardy moralne wobec członków i nie-członków.`;
+• Sacrum jest zamknięte w granicach jednej grupy rodowej, wytwarzając etykę wspólnotową skoncentrowaną na prawie wewnętrznym danej grupy.`;
           default:
             return '';
         }
@@ -3717,7 +4093,7 @@
           byzantine: "Cywilizacja Bizantyńska charakteryzuje się omnipotencją państwa, rozrostem biurokracji i monizmem prawa publicznego (wchłanianie sfery prywatnej przez państwo). Wszelkie dziedziny życia oraz instytucje religijne zostają podporządkowane racji stanu (cezaryzm).",
           turanian: "Cywilizacja Turańska opiera się na ustroju obozowym, w którym wola wodza lub aparatu siłowego stanowi jedyne źródło prawa. Brak tu autonomicznego społeczeństwa obywatelskiego i niezależności jednostki – relacje opierają się na bezwzględnym przymusie.",
           arab: "Cywilizacja Arabska posiada charakter sakralny: prawo, państwo i moralność są z góry zdeterminowane przez objawienie religijne. Wyklucza to autonomiczne prawo świeckie i wolność sumienia jednostki wobec religijnych dogmatów prawnych.",
-          jewish: "Cywilizacja Żydowska opiera się na monizmie prawa sakralnego (Tora/Halacha), ekskluzywizmie rodowo-prawnym oraz podwójnej etyce (odmienne normy prawne i moralne stosowane wewnątrz wspólnoty, a odmienne na zewnątrz).",
+          jewish: "Cywilizacja Żydowska opiera się na monizmie prawa sakralnego (Tora/Halacha), ustroju rodowo-prawnym oraz etyce rodowo-wspólnotowej (skoncentrowanej na prawie wewnętrznym wspólnoty).",
           brahmin: "Cywilizacja Bramińska opiera się na sakralnym podziale kastowym, sankcjonowaniu nierówności bytu oraz dominacji bierności społecznej i rytualizmu nad rozwojem osoby ludzkiej.",
           chinese: "Cywilizacja Chińska opiera się na wszechwładzy ustroju rodowego połączonej z etatyzmem i sztywnym rytuałem (li), eliminując pojęcie autonomicznej osoby ludzkiej i sumienia.",
           syncretic: "Stan acywilizacyjny (mieszanka cywilizacyjna) powstaje w wyniku zderzenia sprzecznych metod życia zbiorowego, co wg Konecznego prowadzi do rozkładu ładu prawnego i chaosu instytucjonalnego."
@@ -3753,7 +4129,7 @@
         }
 
         return {
-          sectionTitle: "Cywilizacja",
+          sectionTitle: t("Cywilizacja", "Civilization"),
           activeLabel: activeOpt.label,
           color: activeOpt.color,
           why: whyText,
@@ -3793,7 +4169,7 @@
         }
 
         return {
-          sectionTitle: "Prawo",
+          sectionTitle: t("Prawo", "Law"),
           activeLabel: activeOpt.label,
           color: activeOpt.color,
           why: legalExplanations[activeLegalKey] || legalExplanations.dualism,
@@ -3835,7 +4211,7 @@
         }
 
         return {
-          sectionTitle: "Religia",
+          sectionTitle: t("Religia", "Religion"),
           activeLabel: activeOpt.label,
           color: activeOpt.color,
           why: relExplanations[activeRelKey] || relExplanations.rel_universal,
@@ -3878,7 +4254,7 @@
         }
 
         return {
-          sectionTitle: "Cele społeczeństwa",
+          sectionTitle: t("Cele społeczeństwa", "Societal Goals"),
           activeLabel: activeOpt.label,
           color: activeOpt.color,
           why: goalExplanations[activeGoalKey] || goalExplanations.goal_beyond_exist,
@@ -3919,7 +4295,7 @@
         }
 
         return {
-          sectionTitle: "Emancypacja rodziny",
+          sectionTitle: t("Emancypacja rodziny", "Family Emancipation"),
           activeLabel: activeOpt.label,
           color: activeOpt.color,
           why: famExplanations[activeFamKey] || famExplanations.fam_full_emanc,
@@ -3949,15 +4325,15 @@
 
       const quotesHtml = (info.examples || []).map((item, idx) => {
         const quoteText = typeof item === 'object' && item.quote ? item.quote : String(item);
-        const quoteContext = (typeof item === 'object' && item.context) ? item.context : `Fragment źródłowy #${idx + 1}`;
-        const quoteRationale = (typeof item === 'object' && item.rationale) ? item.rationale : `Uzasadnienie korelacji ze wskaźnikiem`;
+        const quoteContext = (typeof item === 'object' && item.context) ? item.context : `${t('Fragment źródłowy', 'Source excerpt')} #${idx + 1}`;
+        const quoteRationale = (typeof item === 'object' && item.rationale) ? item.rationale : t('Uzasadnienie korelacji ze wskaźnikiem', 'Indicator correlation rationale');
 
         return `
           <div class="notebook-quote-card example-item">
             <div class="notebook-quote-header">
               <span class="notebook-quote-badge">
                 <span class="example-num">${idx + 1}</span>
-                <span>CYTAT ŹRÓDŁOWY</span>
+                <span>${t('CYTAT ŹRÓDŁOWY', 'SOURCE QUOTE')}</span>
               </span>
               <span class="notebook-quote-context">${escapeHtml(quoteContext)}</span>
             </div>
@@ -3979,14 +4355,14 @@
               <span class="popover-result-badge" style="border-color: ${info.color}; color: #ffffff; background: ${info.color}33;">${escapeHtml(info.activeLabel)}</span>
             </div>
           </div>
-          <button class="popover-close-btn" title="Zamknij" aria-label="Zamknij">✕</button>
+          <button class="popover-close-btn" title="${t('Zamknij', 'Close')}" aria-label="${t('Zamknij', 'Close')}">✕</button>
         </div>
 
         <!-- Blok 1: Historiozoficzne uzasadnienie -->
         <div class="popover-section-block">
           <div class="popover-block-title">
             <span>🏛️</span>
-            <span>Uzasadnienie klasyfikacji (Koneczny)</span>
+            <span>${t('Uzasadnienie klasyfikacji (Koneczny)', 'Classification Rationale (Koneczny)')}</span>
           </div>
           <div class="popover-why-text">
             ${info.why}
@@ -4000,7 +4376,7 @@
           <div class="popover-section-block">
             <div class="popover-block-title">
               <span>🎯</span>
-              <span>Najbardziej dominujący czynnik w tekście</span>
+              <span>${t('Najbardziej dominujący czynnik w tekście', 'Most Dominant Factor in Text')}</span>
             </div>
             <div class="dominant-card">
               <div class="dominant-header">
@@ -4016,7 +4392,7 @@
         <div class="popover-section-block" style="margin-bottom: 4px;">
           <div class="popover-block-title" style="color: #10b981;">
             <span>📌</span>
-            <span>2 przykłady z analizowanego tekstu (dowody)</span>
+            <span>${t('2 przykłady z analizowanego tekstu (dowody)', '2 examples from analyzed text (evidence)')}</span>
           </div>
           <div class="notebook-quote-container">
             ${quotesHtml}
@@ -4024,7 +4400,7 @@
         </div>
 
         <div class="popover-footer">
-          Metoda historiozoficzna prof. Feliksa Konecznego
+          ${t('Metoda historiozoficzna prof. Feliksa Konecznego', 'Prof. Feliks Koneczny Historiosophical Method')}
         </div>
       `;
     }
@@ -4045,7 +4421,7 @@
       const arabW = sacral >= 0.35 ? Math.round(sacral * 60) : 0;
       const jewW = sacral >= 0.35 ? Math.round(sacral * 35) : 0;
 
-      const chinW = (dual < 0.48 && (rawTextUpper.includes('CHIŃSK') || rawTextUpper.includes('CHINY') || rawTextUpper.includes('CHINA') || rawTextUpper.includes('KONFUCI') || rawTextUpper.includes('TAO') || rawTextUpper.includes('DAO'))) ? Math.round((1.0 - dual) * 55) : 0;
+      const chinW = (dual < 0.48 && ethic >= 0.35) ? Math.round((1.0 - dual) * 55) : 0;
       const tot = latW + bizW + turW + chinW + arabW + jewW || 100;
       const spec = [
         { key: 'latin', label: 'Łacińska', color: '#10b981', pct: Math.round((latW / tot) * 100) },
@@ -4071,10 +4447,10 @@
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px;">
           <div style="font-size: 11px; font-weight: 700; color: #cbd5e1; letter-spacing: 0.02em; display: flex; align-items: center; gap: 6px;">
             <span style="width: 7px; height: 7px; border-radius: 50%; background: #38bdf8; display: inline-block;"></span>
-            <span>Spektrum Wpływów Cywilizacyjnych w Tekście:</span>
+            <span>${t('Spektrum Wpływów Cywilizacyjnych w Tekście:', 'Spectrum of Civilizational Influences in Text:')}</span>
           </div>
           <div style="font-size: 10.5px; font-weight: 800; color: #38bdf8;">
-            Łącznie: 100%
+            ${t('Łącznie: 100%', 'Total: 100%')}
           </div>
         </div>
 
@@ -4097,69 +4473,69 @@
     const civStagesData = [
       {
         num: "01",
-        name: "Gromadztwo",
-        title: "01. Gromadztwo Bezimienne (Pierwotne)",
-        quote: "Brak nazwisk, pierwotny kolektywizm stada",
-        desc: "Brak nazwisk dziedzicznych, brak świadomości genealogicznej. Człowiek nie istnieje jako jednostka ani rodzina – jest tylko bezimiennym ogniwem stada/gromady.",
-        achievement: "Brak dziedziczenia i brak pamiątek przeszłości",
-        roleHeader: "🔑 Rola Nazwiska Dziedzicznego:",
-        roleDesc: "Koneczny podkreślał, że dopóki ludność nie posiada dziedzicznych nazwisk rodowych, dopóty nie istnieje prawo majątkowe ani świadomość dziejowa.",
-        roleExample: "Przykład: W cywilizacji turańskiej lub starożytnych gromadach ludzie posiadali tylko imiona przydomkowe, co uniemożliwiało trwały samorząd."
+        name: t("Gromadztwo", "Nameless Horde"),
+        title: t("01. Gromadztwo Bezimienne (Pierwotne)", "01. Nameless Horde (Primitive)"),
+        quote: t("Brak nazwisk, pierwotny kolektywizm stada", "No surnames, primitive herd collectivism"),
+        desc: t("Brak nazwisk dziedzicznych, brak świadomości genealogicznej. Człowiek nie istnieje jako jednostka ani rodzina – jest tylko bezimiennym ogniwem stada/gromady.", "No hereditary surnames, no genealogical awareness. Man does not exist as an individual or family - only as a nameless link in the herd/horde."),
+        achievement: t("Brak dziedziczenia i brak pamiątek przeszłości", "Absence of inheritance and historical memory"),
+        roleHeader: t("Rola Nazwiska Dziedzicznego:", "Role of the Hereditary Surname:"),
+        roleDesc: t("Koneczny podkreślał, że dopóki ludność nie posiada dziedzicznych nazwisk rodowych, dopóty nie istnieje prawo majątkowe ani świadomość dziejowa.", "Koneczny stressed that until people possess hereditary family surnames, property law and historical consciousness cannot exist."),
+        roleExample: t("Przykład: W cywilizacji turańskiej lub starożytnych gromadach ludzie posiadali tylko imiona przydomkowe, co uniemożliwiało trwały samorząd.", "Example: In Turanian civilization or ancient hordes, people had only nicknames, preventing lasting self-government.")
       },
       {
         num: "02",
-        name: "Ród Imienny",
-        title: "02. Ród Imienny (Pojawienie się Nazwisk)",
-        quote: "Ciągłość pokoleniowa i początek prawa majątkowego",
-        desc: "Kluczowy krok cywilizacyjny. Wprowadzenie dziedzicznego miana rodowego umożliwia: ciągłość pokoleniową (pamięć o przodkach), prawo dziedziczenia własności oraz ochronę prawną (ród odpowiada za swoich członków i żąda zadośćuczynienia za ich krzywdy).",
-        achievement: "Dziedziczne nazwiska rodowe i prawo spadkowe",
-        roleHeader: "🔑 Solidarność i Odpowiedzialność Rodowa:",
-        roleDesc: "Ród staje się podmiotem prawnym i gospodarczym. Członkowie rodu są złączeni wspólnym mianem i wspólną odpowiedzialnością prawno-majątkową.",
-        roleExample: "Przykład: Klany szkockie, arabskie plemiona Beduinów czy rzymskie gentes w początkowej fazie prawa kwirytarnego."
+        name: t("Ród Imienny", "Named Clan"),
+        title: t("02. Ród Imienny (Pojawienie się Nazwisk)", "02. Named Clan (Emergence of Surnames)"),
+        quote: t("Ciągłość pokoleniowa i początek prawa majątkowego", "Generational continuity and genesis of property law"),
+        desc: t("Kluczowy krok cywilizacyjny. Wprowadzenie dziedzicznego miana rodowego umożliwia: ciągłość pokoleniową (pamięć o przodkach), prawo dziedziczenia własności oraz ochronę prawną (ród odpowiada za swoich członków i żąda zadośćuczynienia za ich krzywdy).", "Key civilizational step. Introducing hereditary lineage names allows: generational continuity (ancestral memory), property inheritance law, and legal protection."),
+        achievement: t("Dziedziczne nazwiska rodowe i prawo spadkowe", "Hereditary surnames and inheritance law"),
+        roleHeader: t("Solidarność i Odpowiedzialność Rodowa:", "Lineage Solidarity and Responsibility:"),
+        roleDesc: t("Ród staje się podmiotem prawnym i gospodarczym. Członkowie rodu są złączeni wspólnym mianem i wspólną odpowiedzialnością prawno-majątkową.", "The clan becomes a legal and economic entity, bound by a shared name and collective liability."),
+        roleExample: t("Przykład: Klany szkockie, arabskie plemiona Beduinów czy rzymskie gentes w początkowej fazie prawa kwirytarnego.", "Example: Scottish clans, Bedouin tribes, or Roman gentes in early Quiritary law.")
       },
       {
         num: "03",
-        name: "Monizm",
-        title: "03. Pętla Monizmu / Cezaryzmu",
-        quote: "Próba absorpcji rodu przez machinę państwową",
-        desc: "W cywilizacjach turańskiej czy bizantyńskiej państwo lub samowładca próbuje zniszczyć lub podporządkować ród, zamieniając ludzi w poddanych/urzędników bez praw prywatnych.",
-        achievement: "Centralizacja aparatu przymusu kosztem wolności prywatnej",
-        roleHeader: "🔑 Zagrożenie Statolatrią:",
-        roleDesc: "Prawo publiczne pochłania prawo prywatne. Etyka zostaje zredukowana do posłuszeństwa władcy i racji stanu.",
-        roleExample: "Przykład: Cezaropapizm bizantyński, carski absolutyzm oraz ustrój obozowy państw totalitarnych i komunistycznych."
+        name: t("Monizm", "Monism"),
+        title: t("03. Pętla Monizmu / Cezaryzmu", "03. Loop of Monism / Caesarism"),
+        quote: t("Próba absorpcji rodu przez machinę państwową", "Attempted absorption of the clan by the state machine"),
+        desc: t("W cywilizacjach turańskiej czy bizantyńskiej państwo lub samowładca próbuje zniszczyć lub podporządkować ród, zamieniając ludzi w poddanych/urzędników bez praw prywatnych.", "In Turanian or Byzantine civilizations, the state or autocrat tries to subordinate the clan, turning individuals into subjects/officials without private rights."),
+        achievement: t("Centralizacja aparatu przymusu kosztem wolności prywatnej", "Centralization of coercion at the expense of private freedom"),
+        roleHeader: t("Zagrożenie Statolatrią:", "Danger of Statolatry:"),
+        roleDesc: t("Prawo publiczne pochłania prawo prywatne. Etyka zostaje zredukowana do posłuszeństwa władcy i racji stanu.", "Public law swallows private law. Ethics is reduced to obedience to ruler and reason of state."),
+        roleExample: t("Przykład: Cezaropapizm bizantyński, carski absolutyzm oraz ustrój obozowy państw totalitarnych i komunistycznych.", "Example: Byzantine caesaropapism, tsarist absolutism, and camp order of totalitarian states.")
       },
       {
         num: "04",
-        name: "Rodzina",
-        title: "04. Emancypacja Rodziny z Rodu",
-        quote: "Monogamia dożywotnia fundamentem własności indywidualnej",
-        desc: "W cywilizacji łacińskiej dochodzi do przełomu – mała rodzina (ojciec, matka, dzieci) wyodrębnia się z wielkiego klanu rodowego dzięki ścisłej monogamii dożywotniej.",
-        achievement: "Wyodrębnienie małej rodziny i niezależność syna za życia ojca",
-        roleHeader: "🔑 Emancypacja z Ekonomii Rodowej:",
-        roleDesc: "Monogamia jest warunkiem wstępnym własności indywidualnej. Poligamia zawsze uderza we własność prywatną i cofa ustrój do poziomu klanowego.",
-        roleExample: "Przykład: Przełom prawa zachodniego — rozbicie rodowładztwa na rzecz nienaruszalności ogniska domowego."
+        name: t("Rodzina", "Family"),
+        title: t("04. Emancypacja Rodziny z Rodu", "04. Family Emancipation from Clan"),
+        quote: t("Monogamia dożywotnia fundamentem własności indywidualnej", "Lifelong monogamy as the foundation of individual property"),
+        desc: t("W cywilizacji łacińskiej dochodzi do przełomu – mała rodzina (ojciec, matka, dzieci) wyodrębnia się z wielkiego klanu rodowego dzięki ścisłej monogamii dożywotniej.", "In Latin civilization, a breakthrough occurs: the nuclear family separates from the clan thanks to strict lifelong monogamy."),
+        achievement: t("Wyodrębnienie małej rodziny i niezależność syna za życia ojca", "Nuclear family separation and son's independence during father's life"),
+        roleHeader: t("Emancypacja z Ekonomii Rodowej:", "Emancipation from Clan Economy:"),
+        roleDesc: t("Monogamia jest warunkiem wstępnym własności indywidualnej. Poligamia zawsze uderza we własność prywatną i cofa ustrój do poziomu klanowego.", "Monogamy is a prerequisite for individual property. Polygamy undermines private property and reverts society to a clan level."),
+        roleExample: t("Przykład: Przełom prawa zachodniego — rozbicie rodowładztwa na rzecz nienaruszalności ogniska domowego.", "Example: Western legal breakthrough - breaking clan rule in favor of home hearth inviolability.")
       },
       {
         num: "05",
-        name: "Personalizm",
-        title: "05. Personalizm (Emancypacja Osoby Ludzkiej)",
-        quote: "Moralność wykwita ze społeczeństwa tylko przy dualizmie prawa",
-        desc: "Szczytowe osiągnięcie łacińskie. Moralność rozwija się przez obowiązkowość dobrowolną i wykwita ze społeczeństwa, a nie z państwa — rozwój jej wszechstronny dokonywać się może tylko tam, gdzie państwo nie pożera społeczeństwa, a zatem tylko przy dualizmie prawa.",
-        achievement: "Dualizm Prawny (Rozdzielność prawa prywatnego i publicznego)",
-        roleHeader: "🔑 Prymat Etyki nad Ustawą:",
-        roleDesc: "Państwo nie dopomoże etyce sankcjami — moralność wykwita z wolnej woli osoby ludzkiej i autonomii prawa prywatnego.",
-        roleExample: "Przykład: Zasada Neminem captivabimus, aequitas oraz tomistyczna filozofia prawa naturalnego."
+        name: t("Personalizm", "Personalism"),
+        title: t("05. Personalizm (Emancypacja Osoby Ludzkiej)", "05. Personalism (Emancipation of the Person)"),
+        quote: t("Moralność wykwita ze społeczeństwa tylko przy dualizmie prawa", "Morality blooms from society only under legal dualism"),
+        desc: t("Szczytowe osiągnięcie łacińskie. Moralność rozwija się przez obowiązkowość dobrowolną i wykwita ze społeczeństwa, a nie z państwa — rozwój jej wszechstronny dokonywać się może tylko tam, gdzie państwo nie pożera społeczeństwa, a zatem tylko przy dualizmie prawa.", "Peak Latin achievement. Morality develops through voluntary duty and blooms from society, not the state, thriving only where the state does not swallow society."),
+        achievement: t("Dualizm Prawny (Rozdzielność prawa prywatnego i publicznego)", "Legal Dualism (Separation of private and public law)"),
+        roleHeader: t("Prymat Etyki nad Ustawą:", "Primacy of Ethics over Statute:"),
+        roleDesc: t("Państwo nie dopomoże etyce sankcjami — moralność wykwita z wolnej woli osoby ludzkiej i autonomii prawa prywatnego.", "The state cannot enforce ethics with sanctions - morality springs from human free will and private law autonomy."),
+        roleExample: t("Przykład: Zasada Neminem captivabimus, aequitas oraz tomistyczna filozofia prawa naturalnego.", "Example: Neminem captivabimus principle, aequitas, and Thomistic natural law philosophy.")
       },
       {
         num: "06",
-        name: "Naród",
-        title: "06. Zrzeszenie Obywatelskie (Naród Organiczny)",
-        quote: "Patriotyzm moralny vs egoistyczny nacjonalizm (sacro egoismo)",
-        desc: "Wolne osoby łączą się w dobrowolny naród oparty na patriotyzmie i hegemonii etyki. Tym różni się patriotyzm od nacjonalizmu, który kieruje się bezwzględnym 'sacro egoismo', w mylnym mniemaniu, jakoby można było trwale służyć własnemu narodowi będąc szkodnikiem dla świata.",
-        achievement: "Organy Dobrowolnego Ładu i Etyka Uniwersalna",
-        roleHeader: "🔑 Naród Ponad Państwem:",
-        roleDesc: "Naród to zrzeszenie wolnych osób połączonych wspólną tradycją i etyką ogólnoludzką — odrzucające sobkostwo narodowe na rzecz dobra wspólnego.",
-        roleExample: "Przykład: Dojrzała polska świadomość republikańska (Rzeczpospolita) oraz wolne narody oparte na prymacie dobra wspólnego."
+        name: t("Naród", "Organic Nation"),
+        title: t("06. Zrzeszenie Obywatelskie (Naród Organiczny)", "06. Civic Association (Organic Nation)"),
+        quote: t("Patriotyzm moralny vs egoistyczny nacjonalizm (sacro egoismo)", "Moral patriotism vs selfish nationalism (sacro egoismo)"),
+        desc: t("Wolne osoby łączą się w dobrowolny naród oparty na patriotyzmie i hegemonii etyki. Tym różni się patriotyzm od nacjonalizmu, który kieruje się bezwzględnym 'sacro egoismo', w mylnym mniemaniu, jakoby można było trwale służyć własnemu narodowi będąc szkodnikiem dla świata.", "Free individuals unite into a voluntary nation based on patriotism and ethical hegemony, rejecting sacro egoismo."),
+        achievement: t("Organy Dobrowolnego Ładu i Etyka Uniwersalna", "Voluntary Order and Universal Ethics"),
+        roleHeader: t("Naród Ponad Państwem:", "Nation above the State:"),
+        roleDesc: t("Naród to zrzeszenie wolnych osób połączonych wspólną tradycją i etyką ogólnoludzką — odrzucające sobkostwo narodowe na rzecz dobra wspólnego.", "A nation is an association of free persons united by tradition and universal ethics, rejecting selfish isolationism for common good."),
+        roleExample: t("Przykład: Dojrzała polska świadomość republikańska (Rzeczpospolita) oraz wolne narody oparte na prymacie dobra wspólnego.", "Example: Mature republican consciousness (Commonwealth) and free nations based on common good.")
       }
     ];
 
@@ -4170,7 +4546,7 @@
           <div style="flex: 1 1 280px; min-width: 260px; display: flex; flex-direction: column; justify-content: space-between;">
             <div>
               <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
-                <span style="font-size: 9px; font-weight: 800; background: #0284c7; color: #ffffff; padding: 2px 6px; border-radius: 4px; text-transform: uppercase;">SZCZEBEL ${parseInt(stage.num)} Z 6</span>
+                <span style="font-size: 9px; font-weight: 800; background: #0284c7; color: #ffffff; padding: 2px 6px; border-radius: 4px; text-transform: uppercase;">${t('SZCZEBEL', 'STAGE')} ${parseInt(stage.num)} ${t('Z 6', 'OF 6')}</span>
                 <span style="font-size: 13px; font-weight: 800; color: #f8fafc;">${stage.title}</span>
               </div>
               <div style="font-size: 11.5px; font-weight: 700; color: #38bdf8; font-style: italic; margin-bottom: 6px;">
@@ -4181,8 +4557,7 @@
               </div>
             </div>
             <div style="margin-top: 8px; font-size: 11px; font-weight: 700; color: #34d399; display: flex; align-items: center; gap: 5px;">
-              <span>✓</span>
-              <span>Kluczowe Osiągnięcie: ${stage.achievement}</span>
+              <span>${t('Kluczowe Osiągnięcie:', 'Key Achievement:')} ${stage.achievement}</span>
             </div>
           </div>
 
@@ -4197,7 +4572,7 @@
               </div>
             </div>
             <div style="background: rgba(0, 0, 0, 0.35); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 6px; padding: 6px 8px; font-size: 10.5px; color: #cbd5e1; line-height: 1.35;">
-              ${stage.roleExample}
+              <span style="font-weight: 700; color: #93c5fd;">${t('Przykład:', 'Example:')}</span> ${stage.roleExample}
             </div>
           </div>
         </div>
@@ -4235,15 +4610,14 @@
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 8px; flex-wrap: wrap; gap: 6px;">
           <div>
             <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: #38bdf8; display: flex; align-items: center; gap: 6px;">
-              <span style="font-size: 13px;">🏔️</span>
-              <span>ZAAWANSOWANIE CYWILIZACYJNE ZRZESZENIA</span>
+              <span>${t('ZAAWANSOWANIE CYWILIZACYJNE ZRZESZENIA', 'CIVILIZATIONAL ADVANCEMENT OF ASSOCIATION')}</span>
             </div>
             <div style="font-size: 10px; color: #94a3b8; margin-top: 1px;">
-              Trójkątne schody wspinaczki od gromadztwa po naród (Ewolucja od bezimiennej gromady po personalizm i nazwiska)
+              ${t('Trójkątne schody wspinaczki od gromadztwa po naród (Ewolucja od bezimiennej gromady po personalizm i nazwiska)', 'Ascending stages from primitive horde to organic nation (Evolution towards personalism & surnames)')}
             </div>
           </div>
           <div id="civ-stage-badge" style="font-size: 10.5px; font-weight: 800; background: rgba(56, 189, 248, 0.15); border: 1px solid #38bdf8; color: #38bdf8; padding: 3px 9px; border-radius: 6px;">
-            Obecny Szczebel: Stage #${civStagesData[defaultStageIdx].num}
+            ${t('Obecny Szczebel:', 'Current Stage:')} Stage #${civStagesData[defaultStageIdx].num}
           </div>
         </div>
 
@@ -4256,12 +4630,12 @@
             return `
               <button class="civ-stage-btn" data-stage="${idx}" style="width: ${w}; background: ${isInitialActive ? 'rgba(56, 189, 248, 0.14)' : 'rgba(15, 23, 42, 0.6)'}; border: 1.5px solid ${isInitialActive ? '#38bdf8' : 'rgba(255, 255, 255, 0.08)'}; border-radius: 7px; padding: 7px 12px; cursor: pointer; text-align: left; transition: all 0.2s ease; display: flex; justify-content: space-between; align-items: center; box-shadow: ${isInitialActive ? '0 0 10px rgba(56, 189, 248, 0.25)' : 'none'};">
                 <div style="display: flex; align-items: center; gap: 8px;">
-                  <span class="stg-num" style="font-size: 9.5px; font-weight: 800; color: #38bdf8; letter-spacing: 0.04em;">POZIOM ${stg.num}</span>
+                  <span class="stg-num" style="font-size: 9.5px; font-weight: 800; color: #38bdf8; letter-spacing: 0.04em;">${t('POZIOM', 'LEVEL')} ${stg.num}</span>
                   <span class="stg-name" style="font-size: 11.5px; font-weight: 700; color: ${isInitialActive ? '#ffffff' : '#cbd5e1'};">${stg.name}</span>
                 </div>
                 <div class="stg-badge-wrap">
                   ${idx === defaultStageIdx ? `
-                    <span class="stg-curr-pill" style="font-size: 9px; font-weight: 800; background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; color: #34d399; padding: 2px 7px; border-radius: 4px; text-transform: uppercase;">OBECNY POZIOM</span>
+                    <span class="stg-curr-pill" style="font-size: 9px; font-weight: 800; background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; color: #34d399; padding: 2px 7px; border-radius: 4px; text-transform: uppercase;">${t('OBECNY POZIOM', 'CURRENT LEVEL')}</span>
                   ` : ''}
                 </div>
               </button>
@@ -4330,40 +4704,40 @@
       const dataDotsHtml = dataPtsArr.map(p => `<circle cx="${p.x}" cy="${p.y}" r="3.5" fill="#38bdf8" stroke="#ffffff" stroke-width="1.5" />`).join('');
 
       const labels = [
-        { text: 'Dobro', x: cx, y: cy - r - 12, anchor: 'middle' },
-        { text: 'Prawda', x: cx + (r + 16) * Math.cos(angles[1]), y: cy + (r + 16) * Math.sin(angles[1]), anchor: 'start' },
-        { text: 'Zdrowie', x: cx + (r + 16) * Math.cos(angles[2]), y: cy + (r + 16) * Math.sin(angles[2]) + 4, anchor: 'start' },
-        { text: 'Dobrobyt', x: cx + (r + 16) * Math.cos(angles[3]), y: cy + (r + 16) * Math.sin(angles[3]) + 4, anchor: 'end' },
-        { text: 'Piękno', x: cx + (r + 16) * Math.cos(angles[4]), y: cy + (r + 16) * Math.sin(angles[4]), anchor: 'end' }
+        { text: t('Dobro', 'Goodness'), x: cx, y: cy - r - 12, anchor: 'middle' },
+        { text: t('Prawda', 'Truth'), x: cx + (r + 16) * Math.cos(angles[1]), y: cy + (r + 16) * Math.sin(angles[1]), anchor: 'start' },
+        { text: t('Zdrowie', 'Health'), x: cx + (r + 16) * Math.cos(angles[2]), y: cy + (r + 16) * Math.sin(angles[2]) + 4, anchor: 'start' },
+        { text: t('Dobrobyt', 'Prosperity'), x: cx + (r + 16) * Math.cos(angles[3]), y: cy + (r + 16) * Math.sin(angles[3]) + 4, anchor: 'end' },
+        { text: t('Piękno', 'Beauty'), x: cx + (r + 16) * Math.cos(angles[4]), y: cy + (r + 16) * Math.sin(angles[4]), anchor: 'end' }
       ];
       const labelSvgHtml = labels.map(l => `<text x="${l.x}" y="${l.y}" text-anchor="${l.anchor}" fill="#e2e8f0" font-size="11" font-weight="700">${l.text}</text>`).join('');
 
-      let civText = "Łacińska (88%)";
-      if (activeCivKey === 'byzantine') civText = "Bizantyńska (85%)";
-      else if (activeCivKey === 'turanian') civText = "Turańska (92%)";
-      else if (activeCivKey === 'arab') civText = "Arabska (95%)";
-      else if (activeCivKey === 'jewish') civText = "Żydowska (89%)";
-      else if (activeCivKey === 'brahmin') civText = "Bramińska (87%)";
-      else if (activeCivKey === 'chinese') civText = "Chińska (90%)";
-      else if (activeCivKey === 'syncretic') civText = "Acywilizacyjna (75%)";
+      let civText = t("Łacińska (88%)", "Latin (88%)");
+      if (activeCivKey === 'byzantine') civText = t("Bizantyńska (85%)", "Byzantine (85%)");
+      else if (activeCivKey === 'turanian') civText = t("Turańska (92%)", "Turanian (92%)");
+      else if (activeCivKey === 'arab') civText = t("Arabska (95%)", "Arab (95%)");
+      else if (activeCivKey === 'jewish') civText = t("Żydowska (89%)", "Jewish (89%)");
+      else if (activeCivKey === 'brahmin') civText = t("Bramińska (87%)", "Brahmin (87%)");
+      else if (activeCivKey === 'chinese') civText = t("Chińska (90%)", "Chinese (90%)");
+      else if (activeCivKey === 'syncretic') civText = t("Acywilizacyjna (75%)", "A-civilizational (75%)");
       else if (data.primary_civilization) civText = `${data.primary_civilization}`;
 
-      let lawText = "Dualizm (Prawo Prywatne / Publiczne)";
-      if (activeLegalKey === 'monism_public') lawText = "Monizm Prawa Publicznego (Państwowy)";
-      else if (activeLegalKey === 'monism_private') lawText = "Monizm Prawa Prywatnego (Władcy)";
-      else if (activeLegalKey === 'monism_sacral') lawText = "Monizm Sakralny (Religijny)";
+      let lawText = t("Dualizm (Prawo Prywatne / Publiczne)", "Dualism (Private / Public Law)");
+      if (activeLegalKey === 'monism_public') lawText = t("Monizm Prawa Publicznego (Państwowy)", "Public Law Monism (State)");
+      else if (activeLegalKey === 'monism_private') lawText = t("Monizm Prawa Prywatnego (Władcy)", "Private Law Monism (Ruler)");
+      else if (activeLegalKey === 'monism_sacral') lawText = t("Monizm Sakralny (Religijny)", "Sacral Law Monism (Religious)");
 
-      let ethicText = "Hegemonia Etyki (Etyka ponad prawem)";
-      if (data.sacrality_score >= 0.5 || activeCivKey === 'arab') ethicText = "Sakralizm (Religia ponad etyką)";
-      else if (activeCivKey === 'byzantine' || activeCivKey === 'turanian') ethicText = "Etyka Podporządkowana Państwu";
+      let ethicText = t("Hegemonia Etyki (Etyka ponad prawem)", "Hegemony of Ethics (Ethics above law)");
+      if (data.sacrality_score >= 0.5 || activeCivKey === 'arab') ethicText = t("Sakralizm (Religia ponad etyką)", "Sacralism (Religion above ethics)");
+      else if (activeCivKey === 'byzantine' || activeCivKey === 'turanian') ethicText = t("Etyka Podporządkowana Państwu", "Ethics Subordinated to State");
 
-      let timeText = "Linearny / Progresywny (Planowanie pokoleniowe)";
-      if (data.time_mastery_efficiency_score < 0.45) timeText = "Ahistoryczność / Czas Cykliczny";
+      let timeText = t("Linearny / Progresywny (Planowanie pokoleniowe)", "Linear / Progressive (Generational planning)");
+      if (data.time_mastery_efficiency_score < 0.45) timeText = t("Ahistoryczność / Czas Cykliczny", "Ahistoricism / Cyclical Time");
 
-      let personText = "Personalizm (Godność osoby ludzkiej)";
-      if (activeFamKey === 'fam_clan_system') personText = "Klanizm / Ustrój Rodowy";
-      else if (activeFamKey === 'fam_state_collectivism') personText = "Kolektywizm Państwowy / Statolatria";
-      else if (activeFamKey === 'fam_polygamy') personText = "Poligamia (Brak emancypacji)";
+      let personText = t("Personalizm (Godność osoby ludzkiej)", "Personalism (Dignity of the person)");
+      if (activeFamKey === 'fam_clan_system') personText = t("Klanizm / Ustrój Rodowy", "Clanism / Lineage System");
+      else if (activeFamKey === 'fam_state_collectivism') personText = t("Kolektywizm Państwowy / Statolatria", "State Collectivism / Statolatry");
+      else if (activeFamKey === 'fam_polygamy') personText = t("Poligamia (Brak emancypacji)", "Polygamy (No emancipation)");
 
       const quincunxPurity = data.quincunx_coherence_score >= 0 ? Math.round(data.quincunx_coherence_score * 100) : (data.ethical_coherence_score >= 0 ? Math.round((data.ethical_coherence_score / 7.0) * 100) : 89);
 
@@ -4373,10 +4747,10 @@
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 6px;">
             <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: #a78bfa; display: flex; align-items: center; gap: 6px;">
               <span style="width: 7px; height: 7px; border-radius: 50%; background: #a78bfa; display: inline-block;"></span>
-              <span>PAJĘCZYNA QUINCUNXA (5 SFER BYTU)</span>
+              <span>${t('PAJĘCZYNA QUINCUNXA (5 SFER BYTU)', 'QUINCUNX RADAR (5 SPHERES OF BEING)')}</span>
             </div>
             <div style="font-size: 10px; color: #94a3b8;">
-              Pajęczyna 5 sfer bytu + karty statusu
+              ${t('Pajęczyna 5 sfer bytu + karty statusu', '5 spheres spider radar + status cards')}
             </div>
           </div>
 
@@ -4384,7 +4758,7 @@
             <!-- Left: Radar Spider Chart -->
             <div style="flex: 1 1 240px; min-width: 230px; height: 230px; background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;">
               <div style="font-size: 10px; font-weight: 800; color: #cbd5e1; text-transform: uppercase; letter-spacing: 0.06em; position: absolute; top: 10px;">
-                PAJĘCZYNA QUINCUNXA (5 SFER)
+                ${t('PAJĘCZYNA QUINCUNXA (5 SFER)', 'QUINCUNX RADAR (5 SPHERES)')}
               </div>
               <svg width="240" height="210" viewBox="0 0 240 210" style="overflow: visible; margin-top: 15px;">
                 ${gridPolygonsHtml}
@@ -4398,32 +4772,32 @@
             <!-- Right: 6 Status Cards Grid -->
             <div style="flex: 2 1 320px; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
               <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 8px; padding: 10px 12px;">
-                <div style="font-size: 9px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">DOMINACJA</div>
+                <div style="font-size: 9px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">${t('DOMINACJA', 'DOMINANCE')}</div>
                 <div style="font-size: 12px; font-weight: 800; color: #38bdf8; margin-top: 2px;">${civText}</div>
               </div>
 
               <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px 12px;">
-                <div style="font-size: 9px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">TRÓJPRAWO</div>
+                <div style="font-size: 9px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">${t('TRÓJPRAWO', 'TRIALAW')}</div>
                 <div style="font-size: 11.5px; font-weight: 700; color: #f8fafc; margin-top: 2px;">${lawText}</div>
               </div>
 
               <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px 12px;">
-                <div style="font-size: 9px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">ETYKA</div>
+                <div style="font-size: 9px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">${t('ETYKA', 'ETHICS')}</div>
                 <div style="font-size: 11.5px; font-weight: 700; color: #f8fafc; margin-top: 2px;">${ethicText}</div>
               </div>
 
               <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px 12px;">
-                <div style="font-size: 9px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">KATEGORIA CZASU</div>
+                <div style="font-size: 9px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">${t('KATEGORIA CZASU', 'TIME CONCEPT')}</div>
                 <div style="font-size: 11.5px; font-weight: 700; color: #f8fafc; margin-top: 2px;">${timeText}</div>
               </div>
 
               <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px 12px;">
-                <div style="font-size: 9px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">OSOBA / KLAN</div>
+                <div style="font-size: 9px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">${t('OSOBA / KLAN', 'PERSON / CLAN')}</div>
                 <div style="font-size: 11.5px; font-weight: 700; color: #f8fafc; margin-top: 2px;">${personText}</div>
               </div>
 
               <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px 12px;">
-                <div style="font-size: 9px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">CZYSTOŚĆ METODY</div>
+                <div style="font-size: 9px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">${t('CZYSTOŚĆ METODY', 'METHOD PURITY')}</div>
                 <div style="font-size: 14px; font-weight: 900; color: #34d399; margin-top: 2px;">${quincunxPurity}%</div>
               </div>
             </div>
@@ -4471,7 +4845,7 @@
         isSacral: false,
         legalDualism: 'Monizm Prawny',
         powerRelation: 'Monizm Siły',
-        desc: 'Władza wodza, obozowa organizacja społeczeństwa, bezetyczność państwowa.',
+        desc: 'Władza wodza, obozowa organizacja społeczeństwa, prymat racji stanu i woli wodza nad etyką.',
         pathNodes: ['root', 'sacral_low', 'dualism_no', 'rel_sila', 'civ_turanska'],
         breadcrumbs: ['Kosmos Tekstu', 'Sakralność Niska (<0.40)', 'Monizm Prawny', 'Monizm Siły', 'CYWILIZACJA TURAŃSKA']
       },
@@ -4507,15 +4881,15 @@
         id: 'zydowska',
         key: 'jewish',
         name: 'ŻYDOWSKA',
-        tag: 'Monizm Talmudyczny',
-        subtag: 'Obrzędowość',
+        tag: 'Monizm Prawa Sakralnego',
+        subtag: 'Prawo Rodowe',
         sacrality: 'Wysoka (>= 0.40)',
         isSacral: true,
         legalDualism: 'Monizm Sakralny',
-        powerRelation: 'Nacjonalizm Sakralny / Talmud',
-        desc: 'Aprioryczny sakralizm talmudyczny, drobiazgowa obrzędowość, monizm rodowo-religijny.',
+        powerRelation: 'Etyka Rodowo-Wspólnotowa',
+        desc: 'Aprioryczny sakralizm prawny, obrzędowość rodowa, monizm rodowo-religijny.',
         pathNodes: ['root', 'sacral_high', 'sac_talmud', 'civ_zydowska'],
-        breadcrumbs: ['Kosmos Tekstu', 'Sakralność Wysoka (>=0.40)', 'Kult Talmudyczny', 'CYWILIZACJA ŻYDOWSKA']
+        breadcrumbs: ['Kosmos Tekstu', 'Sakralność Wysoka (>=0.40)', 'Prawo Sakralne', 'CYWILIZACJA ŻYDOWSKA']
       },
       {
         id: 'braminska',
@@ -4527,7 +4901,7 @@
         isSacral: true,
         legalDualism: 'Monizm Kastowy',
         powerRelation: 'Kasty / Vedy / Karma',
-        desc: 'Sakralna struktura kastowa, bezetyczność polityczna, ścisły podział społeczny.',
+        desc: 'Sakralna struktura kastowa, prymat racji stanu nad etyką, ścisły podział społeczny.',
         pathNodes: ['root', 'sacral_high', 'sac_kasty', 'civ_braminska'],
         breadcrumbs: ['Kosmos Tekstu', 'Sakralność Wysoka (>=0.40)', 'Podział Kastowy', 'CYWILIZACJA BRAMIŃSKA']
       }
@@ -4752,9 +5126,9 @@
                     ? 'background: #ec4899; color: #ffffff; font-weight: 900; border: 1.5px solid #fbcfe8; box-shadow: 0 0 14px rgba(236, 72, 153, 0.4);'
                     : 'background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
                 }">
-                  <span style="font-size: 8px; font-family: monospace; display: block; color: ${selectedCiv.id === 'zydowska' ? '#ffffff' : '#f472b6'}; text-transform: uppercase;">[TALMUD]</span>
+                  <span style="font-size: 8px; font-family: monospace; display: block; color: ${selectedCiv.id === 'zydowska' ? '#ffffff' : '#f472b6'}; text-transform: uppercase;">[PRAWO SAKRALNE]</span>
                   <span style="font-size: 9.5px; font-weight: 800; display: block; margin: 2px 0;">ŻYDOWSKA</span>
-                  <span style="font-size: 8px; opacity: 0.8; display: block;">Obrzędowość</span>
+                  <span style="font-size: 8px; opacity: 0.8; display: block;">Prawo Rodowe</span>
                 </button>
 
                 <button class="civ-tree-btn" data-civ="braminska" style="padding: 7px 4px; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
@@ -4885,7 +5259,7 @@
                       ? 'background: #ec4899; color: #ffffff; font-weight: 900; border: 1.5px solid #fbcfe8; box-shadow: 0 0 12px rgba(236,72,153,0.5);'
                       : 'background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;'
                   }">
-                    <span style="font-size: 7.5px; font-family: monospace; display: block; opacity: 0.85;">[TALMUD]</span>
+                    <span style="font-size: 7.5px; font-family: monospace; display: block; opacity: 0.85;">[PRAWO SAKRALNE]</span>
                     <span style="font-size: 8.5px; font-weight: 800; display: block;">ŻYDOWSKA</span>
                   </button>
                   <button class="civ-tree-btn" data-civ="braminska" style="padding: 6px 3px; border-radius: 6px; cursor: pointer; text-align: center; transition: all 0.2s ease; ${
@@ -5101,63 +5475,6 @@
               </div>
             </div>
 
-          </div>
-        </div>
-
-        <!-- SEKCJA CYTATÓW FELIKSA KONECZNEGO -->
-        <div style="margin-top: 16px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 14px;">
-          <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #fbbf24; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
-            <span>📜</span>
-            <span>Uzasadnienie Historiozoficzne Feliksa Konecznego</span>
-          </div>
-
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;">
-            <!-- Cytat 1: Dualizm prawa i moralność -->
-            <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; justify-content: space-between;">
-              <div>
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
-                  <span style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: #34d399;">Dualizm Prawa i Społeczeństwo</span>
-                  <span style="font-size: 9px; background: rgba(16,185,129,0.15); border: 1px solid #10b981; color: #34d399; padding: 1px 6px; border-radius: 4px; font-weight: 700;">Duchowe / Łacina</span>
-                </div>
-                <div style="font-size: 11.5px; line-height: 1.5; color: #e2e8f0; font-style: italic; margin-bottom: 8px;">
-                  "Ponieważ moralność rozwija się przez obowiązkowość dobrowolną tym samym tedy wykwita ze społeczeństwa, a nie z państwa, które nie dopomoże etyce żadnymi sankcjami. Rozwój jej wszechstronny dokonywać się może tylko tam, gdzie państwo nie pożera społeczeństwa, a zatem tylko przy dualizmie prawa."
-                </div>
-              </div>
-              <div style="font-size: 9.5px; color: #94a3b8; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 6px;">
-                — <strong>Prof. Feliks Koneczny</strong> (Uzasadnienie gałęzi: <em>duchowych &rarr; łacińska</em>)
-              </div>
-            </div>
-
-            <!-- Cytat 2: Patriotyzm vs Nacjonalizm -->
-            <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(245, 158, 11, 0.35); border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; justify-content: space-between;">
-              <div>
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
-                  <span style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: #fbbf24;">Patriotyzm vs Sacro Egoismo</span>
-                  <span style="font-size: 9px; background: rgba(245,158,11,0.15); border: 1px solid #f59e0b; color: #fbbf24; padding: 1px 6px; border-radius: 4px; font-weight: 700;">Ustrój Społeczny</span>
-                </div>
-                <div style="font-size: 11.5px; line-height: 1.5; color: #e2e8f0; font-style: italic; margin-bottom: 8px;">
-                  "Tym różni się patriotyzm od nacjonalizmu, który jest wyłącznie egoistyczny, a sprawami narodu kieruje się bez względu na innych, w mylnym mniemaniu jakoby można było być pożytecznym swemu narodowi na trwałe, choćby się było szkodnikiem dla całego świata. Pod hasłem sobkostwa narodowego (sacro egoizmo, egoizm narodowy) nie zaszło się nigdzie daleko."
-                </div>
-              </div>
-              <div style="font-size: 9.5px; color: #94a3b8; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 6px;">
-                — <strong>Prof. Feliks Koneczny</strong> (Uzasadnienie gałęzi: <em>ustrój społeczny vs obozowy</em>)
-              </div>
-            </div>
-          </div>
-
-          <!-- KLUCZ KRYTERIÓW -->
-          <div style="margin-top: 12px; background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 10px 14px;">
-            <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: #38bdf8; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
-              <span>🔍</span>
-              <span>Klucz Podziału Cywilizacji w Dziele Feliksa Konecznego</span>
-            </div>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; font-size: 10px; color: #cbd5e1; line-height: 1.4;">
-              <div><strong style="color: #f472b6;">1. Sakralne vs Niesakralne:</strong> Prawo i ustrój oparte na dogmacie i księdze świętej (sakralizm) vs stanowione rozumem ludzkim.</div>
-              <div><strong style="color: #6ee7b7;">2. Siły Duchowe vs Fizyczne:</strong> Czy najwyższym regulatorem zrzeszenia jest etyka i sumienie, czy przymus i aparat siły.</div>
-              <div><strong style="color: #c084fc;">3. Prawo Publiczne vs Prywatne:</strong> Rozdział i autonomia praw rodziny (dualizm) vs monizm państwowy (wchłonięcie jednostki).</div>
-              <div><strong style="color: #fde68a;">4. Ustrój Obozowy vs Społeczny:</strong> Organizacja koszarowa/wojskowa pod wodzem (Turan) vs organiczny ład obywatelski.</div>
-              <div><strong style="color: #38bdf8;">5. Monogamia vs Poligamia:</strong> Emancypacja małej rodziny przez dożywotnią monogamię (Łacina) vs poligamia (Arabska) vs konkubinat (Chińska).</div>
-            </div>
           </div>
         </div>
       `;
@@ -5738,9 +6055,9 @@
           czas: 'Posiada erę, lecz nie znająca historyzmu',
           spoleczenstwo: 'Podporządkowuje społeczeństwo biurokracji, wytwarza etatyzm; narodowości nie wytwarza',
           panstwo: 'Wszechwładza państwa, antropolatria osoby władcy; posiada odrębne prawo publiczne',
-          etyka: 'W życiu publicznym bezetyczna (podwójna moralność dla racji stanu)',
+          etyka: 'Prymat racji stanu nad etyką (cezaropapizm / etatyzm urzędniczy)',
           laczy: 'Emancypacja rodziny, monogamia, era chronologiczna, odrębne prawo publiczne',
-          dzieli: 'Brak historyzmu, brak narodu, etatyzm i wszechwładna biurokracja, antropolatria władcy, bezetyczność państwowa'
+          dzieli: 'Brak historyzmu, brak narodu, etatyzm i wszechwładna biurokracja, antropolatria władcy, prymat racji stanu nad etyką'
         },
         {
           id: 'arabska',
@@ -5767,10 +6084,10 @@
           rodzina: 'Ustrój rodowy, rozluźniający się po miastach, poligamizująca',
           czas: 'Posiada cykle (kołowrót czasu, brak perspektywy linearnej)',
           spoleczenstwo: 'W sprawach społecznych autonomiczna (rodowa); narodowości nie wytwarza',
-          panstwo: 'W państwowych antropolatryczna (Syn Niebios / Ojciec Rodu) i bezetyczna',
-          etyka: 'W państwowych bezetyczna (rytuał Li i etykieta zamiast uniwersalnej etyki)',
+          panstwo: 'W państwowych antropolatryczna (Syn Niebios / Ojciec Rodu), prymat racji stanu',
+          etyka: 'Prymat racji stanu i etykieta rytuału Li zamiast prawa naturalnego',
           laczy: 'Wewnętrzna autonomia społeczna na poziomie rodu, rozluźnienie ustroju rodowego w miastach',
-          dzieli: 'Poligamia, cykliczność czasu, ustrój rodowy, antropolatria władcy, bezetyczność państwowa, brak narodu'
+          dzieli: 'Poligamia, cykliczność czasu, ustrój rodowy, antropolatria władcy, prymat racji stanu nad etyką, brak narodu'
         },
         {
           id: 'turanska',
@@ -5783,9 +6100,9 @@
           czas: 'Czasomiernictwo do cyklów (brak perspektywy dziejowej)',
           spoleczenstwo: 'Społeczności niezróżniczkowane w społeczeństwie; obozowa organizacja życia publicznego',
           panstwo: 'Antropolatria wodza-władcy (wódz dysponentem wszelkiej własności i życia)',
-          etyka: 'Bezetyczna w życiu publicznym (bezwzględne prawo siły i posłuszeństwa)',
+          etyka: 'Prymat racji stanu i woli wodza nad normami etycznymi (prawo siły)',
           laczy: 'Brak punktów wspólnych z pionem łacińskim (skrajna biegunowość ustrojowa)',
-          dzieli: 'Ustrój obozowy, antropolatria wodza, ustrój rodowy, poligamia, bezetyczność państwowa, brak społeczeństwa i narodu'
+          dzieli: 'Ustrój obozowy, antropolatria wodza, ustrój rodowy, poligamia, prymat racji stanu nad etyką, brak społeczeństwa i narodu'
         },
         {
           id: 'braminska',
@@ -5798,9 +6115,9 @@
           czas: 'Czasomiernicza tylko do kalendarza (brak ery i historii)',
           spoleczenstwo: 'W sprawach społecznych autonomiczna, ścisły podział kastowy; brak narodu',
           panstwo: 'W państwowych despotyczna, sakralna (monizm kastowo-rytualny)',
-          etyka: 'W państwowych bezetyczna (brak uniwersalnego obowiązku etycznego dla państwa)',
+          etyka: 'Prymat racji stanu (brak uniwersalnego obowiązku etycznego dla władzy)',
           laczy: 'Wewnętrzna autonomia społeczna w ramach kasty/rodu',
-          dzieli: 'System kastowy, despotyzm państwowy, czasomiernictwo tylko do kalendarza, bezetyczność władzy, brak narodu'
+          dzieli: 'System kastowy, despotyzm państwowy, czasomiernictwo tylko do kalendarza, prymat racji stanu nad etyką, brak narodu'
         },
         {
           id: 'zydowska',
@@ -5809,13 +6126,13 @@
           icon: '📜',
           badge: 'Monizm Rodowo-Sakralny (Zmienna)',
           color: '#38bdf8',
-          rodzina: 'Ustrój rodowo-sakralny, monogamia pod jurysdykcją prawa talmudycznego',
+          rodzina: 'Ustrój rodowo-sakralny, monogamia pod jurysdykcją prawa sakralnego',
           czas: 'Czas mesjanistyczny, aprioryczny (rachuba od stworzenia świata)',
           spoleczenstwo: 'Ekskluzywizm sakralno-rodowy; prawo religijne spoiwem zrzeszenia',
           panstwo: 'Monizm prawa sakralnego i prywatnego, brak odrębnego prawa publicznego',
-          etyka: 'Etyka podwójna (inna wewnątrz społeczności przymierza, inna wobec świata zewnętrznego)',
+          etyka: 'Etyka wspólnotowa (prawo przymierza wewnątrz wspólnoty rodowej)',
           laczy: 'Wysoka ranga rodziny i prawa, monogamia, linearność rachuby czasu',
-          dzieli: 'Podwójność etyki, monizm sakralno-prawny, brak autonomii prawa świeckiego i sumienia'
+          dzieli: 'Etyka rodowo-wspólnotowa, monizm sakralno-prawny, brak autonomii prawa świeckiego i sumienia'
         }
       ];
 
@@ -5828,7 +6145,6 @@
         <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 10px; padding: 12px 16px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap;">
           <div>
             <div style="font-size: 13px; font-weight: 900; color: #10b981; display: flex; align-items: center; gap: 7px; text-transform: uppercase; letter-spacing: 0.04em;">
-              <span>⚖️</span>
               <span>Systematyka Porównawcza Feliksa Konecznego (Cechy Łączące i Dzielące)</span>
             </div>
             <div style="font-size: 11px; color: #94a3b8; margin-top: 2px;">
@@ -5839,7 +6155,6 @@
           <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
             ${civData.map(c => `
               <button class="dt-civ-filter-btn" data-civ="${c.id}" style="padding: 4px 9px; font-size: 10.5px; font-weight: 800; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; border: 1px solid ${c.id === civId ? c.color : 'rgba(255,255,255,0.08)'}; background: ${c.id === civId ? c.color + '25' : 'rgba(15,23,42,0.8)'}; color: ${c.id === civId ? '#ffffff' : '#94a3b8'}; display: flex; align-items: center; gap: 4px;">
-                <span>${c.icon}</span>
                 <span>${c.name}</span>
                 ${c.isPillar ? '<span style="background: #10b981; color: #020617; font-size: 8.5px; padding: 1px 4px; border-radius: 3px; font-weight: 900;">PION</span>' : ''}
               </button>
@@ -5847,13 +6162,108 @@
           </div>
         </div>
 
+        <!-- ==================== PEŁNA TABELA SYSTEMATYKI KONECZNEGO Z PIONEM ==================== -->
+        <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 14px; margin-bottom: 16px; overflow-x: auto;">
+          <div style="font-size: 11.5px; font-weight: 800; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+            <span>Matryca Syntetyczna: Zestawienie 7 Cywilizacji Względem Pionu Łacińskiego</span>
+          </div>
+
+          <table style="width: 100%; border-collapse: collapse; font-size: 10.5px; text-align: left; min-width: 900px;">
+            <thead>
+              <tr style="border-bottom: 2px solid rgba(255,255,255,0.12); background: rgba(15,23,42,0.9);">
+                <th style="padding: 8px 10px; color: #94a3b8; font-weight: 800; text-transform: uppercase; width: 15%;">Wymiar / Kryterium</th>
+                <th style="padding: 8px 10px; color: #ffffff; font-weight: 900; background: rgba(16, 185, 129, 0.22); border-left: 2px solid #10b981; border-right: 2px solid #10b981; text-align: center; width: 17%;">
+                  ŁACIŃSKA<br/><span style="font-size: 9px; color: #34d399; font-weight: 800;">[PION ODNIESIENIA]</span>
+                </th>
+                <th style="padding: 8px 8px; color: #a855f7; font-weight: 800; text-align: center; width: 11%;">BIZANTYŃSKA</th>
+                <th style="padding: 8px 8px; color: #0284c7; font-weight: 800; text-align: center; width: 11%;">ARABSKA</th>
+                <th style="padding: 8px 8px; color: #f43f5e; font-weight: 800; text-align: center; width: 11%;">CHIŃSKA</th>
+                <th style="padding: 8px 8px; color: #f59e0b; font-weight: 800; text-align: center; width: 11%;">TURAŃSKA</th>
+                <th style="padding: 8px 8px; color: #8b5cf6; font-weight: 800; text-align: center; width: 11%;">BRAMIŃSKA</th>
+                <th style="padding: 8px 8px; color: #38bdf8; font-weight: 800; text-align: center; width: 11%;">ŻYDOWSKA</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+              <!-- WIERSZ 1: RODZINA -->
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+                <td style="padding: 8px 10px; font-weight: 800; color: #cbd5e1; background: rgba(255,255,255,0.02);">Rodzina & Małżeństwo</td>
+                <td style="padding: 8px 10px; font-weight: 800; color: #ffffff; background: rgba(16, 185, 129, 0.12); border-left: 2px solid #10b981; border-right: 2px solid #10b981;">
+                  Emancypacja rodziny, Monogamia dożywotnia
+                </td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Emancypacja rodziny, Monogamiczna</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Ustrój rodowy (emancypacja w Kordowie), Poligamia</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Ustrój rodowy (rozluźnienie w miastach), Poligamizująca</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Ustrój rodowy, Poligamiczna</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Ustrój rodowy, kastowy, Poligamizująca</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Ustrój rodowo-sakralny, Monogamia</td>
+              </tr>
+
+              <!-- WIERSZ 2: CZAS -->
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.015);">
+                <td style="padding: 8px 10px; font-weight: 800; color: #cbd5e1; background: rgba(255,255,255,0.02);">Stosunek do Czasu</td>
+                <td style="padding: 8px 10px; font-weight: 800; color: #ffffff; background: rgba(16, 185, 129, 0.12); border-left: 2px solid #10b981; border-right: 2px solid #10b981;">
+                  Posiada historyzm i celowość dziejową
+                </td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Era, lecz brak historyzmu</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Era, lecz brak historyzmu</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Cykle czasowe</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Czasomiernictwo do cyklów</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Tylko do kalendarza</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Czas mesjanistyczny, aprioryczny</td>
+              </tr>
+
+              <!-- WIERSZ 3: SPOŁECZEŃSTWO & NARÓD -->
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+                <td style="padding: 8px 10px; font-weight: 800; color: #cbd5e1; background: rgba(255,255,255,0.02);">Społeczeństwo & Naród</td>
+                <td style="padding: 8px 10px; font-weight: 800; color: #ffffff; background: rgba(16, 185, 129, 0.12); border-left: 2px solid #10b981; border-right: 2px solid #10b981;">
+                  Wytwarza poczucie narodowe (Państwo na społeczeństwie)
+                </td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Etatyzm, biurokracja; brak narodu</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Ustrój rodowy (Umma); brak narodu</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Autonomia rodu; brak narodu</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Niezróżnicowane; ustrój obozowy</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Autonomia kastowa; brak narodu</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Ekskluzywizm sakralno-rodowy</td>
+              </tr>
+
+              <!-- WIERSZ 4: WŁADZA & PRAWO -->
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.015);">
+                <td style="padding: 8px 10px; font-weight: 800; color: #cbd5e1; background: rgba(255,255,255,0.02);">Państwo & Władza</td>
+                <td style="padding: 8px 10px; font-weight: 800; color: #ffffff; background: rgba(16, 185, 129, 0.12); border-left: 2px solid #10b981; border-right: 2px solid #10b981;">
+                  Dualizm prawny; państwo sługą społeczeństwa
+                </td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Antropolatria władcy; odrębne prawo publ.</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Despotyzm poddany zwierzchnictwu Koranu</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Antropolatria cesarza (ojciec rodu)</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Antropolatria wodza (wódz właścicielem)</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Despotyzm sakralny</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Monizm prawa religijnego (Halacha)</td>
+              </tr>
+
+              <!-- WIERSZ 5: ETYKA PUBLICZNA -->
+              <tr>
+                <td style="padding: 8px 10px; font-weight: 800; color: #cbd5e1; background: rgba(255,255,255,0.02);">Etyka w Życiu Publicznym</td>
+                <td style="padding: 8px 10px; font-weight: 800; color: #ffffff; background: rgba(16, 185, 129, 0.12); border-left: 2px solid #10b981; border-right: 2px solid #10b981;">
+                  Wymóg etyki; supremacja sił duchowych
+                </td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Prymat racji stanu (cezaropapizm)</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Normy Koranu ponad władcą</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Prymat racji stanu (rytuał Li)</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Prymat racji stanu i woli wodza</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Prymat racji stanu (despotyzm)</td>
+                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Etyka wspólnotowa (prawo przymierza)</td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
         <!-- UKŁAD ARCHITEKTONICZNY: PION ŁACIŃSKI (LEWA STRONA) VS POZOSTAŁE CYWILIZACJE (PRAWA STRONA) -->
         <div style="display: grid; grid-template-columns: minmax(320px, 360px) 1fr; gap: 16px; align-items: stretch; margin-bottom: 20px;">
           
           <!-- ==================== LEWY FILAR: PION ŁACIŃSKI ==================== -->
           <div style="background: linear-gradient(180deg, rgba(16, 185, 129, 0.22) 0%, rgba(6, 78, 59, 0.35) 100%); border: 2px solid #10b981; border-radius: 12px; padding: 16px; box-shadow: 0 0 25px rgba(16, 185, 129, 0.3); display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden;">
-            
-            <div style="position: absolute; top: -10px; right: -10px; font-size: 80px; opacity: 0.08; pointer-events: none;">🏛️</div>
 
             <div>
               <!-- PION HEADER -->
@@ -5865,7 +6275,6 @@
                   <span style="font-size: 10px; color: #6ee7b7; font-family: monospace;">DUALIZM & PERSONALIZM</span>
                 </div>
                 <div style="font-size: 17px; font-weight: 900; color: #ffffff; display: flex; align-items: center; gap: 8px;">
-                  <span>🏛️</span>
                   <span style="letter-spacing: 0.04em;">CYWILIZACJA ŁACIŃSKA</span>
                 </div>
                 <div style="font-size: 10.5px; color: #a7f3d0; margin-top: 3px; font-style: italic;">
@@ -5878,7 +6287,6 @@
                 
                 <div style="background: rgba(6, 78, 59, 0.4); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 8px; padding: 8px 10px;">
                   <div style="font-size: 10px; font-weight: 800; color: #6ee7b7; text-transform: uppercase; margin-bottom: 2px; display: flex; align-items: center; gap: 5px;">
-                    <span>💎</span>
                     <span>1. Rodzina i Małżeństwo:</span>
                   </div>
                   <div style="font-size: 11.5px; font-weight: 700; color: #ffffff;">
@@ -5891,7 +6299,6 @@
 
                 <div style="background: rgba(6, 78, 59, 0.4); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 8px; padding: 8px 10px;">
                   <div style="font-size: 10px; font-weight: 800; color: #6ee7b7; text-transform: uppercase; margin-bottom: 2px; display: flex; align-items: center; gap: 5px;">
-                    <span>⏳</span>
                     <span>2. Stosunek do Czasu:</span>
                   </div>
                   <div style="font-size: 11.5px; font-weight: 700; color: #ffffff;">
@@ -5904,7 +6311,6 @@
 
                 <div style="background: rgba(6, 78, 59, 0.4); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 8px; padding: 8px 10px;">
                   <div style="font-size: 10px; font-weight: 800; color: #6ee7b7; text-transform: uppercase; margin-bottom: 2px; display: flex; align-items: center; gap: 5px;">
-                    <span>👥</span>
                     <span>3. Społeczeństwo i Naród:</span>
                   </div>
                   <div style="font-size: 11.5px; font-weight: 700; color: #ffffff;">
@@ -5917,7 +6323,6 @@
 
                 <div style="background: rgba(6, 78, 59, 0.4); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 8px; padding: 8px 10px;">
                   <div style="font-size: 10px; font-weight: 800; color: #6ee7b7; text-transform: uppercase; margin-bottom: 2px; display: flex; align-items: center; gap: 5px;">
-                    <span>🏛️</span>
                     <span>4. Państwo i Prawo:</span>
                   </div>
                   <div style="font-size: 11.5px; font-weight: 700; color: #ffffff;">
@@ -5930,7 +6335,6 @@
 
                 <div style="background: rgba(6, 78, 59, 0.4); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 8px; padding: 8px 10px;">
                   <div style="font-size: 10px; font-weight: 800; color: #6ee7b7; text-transform: uppercase; margin-bottom: 2px; display: flex; align-items: center; gap: 5px;">
-                    <span>🕊️</span>
                     <span>5. Etyka Publiczna:</span>
                   </div>
                   <div style="font-size: 11.5px; font-weight: 700; color: #ffffff;">
@@ -5961,7 +6365,6 @@
                     <!-- KARTA HEADER -->
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 6px;">
                       <div style="display: flex; align-items: center; gap: 6px;">
-                        <span style="font-size: 15px;">${c.icon}</span>
                         <strong style="color: ${c.color}; font-size: 13px; letter-spacing: 0.03em;">${c.name}</strong>
                       </div>
                       <span style="font-size: 9px; padding: 2px 6px; border-radius: 4px; background: rgba(255,255,255,0.05); color: #94a3b8; border: 1px solid rgba(255,255,255,0.08);">
@@ -5996,109 +6399,10 @@
 
         </div>
 
-        <!-- ==================== PEŁNA TABELA SYSTEMATYKI KONECZNEGO Z PIONEM ==================== -->
-        <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 14px; margin-bottom: 16px; overflow-x: auto;">
-          <div style="font-size: 11.5px; font-weight: 800; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
-            <span>📊</span>
-            <span>Matryca Syntetyczna: Zestawienie 7 Cywilizacji Względem Pionu Łacińskiego</span>
-          </div>
-
-          <table style="width: 100%; border-collapse: collapse; font-size: 10.5px; text-align: left; min-width: 900px;">
-            <thead>
-              <tr style="border-bottom: 2px solid rgba(255,255,255,0.12); background: rgba(15,23,42,0.9);">
-                <th style="padding: 8px 10px; color: #94a3b8; font-weight: 800; text-transform: uppercase; width: 15%;">Wymiar / Kryterium</th>
-                <th style="padding: 8px 10px; color: #ffffff; font-weight: 900; background: rgba(16, 185, 129, 0.22); border-left: 2px solid #10b981; border-right: 2px solid #10b981; text-align: center; width: 17%;">
-                  🏛️ ŁACIŃSKA<br/><span style="font-size: 9px; color: #34d399; font-weight: 800;">[PION ODNIESIENIA]</span>
-                </th>
-                <th style="padding: 8px 8px; color: #a855f7; font-weight: 800; text-align: center; width: 11%;">👑 BIZANTYŃSKA</th>
-                <th style="padding: 8px 8px; color: #0284c7; font-weight: 800; text-align: center; width: 11%;">🌙 ARABSKA</th>
-                <th style="padding: 8px 8px; color: #f43f5e; font-weight: 800; text-align: center; width: 11%;">☯️ CHIŃSKA</th>
-                <th style="padding: 8px 8px; color: #f59e0b; font-weight: 800; text-align: center; width: 11%;">🏹 TURAŃSKA</th>
-                <th style="padding: 8px 8px; color: #8b5cf6; font-weight: 800; text-align: center; width: 11%;">🕉️ BRAMIŃSKA</th>
-                <th style="padding: 8px 8px; color: #38bdf8; font-weight: 800; text-align: center; width: 11%;">📜 ŻYDOWSKA</th>
-              </tr>
-            </thead>
-            <tbody>
-              
-              <!-- WIERSZ 1: RODZINA -->
-              <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
-                <td style="padding: 8px 10px; font-weight: 800; color: #cbd5e1; background: rgba(255,255,255,0.02);">💎 Rodzina & Małżeństwo</td>
-                <td style="padding: 8px 10px; font-weight: 800; color: #ffffff; background: rgba(16, 185, 129, 0.12); border-left: 2px solid #10b981; border-right: 2px solid #10b981;">
-                  Emancypacja rodziny, Monogamia dożywotnia
-                </td>
-                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Emancypacja rodziny, Monogamiczna</td>
-                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Ustrój rodowy (emancypacja w Kordowie), Poligamia</td>
-                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Ustrój rodowy (rozluźnienie w miastach), Poligamizująca</td>
-                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Ustrój rodowy, Poligamiczna</td>
-                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Ustrój rodowy, kastowy, Poligamizująca</td>
-                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Ustrój rodowo-sakralny, Monogamia</td>
-              </tr>
-
-              <!-- WIERSZ 2: CZAS -->
-              <tr style="border-bottom: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.015);">
-                <td style="padding: 8px 10px; font-weight: 800; color: #cbd5e1; background: rgba(255,255,255,0.02);">⏳ Stosunek do Czasu</td>
-                <td style="padding: 8px 10px; font-weight: 800; color: #ffffff; background: rgba(16, 185, 129, 0.12); border-left: 2px solid #10b981; border-right: 2px solid #10b981;">
-                  Posiada historyzm i celowość dziejową
-                </td>
-                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Era, lecz brak historyzmu</td>
-                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Era, lecz brak historyzmu</td>
-                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Cykle czasowe</td>
-                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Czasomiernictwo do cyklów</td>
-                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Tylko do kalendarza</td>
-                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Czas mesjanistyczny, aprioryczny</td>
-              </tr>
-
-              <!-- WIERSZ 3: SPOŁECZEŃSTWO & NARÓD -->
-              <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
-                <td style="padding: 8px 10px; font-weight: 800; color: #cbd5e1; background: rgba(255,255,255,0.02);">👥 Społeczeństwo & Naród</td>
-                <td style="padding: 8px 10px; font-weight: 800; color: #ffffff; background: rgba(16, 185, 129, 0.12); border-left: 2px solid #10b981; border-right: 2px solid #10b981;">
-                  Wytwarza poczucie narodowe (Państwo na społeczeństwie)
-                </td>
-                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Etatyzm, biurokracja; brak narodu</td>
-                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Ustrój rodowy (Umma); brak narodu</td>
-                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Autonomia rodu; brak narodu</td>
-                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Niezróżnicowane; ustrój obozowy</td>
-                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Autonomia kastowa; brak narodu</td>
-                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Ekskluzywizm sakralno-rodowy</td>
-              </tr>
-
-              <!-- WIERSZ 4: WŁADZA & PRAWO -->
-              <tr style="border-bottom: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.015);">
-                <td style="padding: 8px 10px; font-weight: 800; color: #cbd5e1; background: rgba(255,255,255,0.02);">🏛️ Państwo & Władza</td>
-                <td style="padding: 8px 10px; font-weight: 800; color: #ffffff; background: rgba(16, 185, 129, 0.12); border-left: 2px solid #10b981; border-right: 2px solid #10b981;">
-                  Dualizm prawny; państwo sługą społeczeństwa
-                </td>
-                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Antropolatria władcy; odrębne prawo publ.</td>
-                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Despotyzm poddany zwierzchnictwu Koranu</td>
-                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Antropolatria cesarza (ojciec rodu)</td>
-                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Antropolatria wodza (wódz właścicielem)</td>
-                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Despotyzm sakralny</td>
-                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Monizm prawa religijnego (Halacha)</td>
-              </tr>
-
-              <!-- WIERSZ 5: ETYKA PUBLICZNA -->
-              <tr>
-                <td style="padding: 8px 10px; font-weight: 800; color: #cbd5e1; background: rgba(255,255,255,0.02);">🕊️ Etyka w Życiu Publicznym</td>
-                <td style="padding: 8px 10px; font-weight: 800; color: #ffffff; background: rgba(16, 185, 129, 0.12); border-left: 2px solid #10b981; border-right: 2px solid #10b981;">
-                  Wymóg etyki; supremacja sił duchowych
-                </td>
-                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Bezetyczna w życiu publicznym</td>
-                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Normy Koranu ponad władcą</td>
-                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">W państwowych bezetyczna (rytuał)</td>
-                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Bezetyczna w życiu publicznym</td>
-                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">W państwowych bezetyczna</td>
-                <td style="padding: 8px 8px; color: #cbd5e1; text-align: center;">Etyka podwójna (wewnątrz vs na zewnątrz)</td>
-              </tr>
-
-            </tbody>
-          </table>
-        </div>
-
         <!-- ==================== CYTAT ŹRÓDŁOWY FELIKSA KONECZNEGO ==================== -->
         <div style="background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(245, 158, 11, 0.35); border-radius: 10px; padding: 14px 16px; margin-top: 10px; display: flex; flex-direction: column; gap: 8px;">
           <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
             <div style="font-size: 11px; font-weight: 800; color: #fbbf24; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 6px;">
-              <span>📜</span>
               <span>Tekst Źródłowy: Prof. Feliks Koneczny – Podsumowanie Systematyki Cywilizacji</span>
             </div>
             <span style="font-size: 10px; color: #94a3b8; font-family: monospace;">Rozdział: "Cechy Łączące i Dzielące"</span>
@@ -6106,11 +6410,11 @@
 
           <div style="font-size: 11.5px; color: #e2e8f0; font-style: italic; line-height: 1.6; border-left: 3px solid #fbbf24; padding-left: 12px; margin: 4px 0;">
             "Na zakończenie tego próbowania systematyki zbierzemy cechy głównych cywilizacji, łączące je lub dzielące pomiędzy sobą.<br/>
-            O żydowskiej, zmiennej, będzie mowa w następnym ustępie. Bramińska jest sakralna, z ustrojem rodowym, kastowym, czasomiernicza tylko do kalendarza, poligamizująca, w sprawach społecznych autonomiczna, w państwowych despotyczna, bezetyczna.<br/>
-            Cywilizacja turańska ma ustrój rodowy, poligamiczna, z czasomiernictwem do cyklów, ze społecznościami nie zróżniczkowanymi w społeczeństwie, z obozową organizacją życia publicznego, z antropolatrią wodza-władcy, bezetyczna w życiu publicznym.<br/>
-            Chińska cywilizacja z ustrojem rodowym, rozluźniającym się po miastach, posiada cykle, poligamizująca, w sprawach społecznych autonomiczna, w państwowych antropolatryczna i bezetyczna.<br/>
+            O żydowskiej, zmiennej, będzie mowa w następnym ustępie. Bramińska jest sakralna, z ustrojem rodowym, kastowym, czasomiernicza tylko do kalendarza, poligamizująca, w sprawach społecznych autonomiczna, w państwowych despotyczna, z prymatem racji stanu nad etyką.<br/>
+            Cywilizacja turańska ma ustrój rodowy, poligamiczna, z czasomiernictwem do cyklów, ze społecznościami nie zróżniczkowanymi w społeczeństwie, z obozową organizacją życia publicznego, z antropolatrią wodza-władcy, z prymatem racji stanu nad etyką.<br/>
+            Chińska cywilizacja z ustrojem rodowym, rozluźniającym się po miastach, posiada cykle, poligamizująca, w sprawach społecznych autonomiczna, w państwowych antropolatryczna i podporządkowana racji stanu.<br/>
             Arabska cywilizacja z ustrojem rodowym, dochodząca do emancypacji rodziny w kulturze kordowańskiej, posiadająca erę, lecz nie dochodząca do historyzmu, poligamiczna, w życiu politycznym despotyczna, lecz poddająca władzę zwierzchnictwu Koranu.<br/>
-            Bizantyńska cywilizacja z emancypacją rodziny, monogamiczna, posiadająca erę, lecz nie znająca historyzmu, podporządkowuje społeczeństwo biurokracji, wytwarza etatyzm, w imię wszechwładzy państwa wprowadza antropolatrię osoby władcy, jakkolwiek – w przeciwieństwie do wszystkich poprzednich – posiada odrębne prawo publiczne; w życiu publicznym bezetyczna. Narodowości nie wytwarza (na równi z wszystkimi poprzednimi).<br/>
+            Bizantyńska cywilizacja z emancypacją rodziny, monogamiczna, posiadająca erę, lecz nie znająca historyzmu, podporządkowuje społeczeństwo biurokracji, wytwarza etatyzm, w imię wszechwładzy państwa wprowadza antropolatrię osoby władcy, jakkolwiek – w przeciwieństwie do wszystkich poprzednich – posiada odrębne prawo publiczne; w życiu publicznym oparta na cezaropapizmie i prymacie racji stanu nad etyką. Narodowości nie wytwarza (na równi z wszystkimi poprzednimi).<br/>
             <strong>Cywilizacja łacińska z emancypacją rodziny, monogamiczna, posiada historyzm i poczucie narodowe, opiera państwo na społeczeństwie, od życia publicznego wymaga etyki, uznając supremację sił duchowych.</strong>"
           </div>
 
@@ -6131,33 +6435,28 @@
           <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 10px; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
             <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(15, 23, 42, 0.85); padding: 4px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); flex-wrap: wrap;">
               <button class="tree-subtab-btn" data-tree-tab="mantis" style="padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 800; cursor: pointer; transition: all 0.2s ease; border: 1px solid ${activeTab === 'mantis' ? '#38bdf8' : 'transparent'}; background: ${activeTab === 'mantis' ? 'rgba(56, 189, 248, 0.22)' : 'transparent'}; color: ${activeTab === 'mantis' ? '#ffffff' : '#94a3b8'}; display: flex; align-items: center; gap: 5px; box-shadow: ${activeTab === 'mantis' ? '0 0 10px rgba(56,189,248,0.3)' : 'none'};">
-                <span>🌿</span>
-                <span>1. Drzewo Mantis (Algorytm)</span>
+                <span>${t('1. Drzewo Mantis (Algorytm)', '1. Mantis Tree (Algorithm)')}</span>
               </button>
 
               <button class="tree-subtab-btn" data-tree-tab="koneczny" style="padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 800; cursor: pointer; transition: all 0.2s ease; border: 1px solid ${activeTab === 'koneczny' ? '#38bdf8' : 'transparent'}; background: ${activeTab === 'koneczny' ? 'rgba(56, 189, 248, 0.22)' : 'transparent'}; color: ${activeTab === 'koneczny' ? '#ffffff' : '#94a3b8'}; display: flex; align-items: center; gap: 5px; box-shadow: ${activeTab === 'koneczny' ? '0 0 10px rgba(56,189,248,0.3)' : 'none'};">
-                <span>🏛️</span>
-                <span>2. Schemat Klasyczny (Od Ducha)</span>
+                <span>${t('2. Schemat Klasyczny (Od Ducha)', '2. Classical Tree (From Spirit)')}</span>
               </button>
 
               <button class="tree-subtab-btn" data-tree-tab="koneczny_reverse" style="padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 800; cursor: pointer; transition: all 0.2s ease; border: 1px solid ${activeTab === 'koneczny_reverse' ? '#38bdf8' : 'transparent'}; background: ${activeTab === 'koneczny_reverse' ? 'rgba(56, 189, 248, 0.22)' : 'transparent'}; color: ${activeTab === 'koneczny_reverse' ? '#ffffff' : '#94a3b8'}; display: flex; align-items: center; gap: 5px; box-shadow: ${activeTab === 'koneczny_reverse' ? '0 0 10px rgba(56,189,248,0.3)' : 'none'};">
-                <span>🧬</span>
-                <span>3. Metoda Odwrotna (Od Ustroju Rodowego)</span>
+                <span>${t('3. Metoda Odwrotna (Od Ustroju Rodowego)', '3. Reverse Method (From Clan System)')}</span>
               </button>
 
               <button class="tree-subtab-btn" data-tree-tab="koneczny_time" style="padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 800; cursor: pointer; transition: all 0.2s ease; border: 1px solid ${activeTab === 'koneczny_time' ? '#38bdf8' : 'transparent'}; background: ${activeTab === 'koneczny_time' ? 'rgba(56, 189, 248, 0.22)' : 'transparent'}; color: ${activeTab === 'koneczny_time' ? '#ffffff' : '#94a3b8'}; display: flex; align-items: center; gap: 5px; box-shadow: ${activeTab === 'koneczny_time' ? '0 0 10px rgba(56,189,248,0.3)' : 'none'};">
-                <span>⏳</span>
-                <span>4. Stosunek do Czasu (Tabelka Konecznego)</span>
+                <span>${t('4. Stosunek do Czasu (Tabelka Konecznego)', '4. Relationship to Time (Koneczny Table)')}</span>
               </button>
 
               <button class="tree-subtab-btn" data-tree-tab="koneczny_pillar" style="padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 800; cursor: pointer; transition: all 0.2s ease; border: 1px solid ${activeTab === 'koneczny_pillar' ? '#10b981' : 'transparent'}; background: ${activeTab === 'koneczny_pillar' ? 'rgba(16, 185, 129, 0.22)' : 'transparent'}; color: ${activeTab === 'koneczny_pillar' ? '#ffffff' : '#94a3b8'}; display: flex; align-items: center; gap: 5px; box-shadow: ${activeTab === 'koneczny_pillar' ? '0 0 10px rgba(16,185,129,0.35)' : 'none'};">
-                <span>⚖️</span>
-                <span>5. Cechy Łączące i Dzielące (Pion Łaciński)</span>
+                <span>${t('5. Cechy Łączące i Dzielące (Pion Łaciński)', '5. Uniting & Dividing Traits (Latin Pillar)')}</span>
               </button>
             </div>
 
             <div style="font-size: 10px; color: #94a3b8; font-family: monospace;">
-              AKTYWNA CYWILIZACJA: <strong id="dt-civ-name-badge" style="color: #38bdf8; font-weight: 800;">${selectedCiv.name}</strong>
+              ${t('AKTYWNA CYWILIZACJA:', 'ACTIVE CIVILIZATION:')} <strong id="dt-civ-name-badge" style="color: #38bdf8; font-weight: 800;">${selectedCiv.name}</strong>
             </div>
           </div>
 
@@ -6189,10 +6488,10 @@
         <!-- Rząd 1: Cywilizacja -->
         <div style="margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px dashed rgba(255,255,255,0.1);">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
-            <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8;">Cywilizacja</div>
-            <button class="section-info-trigger header-info-trigger" data-section="civ" title="Wyjaśnienie dlaczego ta cywilizacja oraz 2 przykłady z tekstu">
+            <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8;">${t('Cywilizacja', 'Civilization')}</div>
+            <button class="section-info-trigger header-info-trigger" data-section="civ" title="${t('Wyjaśnienie dlaczego ta cywilizacja oraz 2 przykłady z tekstu', 'Explanation of why this civilization was selected and 2 quotes from text')}">
               <span class="trigger-icon">ℹ</span>
-              <span class="trigger-text">Dlaczego ten wynik?</span>
+              <span class="trigger-text">${t('Dlaczego ten wynik?', 'Why this result?')}</span>
             </button>
           </div>
           <div style="display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: 5px; align-items: center; padding-bottom: 2px;">
@@ -6200,7 +6499,7 @@
           </div>
           ${(data.civilization_diagnosis || (data.klasyfikacja_dashboard && data.klasyfikacja_dashboard.diagnoza_cywilizacyjna)) ? `
             <div style="margin: 8px 0 6px 0; padding: 7px 11px; background: rgba(56, 189, 248, 0.12); border-left: 3px solid #38bdf8; border-radius: 6px; font-size: 11.5px; color: #f1f5f9; line-height: 1.45; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
-              <span style="font-weight: 800; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.04em; margin-right: 5px;">⚡ Diagnoza:</span> ${data.civilization_diagnosis || data.klasyfikacja_dashboard.diagnoza_cywilizacyjna}
+              <span style="font-weight: 800; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.04em; margin-right: 5px;">${t('⚡ Diagnoza:', '⚡ Diagnosis:')}</span> ${data.civilization_diagnosis || data.klasyfikacja_dashboard.diagnoza_cywilizacyjna}
             </div>
           ` : ''}
           ${spectrumBarHtml}
@@ -6210,59 +6509,61 @@
           ${civTimelineHtml}
         </div>
 
-        <!-- Rząd 2: Prawo -->
-        <div style="margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px dashed rgba(255,255,255,0.1);">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
-            <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8;">Prawo</div>
-            <button class="section-info-trigger header-info-trigger" data-section="legal" title="Wyjaśnienie struktury prawnej oraz 2 przykłady z tekstu">
-              <span class="trigger-icon">ℹ</span>
-              <span class="trigger-text">Dlaczego ten wynik?</span>
-            </button>
+        <div class="dashboard-categories-grid">
+          <!-- Rząd 2: Prawo -->
+          <div class="dashboard-category-item">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+              <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8;">${t('Prawo', 'Law')}</div>
+              <button class="section-info-trigger header-info-trigger" data-section="legal" title="${t('Wyjaśnienie struktury prawnej oraz 2 przykłady z tekstu', 'Explanation of legal structure and 2 quotes from text')}">
+                <span class="trigger-icon">ℹ</span>
+                <span class="trigger-text">${t('Dlaczego ten wynik?', 'Why this result?')}</span>
+              </button>
+            </div>
+            <div style="display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: 5px; align-items: center; padding-bottom: 2px;">
+              ${renderChips(legalOptions, activeLegalKey, 'legal')}
+            </div>
           </div>
-          <div style="display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: 5px; align-items: center; padding-bottom: 2px;">
-            ${renderChips(legalOptions, activeLegalKey, 'legal')}
-          </div>
-        </div>
 
-        <!-- Rząd 3: Religia -->
-        <div style="margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px dashed rgba(255,255,255,0.1);">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
-            <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8;">Religia</div>
-            <button class="section-info-trigger header-info-trigger" data-section="rel" title="Wyjaśnienie roli religii oraz 2 przykłady z tekstu">
-              <span class="trigger-icon">ℹ</span>
-              <span class="trigger-text">Dlaczego ten wynik?</span>
-            </button>
+          <!-- Rząd 3: Religia -->
+          <div class="dashboard-category-item">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+              <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8;">${t('Religia', 'Religion')}</div>
+              <button class="section-info-trigger header-info-trigger" data-section="rel" title="${t('Wyjaśnienie roli religii oraz 2 przykłady z tekstu', 'Explanation of religion category and 2 quotes from text')}">
+                <span class="trigger-icon">ℹ</span>
+                <span class="trigger-text">${t('Dlaczego ten wynik?', 'Why this result?')}</span>
+              </button>
+            </div>
+            <div style="display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: 5px; align-items: center; padding-bottom: 2px;">
+              ${renderChips(relOptions, activeRelKey, 'rel')}
+            </div>
           </div>
-          <div style="display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: 5px; align-items: center; padding-bottom: 2px;">
-            ${renderChips(relOptions, activeRelKey, 'rel')}
-          </div>
-        </div>
 
-        <!-- Rząd 4: Cele społeczeństwa -->
-        <div style="margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px dashed rgba(255,255,255,0.1);">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
-            <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8;">Cele społeczeństwa</div>
-            <button class="section-info-trigger header-info-trigger" data-section="goal" title="Wyjaśnienie celów społeczeństwa oraz 2 przykłady z tekstu">
-              <span class="trigger-icon">ℹ</span>
-              <span class="trigger-text">Dlaczego ten wynik?</span>
-            </button>
+          <!-- Rząd 4: Cele społeczeństwa -->
+          <div class="dashboard-category-item">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+              <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8;">${t('Cele społeczeństwa', 'Societal Goals')}</div>
+              <button class="section-info-trigger header-info-trigger" data-section="goal" title="${t('Wyjaśnienie celów społeczeństwa oraz 2 przykłady z tekstu', 'Explanation of societal goals and 2 quotes from text')}">
+                <span class="trigger-icon">ℹ</span>
+                <span class="trigger-text">${t('Dlaczego ten wynik?', 'Why this result?')}</span>
+              </button>
+            </div>
+            <div style="display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: 5px; align-items: center; padding-bottom: 2px;">
+              ${renderChips(goalOptions, activeGoalKey, 'goal')}
+            </div>
           </div>
-          <div style="display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: 5px; align-items: center; padding-bottom: 2px;">
-            ${renderChips(goalOptions, activeGoalKey, 'goal')}
-          </div>
-        </div>
 
-        <!-- Rząd 5: Emancypacja rodziny -->
-        <div style="margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px dashed rgba(255,255,255,0.1);">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
-            <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8;">Emancypacja rodziny</div>
-            <button class="section-info-trigger header-info-trigger" data-section="fam" title="Wyjaśnienie emancypacji rodziny oraz 2 przykłady z tekstu">
-              <span class="trigger-icon">ℹ</span>
-              <span class="trigger-text">Dlaczego ten wynik?</span>
-            </button>
-          </div>
-          <div style="display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: 5px; align-items: center; padding-bottom: 2px;">
-            ${renderChips(famOptions, activeFamKey, 'fam')}
+          <!-- Rząd 5: Emancypacja rodziny -->
+          <div class="dashboard-category-item">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+              <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8;">${t('Emancypacja rodziny', 'Family Emancipation')}</div>
+              <button class="section-info-trigger header-info-trigger" data-section="fam" title="${t('Wyjaśnienie emancypacji rodziny oraz 2 przykłady z tekstu', 'Explanation of family emancipation and 2 quotes from text')}">
+                <span class="trigger-icon">ℹ</span>
+                <span class="trigger-text">${t('Dlaczego ten wynik?', 'Why this result?')}</span>
+              </button>
+            </div>
+            <div style="display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: 5px; align-items: center; padding-bottom: 2px;">
+              ${renderChips(famOptions, activeFamKey, 'fam')}
+            </div>
           </div>
         </div>
 
@@ -6273,16 +6574,16 @@
     content.innerHTML = `
       ${dashboardHtml}
       <div class="tab-bar">
-        <button class="tab-btn ${activeTabId === 'tab-sacrality' ? 'active' : ''}" id="tab-sacrality" title="Krok 1: Indeks Sakralności">1. Sakralność</button>
-        <button class="tab-btn ${activeTabId === 'tab-spirit' ? 'active' : ''}" id="tab-spirit" title="Krok 2: Supremacja Ducha">2. Supremacja Ducha</button>
-        <button class="tab-btn ${activeTabId === 'tab-generalia' ? 'active' : ''}" id="tab-generalia" title="Krok 3: Szereg Personalistyczny / Generalia Etyki">3. Personalizm</button>
-        <button class="tab-btn ${activeTabId === 'tab-chyznosc' ? 'active' : ''}" id="tab-chyznosc" title="Krok 4: Chyżość Historyczna">4. Chyżość</button>
-        <button class="tab-btn ${activeTabId === 'tab-quincunx' ? 'active' : ''}" id="tab-quincunx" title="Krok 5: Quincunx Bytu">5. Quincunx</button>
+        <button class="tab-btn ${activeTabId === 'tab-sacrality' ? 'active' : ''}" id="tab-sacrality" title="${t('Krok 1: Indeks Sakralności', 'Step 1: Sacrality Index')}">${t('1. Sakralność', '1. Sacrality')}</button>
+        <button class="tab-btn ${activeTabId === 'tab-spirit' ? 'active' : ''}" id="tab-spirit" title="${t('Krok 2: Supremacja Ducha', 'Step 2: Supremacy of Spirit')}">${t('2. Supremacja Ducha', '2. Supremacy of Spirit')}</button>
+        <button class="tab-btn ${activeTabId === 'tab-generalia' ? 'active' : ''}" id="tab-generalia" title="${t('Krok 3: Szereg Personalistyczny / Generalia Etyki', 'Step 3: Personalistic Series / Ethical Generalia')}">${t('3. Personalizm', '3. Personalism')}</button>
+        <button class="tab-btn ${activeTabId === 'tab-chyznosc' ? 'active' : ''}" id="tab-chyznosc" title="${t('Krok 4: Chyżość Historyczna', 'Step 4: Historical Speed')}">${t('4. Chyżość', '4. Historic Speed')}</button>
+        <button class="tab-btn ${activeTabId === 'tab-quincunx' ? 'active' : ''}" id="tab-quincunx" title="${t('Krok 5: Quincunx Bytu', 'Step 5: Quincunx of Being')}">${t('5. Quincunx', '5. Quincunx')}</button>
       </div>
 
       <div id="view-sacrality" style="${activeTabId === 'tab-sacrality' ? '' : 'display:none'}">
         ${sacralityHero}
-        <div style="font-size: 13px; color: #9ca3af; padding: 0 20px; margin-bottom: 15px; line-height: 1.5; text-align: center;">
+        <div class="view-intro-desc" style="font-size: 13px; color: #9ca3af; padding: 0 20px; margin-bottom: 15px; line-height: 1.5; text-align: center;">
            Mierzy, czy porządek życia zbiorowego (prawo, państwo, instytucje) posiada charakter sakralny, tzn. czy jest uznawany za święty, nietykalny i wyjęty spod krytyki moralnej i rozumowej.
         </div>
         <div class="section-title">13 Wskaźników Sakralności</div>
@@ -6290,7 +6591,7 @@
       </div>
       <div id="view-spirit" style="${activeTabId === 'tab-spirit' ? '' : 'display:none'}">
         ${spiritHero}
-        <div style="font-size: 13px; color: #9ca3af; padding: 0 20px; margin-bottom: 15px; line-height: 1.5; text-align: center;">
+        <div class="view-intro-desc" style="font-size: 13px; color: #9ca3af; padding: 0 20px; margin-bottom: 15px; line-height: 1.5; text-align: center;">
            Supremacja Ducha to agregacja 12 podstawowych indeksów: od dualizmu prawnego po odpowiedzialność urzędniczą.
            Określa dominację sił duchowych w kształtowaniu życia zbiorowego.
         </div>
@@ -6299,7 +6600,7 @@
       <div id="view-generalia" style="${activeTabId === 'tab-generalia' ? '' : 'display:none'}">
         ${generaliaHero}
         ${mixtureAlertHtml}
-        <div style="font-size: 13px; color: #9ca3af; padding: 0 20px; margin-bottom: 15px; line-height: 1.5; text-align: center;">
+        <div class="view-intro-desc" style="font-size: 13px; color: #9ca3af; padding: 0 20px; margin-bottom: 15px; line-height: 1.5; text-align: center;">
            Siedem Niewiadomych Etyki: Obowiązek, Bezinteresowność, Odpowiedzialność, Sprawiedliwość, Sumienie, Czas i Praca.
            Ocena spójności etycznej określa czy społeczeństwo opiera się na wolności osoby (Łacińska) czy przymusie gromadnościowym.
         </div>
@@ -6308,7 +6609,7 @@
       </div>
       <div id="view-chyznosc" style="${activeTabId === 'tab-chyznosc' ? '' : 'display:none'}">
         ${chyznoscHero}
-        <div style="font-size: 13px; color: #9ca3af; padding: 0 20px; margin-bottom: 15px; line-height: 1.5; text-align: center;">
+        <div class="view-intro-desc" style="font-size: 13px; color: #9ca3af; padding: 0 20px; margin-bottom: 15px; line-height: 1.5; text-align: center;">
            Wydajność cywilizacyjna (Chyżość Historyczna) to zdolność społeczności do oszczędzania i akumulacji czasu.
            Im wyższa chyżość, tym szybciej rozwijają się prawo, etyka i gospodarka, pozwalając kolejnym pokoleniom zaczynać tam, gdzie poprzednie skończyły.
         </div>
@@ -6318,17 +6619,20 @@
       <div id="view-quincunx" style="${activeTabId === 'tab-quincunx' ? '' : 'display:none'}">
         ${historyBadgeHtml}
         ${quincunxHero}
-        <div style="font-size: 13px; color: #9ca3af; padding: 0 20px; margin-bottom: 15px; line-height: 1.5; text-align: center;">
+        <div class="view-intro-desc" style="font-size: 13px; color: #9ca3af; padding: 0 20px; margin-bottom: 15px; line-height: 1.5; text-align: center;">
            Pięciomian Bytu (Quincunx): Dobro, Prawda, Zdrowie, Dobrobyt i Piękno.
            Tylko Cywilizacja Łacińska rozwija harmonijnie wszystkie 5 sfer pod hegemonią Etyki. Brak jakiejkolwiek sfery czyni cywilizację defektowną.
         </div>
         <div class="section-title">11 Wskaźników Pięciomianu Bytu (Quincunx)</div>
         ${quincunxCards}
       </div>
-      <div style="padding: 15px 20px 25px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.08); margin-top: 20px;">
+      <div class="footer-section" style="padding: 15px 20px 25px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.08); margin-top: 20px;">
         <button class="download-btn download-action-btn" style="padding: 8px 18px; font-size: 12.5px;">
-          Pobierz Raport Wyników (JSON)
+          ${t('Pobierz Raport Wyników (JSON)', 'Download Analysis Report (JSON)')}
         </button>
+        <div style="margin-top: 14px; font-size: 11px; color: #94a3b8; line-height: 1.4; max-width: 600px; margin-left: auto; margin-right: auto;">
+          ${t('Narzędzie badawczo-edukacyjne oparte na historyczno-filozoficznej metodzie porównawczej prof. Feliksa Konecznego (1862–1949).', 'Research and educational tool based on the comparative historiosophical method of Prof. Feliks Koneczny (1862–1949).')}
+        </div>
       </div>
     `;
 
@@ -6558,6 +6862,26 @@
   }
 
   // ── Helpers ────────────────────────────────────────────
+  function extractTextFromNode(el) {
+    if (!el) return '';
+    const clone = el.cloneNode(true);
+    const ignoreSelectors = [
+      '#vector-appearance', '.vector-appearance', '#vector-page-tools', '.vector-page-toolbar',
+      '.vector-header', '#mw-navigation', '#mw-panel', '.vector-main-menu', '.vector-toc',
+      '#p-lang-btn', '#p-views', '#p-cactions', '.mw-editsection', '.mw-jump-link',
+      '.ambox', '.tmbox', '.cmbox', '.fmbox', '.ombox', '.hatnote', '.shortdescription',
+      '.navbox', '.vertical-navbox', '.sidebar', '.metadata',
+      '.reflist', '.references', 'sup.reference', '.mw-cite-backlink',
+      '.catlinks', '.printfooter', '#footer', 'footer', 'nav', 'aside', 'header',
+      '.navbar', '.menu', '.cookie-banner', '.advertisement',
+      '.mw-empty-elt', 'script', 'style', 'noscript', '.noprint'
+    ];
+    for (const sel of ignoreSelectors) {
+      clone.querySelectorAll(sel).forEach(node => node.remove());
+    }
+    return clean(clone.innerText || clone.textContent || '');
+  }
+
   function extractCleanText() {
     if (document.contentType === 'application/pdf' || window.location.pathname.toLowerCase().endsWith('.pdf')) {
       return { pdf_url: window.location.href };
@@ -6567,6 +6891,16 @@
     const selection = window.getSelection ? window.getSelection().toString() : '';
     if (selection && selection.trim().length > 30) {
       return clean(selection);
+    }
+
+    // Specjalna obsługa Wikipedii: pobieramy treść artykułu z pominięciem narzędzi, paneli bocznych i motywów
+    const isWiki = window.location.hostname.includes('wikipedia.org') || !!document.querySelector('.mw-parser-output, #mw-content-text');
+    if (isWiki) {
+      const wikiBody = document.querySelector('.mw-parser-output, #mw-content-text');
+      if (wikiBody) {
+        const txt = extractTextFromNode(wikiBody);
+        if (txt.length > 100) return txt;
+      }
     }
 
     // 2. Check digital libraries (Polona), articles, OCR containers and main content
@@ -6584,23 +6918,24 @@
       'article',
       'main',
       '[role="main"]',
-      '#content',
       '.content',
       '.post-content',
       '.entry-content',
-      '.article-content'
+      '.article-content',
+      '#content'
     ];
 
     for (const s of selectors) {
       const el = document.querySelector(s);
-      if (el && el.innerText && el.innerText.trim().length > 100) {
-        return clean(el.innerText);
+      if (el) {
+        const txt = extractTextFromNode(el);
+        if (txt.length > 100) return txt;
       }
     }
 
     // 3. Aggregate paragraphs/metadata elements if article containers missing
     const paragraphs = Array.from(document.querySelectorAll('p, .metadata-value, .description'))
-      .map(p => p && p.innerText ? p.innerText.trim() : '')
+      .map(p => p && p.innerText ? clean(p.innerText) : '')
       .filter(t => t.length > 20);
 
     if (paragraphs.length > 0) {
@@ -6609,11 +6944,25 @@
     }
 
     // 4. Fallback to body text
-    return clean(document.body ? document.body.innerText || '' : '');
+    return extractTextFromNode(document.body);
   }
 
   function clean(str) {
-    return str.replace(/\s+/g, ' ').replace(/[\t\r\n]/g, ' ').trim();
+    if (!str || typeof str !== 'string') return '';
+    return str
+      .replace(/\[\d+\]/g, '') // Usuń przypisy odnośników np. [1], [2], [14]
+      .replace(/\[[a-z\s]+\]/gi, (match) => {
+        const inner = match.slice(1, -1).toLowerCase();
+        if (['edit', 'edytuj', 'bearbeiten', 'citation needed', 'odp.', 'przypis', 'link'].some(k => inner.includes(k))) {
+          return '';
+        }
+        return match;
+      })
+      .replace(/\((?:listen|anhören)ⓘ\/?;?[^)]*\)/gi, '') // Usuń audio previews z wikipedii np. (anhörenⓘ/?)
+      .replace(/https?:\/\/\S+/gi, '') // Usuń czyste linki URL
+      .replace(/\s+/g, ' ')
+      .replace(/[\t\r\n]/g, ' ')
+      .trim();
   }
 
   function getStorageData() {

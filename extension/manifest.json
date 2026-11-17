@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Koneczny Civilization Analyzer",
   "version": "1.6.0",
-  "description": "Analizuje treść stron internetowych pod kątem wskaźników cywilizacyjnych Feliksa Konecznego.",
+  "description": "Narzędzie badawczo-edukacyjne oparte na historyczno-filozoficznej metodzie porównawczej prof. Feliksa Konecznego (1862–1949).",
   "permissions": [
     "activeTab",
     "storage"

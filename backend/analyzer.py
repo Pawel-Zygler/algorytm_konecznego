@@ -562,7 +562,7 @@ def calculate_koneczny_metrics(llm_data: Dict[str, Any]) -> Dict[str, Any]:
     arab_w = round(sac_val * 60) if sac_val >= 0.3 else 0
     jew_w = round(sac_val * 35) if sac_val >= 0.3 else 0
 
-    chin_w = round((1.0 - sac_val) * 40 + (1.0 - s_val) * 30) if (s_val < 0.45 and any(k in (result.get("text", "") or "").upper() for k in ["CHIŃSK", "CHINY", "CHINA", "KONFUCI", "TAO", "DAO"])) else 0
+    chin_w = round((1.0 - sac_val) * 40 + (1.0 - s_val) * 30) if s_val < 0.45 and eth_val >= 0.35 else 0
     tot_w = lat_w + biz_w + tur_w + chin_w + arab_w + jew_w or 100
     spec = [
         {"key": "latin", "label": "Łacińska", "color": "#10b981", "pct": round((lat_w / tot_w) * 100)},
@@ -758,16 +758,15 @@ def analyze_sample_jmantis(text: str, api_key: str = None) -> Dict[str, Any]:
     })
 
     if is_sacral:
-        # ŚCIEŻKA SAKRALNA (Islam / Judaizm / Braminizm)
-        text_upper = (text or "").upper()
-        is_jewish_sacral = any(k in text_upper for k in ["IZRAEL", "ŻYDOWSK", "TORA", "TALMUD", "HALACHA", "JUDAIZM", "RABIN"]) and not any(k in text_upper for k in ["SZARIAT", "ISLAM", "KORAN", "ALLAH", "TALIB"])
-        is_brahmin_sacral = any(k in text_upper for k in ["BRAMIN", "KASTY", "HINDU", "WEDY", "MANU"]) and not any(k in text_upper for k in ["SZARIAT", "ISLAM", "KORAN", "ALLAH", "TALIB"])
+        # ŚCIEŻKA SAKRALNA (Islam / Judaizm / Braminizm) — wyłącznie na podstawie profilu indeksów
+        is_jewish_sacral = conscience_score >= 0.35 and pers_score >= 0.40
+        is_brahmin_sacral = (not is_jewish_sacral) and (sac_score >= 0.91 and 0.20 <= pers_score <= 0.25 and conscience_score >= 0.20)
 
         if is_jewish_sacral:
             primary_civ = "Żydowska"
-            diag = "Monizm Prawno-Sakralny (Etyka partykularno-rodowa, kazuistyka talmudyczna)"
-            sub_type_decision = "Etyka Partykularna i Kazuistyka Rodowa (Cywilizacja Żydowska)"
-            scope_decision = "Partykularyzm Rodowo-Narodowy / Naród Wybrany (Etyka podwójna)"
+            diag = "Monizm Prawno-Sakralny (Etyka rodowo-wspólnotowa, kazuistyka talmudyczna)"
+            sub_type_decision = "Etyka Rodowo-Wspólnotowa (Cywilizacja Żydowska)"
+            scope_decision = "Etyka Rodowo-Wspólnotowa"
             fam_decision = "Monogamia Rodowa i Prawo Majątkowe Rodu"
         elif is_brahmin_sacral:
             primary_civ = "Bramińska"
@@ -807,6 +806,35 @@ def analyze_sample_jmantis(text: str, api_key: str = None) -> Dict[str, Any]:
             "decision": "Całkowity brak dualizmu świeckiego — Czysty Monizm Teokratyczny" if dual_score < 0.35 else "Szczątkowy Dualizm"
         })
 
+    elif dual_score < 0:
+        primary_civ = "Nieokreślona (Brak danych)"
+        diag = "Brak wystarczających danych o dualizmie prawnym i etyce w analizowanym fragmencie tekstu."
+        gate_steps.extend([
+            {
+                "gate": 2,
+                "name": "Bramka 2: Dualizm Prawny vs Monizm (LEGAL_DUALISM_INDEX)",
+                "score": dual_score,
+                "decision": "Brak danych w tekście (-1) — nie można rozstrzygnąć między Dualizmem a Monizmem"
+            },
+            {
+                "gate": 3,
+                "name": "Bramka 3: Relacja Władza-Religia (CHURCH_INDEPENDENCE)",
+                "score": church_score,
+                "decision": "Brak danych w tekście (-1)"
+            },
+            {
+                "gate": 4,
+                "name": "Bramka 4: Status Sumienia (CONSCIENCE_STATUS)",
+                "score": conscience_score,
+                "decision": "Brak danych w tekście (-1)"
+            },
+            {
+                "gate": 5,
+                "name": "Bramka 5: Podmiotowość Jednostki (PERSONALISM_INDEX)",
+                "score": pers_score,
+                "decision": "Brak danych w tekście (-1)"
+            },
+        ])
     else:
         # ŚCIEŻKA ŚWIECKO-ROZUMOWA (Łacińska vs Bizantyńska vs Turańska)
         is_dual = dual_score >= 0.48
@@ -841,9 +869,9 @@ def analyze_sample_jmantis(text: str, api_key: str = None) -> Dict[str, Any]:
                 "decision": "Personalizm — Osoba ludzka niezależnym podmiotem prawa i wolnej woli"
             })
         else:
-            # Monizm: rozróżnienie Bizantynizm vs Turańszczyzna vs Chińska
-            is_chinese = any(k in (text or "").upper() for k in ["CHIŃSK", "CHINY", "CHINA", "KONFUCI", "DAO", "TAO", "RYTUAŁ LI", "KULT PRZODKÓW", "MANDAT NIEBIOS", "PAŃSTWO ŚRODKA"])
-            is_camp_regime = (pers_score >= 0 and pers_score < 0.25) or (church_score >= 0 and church_score < 0.20 and pers_score < 0.30)
+            # Monizm: rozróżnienie Bizantynizm vs Turańszczyzna vs Chińska wyłącznie z indeksów
+            is_camp_regime = (pers_score >= 0 and pers_score < 0.25) or (church_score >= 0 and church_score < 0.20 and 0 <= pers_score < 0.30)
+            is_chinese = (not is_camp_regime) and 0.05 <= dual_score < 0.35 and church_score >= 0.25 and conscience_score >= 0.35 and pers_score >= 0.35
 
             if is_chinese:
                 primary_civ = "Chińska"
@@ -1094,8 +1122,8 @@ def analyze_sample(text: str, api_key: str = None, target_indices: list = None) 
 
     rag_context = rag.format_passages_for_prompt(book_passages) if book_passages else ""
 
-    # Limit text to 8000 chars (was 15000)
-    trimmed_text = text[:8000]
+    # Analyze full extracted text without character truncation
+    trimmed_text = text
 
     def run_query(prompt_txt, sys_instr, schema_obj):
         raw_res = call_gemini_api(prompt_txt, sys_instr, key, schema_obj)
@@ -1622,7 +1650,7 @@ Zwróć JSON."""
 1. duty_source_personalistic: Źródło Obowiązku (1.0 = Wewnętrzne/Etyka przed prawem, 0.0 = Zewnętrzne/Przymus/Okólnik)
 2. motivation_altruism: Motywacja i Bezinteresowność (1.0 = Bezinteresowne Dobro i Prawda, 0.0 = Utylitaryzm/Transakcyjność)
 3. responsibility_personal: Rodzaj Odpowiedzialności (1.0 = Osobista/Indywidualna za własne czyny, 0.0 = Zbiorowa/Rodu/Kasty/Gromady)
-4. justice_equity: Natura Sprawiedliwości (1.0 = Słuszność Etyczna ponad ustawą, 0.0 = Bezbronny Legalizm/Strictum Ius/Shylock)
+4. justice_equity: Natura Sprawiedliwości (1.0 = Słuszność Etyczna ponad ustawą, 0.0 = Bezbronny Legalizm / Strictum Ius)
 5. conscience_autonomous: Status Sumienia (1.0 = Autonomia Sumienia i autokrytyka moralna, 0.0 = Heteronomia/Litera prawa)
 6. time_mastery_historicism: Opanowanie Czasu (1.0 = Historyzm/Kapitalizacja Czasu/Era, 0.0 = Wegetacja bezwymiarowa)
 7. work_ethos_sanctification: Ethos Pracy (1.0 = Uświęcenie i godność człowieka wolnego, 0.0 = Przymus/Jarzmo)
@@ -1822,7 +1850,7 @@ Zwróć JSON."""
 1. equity_over_letter: Etyczne poczucie słuszności stoi ponad literą prawa
 2. judge_conscience_role: Sędzia orzeka według sumienia (nie maszynka do paragrafów)
 3. law_from_ethics: Prawo wywodzi się z etyki (jest jej pieczęcią)
-4. no_shylock_formalism: Odrzucenie metody Shylocka i ślepego formalizmu
+4. no_shylock_formalism: Odrzucenie ślepego formalizmu (strictum ius) i przedkładania litery nad słuszność
 5. state_under_decalogue: Państwo i jego ustawy podlegają normom moralnym
 6. justice_needs_mercy: Miłosierdzie jako niezbędna korekta prawa (res sacra miser)
 7. no_legislative_elephantiasis: Odrzucenie elephantiasis ustawodawczej
@@ -1916,7 +1944,7 @@ Zwróć JSON."""
 3. no_legislative_elephantiasis: Odrzucenie skodyfikowania wszystkiego krępującego sumienie
 4. refusal_of_immoral_orders: Obowiązek odmowy wykonania rozkazu sprzecznego z Dekalogiem
 5. personal_accountability_god: Rachunek sumienia i osobista odpowiedzialność przed Bogiem
-6. no_shylock_formalism: Odrzucenie formalizmu Shylocka wbrew słuszności i sumieniu
+6. no_shylock_formalism: Odrzucenie ślepego formalizmu (strictum ius) wbrew słuszności i sumieniu
 7. ethics_above_law: Etyka jako przodowniczka prawa (wyznacza granice prawu)
 8. personalism_sovereignty: Personalizm (suwerenność jednostki i bezpośrednia relacja z Bogiem)
 9. good_hegemony_over_law: Prymat Dobra i etyki totalnej nad prawem i polityką

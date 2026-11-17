@@ -6,7 +6,7 @@ def test_justice_nature_index():
     sample_text = """
     Poczucie słuszności i etyki wyprzedza literę przepisu prawnego. Sędzia orzeka na podstawie sumienia,
     a nie jako bezduszna maszynka do stosowania paragrafów. Prawo wywodzi się z powszechnej etyki,
-    a ustawy podlegają wyższym normom moralnym. Odrzucamy formalizm Shylocka, sakralną kazuistykę oraz statolatrię.
+    a ustawy podlegają wyższym normom moralnym. Odrzucamy ślepy formalizm (strictum ius), sakralną kazuistykę oraz statolatrię.
     Prawo musi wyrastać aposteriorycznie z doświadczenia społecznego, z zachowaniem ścisłego dualizmu prawnego
     i pełnej niezawisłości sędziów. Odrzucamy turańskie prawo obozowe i wstrętny kolektywizm socjalistyczny.
     """

@@ -1,5 +1,7 @@
 # Algorytm Konecznego
 
+> **Nota metodologiczna:** Narzędzie badawczo-edukacyjne oparte na historyczno-filozoficznej metodzie porównawczej prof. Feliksa Konecznego (1862–1949).
+
 Teoria cywilizacji Feliksa Konecznego w formie aplikacji i wtyczki do przeglądarki.
 
 ![Analiza Algorytmem Konecznego - Dashboard i Szczebel Cywilizacyjny](extension/dasz4.png)
@@ -7,23 +9,50 @@ Teoria cywilizacji Feliksa Konecznego w formie aplikacji i wtyczki do przegląda
 ![Analiza Algorytmem Konecznego - Schemat Klasyczny Konecznego (German Confederation)](extension/germian_confederation.png)
 ![Analiza Algorytmem Konecznego - Panel Analityczny i Aura Silnika](extension/dasz13.png)
 
-<details>
-<summary><b>Szybki start (Instalacja i uruchomienie)</b></summary>
+## Szybki start (4 proste kroki)
 
-### 1. Uruchomienie w terminalu:
-```
+Wtyczka działa bezpośrednio w przeglądarce (**Direct Chrome Mode**) i łączy się z modelem Gemini — nie musisz nawet uruchamiać lokalnego backendu w Pythonie!
+
+### 1. Stwórz konto na Google AI i pobierz darmowy klucz API
+1. Wejdź na stronę [Google AI Studio](https://aistudio.google.com/app/apikey).
+2. Zaloguj się swoim zwykłym kontem Google (Gmail). Jeśli wchodzisz pierwszy raz, zaakceptuj regulamin.
+3. Kliknij niebieski przycisk **Create API key** (Utwórz klucz API).
+4. Skopiuj wygenerowany ciąg znaków (to Twój klucz API — zachowaj go, wkleisz go w kroku 3).
+*(Klucz jest bezpłatny i służy do łączenia się ze sztuczną inteligencją Gemini).*
+
+### 2. Zainstaluj wtyczkę w Chrome / Edge / Brave
+1. Otwórz stronę `chrome://extensions/` w przeglądarce.
+2. Włącz suwak **Tryb dewelopera** (w prawym górnym rogu).
+3. Kliknij przycisk **Załaduj rozpakowane** (Load unpacked) i wskaż katalog `extension/` z tego repozytorium.
+
+### 3. Wklej klucz API w opcjach wtyczki
+1. Kliknij ikonę wtyczki **Koneczny Civilization Analyzer** na pasku rozszerzeń przeglądarki (obok paska adresu).
+2. Wklej swój klucz w polu **Klucz Gemini API** i kliknij **Zapisz konfigurację**.
+*(Domyślny tryb to Direct Chrome Mode — gotowe do użycia!)*
+
+### 4. Znajdź tekst i kliknij głowę profesora
+1. Otwórz dowolny artykuł lub stronę w przeglądarce, np. w Wikipedii:
+   - [Law of Russia](https://en.wikipedia.org/wiki/Law_of_Russia)
+   - [Polska](https://pl.wikipedia.org/wiki/Polska)
+   - [German Confederation](https://en.wikipedia.org/wiki/German_Confederation)
+   - lub dowolny dokument PDF
+2. Kliknij pływający **portret prof. Feliksa Konecznego** w prawym dolnym rogu strony.
+3. Panel boczny przeprowadzi analizę metodą historiozoficzną i wyświetli dashboard cywilizacyjny po około 1m.
+
+---
+
+<details>
+<summary><b>Opcjonalnie: Uruchomienie z lokalnym backendem (Python / FastAPI)</b></summary>
+
+Jeśli wolisz korzystać z lokalnego serwera backendowego:
+```bash
 1. git clone https://github.com/Pawel-Zygler/algorytm_konecznego.git
 2. cd algorytm_konecznego
 3. pip install -r backend/requirements.txt
 4. cp backend/.env.template backend/.env  # wpisz GEMINI_API_KEY z Google AI Studio
 5. make start                            # serwer: http://127.0.0.1:8005 (stop: make stop)
 ```
-
-### 2. Wtyczka Chrome / Edge
-1. Otwórz `chrome://extensions/` i włącz **Tryb dewelopera**.
-2. Kliknij **Załaduj rozpakowane** i wskaż folder `extension/`.
-3. Kliknij ikonę wtyczki, wpisz klucz API i zapisz.
-4. Kliknij portret profesora w rogu strony, aby zbadać tekst.
+W popupie wtyczki przełącz tryb na **Lokalny Backend (Python)**.
 
 </details>
 
@@ -62,7 +91,7 @@ flowchart TD
     B5 -- "Ustrój Obozowy\nBrak własności prywatnej" --> CivTur["CYWILIZACJA TURAŃSKA"]
     
     B6 -- "Monizm Sakralny (Umma)\nPowszechna teokracja" --> CivArab["CYWILIZACJA ARABSKA"]
-    B6 -- "Etyka Podwójna\nPartykularyzm rodowo-sakralny" --> CivJew["CYWILIZACJA ŻYDOWSKA"]
+    B6 -- "Etyka rodowo-wspólnotowa\nPrawo sakralne" --> CivJew["CYWILIZACJA ŻYDOWSKA"]
 ```
 
 - **Sakralność:** cywilizacje sakralne vs świecko-rozumowe.
