@@ -11,14 +11,13 @@ Teoria cywilizacji Feliksa Konecznego w formie aplikacji i wtyczki do przegląda
 
 ## Szybki start (4 proste kroki)
 
-Wtyczka działa bezpośrednio w przeglądarce (**Direct Chrome Mode**) i łączy się z modelem Gemini — nie musisz nawet uruchamiać lokalnego backendu w Pythonie!
+Wtyczka działa bezpośrednio w przeglądarce (Direct Chrome Mode) i łączy się z modelem Gemini — nie musisz nawet uruchamiać lokalnego backendu w Pythonie!
 
 ### 1. Stwórz konto na Google AI i pobierz darmowy klucz API
 1. Wejdź na stronę [Google AI Studio](https://aistudio.google.com/app/apikey).
 2. Zaloguj się swoim zwykłym kontem Google (Gmail). Jeśli wchodzisz pierwszy raz, zaakceptuj regulamin.
 3. Kliknij niebieski przycisk **Create API key** (Utwórz klucz API).
-4. Skopiuj wygenerowany ciąg znaków (to Twój klucz API — zachowaj go, wkleisz go w kroku 3).
-*(Klucz jest bezpłatny i służy do łączenia się ze sztuczną inteligencją Gemini).*
+4. Skopiuj wygenerowany ciąg znaków (to Twój klucz API — zachowaj go, wkleisz go w kroku 3). *(Klucz jest bezpłatny i służy do łączenia się ze sztuczną inteligencją Gemini).*
 
 ### 2. Zainstaluj wtyczkę w Chrome / Edge / Brave
 1. Otwórz stronę `chrome://extensions/` w przeglądarce.
@@ -27,8 +26,7 @@ Wtyczka działa bezpośrednio w przeglądarce (**Direct Chrome Mode**) i łączy
 
 ### 3. Wklej klucz API w opcjach wtyczki
 1. Kliknij ikonę wtyczki **Koneczny Civilization Analyzer** na pasku rozszerzeń przeglądarki (obok paska adresu).
-2. Wklej swój klucz w polu **Klucz Gemini API** i kliknij **Zapisz konfigurację**.
-*(Domyślny tryb to Direct Chrome Mode — gotowe do użycia!)*
+2. Wklej swój klucz w polu **Klucz Gemini API** i kliknij **Zapisz konfigurację**. *(Domyślny tryb to Direct Chrome Mode — gotowe do użycia!)*
 
 ### 4. Znajdź tekst i kliknij głowę profesora
 1. Otwórz dowolny artykuł lub stronę w przeglądarce, np. w Wikipedii:
@@ -38,6 +36,39 @@ Wtyczka działa bezpośrednio w przeglądarce (**Direct Chrome Mode**) i łączy
    - lub dowolny dokument PDF
 2. Kliknij pływający **portret prof. Feliksa Konecznego** w prawym dolnym rogu strony.
 3. Panel boczny przeprowadzi analizę metodą historiozoficzną i wyświetli dashboard cywilizacyjny po około 1m.
+
+<details>
+<summary><b>Quick Start Guide (English)</b></summary>
+
+### Quick Start (4 simple steps)
+
+The extension runs directly in your browser (Direct Chrome Mode) and connects to the Gemini model — no need to run a local Python backend!
+
+#### 1. Create a Google AI account and get a free API key
+1. Go to [Google AI Studio](https://aistudio.google.com/app/apikey).
+2. Sign in with your standard Google account (Gmail). If it's your first time, accept the terms of service.
+3. Click the blue **Create API key** button.
+4. Copy the generated key string (keep it handy — you will paste it in Step 3). *(The key is completely free and used to communicate with Gemini AI).*
+
+#### 2. Install the extension in Chrome / Edge / Brave
+1. Navigate to `chrome://extensions/` in your browser.
+2. Enable the **Developer mode** toggle in the top-right corner.
+3. Click **Load unpacked** and select the `extension/` directory from this repository.
+
+#### 3. Paste the API key into the extension options
+1. Click the **Koneczny Civilization Analyzer** icon in your browser toolbar (next to the address bar).
+2. Paste your API key into the **Gemini API Key** field and click **Save Configuration**. *(Default mode is Direct Chrome Mode — ready to go!)*
+
+#### 4. Find any text and click the Professor's portrait
+1. Open any article or page in your browser, for example on Wikipedia:
+   - [Law of Russia](https://en.wikipedia.org/wiki/Law_of_Russia)
+   - [Polska](https://pl.wikipedia.org/wiki/Polska)
+   - [German Confederation](https://en.wikipedia.org/wiki/German_Confederation)
+   - or any PDF document
+2. Click the floating **portrait of Prof. Feliks Koneczny** in the bottom-right corner of the page.
+3. The side panel will run the historiosophical analysis and present the civilizational dashboard in about 1 minute.
+
+</details>
 
 ---
 
