@@ -162,7 +162,7 @@ TIME_MASTERY_KEYS = [
     "time_rich_language", "historicism_national_consciousness", "dated_documentation",
     "latin_historicism_unique", "generational_voluntary_synthesis",
     "family_emancipation_workshop", "truth_and_goodness_cult",
-    "no_sacral_passive_stagnation", "no_turanian_camp_presentism"
+    "no_sacral_passive_stagnation", "no_camp_presentism"
 ]
 
 QUINCUNX_KEYS = [
@@ -178,7 +178,7 @@ TAB_DESCRIPTIONS = {
     "spirit": "Supremacja Ducha to agregacja 12 podstawowych indeksów: od dualizmu prawnego po odpowiedzialność urzędniczą. Określa dominację sił duchowych w kształtowaniu życia zbiorowego.",
     "generalia": "Siedem Niewiadomych Etyki: Obowiązek, Bezinteresowność, Odpowiedzialność, Sprawiedliwość, Sumienie, Czas i Praca. Ocena spójności etycznej określa czy społeczeństwo opiera się na wolności osoby (Łacińska) czy przymusie gromadnościowym.",
     "chyznosc": "Wydajność cywilizacyjna (Chyżość Historyczna) to zdolność społeczności do oszczędzania i akumulacji czasu. Im wyższa chyżość, tym szybciej rozwijają się prawo, etyka i gospodarka, pozwalając kolejnym pokoleniom zaczynać tam, gdzie poprzednie skończyły.",
-    "quincunx": "Pięciomian Bytu (Quincunx): Dobro, Prawda, Zdrowie, Dobrobyt i Piękno. Tylko Cywilizacja Łacińska rozwija harmonijnie wszystkie 5 sfer pod hegemonią Etyki. Brak jakiejkolwiek sfery czyni cywilizację defektowną."
+    "quincunx": "Pięciomian Bytu (Quincunx): Dobro, Prawda, Zdrowie, Dobrobyt i Piękno. Według Konecznego tylko Cywilizacja Łacińska rozwija harmonijnie wszystkie 5 sfer pod hegemonią Etyki. Brak jakiejkolwiek sfery czyni cywilizację defektowną."
 }
 
 
@@ -449,7 +449,7 @@ class TestTab5QuincunxContract:
         """Weryfikuje opis co mierzy wskaźnik Quincunxa."""
         desc = TAB_DESCRIPTIONS["quincunx"]
         assert "Pięciomian Bytu (Quincunx): Dobro, Prawda, Zdrowie, Dobrobyt i Piękno" in desc
-        assert "Tylko Cywilizacja Łacińska rozwija harmonijnie wszystkie 5 sfer pod hegemonią Etyki" in desc
+        assert "Według Konecznego tylko Cywilizacja Łacińska rozwija harmonijnie wszystkie 5 sfer pod hegemonią Etyki" in desc
 
     def test_11_quincunx_questions_answers_and_proofs(self, any_civ_data):
         """Weryfikuje 11 wskaźników Quincunxa (obejmujących Dobro, Prawdę, Zdrowie, Dobrobyt, Piękno)."""

@@ -249,7 +249,7 @@ const text = 'Talibowie wprowadzili szariat oparty na Koranie i prześladowali m
 const res = applyMantisGates(text, metrics);
 console.log(JSON.stringify(res));
 """)
-    assert js_out["primary_civilization"] == "Arabska / Sakralna"
+    assert js_out["primary_civilization"] == "Sakralna uniwersalistyczna (wg Konecznego: arabska)"
     assert "kastowy" not in js_out["civilization_diagnosis"].lower()
 
 
@@ -272,3 +272,45 @@ console.log(JSON.stringify(res));
     assert js_out["primary_civilization"] != "Chińska"
     assert js_out["primary_civilization"] == "Nieokreślona (Brak danych)"
     assert len(js_out["mantis_gates"]) == 5
+
+
+@pytest.mark.unit
+def test_sacral_subtype_near_threshold_is_undetermined_and_ignores_keywords():
+    """K3.3/K3.4: wynik blisko progu -> wariant nierozstrzygnięty; słowa kluczowe w tekście nie wpływają na wynik."""
+    js_out = _run_node_esm("""
+import { applyMantisGates } from './services/konecznyEngine.js';
+const metrics = {
+  sacrality_score: 0.8,
+  legal_dualism_score: 0.1,
+  church_independence_score: 0.1,
+  conscience_status_score: 0.36,
+  personalism_score: 0.5,
+  public_morality_totality_score: 0.3,
+};
+const text = 'Tora, Talmud, halacha, rabin, Izrael.';
+const res = applyMantisGates(text, metrics);
+console.log(JSON.stringify(res));
+""")
+    assert js_out["primary_civilization"] == "Sakralna (wariant nierozstrzygnięty)"
+    assert "talmud" not in js_out["civilization_diagnosis"].lower()
+
+
+@pytest.mark.unit
+def test_sacral_communal_variant_uses_regime_label_not_group_name():
+    """K3.1: wariant opisany typem ustroju; nazwa Konecznego tylko w nawiasie."""
+    js_out = _run_node_esm("""
+import { applyMantisGates } from './services/konecznyEngine.js';
+const metrics = {
+  sacrality_score: 0.85,
+  legal_dualism_score: 0.1,
+  church_independence_score: 0.1,
+  conscience_status_score: 0.45,
+  personalism_score: 0.55,
+  public_morality_totality_score: 0.3,
+};
+const res = applyMantisGates('Kodeks prawa kanonicznego', metrics);
+console.log(JSON.stringify(res));
+""")
+    assert js_out["primary_civilization"] == "Sakralna wspólnotowo-rodowa (wg Konecznego: żydowska)"
+    assert "talmud" not in js_out["civilization_diagnosis"].lower()
+    assert "kazuistyka" not in js_out["civilization_diagnosis"].lower()

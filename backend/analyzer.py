@@ -360,10 +360,10 @@ def calculate_koneczny_metrics(llm_data: Dict[str, Any]) -> Dict[str, Any]:
             result["generalia_diagnosis"] = "Dominacja Szeregu Personalistycznego (Cywilizacja Łacińska)"
             result["mixture_alert"] = False
         elif coherence_sum <= 2.0:
-            result["generalia_diagnosis"] = "Dominacja Szeregu Gromadnościowego (Pozostałe cywilizacje)"
+            result["generalia_diagnosis"] = "Dominacja Szeregu Gromadnościowego (cywilizacje niełacińskie w modelu Konecznego)"
             result["mixture_alert"] = False
         else:
-            result["generalia_diagnosis"] = "⚠️ MIESZANKA TRUJĄCA (Stan acywilizacyjny / Kołobłęd etyczny)"
+            result["generalia_diagnosis"] = "Niespójność norm etycznych (wg Konecznego: mieszanka cywilizacyjna)"
             result["mixture_alert"] = True
     else:
         result["ethical_coherence_score"] = -1.0
@@ -406,7 +406,7 @@ def calculate_koneczny_metrics(llm_data: Dict[str, Any]) -> Dict[str, Any]:
         elif eff_score >= 0.35:
             result["time_mastery_efficiency_diagnosis"] = "Umiarkowana Wydajność Cywilizacyjna (Stan Synkretyczny / Mieszanka)"
         else:
-            result["time_mastery_efficiency_diagnosis"] = "Niska Chyżość Historyczna (Brak Historyzmu / Wegetacja Ab Ovo / Zastój)"
+            result["time_mastery_efficiency_diagnosis"] = "Niska Chyżość Historyczna (niski wskaźnik historyzmu)"
     else:
         result["time_mastery_efficiency_score"] = result.get("time_mastery_history_score", -1.0)
         eff_history = result.get("time_mastery_history_score", -1.0)
@@ -415,7 +415,7 @@ def calculate_koneczny_metrics(llm_data: Dict[str, Any]) -> Dict[str, Any]:
         elif eff_history >= 0.35:
             result["time_mastery_efficiency_diagnosis"] = "Umiarkowana Wydajność Cywilizacyjna (Stan Synkretyczny / Mieszanka)"
         elif eff_history >= 0:
-            result["time_mastery_efficiency_diagnosis"] = "Niska Chyżość Historyczna (Brak Historyzmu / Wegetacja Ab Ovo / Zastój)"
+            result["time_mastery_efficiency_diagnosis"] = "Niska Chyżość Historyczna (niski wskaźnik historyzmu)"
         else:
             result["time_mastery_efficiency_diagnosis"] = "Brak danych dla Kroku 4"
 
@@ -513,16 +513,16 @@ def calculate_koneczny_metrics(llm_data: Dict[str, Any]) -> Dict[str, Any]:
         sphere_note = f" (ocena z {num_cats}/5 sfer)" if num_cats < 5 else ""
 
         if any(c <= 0.1 for c in valid_q_cats):
-            result["quincunx_diagnosis"] = f"CYWILIZACJA DEFEKTOWNA / UŁOMNA (Defekt sfery bytu){sphere_note}"
+            result["quincunx_diagnosis"] = f"Bardzo niski wynik w jednej ze sfer Pięciomianu{sphere_note}"
         elif hegemony_penalty < 0.90:
-            result["quincunx_diagnosis"] = f"⚠️ ZWICHNIĘCIE PIĘCIOMIANU (Zaniedbanie Etyki na rzecz Materializmu/Państwa){sphere_note}"
+            result["quincunx_diagnosis"] = f"Przewaga innych sfer nad Etyką (wg Konecznego: zwichnięcie Pięciomianu){sphere_note}"
         elif q_final >= 0.65 and consistency_factor >= 0.75:
             if num_cats == 5:
                 result["quincunx_diagnosis"] = "PEŁNIA CYWILIZACJI ŁACIŃSKIEJ (Harmonia 5/5 sfer Pięciomianu pod przodownictwem Etyki)"
             else:
                 result["quincunx_diagnosis"] = f"DOMINACJA NORMY ŁACIŃSKIEJ (Niepełny Pięciomian: {num_cats}/5 sfer w tekście)"
         elif consistency_factor < 0.60 and num_cats > 1:
-            result["quincunx_diagnosis"] = f"⚠️ ACYWILIZACYJNA NIEWSPÓŁMIERNOŚĆ (Mieszanka Metod Niszcząca Siły Społeczne){sphere_note}"
+            result["quincunx_diagnosis"] = f"Niewspółmierność sfer (wg Konecznego: mieszanka metod){sphere_note}"
         else:
             result["quincunx_diagnosis"] = f"Umiarkowana Współmierność Bytu{sphere_note}"
     else:
@@ -535,7 +535,7 @@ def calculate_koneczny_metrics(llm_data: Dict[str, Any]) -> Dict[str, Any]:
     ethic_val = result.get("ethical_coherence_score", -1.0)
 
     if sacral_val >= 0.5:
-        result["primary_civilization"] = "Arabska / Sakralna"
+        result["primary_civilization"] = "Sakralna (wariant nierozstrzygnięty)"
         result["civilization_diagnosis"] = "Monizm Prawno-Religijny (Sakralizm)"
     elif spirit_val >= 0.50 and (ethic_val < 0 or ethic_val >= 4.0):
         result["primary_civilization"] = "Łacińska"
@@ -545,10 +545,10 @@ def calculate_koneczny_metrics(llm_data: Dict[str, Any]) -> Dict[str, Any]:
             result["primary_civilization"] = "Bizantyńska / Turańska"
             result["civilization_diagnosis"] = "Dominacja prawa publicznego/ustroju obozowego, monizm państwowy"
         else:
-            result["primary_civilization"] = "Mieszanka Acywilizacyjna"
+            result["primary_civilization"] = "Mieszanka cywilizacyjna"
             result["civilization_diagnosis"] = "Stan synkretyczny (Niska supremacja ducha)"
     else:
-        result["primary_civilization"] = "Mieszanka Acywilizacyjna"
+        result["primary_civilization"] = "Mieszanka cywilizacyjna"
         result["civilization_diagnosis"] = "Brak pełnej spójności cywilizacyjnej wedle metodyki Konecznego"
 
     # Calculate Civilization Spectrum (Proporcje Wpływów Cywilizacyjnych)
@@ -565,12 +565,12 @@ def calculate_koneczny_metrics(llm_data: Dict[str, Any]) -> Dict[str, Any]:
     chin_w = round((1.0 - sac_val) * 40 + (1.0 - s_val) * 30) if s_val < 0.45 and eth_val >= 0.35 else 0
     tot_w = lat_w + biz_w + tur_w + chin_w + arab_w + jew_w or 100
     spec = [
-        {"key": "latin", "label": "Łacińska", "color": "#10b981", "pct": round((lat_w / tot_w) * 100)},
-        {"key": "byzantine", "label": "Bizantyńska", "color": "#ef4444", "pct": round((biz_w / tot_w) * 100)},
-        {"key": "turanian", "label": "Turańska", "color": "#dc2626", "pct": round((tur_w / tot_w) * 100)},
+        {"key": "latin", "label": "Łacińska", "color": "#6366f1", "pct": round((lat_w / tot_w) * 100)},
+        {"key": "byzantine", "label": "Bizantyńska", "color": "#0ea5e9", "pct": round((biz_w / tot_w) * 100)},
+        {"key": "turanian", "label": "Turańska", "color": "#14b8a6", "pct": round((tur_w / tot_w) * 100)},
         {"key": "chinese", "label": "Chińska", "color": "#eab308", "pct": round((chin_w / tot_w) * 100)},
-        {"key": "arab", "label": "Arabska", "color": "#059669", "pct": round((arab_w / tot_w) * 100)},
-        {"key": "jewish", "label": "Żydowska", "color": "#0284c7", "pct": round((jew_w / tot_w) * 100)}
+        {"key": "arab", "label": "Sakralna uniwersalistyczna (wg K.: arabska)", "color": "#22c55e", "pct": round((arab_w / tot_w) * 100)},
+        {"key": "jewish", "label": "Sakralna wspólnotowo-rodowa (wg K.: żydowska)", "color": "#a855f7", "pct": round((jew_w / tot_w) * 100)}
     ]
     spec = [x for x in spec if x["pct"] > 0]
     tot_pct = sum(x["pct"] for x in spec)
@@ -721,6 +721,35 @@ schema_9 = {
     ]
 }
 
+SACRAL_MARGIN = 0.02
+
+
+def _raw_sacral_subtype(sac: float, conscience: float, pers: float) -> str:
+    if conscience >= 0.35 and pers >= 0.40:
+        return "communal"
+    if sac >= 0.91 and 0.20 <= pers <= 0.25 and conscience >= 0.20:
+        return "caste"
+    return "universal"
+
+
+def classify_sacral_subtype(sac: float, conscience: float, pers: float) -> str:
+    """Zwraca 'communal' | 'caste' | 'universal' | 'undetermined'.
+
+    'undetermined' gdy brakuje danych o sumieniu/personalizmie albo gdy przesunięcie
+    dowolnego wyniku o ±SACRAL_MARGIN zmienia rozstrzygnięcie (próg pewności).
+    """
+    if conscience < 0 or pers < 0 or sac < 0:
+        return "undetermined"
+    base = _raw_sacral_subtype(sac, conscience, pers)
+    deltas = (-SACRAL_MARGIN, 0.0, SACRAL_MARGIN)
+    for ds in deltas:
+        for dc in deltas:
+            for dp in deltas:
+                if _raw_sacral_subtype(sac + ds, conscience + dc, pers + dp) != base:
+                    return "undetermined"
+    return base
+
+
 def analyze_sample_jmantis(text: str, api_key: str = None) -> Dict[str, Any]:
     """
     Szybka, drapieżna klasyfikacja jMantis (Reguła Pareto 80/20 & Information Gain).
@@ -758,28 +787,34 @@ def analyze_sample_jmantis(text: str, api_key: str = None) -> Dict[str, Any]:
     })
 
     if is_sacral:
-        # ŚCIEŻKA SAKRALNA (Islam / Judaizm / Braminizm) — wyłącznie na podstawie profilu indeksów
-        is_jewish_sacral = conscience_score >= 0.35 and pers_score >= 0.40
-        is_brahmin_sacral = (not is_jewish_sacral) and (sac_score >= 0.91 and 0.20 <= pers_score <= 0.25 and conscience_score >= 0.20)
+        # ŚCIEŻKA SAKRALNA — wariant ustroju wyłącznie na podstawie profilu indeksów (bez słów kluczowych).
+        # Wynik opisuje typ ustroju; nazwa Konecznego jest tylko odniesieniem terminologicznym.
+        subtype = classify_sacral_subtype(sac_score, conscience_score, pers_score)
 
-        if is_jewish_sacral:
-            primary_civ = "Żydowska"
-            diag = "Monizm Prawno-Sakralny (Etyka rodowo-wspólnotowa, kazuistyka talmudyczna)"
-            sub_type_decision = "Etyka Rodowo-Wspólnotowa (Cywilizacja Żydowska)"
-            scope_decision = "Etyka Rodowo-Wspólnotowa"
+        if subtype == "communal":
+            primary_civ = "Sakralna wspólnotowo-rodowa (wg Konecznego: żydowska)"
+            diag = "Monizm Prawno-Sakralny (prawo religijne reguluje życie codzienne wspólnoty, etyka rodowo-wspólnotowa)"
+            sub_type_decision = "Wariant wspólnotowo-rodowy (w terminologii Konecznego: cywilizacja żydowska)"
+            scope_decision = "Prawo religijne obowiązujące członków wspólnoty"
             fam_decision = "Monogamia Rodowa i Prawo Majątkowe Rodu"
-        elif is_brahmin_sacral:
-            primary_civ = "Bramińska"
-            diag = "Monizm Kastowo-Rytualny (Brak pojęcia osoby, podział kastowy)"
-            sub_type_decision = "Ustrój Kastowo-Rytualny (Cywilizacja Bramińska)"
+        elif subtype == "caste":
+            primary_civ = "Sakralna kastowa (wg Konecznego: bramińska)"
+            diag = "Monizm Kastowo-Rytualny (podział stanowo-kastowy, prymat rytuału)"
+            sub_type_decision = "Wariant kastowo-rytualny (w terminologii Konecznego: cywilizacja bramińska)"
             scope_decision = "Hierarchia Kastowa / Karma i Reinkarnacja"
-            fam_decision = "Ustrój Wielorodzinny i Brak Indywidualizmu"
-        else:
-            primary_civ = "Arabska / Sakralna"
+            fam_decision = "Ustrój Wielorodzinny"
+        elif subtype == "universal":
+            primary_civ = "Sakralna uniwersalistyczna (wg Konecznego: arabska)"
             diag = "Monizm Prawno-Religijny (Teokracja, Szariat, ustrój obozowo-religijny)"
-            sub_type_decision = "Państwowy Monizm Szariatu i Władza Teokratyczna (Cywilizacja Arabska)"
+            sub_type_decision = "Wariant uniwersalistyczny, teokratyczny (w terminologii Konecznego: cywilizacja arabska)"
             scope_decision = "Powszechny Zasięg Prawa Sakralnego / Umma"
             fam_decision = "Poligamia i Ustrój Obozowo-Religijny"
+        else:
+            primary_civ = "Sakralna (wariant nierozstrzygnięty)"
+            diag = "Monizm Prawno-Religijny: brak danych albo wyniki zbyt blisko progów, by wskazać wariant ustroju sakralnego."
+            sub_type_decision = "Wariant nierozstrzygnięty (brak danych lub wynik w pobliżu progu)"
+            scope_decision = "Nierozstrzygnięte"
+            fam_decision = "Nierozstrzygnięte"
 
         gate_steps.append({
             "gate": 2,
@@ -1140,7 +1175,7 @@ def analyze_sample(text: str, api_key: str = None, target_indices: list = None) 
         return parsed
 
     # --- CALL 1: Sacrality ---
-    sys_inst_1 = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w wymiarze (0.0-1.0):
+    sys_inst_1 = """Jesteś ekspertem historiozofii Feliksa Konecznego. Skala 0.0–1.0 mierzy zgodność z modelem łacińskim w ujęciu Konecznego; niski wynik oznacza inny model cywilizacyjny, a nie gorszy. Oceniasz przysłany TEKST w wymiarze (0.0-1.0):
 1. INDEKS SAKRALNOŚCI (13 wskaźników)
 
 BARDZO WAŻNE ZASADY DOTYCZĄCE NEWSÓW I UZASADNIENIA:
@@ -1163,7 +1198,7 @@ TEKST DO ANALIZY:
 Zwróć JSON."""
 
     # --- CALL 1b: Spirit Supremacy ---
-    sys_inst_1b = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w wymiarze (0.0-1.0):
+    sys_inst_1b = """Jesteś ekspertem historiozofii Feliksa Konecznego. Skala 0.0–1.0 mierzy zgodność z modelem łacińskim w ujęciu Konecznego; niski wynik oznacza inny model cywilizacyjny, a nie gorszy. Oceniasz przysłany TEKST w wymiarze (0.0-1.0):
 1. SUPREMACJA DUCHA / INDEKSY CYWILIZACYJNE KONECZNEGO (12 wskaźników)
 
 BARDZO WAŻNE ZASADY DOTYCZĄCE NEWSÓW I UZASADNIENIA:
@@ -1185,7 +1220,7 @@ TEKST DO ANALIZY:
 Zwróć JSON."""
     
     # --- CALL 2: Legal Dualism ---
-    sys_inst_2 = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w 1 wymiarze (0.0-1.0):
+    sys_inst_2 = """Jesteś ekspertem historiozofii Feliksa Konecznego. Skala 0.0–1.0 mierzy zgodność z modelem łacińskim w ujęciu Konecznego; niski wynik oznacza inny model cywilizacyjny, a nie gorszy. Oceniasz przysłany TEKST w 1 wymiarze (0.0-1.0):
 1. INDEKS DUALIZMU PRAWA (25 wskaźników)
 
 BARDZO WAŻNE ZASADY DOTYCZĄCE NEWSÓW I UZASADNIENIA:
@@ -1207,7 +1242,7 @@ Zwróć JSON."""
 
 
     # --- CALL 3: Law Source Pluralism ---
-    sys_inst_3 = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w 1 wymiarze (0.0-1.0):
+    sys_inst_3 = """Jesteś ekspertem historiozofii Feliksa Konecznego. Skala 0.0–1.0 mierzy zgodność z modelem łacińskim w ujęciu Konecznego; niski wynik oznacza inny model cywilizacyjny, a nie gorszy. Oceniasz przysłany TEKST w 1 wymiarze (0.0-1.0):
 1. INDEKS PLURALIZMU ŹRÓDEŁ PRAWA (20 wskaźników)
 
 BARDZO WAŻNE ZASADY DOTYCZĄCE NEWSÓW I UZASADNIENIA:
@@ -1229,7 +1264,7 @@ Zwróć JSON."""
 
 
     # --- CALL 4: Aposteriori Apriori ---
-    sys_inst_4 = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w 1 wymiarze (0.0-1.0):
+    sys_inst_4 = """Jesteś ekspertem historiozofii Feliksa Konecznego. Skala 0.0–1.0 mierzy zgodność z modelem łacińskim w ujęciu Konecznego; niski wynik oznacza inny model cywilizacyjny, a nie gorszy. Oceniasz przysłany TEKST w 1 wymiarze (0.0-1.0):
 1. INDEKS APOSTERIORI VS APRIORI (15 wskaźników)
 
 BARDZO WAŻNE ZASADY DOTYCZĄCE NEWSÓW I UZASADNIENIA:
@@ -1251,7 +1286,7 @@ Zwróć JSON."""
 
 
     # --- CALL 5: Organism ---
-    sys_inst_5 = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w wymiarze (0.0-1.0):
+    sys_inst_5 = """Jesteś ekspertem historiozofii Feliksa Konecznego. Skala 0.0–1.0 mierzy zgodność z modelem łacińskim w ujęciu Konecznego; niski wynik oznacza inny model cywilizacyjny, a nie gorszy. Oceniasz przysłany TEKST w wymiarze (0.0-1.0):
 1. INDEKS ORGANIZMU VS MECHANIZMU (12 wskaźników)
 
 BARDZO WAŻNE ZASADY DOTYCZĄCE NEWSÓW I UZASADNIENIA:
@@ -1272,7 +1307,7 @@ TEKST DO ANALIZY:
 Zwróć JSON."""
 
     # --- CALL 5b: Personalism ---
-    sys_inst_5b = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w wymiarze (0.0-1.0):
+    sys_inst_5b = """Jesteś ekspertem historiozofii Feliksa Konecznego. Skala 0.0–1.0 mierzy zgodność z modelem łacińskim w ujęciu Konecznego; niski wynik oznacza inny model cywilizacyjny, a nie gorszy. Oceniasz przysłany TEKST w wymiarze (0.0-1.0):
 1. INDEKS PERSONALIZMU (16 wskaźników)
 
 BARDZO WAŻNE ZASADY DOTYCZĄCE NEWSÓW I UZASADNIENIA:
@@ -1294,7 +1329,7 @@ Zwróć JSON."""
 
 
     # --- CALL 6: Family Law Autonomy ---
-    sys_inst_6 = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w 1 wymiarze (0.0-1.0):
+    sys_inst_6 = """Jesteś ekspertem historiozofii Feliksa Konecznego. Skala 0.0–1.0 mierzy zgodność z modelem łacińskim w ujęciu Konecznego; niski wynik oznacza inny model cywilizacyjny, a nie gorszy. Oceniasz przysłany TEKST w 1 wymiarze (0.0-1.0):
 1. INDEKS AUTONOMII PRAWA RODZINNEGO (14 wskaźników)
 
 BARDZO WAŻNE ZASADY:
@@ -1315,7 +1350,7 @@ TEKST DO ANALIZY:
 Zwróć JSON."""
 
     # --- CALL 7: Church Independence ---
-    sys_inst_7 = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w 1 wymiarze (0.0-1.0):
+    sys_inst_7 = """Jesteś ekspertem historiozofii Feliksa Konecznego. Skala 0.0–1.0 mierzy zgodność z modelem łacińskim w ujęciu Konecznego; niski wynik oznacza inny model cywilizacyjny, a nie gorszy. Oceniasz przysłany TEKST w 1 wymiarze (0.0-1.0):
 1. INDEKS NIEZAWISŁOŚCI KOŚCIOŁA (15 wskaźników)
 
 BARDZO WAŻNE ZASADY:
@@ -1336,7 +1371,7 @@ TEKST DO ANALIZY:
 Zwróć JSON."""
 
     # --- CALL 8: Property Rights Stability ---
-    sys_inst_8 = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w 1 wymiarze (0.0-1.0):
+    sys_inst_8 = """Jesteś ekspertem historiozofii Feliksa Konecznego. Skala 0.0–1.0 mierzy zgodność z modelem łacińskim w ujęciu Konecznego; niski wynik oznacza inny model cywilizacyjny, a nie gorszy. Oceniasz przysłany TEKST w 1 wymiarze (0.0-1.0):
 1. INDEKS STABILNOŚCI WŁASNOŚCI (13 wskaźników)
 
 BARDZO WAŻNE ZASADY:
@@ -1357,7 +1392,7 @@ TEKST DO ANALIZY:
 Zwróć JSON."""
 
     # --- CALL 9: Inheritance Continuity ---
-    sys_inst_9 = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w 1 wymiarze (0.0-1.0):
+    sys_inst_9 = """Jesteś ekspertem historiozofii Feliksa Konecznego. Skala 0.0–1.0 mierzy zgodność z modelem łacińskim w ujęciu Konecznego; niski wynik oznacza inny model cywilizacyjny, a nie gorszy. Oceniasz przysłany TEKST w 1 wymiarze (0.0-1.0):
 1. INDEKS CIĄGŁOŚCI DZIEDZICZENIA (15 wskaźników)
 
 BARDZO WAŻNE ZASADY:
@@ -1378,7 +1413,7 @@ TEKST DO ANALIZY:
 Zwróć JSON."""
 
     # --- CALL 10: Morality Supremacy ---
-    sys_inst_10 = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w 1 wymiarze (0.0-1.0):
+    sys_inst_10 = """Jesteś ekspertem historiozofii Feliksa Konecznego. Skala 0.0–1.0 mierzy zgodność z modelem łacińskim w ujęciu Konecznego; niski wynik oznacza inny model cywilizacyjny, a nie gorszy. Oceniasz przysłany TEKST w 1 wymiarze (0.0-1.0):
 1. INDEKS SUPREMACJI MORALNOŚCI (15 wskaźników)
 
 BARDZO WAŻNE ZASADY:
@@ -1453,7 +1488,7 @@ TEKST DO ANALIZY:
 Zwróć JSON."""
 
     # --- CALL 11: Public Morality Totality ---
-    sys_inst_11 = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w 1 wymiarze (0.0-1.0):
+    sys_inst_11 = """Jesteś ekspertem historiozofii Feliksa Konecznego. Skala 0.0–1.0 mierzy zgodność z modelem łacińskim w ujęciu Konecznego; niski wynik oznacza inny model cywilizacyjny, a nie gorszy. Oceniasz przysłany TEKST w 1 wymiarze (0.0-1.0):
 1. INDEKS TOTALNOŚCI MORALNOŚCI PUBLICZNEJ (16 wskaźników)
 
 BARDZO WAŻNE ZASADY:
@@ -1531,7 +1566,7 @@ TEKST DO ANALIZY:
 Zwróć JSON."""
 
     # --- CALL 12: Administrative Responsibility ---
-    sys_inst_12 = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w 1 wymiarze (0.0-1.0):
+    sys_inst_12 = """Jesteś ekspertem historiozofii Feliksa Konecznego. Skala 0.0–1.0 mierzy zgodność z modelem łacińskim w ujęciu Konecznego; niski wynik oznacza inny model cywilizacyjny, a nie gorszy. Oceniasz przysłany TEKST w 1 wymiarze (0.0-1.0):
 1. INDEKS ODPOWIEDZIALNOŚCI URZĘDNICZEJ (16 wskaźników)
 
 BARDZO WAŻNE ZASADY:
@@ -1646,13 +1681,13 @@ Zwróć JSON."""
         ]
     }
 
-    sys_inst_generalia = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w wymiarze Kroku 3 algorytmu (7 GENERALIÓW ETYKI - Siedem Niewiadomych Etyki):
+    sys_inst_generalia = """Jesteś ekspertem historiozofii Feliksa Konecznego. Skala 0.0–1.0 mierzy zgodność z modelem łacińskim w ujęciu Konecznego; niski wynik oznacza inny model cywilizacyjny, a nie gorszy. Oceniasz przysłany TEKST w wymiarze Kroku 3 algorytmu (7 GENERALIÓW ETYKI - Siedem Niewiadomych Etyki):
 1. duty_source_personalistic: Źródło Obowiązku (1.0 = Wewnętrzne/Etyka przed prawem, 0.0 = Zewnętrzne/Przymus/Okólnik)
 2. motivation_altruism: Motywacja i Bezinteresowność (1.0 = Bezinteresowne Dobro i Prawda, 0.0 = Utylitaryzm/Transakcyjność)
 3. responsibility_personal: Rodzaj Odpowiedzialności (1.0 = Osobista/Indywidualna za własne czyny, 0.0 = Zbiorowa/Rodu/Kasty/Gromady)
 4. justice_equity: Natura Sprawiedliwości (1.0 = Słuszność Etyczna ponad ustawą, 0.0 = Bezbronny Legalizm / Strictum Ius)
 5. conscience_autonomous: Status Sumienia (1.0 = Autonomia Sumienia i autokrytyka moralna, 0.0 = Heteronomia/Litera prawa)
-6. time_mastery_historicism: Opanowanie Czasu (1.0 = Historyzm/Kapitalizacja Czasu/Era, 0.0 = Wegetacja bezwymiarowa)
+6. time_mastery_historicism: Opanowanie Czasu (1.0 = Historyzm/Kapitalizacja Czasu/Era, 0.0 = brak historyzmu)
 7. work_ethos_sanctification: Ethos Pracy (1.0 = Uświęcenie i godność człowieka wolnego, 0.0 = Przymus/Jarzmo)
 
 Wszystkie wskaźniki przyjmują wartości binarne 1.0 (Szereg Personalistyczny / Łaciński) lub 0.0 (Szereg Gromadnościowy). Jeśli absolutnie brak danych, podaj score: -1.0.
@@ -1705,7 +1740,7 @@ Zwróć JSON."""
         ]
     }
 
-    sys_inst_duty_source = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w wymiarze 13 WSKAŹNIKÓW PERSONALISTYCZNEGO ŹRÓDŁA OBOWIĄZKU (duty_source_scores):
+    sys_inst_duty_source = """Jesteś ekspertem historiozofii Feliksa Konecznego. Skala 0.0–1.0 mierzy zgodność z modelem łacińskim w ujęciu Konecznego; niski wynik oznacza inny model cywilizacyjny, a nie gorszy. Oceniasz przysłany TEKST w wymiarze 13 WSKAŹNIKÓW PERSONALISTYCZNEGO ŹRÓDŁA OBOWIĄZKU (duty_source_scores):
 1. ethics_over_law: Poczucie obowiązku wyprzedza prawo stanowione
 2. voluntary_action: Dobrowolność spełniania obowiązków (zamiast lęku przed przymusem)
 3. direct_god_relation: Bezpośrednia relacja z Siłą Wyższą i sumieniem
@@ -1774,7 +1809,7 @@ Zwróć JSON."""
         ]
     }
 
-    sys_inst_motivation = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w wymiarze 14 WSKAŹNIKÓW MOTYWACJI I BEZINTERESOWNOŚCI (motivation_scores):
+    sys_inst_motivation = """Jesteś ekspertem historiozofii Feliksa Konecznego. Skala 0.0–1.0 mierzy zgodność z modelem łacińskim w ujęciu Konecznego; niski wynik oznacza inny model cywilizacyjny, a nie gorszy. Oceniasz przysłany TEKST w wymiarze 14 WSKAŹNIKÓW MOTYWACJI I BEZINTERESOWNOŚCI (motivation_scores):
 1. truth_for_truth_sake: Prawda i nauka szukana dla niej samej (czysta ciekawość)
 2. altruistic_faith: Wiara i religia oparta na bezinteresownej miłości
 3. res_sacra_miser: Zasada res sacra miser (bezinteresowna pomoc cierpiącym)
@@ -1815,7 +1850,7 @@ Zwróć JSON."""
                     "equity_over_letter": indicator_item,
                     "judge_conscience_role": indicator_item,
                     "law_from_ethics": indicator_item,
-                    "no_shylock_formalism": indicator_item,
+                    "equity_over_strict_formalism": indicator_item,
                     "state_under_decalogue": indicator_item,
                     "justice_needs_mercy": indicator_item,
                     "no_legislative_elephantiasis": indicator_item,
@@ -1824,16 +1859,16 @@ Zwróć JSON."""
                     "legal_dualism": indicator_item,
                     "judicial_independence": indicator_item,
                     "ethics_above_law": indicator_item,
-                    "no_jewish_casuistry": indicator_item,
-                    "no_byzantine_statolatry": indicator_item,
-                    "no_camp_turanian_law": indicator_item,
+                    "principle_over_casuistry": indicator_item,
+                    "no_state_above_ethics": indicator_item,
+                    "no_camp_rule_law": indicator_item,
                     "no_socialist_collectivism": indicator_item
                 },
                 "required": [
-                    "equity_over_letter", "judge_conscience_role", "law_from_ethics", "no_shylock_formalism",
+                    "equity_over_letter", "judge_conscience_role", "law_from_ethics", "equity_over_strict_formalism",
                     "state_under_decalogue", "justice_needs_mercy", "no_legislative_elephantiasis", "good_hegemony_over_law",
                     "aposteriori_law", "legal_dualism", "judicial_independence", "ethics_above_law",
-                    "no_jewish_casuistry", "no_byzantine_statolatry", "no_camp_turanian_law", "no_socialist_collectivism"
+                    "principle_over_casuistry", "no_state_above_ethics", "no_camp_rule_law", "no_socialist_collectivism"
                 ]
             },
             "justice_nature_news_1": {"type": "string"},
@@ -1846,11 +1881,11 @@ Zwróć JSON."""
         ]
     }
 
-    sys_inst_justice_nature = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w wymiarze 16 WSKAŹNIKÓW NATURY SPRAWIEDLIWOŚCI (justice_nature_scores):
+    sys_inst_justice_nature = """Jesteś ekspertem historiozofii Feliksa Konecznego. Skala 0.0–1.0 mierzy zgodność z modelem łacińskim w ujęciu Konecznego; niski wynik oznacza inny model cywilizacyjny, a nie gorszy. Oceniasz przysłany TEKST w wymiarze 16 WSKAŹNIKÓW NATURY SPRAWIEDLIWOŚCI (justice_nature_scores):
 1. equity_over_letter: Etyczne poczucie słuszności stoi ponad literą prawa
 2. judge_conscience_role: Sędzia orzeka według sumienia (nie maszynka do paragrafów)
 3. law_from_ethics: Prawo wywodzi się z etyki (jest jej pieczęcią)
-4. no_shylock_formalism: Odrzucenie ślepego formalizmu (strictum ius) i przedkładania litery nad słuszność
+4. equity_over_strict_formalism: Odrzucenie ślepego formalizmu (strictum ius) i przedkładania litery nad słuszność
 5. state_under_decalogue: Państwo i jego ustawy podlegają normom moralnym
 6. justice_needs_mercy: Miłosierdzie jako niezbędna korekta prawa (res sacra miser)
 7. no_legislative_elephantiasis: Odrzucenie elephantiasis ustawodawczej
@@ -1859,9 +1894,9 @@ Zwróć JSON."""
 10. legal_dualism: Ścisły rozdział prawa prywatnego od publicznego
 11. judicial_independence: Niezawisłość sądowa w ocenie zgodności ze słusznością
 12. ethics_above_law: Odrzucenie stanu, w którym litera prawa pożera sumienie
-13. no_jewish_casuistry: Odrzucenie kazuistyki i troski o litery zamiast myśli
-14. no_byzantine_statolatry: Odrzucenie bizantynizmu i statolatrii
-15. no_camp_turanian_law: Odrzucenie turańskiego prawa obozowego i woli wodza
+13. principle_over_casuistry: Odrzucenie kazuistyki i troski o litery zamiast myśli
+14. no_state_above_ethics: Odrzucenie statolatrii (dobra państwa ponad etyką)
+15. no_camp_rule_law: Odrzucenie prawa obozowego i woli wodza jako jedynego źródła prawa
 16. no_socialist_collectivism: Odrzucenie socjalistycznego posłuszeństwa gromadzie
 
 Wszystkie wskaźniki podawaj w skali 0.0 - 1.0 (gdzie 1.0 oznacza pełne urzeczywistnienie szeregu personalistycznego / łacińskiego). Jeśli brak danych: -1.0. Zwróć JSON."""
@@ -1875,7 +1910,7 @@ Musisz przeanalizować i zwrócić DOKŁADNIE WSZYSTKIE 16 WSKAŹNIKÓW NATURY S
 1. equity_over_letter
 2. judge_conscience_role
 3. law_from_ethics
-4. no_shylock_formalism
+4. equity_over_strict_formalism
 5. state_under_decalogue
 6. justice_needs_mercy
 7. no_legislative_elephantiasis
@@ -1884,9 +1919,9 @@ Musisz przeanalizować i zwrócić DOKŁADNIE WSZYSTKIE 16 WSKAŹNIKÓW NATURY S
 10. legal_dualism
 11. judicial_independence
 12. ethics_above_law
-13. no_jewish_casuistry
-14. no_byzantine_statolatry
-15. no_camp_turanian_law
+13. principle_over_casuistry
+14. no_state_above_ethics
+15. no_camp_rule_law
 16. no_socialist_collectivism
 
 Dla każdego z 16 wskaźników podaj wycenę (score 0.0-1.0 lub -1.0), zwięzłe wyjaśnienie (explanation) oraz przykłady (news_examples).
@@ -1909,23 +1944,23 @@ Zwróć JSON."""
                     "no_legislative_elephantiasis": indicator_item,
                     "refusal_of_immoral_orders": indicator_item,
                     "personal_accountability_god": indicator_item,
-                    "no_shylock_formalism": indicator_item,
+                    "equity_over_strict_formalism": indicator_item,
                     "ethics_above_law": indicator_item,
                     "personalism_sovereignty": indicator_item,
                     "good_hegemony_over_law": indicator_item,
                     "legal_dualism_privacy": indicator_item,
                     "aposteriori_experience": indicator_item,
                     "no_casuistry_expropriation": indicator_item,
-                    "no_byzantine_statolatry": indicator_item,
+                    "no_state_above_ethics": indicator_item,
                     "no_socialist_gregarious_fear": indicator_item,
-                    "no_camp_turanian_coercion": indicator_item
+                    "no_camp_rule_coercion": indicator_item
                 },
                 "required": [
                     "no_statutory_morality_only", "conscience_as_supreme_judge", "no_legislative_elephantiasis",
-                    "refusal_of_immoral_orders", "personal_accountability_god", "no_shylock_formalism",
+                    "refusal_of_immoral_orders", "personal_accountability_god", "equity_over_strict_formalism",
                     "ethics_above_law", "personalism_sovereignty", "good_hegemony_over_law", "legal_dualism_privacy",
-                    "aposteriori_experience", "no_casuistry_expropriation", "no_byzantine_statolatry",
-                    "no_socialist_gregarious_fear", "no_camp_turanian_coercion"
+                    "aposteriori_experience", "no_casuistry_expropriation", "no_state_above_ethics",
+                    "no_socialist_gregarious_fear", "no_camp_rule_coercion"
                 ]
             },
             "conscience_status_news_1": {"type": "string"},
@@ -1938,22 +1973,22 @@ Zwróć JSON."""
         ]
     }
 
-    sys_inst_conscience_status = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w wymiarze 15 WSKAŹNIKÓW STATUSU SUMIENIA - AUTONOMIA VS HETERONOMIA (conscience_status_scores):
+    sys_inst_conscience_status = """Jesteś ekspertem historiozofii Feliksa Konecznego. Skala 0.0–1.0 mierzy zgodność z modelem łacińskim w ujęciu Konecznego; niski wynik oznacza inny model cywilizacyjny, a nie gorszy. Oceniasz przysłany TEKST w wymiarze 15 WSKAŹNIKÓW STATUSU SUMIENIA - AUTONOMIA VS HETERONOMIA (conscience_status_scores):
 1. no_statutory_morality_only: Odrzucenie poglądu, że moralność wynika z samego braku kolizji z przepisem
 2. conscience_as_supreme_judge: Sumienie uznawane za suwerennego sędziego nad prawem
 3. no_legislative_elephantiasis: Odrzucenie skodyfikowania wszystkiego krępującego sumienie
 4. refusal_of_immoral_orders: Obowiązek odmowy wykonania rozkazu sprzecznego z Dekalogiem
 5. personal_accountability_god: Rachunek sumienia i osobista odpowiedzialność przed Bogiem
-6. no_shylock_formalism: Odrzucenie ślepego formalizmu (strictum ius) wbrew słuszności i sumieniu
+6. equity_over_strict_formalism: Odrzucenie ślepego formalizmu (strictum ius) wbrew słuszności i sumieniu
 7. ethics_above_law: Etyka jako przodowniczka prawa (wyznacza granice prawu)
 8. personalism_sovereignty: Personalizm (suwerenność jednostki i bezpośrednia relacja z Bogiem)
 9. good_hegemony_over_law: Prymat Dobra i etyki totalnej nad prawem i polityką
 10. legal_dualism_privacy: Ścisły dualizm prawny gwarantujący wolność sumienia
 11. aposteriori_experience: Prawo wyrastające z doświadczenia (aposteriori), nie apriorycznych schematów
 12. no_casuistry_expropriation: Odrzucenie wywłaszczenia sumienia przez kazuistykę prawną
-13. no_byzantine_statolatry: Odrzucenie bizantynizmu, statolatrii i nieomylności państwa
+13. no_state_above_ethics: Odrzucenie statolatrii i nieomylności państwa
 14. no_socialist_gregarious_fear: Odrzucenie zastępowania sumienia bojaźnią przed gromadą
-15. no_camp_turanian_coercion: Odrzucenie turańskiego prawa obozowego i ślepej woli wodza
+15. no_camp_rule_coercion: Odrzucenie prawa obozowego i ślepej woli wodza
 
 Wszystkie wskaźniki podawaj w skali 0.0 - 1.0 (gdzie 1.0 oznacza pełne urzeczywistnienie autonomii sumienia / szereg personalistyczny). Jeśli brak danych: -1.0. Zwróć JSON."""
 
@@ -1968,16 +2003,16 @@ Musisz przeanalizować i zwrócić DOKŁADNIE WSZYSTKIE 15 WSKAŹNIKÓW STATUSU 
 3. no_legislative_elephantiasis
 4. refusal_of_immoral_orders
 5. personal_accountability_god
-6. no_shylock_formalism
+6. equity_over_strict_formalism
 7. ethics_above_law
 8. personalism_sovereignty
 9. good_hegemony_over_law
 10. legal_dualism_privacy
 11. aposteriori_experience
 12. no_casuistry_expropriation
-13. no_byzantine_statolatry
+13. no_state_above_ethics
 14. no_socialist_gregarious_fear
-15. no_camp_turanian_coercion
+15. no_camp_rule_coercion
 
 Dla każdego z 15 wskaźników podaj wycenę (score 0.0-1.0 lub -1.0), zwięzłe wyjaśnienie (explanation) oraz przykłady (news_examples).
 
@@ -2008,13 +2043,13 @@ Zwróć JSON."""
                     "family_emancipation_workshop": indicator_item,
                     "truth_and_goodness_cult": indicator_item,
                     "no_sacral_passive_stagnation": indicator_item,
-                    "no_turanian_camp_presentism": indicator_item
+                    "no_camp_presentism": indicator_item
                 },
                 "required": [
                     "scientific_chronology", "active_critical_tradition", "hereditary_surnames", "term_discipline",
                     "capitalization_of_time", "sub_specie_aeternitatis", "time_rich_language", "historicism_national_consciousness",
                     "dated_documentation", "latin_historicism_unique", "generational_voluntary_synthesis", "family_emancipation_workshop",
-                    "truth_and_goodness_cult", "no_sacral_passive_stagnation", "no_turanian_camp_presentism"
+                    "truth_and_goodness_cult", "no_sacral_passive_stagnation", "no_camp_presentism"
                 ]
             },
             "time_mastery_news_1": {"type": "string"},
@@ -2027,7 +2062,7 @@ Zwróć JSON."""
         ]
     }
 
-    sys_inst_time_mastery = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w wymiarze 15 WSKAŹNIKÓW OPANOWANIA CZASU I HISTORYZMU (time_mastery_scores):
+    sys_inst_time_mastery = """Jesteś ekspertem historiozofii Feliksa Konecznego. Skala 0.0–1.0 mierzy zgodność z modelem łacińskim w ujęciu Konecznego; niski wynik oznacza inny model cywilizacyjny, a nie gorszy. Oceniasz przysłany TEKST w wymiarze 15 WSKAŹNIKÓW OPANOWANIA CZASU I HISTORYZMU (time_mastery_scores):
 1. scientific_chronology: Naukowa chronologia i własna era (precyzyjna rachuba lat)
 2. active_critical_tradition: Tradycja czynna i krytyczna (przesiewanie spuścizny przodków)
 3. hereditary_surnames: Nazwiska dziedziczne i historyzm prywatny (pasmo pokoleń)
@@ -2042,7 +2077,7 @@ Zwróć JSON."""
 12. family_emancipation_workshop: Wyodrębniona rodzina jako warsztat historyzmu
 13. truth_and_goodness_cult: Kult prawdy i krytyka błędów przodków dla postępu
 14. no_sacral_passive_stagnation: Odrzucenie biernej tradycji sakralnej i zastoju
-15. no_turanian_camp_presentism: Odrzucenie uwięzienia w mechanicznej teraźniejszości (turańszczyzna / bizantynizm / rewolucjonizm)
+15. no_camp_presentism: Odrzucenie uwięzienia w mechanicznej teraźniejszości (ustrój obozowy / statolatria / rewolucjonizm)
 
 Wszystkie wskaźniki podawaj w skali 0.0 - 1.0 (gdzie 1.0 oznacza pełne opanowanie czasu / historyzm). Jeśli brak danych: -1.0. Zwróć JSON."""
 
@@ -2097,7 +2132,7 @@ Zwróć JSON."""
         ]
     }
 
-    sys_inst_work_ethos = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w wymiarze 14 WSKAŹNIKÓW ETOSU PRACY (work_ethos_scores):
+    sys_inst_work_ethos = """Jesteś ekspertem historiozofii Feliksa Konecznego. Skala 0.0–1.0 mierzy zgodność z modelem łacińskim w ujęciu Konecznego; niski wynik oznacza inny model cywilizacyjny, a nie gorszy. Oceniasz przysłany TEKST w wymiarze 14 WSKAŹNIKÓW ETOSU PRACY (work_ethos_scores):
 1. manual_work_dignity: Szacunek dla pracy fizycznej człowieka wolnego (brak odium hańby)
 2. ethical_duty_of_work: Etyczny obowiązek pracy ("Kto nie pracuje, niech nie je")
 3. work_as_sanctification: Praca jako uświęcenie, kultura czynu i droga do godności
@@ -2163,7 +2198,7 @@ Zwróć JSON."""
         ]
     }
 
-    sys_inst_quincunx = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w wymiarze 11 WSKAŹNIKÓW PIĘCIOMIANU BYTU (QUINCUNX: Dobro, Prawda, Zdrowie, Dobrobyt, Piękno):
+    sys_inst_quincunx = """Jesteś ekspertem historiozofii Feliksa Konecznego. Skala 0.0–1.0 mierzy zgodność z modelem łacińskim w ujęciu Konecznego; niski wynik oznacza inny model cywilizacyjny, a nie gorszy. Oceniasz przysłany TEKST w wymiarze 11 WSKAŹNIKÓW PIĘCIOMIANU BYTU (QUINCUNX: Dobro, Prawda, Zdrowie, Dobrobyt, Piękno):
 DOBRO (Etyka):
 1. ethics_totality_public_private: Etyka totalna (ta sama moralność w życiu prywatnym i publicznym)
 2. good_above_law_force: Prymat Dobra i Etyki nad stanowionym prawem i siłą
@@ -2235,7 +2270,7 @@ Zwróć JSON."""
         "required": ["health_scores", "health_news_1", "health_news_2", "health_news_3", "health_justification"]
     }
 
-    sys_inst_health = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w wymiarze 10 WSKAŹNIKÓW STATUSU ZDROWIA I HIGIENY (Sfera III Quincunxa):
+    sys_inst_health = """Jesteś ekspertem historiozofii Feliksa Konecznego. Skala 0.0–1.0 mierzy zgodność z modelem łacińskim w ujęciu Konecznego; niski wynik oznacza inny model cywilizacyjny, a nie gorszy. Oceniasz przysłany TEKST w wymiarze 10 WSKAŹNIKÓW STATUSU ZDROWIA I HIGIENY (Sfera III Quincunxa):
 1. public_scientific_health_duty: Piecza o zdrowie jako naukowo-etyczny obowiązek publiczny (vs rytuał)
 2. res_sacra_miser_ethics: Zasada res sacra miser (cierpiący bliźni świętością) i etyka medyczna
 3. patient_person_dignity: Szacunek dla godności i sumienia pacjenta jako wolnej osoby
@@ -2289,7 +2324,7 @@ Zwróć JSON."""
         "required": ["truth_science_scores", "truth_science_news_1", "truth_science_news_2", "truth_science_news_3", "truth_science_justification"]
     }
 
-    sys_inst_truth_science = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w wymiarze 10 WSKAŹNIKÓW AUTONOMII PRAWDY I NAUKI (Sfera II Quincunxa):
+    sys_inst_truth_science = """Jesteś ekspertem historiozofii Feliksa Konecznego. Skala 0.0–1.0 mierzy zgodność z modelem łacińskim w ujęciu Konecznego; niski wynik oznacza inny model cywilizacyjny, a nie gorszy. Oceniasz przysłany TEKST w wymiarze 10 WSKAŹNIKÓW AUTONOMII PRAWDY I NAUKI (Sfera II Quincunxa):
 1. pure_disinterested_truth: Bezinteresowne dociekanie Prawdy dla niej samej
 2. academic_research_freedom: Wolność badań naukowych od cenzury ideologicznej/państwowej
 3. aposteriori_empirical_science: Aposterioryczne doświadczenie przyrodzone w badaniu świata
@@ -2343,7 +2378,7 @@ Zwróć JSON."""
         "required": ["beauty_art_scores", "beauty_art_news_1", "beauty_art_news_2", "beauty_art_news_3", "beauty_art_justification"]
     }
 
-    sys_inst_beauty_art = """Jesteś ekspertem historiozofii Feliksa Konecznego. Oceniasz przysłany TEKST w wymiarze 10 WSKAŹNIKÓW STATUSU PIĘKNA I SZTUKI (Sfera V Quincunxa):
+    sys_inst_beauty_art = """Jesteś ekspertem historiozofii Feliksa Konecznego. Skala 0.0–1.0 mierzy zgodność z modelem łacińskim w ujęciu Konecznego; niski wynik oznacza inny model cywilizacyjny, a nie gorszy. Oceniasz przysłany TEKST w wymiarze 10 WSKAŹNIKÓW STATUSU PIĘKNA I SZTUKI (Sfera V Quincunxa):
 1. beauty_allegory_of_good: Piękno jako alegoria i uduchowienie Dobra oraz Prawdy
 2. full_artistic_freedom: Pełna swoboda twórcza we wszystkich dziedzinach sztuki
 3. rejection_of_aniconism: Odrzucenie zakazów sakralnych krępujących sztukę (anikonizm)

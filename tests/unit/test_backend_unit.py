@@ -85,7 +85,7 @@ def test_generalia_coherence_and_poisonous_mixture_alert():
     res_mix = calculate_koneczny_metrics(mock_llm_mixture)
     assert res_mix["ethical_coherence_score"] == 4.0
     assert res_mix["mixture_alert"] is True
-    assert "MIESZANKA TRUJĄCA" in res_mix["generalia_diagnosis"]
+    assert "mieszanka cywilizacyjna" in res_mix["generalia_diagnosis"]
 
 def test_spirit_supremacy_aggregation():
     """Test 7: Spirit Supremacy score aggregation across 12 sub-indices."""
@@ -124,7 +124,7 @@ def test_quincunx_hegemony_penalty():
     }
     result = calculate_koneczny_metrics(mock_data)
     assert result["quincunx_categories"]["good"] == 0.2
-    assert "ZWICHNIĘCIE PIĘCIOMIANU" in result["quincunx_diagnosis"]
+    assert "zwichnięcie Pięciomianu" in result["quincunx_diagnosis"]
 
 def test_analysis_history_persistence():
     """Test 10: Verify saving analysis runs and calculating cumulative historical averages."""
@@ -320,10 +320,10 @@ def test_analyze_sample_jmantis_taliban(monkeypatch):
 
     res = analyzer.analyze_sample_jmantis("Talibowie wprowadzają prawo szariatu w Afganistanie.", api_key="test_key")
     assert res["mode"] == "jmantis"
-    assert "Arabska" in res["primary_civilization"]
+    assert res["primary_civilization"] == "Sakralna uniwersalistyczna (wg Konecznego: arabska)"
     assert res["mantis_gates"][0]["gate"] == 1
     assert "Sakralna" in res["mantis_gates"][0]["decision"]
-    assert "Arabska" in res["mantis_gates"][1]["decision"]
+    assert "uniwersalistyczny" in res["mantis_gates"][1]["decision"]
 
 def test_analyze_sample_jmantis_chinese(monkeypatch):
     """Test 20: Verify Chinese text in jMantis gets classified as Chińska with 5 gates."""

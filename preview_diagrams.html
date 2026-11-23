@@ -433,11 +433,11 @@
       <button class="civ-pill all active" onclick="setCivFilter('all')">Wszystkie</button>
       <button class="civ-pill lacinska" onclick="setCivFilter('lacinska')">🏛️ Łacińska</button>
       <button class="civ-pill bizantynska" onclick="setCivFilter('bizantynska')">👑 Bizantyńska</button>
-      <button class="civ-pill turanska" onclick="setCivFilter('turanska')">🏹 Turańska</button>
-      <button class="civ-pill arabska" onclick="setCivFilter('arabska')">🌙 Arabska</button>
-      <button class="civ-pill chinska" onclick="setCivFilter('chinska')">☯️ Chińska</button>
-      <button class="civ-pill braminska" onclick="setCivFilter('braminska')">🕉️ Bramińska</button>
-      <button class="civ-pill zydowska" onclick="setCivFilter('zydowska')">📜 Żydowska</button>
+      <button class="civ-pill turanska" onclick="setCivFilter('turanska')">Turańska</button>
+      <button class="civ-pill arabska" onclick="setCivFilter('arabska')">Arabska</button>
+      <button class="civ-pill chinska" onclick="setCivFilter('chinska')">Chińska</button>
+      <button class="civ-pill braminska" onclick="setCivFilter('braminska')">Bramińska</button>
+      <button class="civ-pill zydowska" onclick="setCivFilter('zydowska')">Żydowska</button>
     </div>
   </header>
 
@@ -460,7 +460,7 @@
         <span>⭐ 5. Quincunx & Deformacje</span>
       </button>
       <button class="tab-btn" onclick="switchTab('mieszanki')">
-        <span>☣️ 6. Prawa Dziejowe i Mieszanki Trujące</span>
+        <span>6. Prawa Dziejowe i Mieszanki Cywilizacyjne</span>
       </button>
       <button class="tab-btn" onclick="switchTab('systematyka')">
         <span>📊 7. Pełna Matryca Systematyki</span>
@@ -520,13 +520,13 @@
     
     B3 -- "Cezaropapizm / Etatyzm<br/>Biurokracja Państwowa" --> B4{"4. Status Sumienia<br/>CONSCIENCE_STATUS"}
     B3 -- "Monizm Siły / Wodza<br/>Władca właścicielem wszystkiego" --> B5{"5. Podmiotowość Jednostki<br/>PERSONALISM_INDEX"}
-    B3 -- "Areligijność / Kult Przodków<br/>Ustrój Rodowy i Konfucjanizm" --> CivChina["☯️ CYWILIZACJA CHIŃSKA<br/>(Monizm Etykietalno-Rodowy / Rytuał Li)"]
+    B3 -- "Areligijność / Kult Przodków<br/>Ustrój Rodowy i Konfucjanizm" --> CivChina["CYWILIZACJA CHIŃSKA<br/>(Monizm Etykietalno-Rodowy / Rytuał Li)"]
     
     B4 -- "Dwoistość Sumienia<br/>(Etyka prywatna vs racja stanu)" --> CivByz["👑 CYWILIZACJA BIZANTYŃSKA<br/>(Monizm Prawa Publicznego / Etatyzm)"]
-    B5 -- "Ustrój Obozowy / Brak Własności<br/>Człowiek narzędziem wodza" --> CivTur["🏹 CYWILIZACJA TURAŃSKA<br/>(Monizm Prawa Prywatnego Władcy)"]
+    B5 -- "Ustrój Obozowy / Brak Własności<br/>Człowiek narzędziem wodza" --> CivTur["CYWILIZACJA TURAŃSKA<br/>(Monizm Prawa Prywatnego Władcy)"]
     
-    B6 -- "Monizm Prawa Sakralnego (Umma)<br/>Teokracja powszechna" --> CivArab["🌙 CYWILIZACJA ARABSKA<br/>(Monizm Szariatu / Poligamia)"]
-    B6 -- "Etyka rodowo-wspólnotowa<br/>Prawo sakralne wspólnoty" --> CivJew["📜 CYWILIZACJA ŻYDOWSKA<br/>(Monizm Rodowo-Sakralny / Monogamia)"]`
+    B6 -- "Monizm Prawa Sakralnego (Umma)<br/>Teokracja powszechna" --> CivArab["SAKRALNA UNIWERSALISTYCZNA<br/>(wg Konecznego: arabska)"]
+    B6 -- "Prawo sakralne wspólnoty" --> CivJew["SAKRALNA WSPÓLNOTOWO-RODOWA<br/>(wg Konecznego: żydowska)"]`
       },
 
       trojprawo: {
@@ -544,34 +544,34 @@
     P1 -- "NIE: Monizm Prawny<br/>Jedna sfera pochłania pozostałe" --> P2{"Która sfera zmonopolizowała prawo?"}
     
     P2 -- "SACRUM pochłania prawo<br/>(Prawo tożsame z religią)" --> P3{"Zasięg prawa sakralnego"}
-    P3 -- "Uniwersalne dla wiernych" --> CivArab["🌙 CYWILIZACJA ARABSKA<br/>(Monizm Szariatu / Umma)"]
-    P3 -- "Etyka rodowo-wspólnotowa" --> CivJew["📜 CYWILIZACJA ŻYDOWSKA<br/>(Monizm Prawa Sakralnego / Kahał)"]
-    P3 -- "Hierarchicznie kastowe" --> CivBram["🕉️ CYWILIZACJA BRAMIŃSKA<br/>(Prawo Manu / Warny)"]
+    P3 -- "Uniwersalne dla wiernych" --> CivArab["SAKRALNA UNIWERSALISTYCZNA<br/>(wg Konecznego: arabska)"]
+    P3 -- "Prawo sakralne wspólnoty" --> CivJew["SAKRALNA WSPÓLNOTOWO-RODOWA<br/>(wg Konecznego: żydowska)"]
+    P3 -- "Hierarchicznie kastowe" --> CivBram["SAKRALNA KASTOWA<br/>(wg Konecznego: bramińska)"]
     
     P2 -- "PAŃSTWO pożera prawo prywatne<br/>(Etatyzm / Samowola biurokracji)" --> CivByz["👑 CYWILIZACJA BIZANTYŃSKA<br/>(Monizm Prawa Publicznego / Cezaryzm)"]
-    P2 -- "WŁADCA właścicielem majątków<br/>(Brak własności prywatnej)" --> CivTur["🏹 CYWILIZACJA TURAŃSKA<br/>(Monizm Prawa Prywatnego Wodza)"]
-    P2 -- "RODZINA / RYTUAŁ zastępuje ustawy<br/>(Etykieta Li zamiast norm prawnych)" --> CivChina["☯️ CYWILIZACJA CHIŃSKA<br/>(Prawo Etykietalno-Rodowe)"]`
+    P2 -- "WŁADCA właścicielem majątków<br/>(Brak własności prywatnej)" --> CivTur["CYWILIZACJA TURAŃSKA<br/>(Monizm Prawa Prywatnego Wodza)"]
+    P2 -- "RODZINA / RYTUAŁ zastępuje ustawy<br/>(Etykieta Li zamiast norm prawnych)" --> CivChina["CYWILIZACJA CHIŃSKA<br/>(Prawo Etykietalno-Rodowe)"]`
       },
 
       drabina: {
         title: "🧗 Model 3: Drabina Zrzeszeń i Narodowości",
-        tag: "Od Gromadztwa ku Narodowi Organicznemu",
-        desc: "Jaki jest najwyższy osiągalny szczebel asocjacji w danej cywilizacji? Dlaczego tylko cywilizacja łacińska tworzy Naród?",
+        tag: "Od etapu przedrodowego ku Narodowi (model Konecznego)",
+        desc: "Jaki szczebel zrzeszenia Koneczny przypisywał poszczególnym cywilizacjom? To jego teza, nie ranking narodów.",
         source: "O wielości cywilizacyj (Rozdział: Zrzeszenia a Naród)",
         quote: "Naród jest najwyższym ze znanych dotychczas zrzeszeń ludzkich. Wytworzyć go zdołała tylko cywilizacja łacińska, albowiem wymaga on zrzeszenia wolnych osób, opartego na wspólnocie kultury duchowej i etyki, a nie na przymusie państwowym ani więzach krwi.",
         quoteAuthor: "Prof. Feliks Koneczny, O wielości cywilizacyj",
         code: `flowchart BT
-    L1["01. Gromadztwo bezimienne<br/>(Horda pierwotna, brak więzi rodowych)"] --> L2["02. Ród imienny / Klan<br/>(Solidarność krwi, patriarchat)"]
-    L2 --> L3["03. Społeczność plemienno-obozowa<br/>(Wódz, obóz wojenny, koczownicy)"]
-    L3 --> L4["04. Związek kastowo-rytualny<br/>(Zamknięte grupy hermetyczne)"]
+    L1["01. Etap przedrodowy<br/>(brak nazwisk dziedzicznych)"] --> L2["02. Ród imienny / Klan<br/>(Solidarność rodowa, patriarchat)"]
+    L2 --> L3["03. Społeczność obozowa<br/>(Władza wodza)"]
+    L3 --> L4["04. Związek kastowo-rytualny<br/>(Podział stanowo-kastowy)"]
     L4 --> L5["05. Państwo mechaniczne / Biurokratyczne<br/>(Etatyzm bez poczucia więzi narodowej)"]
     L5 --> L6["06. NARÓD ORGANICZNY (Szczyt Łaciński)<br/>(Wspólnota wolnych osób zjednoczona kulturą i etyką)"]
     
-    CivTurCheck["🏹 TURAŃSKA: Zatrzymuje się na szczeblu 03"] -.-> L3
-    CivChinaCheck["☯️ CHIŃSKA: Zatrzymuje się na szczeblu 02"] -.-> L2
-    CivBramCheck["🕉️ BRAMIŃSKA: Zatrzymuje się na szczeblu 04"] -.-> L4
-    CivByzCheck["👑 BIZANTYŃSKA: Zatrzymuje się na szczeblu 05"] -.-> L5
-    CivLatinCheck["🏛️ ŁACIŃSKA: Jako JEDYNA osiąga szczebel 06"] ==> L6`
+    CivTurCheck["TURAŃSKA (wg Konecznego): szczebel 03"] -.-> L3
+    CivChinaCheck["CHIŃSKA (wg Konecznego): szczebel 02"] -.-> L2
+    CivBramCheck["BRAMIŃSKA (wg Konecznego): szczebel 04"] -.-> L4
+    CivByzCheck["BIZANTYŃSKA (wg Konecznego): szczebel 05"] -.-> L5
+    CivLatinCheck["ŁACIŃSKA (wg Konecznego): szczebel 06"] ==> L6`
       },
 
       generalia: {
@@ -585,15 +585,15 @@
     EthRoot(["🧭 ROZSTRZYGNIĘCIE PRZEZ 7 GENERALIÓW ETYKI"]) --> G1{"Czy istnieje JEDNO sumienie dla życia prywatnego i polityki?"}
     
     G1 -- "TAK: Jedność sumienia i moralności<br/>(To samo zło w domu, w rządzie i na wojnie)" --> G_Pers["SZEREG PERSONALISTYCZNY"]
-    G1 -- "NIE: Dwoistość moralna<br/>(Inna moralność dla swoich, inna dla państwa / obcych)" --> G_Grom["SZEREG GROMADNOŚCIOWY / ROZDWOJONY"]
+    G1 -- "NIE: Dwoistość moralna<br/>(Inna moralność prywatna, inna publiczna)" --> G_Grom["SZEREG GROMADNOŚCIOWY / ROZDWOJONY"]
     
     G_Pers --> EthLatin["🏛️ CYWILIZACJA ŁACIŃSKA<br/>• Źródło: Wewnętrzne poczucie obowiązku<br/>• Sprawiedliwość: Słuszność i miłosierdzie<br/>• Praca: Uświęcenie i rozwój ducha<br/>• Odpowiedzialność: Osobista przed Bogiem i prawem"]
     
     G_Grom --> G2{"Natura dwoistości moralnej"}
     G2 -- "Racja Stanu ponad moralnością<br/>(Machiawelizm urzędowy)" --> EthByz["👑 CYWILIZACJA BIZANTYŃSKA<br/>(Moralność prywatna vs bezetyczność państwa)"]
-    G2 -- "Etyka rodowo-wspólnotowa<br/>(Normy prawa wewnętrznego wspólnoty)" --> EthJew["📜 CYWILIZACJA ŻYDOWSKA<br/>(Etyka wewnątrz-rodowa)"]
-    G2 -- "Moralność wojenna i naga siła<br/>(Zwycięstwo chana usprawiedliwia wszystko)" --> EthTur["🏹 CYWILIZACJA TURAŃSKA<br/>(Brak etyki w życiu publicznym)"]
-    G2 -- "Rytuał Li i etykieta zamiast sumienia" --> EthChina["☯️ CYWILIZACJA CHIŃSKA<br/>(Bezbłędny ceremoniał zamiast etyki)"]`
+    G2 -- "Etyka rodowo-wspólnotowa<br/>(Normy prawa wewnętrznego wspólnoty)" --> EthJew["SAKRALNA WSPÓLNOTOWO-RODOWA<br/>(wg Konecznego: żydowska)"]
+    G2 -- "Siła jako źródło prawa<br/>(Wola wodza ponad etyką)" --> EthTur["CYWILIZACJA TURAŃSKA<br/>(wg Konecznego)"]
+    G2 -- "Rytuał Li i etykieta zamiast sumienia" --> EthChina["CYWILIZACJA CHIŃSKA<br/>(wg Konecznego: rytuał i etykieta)"]`
       },
 
       quincunx: {
@@ -611,31 +611,29 @@
     QCheck -- "Zwichnięcie hierarchii: Inna sfera pożera Dobro i Prawdę" --> QDeform{"Która kategoria uległa patologicznemu przerostowi?"}
     
     QDeform -- "DOBROBYT / FISKALIZM pożera Prawdę i Etykę<br/>(Bogactwo państwa celem nadrzędnym)" --> QByz["👑 CYWILIZACJA BIZANTYŃSKA<br/>(Monizm materializmu państwowego)"]
-    QDeform -- "ZDROWIE / SIŁA FIZYCZNA pożera Ducha<br/>(Kult tężyzny wojownika i oręża)" --> QTur["🏹 CYWILIZACJA TURAŃSKA<br/>(Kult siły biologicznej / wojna)"]
-    QDeform -- "PIĘKNO / FORMA pożera Etykę i Prawdę<br/>(Forma, ceremoniał, etykieta ważniejsza od prawdy)" --> QChina["☯️ CYWILIZACJA CHIŃSKA<br/>(Hipertrofia formy i rytuału)"]
-    QDeform -- "NEGACJA SFER CIELESNYCH<br/>(Atrofia Zdrowia i Dobrobytu na rzecz iluzji)" --> QBram["🕉️ CYWILIZACJA BRAMIŃSKA<br/>(Asceza bierna, pogarda dla materii)"]
-    QDeform -- "DOBRO utożsamione z RYTUAŁEM PRAWNYM<br/>(Mechanizacja moralności)" --> QJew["📜 CYWILIZACJA ŻYDOWSKA<br/>(Legalizm rytualny ponad bezstronną Prawdą)"]`
+    QDeform -- "ZDROWIE / SIŁA FIZYCZNA pożera Ducha<br/>(Kult tężyzny wojownika i oręża)" --> QTur["CYWILIZACJA TURAŃSKA<br/>(wg Konecznego: przewaga siły fizycznej)"]
+    QDeform -- "PIĘKNO / FORMA pożera Etykę i Prawdę<br/>(Forma, ceremoniał, etykieta ważniejsza od prawdy)" --> QChina["CYWILIZACJA CHIŃSKA<br/>(wg Konecznego: przewaga formy i rytuału)"]
+    QDeform -- "Przewaga sfery duchowo-rytualnej<br/>(nad Zdrowiem i Dobrobytem)" --> QBram["SAKRALNA KASTOWA<br/>(wg Konecznego: bramińska)"]
+    QDeform -- "DOBRO utożsamione z prawem rytualnym" --> QJew["SAKRALNA WSPÓLNOTOWO-RODOWA<br/>(wg Konecznego: przewaga prawa rytualnego)"]`
       },
 
       mieszanki: {
-        title: "☣️ Model 6: Prawa Dziejowe i Mieszanki Trujące",
-        tag: "Prawo Niewspółmierności • Zagrożenie Acywilizacyjne",
+        title: "Model 6: Prawa Dziejowe i Mieszanki Cywilizacyjne",
+        tag: "Prawo Niewspółmierności • Teza Konecznego",
         desc: "Co dzieje się, gdy dochodzi do synkretyzmu cywilizacji? Zasada Konecznego: Nie można być cywilizowanym na dwa sposoby naraz.",
         source: "O wielości cywilizacyj • O ład w historii",
         quote: "Nie ma syntez cywilizacyjnych; bywają tylko mieszanki, a mieszanki bywają trujące. Gdy dwa pierwiastki cywilizacyjne o sprzecznych metodach zetrą się w jednym organizmie społecznym, powstaje chaos etyczny i paraliż praworządności.",
         quoteAuthor: "Prof. Feliks Koneczny, O wielości cywilizacyj",
         code: `flowchart TD
-    SynkRoot(["⚠️ DYNAMIKA MIESZANEK CYWILIZACYJNYCH WG KONECZNEGO"]) --> MixChoice{"Próba połączenia Cywilizacji Łacińskiej z obcym żywiołem"}
+    SynkRoot(["⚠️ DYNAMIKA MIESZANEK CYWILIZACYJNYCH WG KONECZNEGO"]) --> MixChoice{"Połączenie modelu łacińskiego z innym modelem (teza Konecznego)"}
     
-    MixChoice -- "Łacina + Bizancjum<br/>(Etyka zastąpiona kultem państwa)" --> MixByz["⚔️ PRUSACYZM / ETATYZM NIEMIECKI<br/>• Państwo staje się absolutem<br/>• Pozory praworządności kryjące przemoc urzędową<br/>• Dryl, biurokracja i statolatria"]
+    MixChoice -- "Łacina + Bizancjum<br/>(Etyka zastąpiona kultem państwa)" --> MixByz["ETATYZM<br/>• Państwo staje się absolutem<br/>• Pozory praworządności kryjące przemoc urzędową<br/>• Dryl, biurokracja i statolatria"]
     
-    MixChoice -- "Łacina + Turan<br/>(Wolność zredukowana do anarchii)" --> MixTur["🐎 KOZACZYZNA / BOLSZEWIZM<br/>• Uznanie siły fizycznej za jedyne prawo<br/>• Zanik poszanowania dla własności i umowy<br/>• Wódz zastępuje sumienie"]
+    MixChoice -- "Łacina + Turan<br/>(Siła zamiast prawa)" --> MixTur["RZĄDY SIŁY<br/>• Uznanie siły fizycznej za jedyne prawo<br/>• Zanik poszanowania dla własności i umowy<br/>• Wódz zastępuje sumienie"]
     
-    MixChoice -- "Łacina + Żydowska<br/>(Personalizm zastąpiony kazuistyką)" --> MixJew["⚖️ HIPERTROFIA KAZUISTYKI PRAWNEJ<br/>• Formalizm proceduralny niszczy poczucie słuszności<br/>• Manipulacja literą prawa kosztem ducha prawa"]
+    MixChoice -- "Turan + Bizancjum<br/>(Synteza obozu wojennego i biurokracji)" --> MixTurByz["DESPOTYZM BIUROKRATYCZNY<br/>• Władza osobista połączona z aparatem urzędniczym<br/>• Człowiek pozbawiony praw prywatnych"]
     
-    MixChoice -- "Turan + Bizancjum<br/>(Synteza obozu wojennego i biurokracji)" --> MixTurByz["🐻 CARSKA I RADZIECKA ROSJA<br/>• Despotyzm chana w szatach carskiego urzędu<br/>• Człowiek pozbawiony praw prywatnych"]
-    
-    MixChoice -- "Utrzymanie Pionu Łacińskiego<br/>(Odrzucenie synkretyzmów)" --> PureLatin["🛡️ SPÓJNOŚĆ CYWILIZACYJNA (Trwanie Narodu)<br/>• Autonomia rodziny i własności<br/>• Prymat etyki nad ustawą państwową"]`
+    MixChoice -- "Utrzymanie Pionu Łacińskiego<br/>(Odrzucenie synkretyzmów)" --> PureLatin["SPÓJNOŚĆ CYWILIZACYJNA (Trwanie Narodu)<br/>• Autonomia rodziny i własności<br/>• Prymat etyki nad ustawą państwową"]`
       }
     };
 
@@ -841,12 +839,12 @@
               <thead>
                 <tr>
                   <th style="width: 15%;">Wymiar / Kryterium</th>
-                  <th class="pillar-col" style="width: 25%;">🏛️ ŁACIŃSKA [PION WZORCOWY]</th>
-                  <th style="width: 12%;">👑 BIZANTYŃSKA</th>
-                  <th style="width: 12%;">🌙 ARABSKA</th>
-                  <th style="width: 12%;">☯️ CHIŃSKA</th>
-                  <th style="width: 12%;">🏹 TURAŃSKA</th>
-                  <th style="width: 12%;">🕉️ BRAMIŃSKA</th>
+                  <th class="pillar-col" style="width: 25%;">ŁACIŃSKA</th>
+                  <th style="width: 12%;">BIZANTYŃSKA</th>
+                  <th style="width: 12%;">ARABSKA</th>
+                  <th style="width: 12%;">CHIŃSKA</th>
+                  <th style="width: 12%;">TURAŃSKA</th>
+                  <th style="width: 12%;">BRAMIŃSKA</th>
                 </tr>
               </thead>
               <tbody>

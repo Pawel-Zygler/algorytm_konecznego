@@ -33,6 +33,7 @@ Kluczowe pojęcia metody Konecznego:
 - Prawa dziejowe: Nie można być cywilizowanym na dwa sposoby; syntezy międzycywilizacyjne są niemożliwe — mieszanki prowadzą do zaniku sił społecznych (stan acywilizacyjny).
 
 Zasady oceny:
+0. Skala 0.0–1.0 mierzy zgodność z modelem łacińskim w ujęciu Konecznego. Niski wynik oznacza inny model cywilizacyjny, a nie gorszy. Nie formułuj ocen wartościujących cywilizacji.
 1. Oceniaj WYŁĄCZNIE na podstawie dostarczonego tekstu. Jeśli tekst nie dostarcza przesłanek dla danego wskaźnika, wpisz score = -1.0 i krótkie wyjaśnienie "Brak danych w tekście".
 2. Dla każdego wskaźnika podaj DOKŁADNIE 3 krótkie zapytania/przykłady w polu news_examples (po polsku).
 3. Zwróć wyłącznie poprawny JSON zgodny ze schematem.`;
@@ -266,11 +267,11 @@ export const INDEX_DEFINITIONS = {
     title: 'Natura Sprawiedliwości',
     focus: 'Słuszność (aequitas) i sumienie sędziego ponad martwą literą przepisu (1.0 = sprawiedliwość personalistyczna).',
     indicators: [
-      'equity_over_letter', 'judge_conscience_role', 'law_from_ethics', 'no_shylock_formalism',
+      'equity_over_letter', 'judge_conscience_role', 'law_from_ethics', 'equity_over_strict_formalism',
       'state_under_decalogue', 'justice_needs_mercy', 'no_legislative_elephantiasis',
       'good_hegemony_over_law', 'aposteriori_law', 'legal_dualism', 'judicial_independence',
-      'ethics_above_law', 'no_jewish_casuistry', 'no_byzantine_statolatry',
-      'no_camp_turanian_law', 'no_socialist_collectivism',
+      'ethics_above_law', 'principle_over_casuistry', 'no_state_above_ethics',
+      'no_camp_rule_law', 'no_socialist_collectivism',
     ],
   },
   conscience_status: {
@@ -279,10 +280,10 @@ export const INDEX_DEFINITIONS = {
     focus: 'Autonomia sumienia jako najwyższej instancji, odmowa niegodziwych rozkazów (1.0 = pełna autonomia sumienia).',
     indicators: [
       'no_statutory_morality_only', 'conscience_as_supreme_judge', 'no_legislative_elephantiasis',
-      'refusal_of_immoral_orders', 'personal_accountability_god', 'no_shylock_formalism',
+      'refusal_of_immoral_orders', 'personal_accountability_god', 'equity_over_strict_formalism',
       'ethics_above_law', 'personalism_sovereignty', 'good_hegemony_over_law', 'legal_dualism_privacy',
-      'aposteriori_experience', 'no_casuistry_expropriation', 'no_byzantine_statolatry',
-      'no_socialist_gregarious_fear', 'no_camp_turanian_coercion',
+      'aposteriori_experience', 'no_casuistry_expropriation', 'no_state_above_ethics',
+      'no_socialist_gregarious_fear', 'no_camp_rule_coercion',
     ],
   },
   time_mastery: {
@@ -294,7 +295,7 @@ export const INDEX_DEFINITIONS = {
       'capitalization_of_time', 'sub_specie_aeternitatis', 'time_rich_language',
       'historicism_national_consciousness', 'dated_documentation', 'latin_historicism_unique',
       'generational_voluntary_synthesis', 'family_emancipation_workshop', 'truth_and_goodness_cult',
-      'no_sacral_passive_stagnation', 'no_turanian_camp_presentism',
+      'no_sacral_passive_stagnation', 'no_camp_presentism',
     ],
   },
   work_ethos: {
