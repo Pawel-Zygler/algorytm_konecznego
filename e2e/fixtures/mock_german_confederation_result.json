@@ -66,7 +66,7 @@
           "Traditional Christian oaths in the German Confederation courts"
         ]
       },
-      "no_shylock_formalism": {
+      "equity_over_strict_formalism": {
         "score": 0.4,
         "explanation": "Strict adherence to treaties defined the legalism of the German Confederation.",
         "news_examples": [
@@ -129,7 +129,7 @@
           "Complex jurisdiction disputes in the German Confederation"
         ]
       },
-      "no_byzantine_statolatry": {
+      "no_state_above_ethics": {
         "score": 0.5,
         "explanation": "Decentralized confederation of states prevented total statolatry.",
         "news_examples": [
@@ -147,7 +147,7 @@
           "Opposition to socialist movements in the German Confederation"
         ]
       },
-      "no_camp_turanian_coercion": {
+      "no_camp_rule_coercion": {
         "score": 0.4,
         "explanation": "Autocratic suppression of 1848 revolutions mirrored coercive measures.",
         "news_examples": [
@@ -1136,7 +1136,7 @@
           "Opór arystokracji wobec reform demokratycznych"
         ]
       },
-      "no_turanian_camp_presentism": {
+      "no_camp_presentism": {
         "score": 0.5,
         "explanation": "Mieszanka planowania biurokratycznego z cechami obozowego drylu.",
         "news_examples": [
@@ -1296,7 +1296,7 @@
             "Traditional Christian oaths in the German Confederation courts"
           ]
         },
-        "no_shylock_formalism": {
+        "equity_over_strict_formalism": {
           "score": 0.4,
           "explanation": "Strict adherence to treaties defined the legalism of the German Confederation.",
           "news_examples": [
@@ -1359,7 +1359,7 @@
             "Complex jurisdiction disputes in the German Confederation"
           ]
         },
-        "no_byzantine_statolatry": {
+        "no_state_above_ethics": {
           "score": 0.5,
           "explanation": "Decentralized confederation of states prevented total statolatry.",
           "news_examples": [
@@ -1377,7 +1377,7 @@
             "Opposition to socialist movements in the German Confederation"
           ]
         },
-        "no_camp_turanian_coercion": {
+        "no_camp_rule_coercion": {
           "score": 0.4,
           "explanation": "Autocratic suppression of 1848 revolutions mirrored coercive measures.",
           "news_examples": [
@@ -2366,7 +2366,7 @@
             "Opór arystokracji wobec reform demokratycznych"
           ]
         },
-        "no_turanian_camp_presentism": {
+        "no_camp_presentism": {
           "score": 0.5,
           "explanation": "Mieszanka planowania biurokratycznego z cechami obozowego drylu.",
           "news_examples": [
@@ -2735,7 +2735,7 @@
             "Opór arystokracji wobec reform demokratycznych"
           ]
         },
-        "no_turanian_camp_presentism": {
+        "no_camp_presentism": {
           "score": 0.5,
           "explanation": "Mieszanka planowania biurokratycznego z cechami obozowego drylu.",
           "news_examples": [

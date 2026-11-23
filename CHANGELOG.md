@@ -4,6 +4,18 @@ Wszystkie znaczące zmiany w projekcie **Algorytm Konecznego** (metoda historioz
 
 Format opiera się na zasadach [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
+## [Unreleased]
+
+### Zmieniono (Changed)
+- **Usunięcie stereotypów z kluczy wskaźników**: `no_shylock_formalism` → `equity_over_strict_formalism`, `no_jewish_casuistry` → `principle_over_casuistry`, `no_byzantine_statolatry` → `no_state_above_ethics`, `no_camp_turanian_law` / `no_camp_turanian_coercion` / `no_turanian_camp_presentism` → `no_camp_rule_law` / `no_camp_rule_coercion` / `no_camp_presentism`. Usunięto diagnozę „kazuistyka talmudyczna”. Wcześniejsze wersje zawierały też inne niestosowne sformułowania o grupach (m.in. w tekstach loadera); zostały usunięte jako niestosowne.
+- **Definicje indeksów (`indices/`)**: usunięto frazę „zażydzenie myśli społecznej” i przykłady przypisujące cechy „cywilizacji żydowskiej”; pytania opisują mechanizm, nie grupę.
+- **Mantis, ścieżka sakralna**: wynik opisuje typ ustroju („Sakralna uniwersalistyczna / wspólnotowo-rodowa / kastowa”, nazwa Konecznego w nawiasie); dodano próg pewności (±0.02 oraz brak danych → „Sakralna (wariant nierozstrzygnięty)”); usunięto klasyfikację po słowach kluczowych (TORA / TALMUD / HALACHA itd.) w `content.js`.
+- **Neutralne nazewnictwo**: diagnozy bez epitetów („mieszanka trująca”, „cywilizacja defektowna / ułomna”, „wegetacja”, „Nameless Horde”), opisy cywilizacji jako modele teorii Konecznego, neutralna paleta kolorów, skala opisana jako „zgodność z modelem łacińskim”, nie jakość.
+- **Dokumentacja**: `DESIGN_DOC.md` i `preview_diagrams.html` bez emoji religijnych i stereotypowych etykiet; usunięto gałąź „Łacina + Żydowska” z modelu mieszanek.
+- **`.gitignore`**: pliki PDF z korpusu (m.in. prace objęte prawem autorskim) nie mogą trafić do repozytorium.
+
+---
+
 ## [1.6.0] - 2026-11-12
 
 ### Dodano (Added)

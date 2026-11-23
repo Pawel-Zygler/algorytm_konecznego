@@ -47,7 +47,7 @@ class TestMantisBVA:
         assert expected_decision_fragment in gate_1["decision"]
         assert gate_1["score"] == sac_score
         if expected_sacral_flag:
-            assert res["primary_civilization"] in ["Arabska / Sakralna", "Żydowska", "Bramińska"]
+            assert res["primary_civilization"].startswith("Sakralna")
         else:
             assert res["primary_civilization"] in ["Łacińska", "Bizantyńska", "Turańska", "Chińska"]
 

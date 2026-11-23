@@ -66,7 +66,7 @@
           "Wymiar moralny działalności instytucji w Polsce"
         ]
       },
-      "no_shylock_formalism": {
+      "equity_over_strict_formalism": {
         "score": -1,
         "explanation": "Brak elementów analizy dogmatyzmu prawniczego lub formalizmu w przesłanym materiale encyklopedycznym.",
         "news_examples": [
@@ -129,7 +129,7 @@
           "Rola orzecznictwa w praktyce urzędowej w Polsce"
         ]
       },
-      "no_byzantine_statolatry": {
+      "no_state_above_ethics": {
         "score": -1,
         "explanation": "Tekst ma charakter neutralnego opisu państwowego, nie odnosi się do problemu statolatrii czy bizantynizmu.",
         "news_examples": [
@@ -147,7 +147,7 @@
           "Kształtowanie opinii publicznej i postaw w Polsce"
         ]
       },
-      "no_camp_turanian_coercion": {
+      "no_camp_rule_coercion": {
         "score": -1,
         "explanation": "Brak odniesień do cywilizacji turańskiej oraz przymusu o charakterze obozowym w analizowanym artykule.",
         "news_examples": [
@@ -1136,7 +1136,7 @@
           "Inicjatywy naukowe i startupowe w polskich ośrodkach akademickich"
         ]
       },
-      "no_turanian_camp_presentism": {
+      "no_camp_presentism": {
         "score": 0.9,
         "explanation": "Odrzucenie wegetacji obozowej i uwięzienia w bezwymiarowej teraźniejszości na rzecz planowania.",
         "news_examples": [
@@ -1352,7 +1352,7 @@
           "Wymiar moralny działalności instytucji w Polsce"
         ]
       },
-      "no_shylock_formalism": {
+      "equity_over_strict_formalism": {
         "score": -1,
         "explanation": "Brak elementów analizy dogmatyzmu prawniczego lub formalizmu w przesłanym materiale encyklopedycznym.",
         "news_examples": [
@@ -1415,7 +1415,7 @@
           "Rola orzecznictwa w praktyce urzędowej w Polsce"
         ]
       },
-      "no_byzantine_statolatry": {
+      "no_state_above_ethics": {
         "score": -1,
         "explanation": "Tekst ma charakter neutralnego opisu państwowego, nie odnosi się do problemu statolatrii czy bizantynizmu.",
         "news_examples": [
@@ -1433,7 +1433,7 @@
           "Kształtowanie opinii publicznej i postaw w Polsce"
         ]
       },
-      "no_camp_turanian_coercion": {
+      "no_camp_rule_coercion": {
         "score": -1,
         "explanation": "Brak odniesień do cywilizacji turańskiej oraz przymusu o charakterze obozowym w analizowanym artykule.",
         "news_examples": [
@@ -2410,7 +2410,7 @@
           "Inicjatywy naukowe i startupowe w polskich ośrodkach akademickich"
         ]
       },
-      "no_turanian_camp_presentism": {
+      "no_camp_presentism": {
         "score": 0.9,
         "explanation": "Odrzucenie wegetacji obozowej i uwięzienia w bezwymiarowej teraźniejszości na rzecz planowania.",
         "news_examples": [

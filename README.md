@@ -121,8 +121,10 @@ flowchart TD
     B4 -- "Dwoistość Sumienia\n(Etyka prywatna vs racja stanu)" --> CivByz["CYWILIZACJA BIZANTYŃSKA"]
     B5 -- "Ustrój Obozowy\nBrak własności prywatnej" --> CivTur["CYWILIZACJA TURAŃSKA"]
     
-    B6 -- "Monizm Sakralny (Umma)\nPowszechna teokracja" --> CivArab["CYWILIZACJA ARABSKA"]
-    B6 -- "Etyka rodowo-wspólnotowa\nPrawo sakralne" --> CivJew["CYWILIZACJA ŻYDOWSKA"]
+    B6 -- "Monizm Sakralny\nZasięg powszechny" --> CivArab["SAKRALNA UNIWERSALISTYCZNA\n(wg Konecznego: arabska)"]
+    B6 -- "Prawo sakralne wspólnoty" --> CivJew["SAKRALNA WSPÓLNOTOWO-RODOWA\n(wg Konecznego: żydowska)"]
+    B6 -- "Podział kastowy" --> CivBra["SAKRALNA KASTOWA\n(wg Konecznego: bramińska)"]
+    B6 -- "Brak danych / blisko progu" --> CivUnd["SAKRALNA\n(wariant nierozstrzygnięty)"]
 ```
 
 - **Sakralność:** cywilizacje sakralne vs świecko-rozumowe.
@@ -130,7 +132,9 @@ flowchart TD
 - **Niezależność Kościoła:** etatyzm vs siła vs kult rodu vs wolność sumienia.
 - **Status sumienia:** jedność etyczna vs podwójna moralność.
 - **Personalizm:** wolna osoba vs narzędzie władzy.
-- **Moralność publiczna:** monizm sakralny vs etyka rodowa.
+- **Moralność publiczna:** wariant ustroju sakralnego (uniwersalistyczny, wspólnotowo-rodowy, kastowy). Przy braku danych lub wynikach blisko progu wariant jest nierozstrzygnięty.
+
+> Nazwy cywilizacji to terminy teorii Konecznego (lata 30. XX w.) opisujące typy ustroju prawnego. Nie opisują współczesnych narodów ani wyznawców religii, a niski wynik na skali oznacza inny model, nie gorszy.
 
 ---
 

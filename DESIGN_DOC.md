@@ -65,7 +65,7 @@ Proces przebiega w sekwencji 6 logicznych bramek decyzyjnych (*Information Gain 
 
 1. **Bramka 1: `SACRALITY_INDEX` (Sakralność vs Świeckość)**:
    - *Próg rozstrzygnięcia:* `score >= 0.40`.
-   - *Ścieżka Sakralna:* Prawo i ustrój są ufundowane na religijnym dogmacie/piśmie świętym (przejście do Bramki 6: cywilizacje Arabska, Żydowska, Bramińska).
+   - *Ścieżka Sakralna:* Prawo i ustrój są ufundowane na religijnym dogmacie/piśmie świętym (przejście do Bramki 6: warianty sakralne — uniwersalistyczny, wspólnotowo-rodowy, kastowy; w terminologii Konecznego: arabska, żydowska, bramińska).
    - *Ścieżka Świecko-Rozumowa:* Prawo i moralność są stanowione i interpretowane przez rozum ludzki (przejście do Bramki 2: cywilizacje Łacińska, Bizantyńska, Turańska, Chińska).
 2. **Bramka 2: `LEGAL_DUALISM_INDEX` (Dualizm vs Monizm Prawa)**:
    - *Skalpel Cywilizacji Łacińskiej:* Weryfikuje autonomię prawa prywatnego wobec publicznego oraz nadrzędność normy moralnej nad wolą państwa.
@@ -80,8 +80,11 @@ Proces przebiega w sekwencji 6 logicznych bramek decyzyjnych (*Information Gain 
 5. **Bramka 5: `PERSONALISM_INDEX` (Podmiotowość Jednostki vs Ustrój Obozowy)**:
    - Wykrywa redukcję człowieka do roli żołnierza/narzędzia w rękach wodza, ustrój obozowy oraz brak stabilnej własności ziemskiej &rarr; **CYWILIZACJA TURAŃSKA**.
 6. **Bramka 6: `PUBLIC_MORALITY_TOTALITY_INDEX` (Uniwersalizm vs Etyka Rodowo-Wspólnotowa na Ścieżce Sakralnej)**:
-   - *Powszechny Monizm Sakralny (Umma):* Prawo religijne obowiązuje jednakowo każdego wiernego, teokracja uniwersalna (Szariat) &rarr; **CYWILIZACJA ARABSKA**.
-   - *Etyka Rodowo-Wspólnotowa:* Normy etyczne zorientowane na spójność wspólnoty rodowej i prawa przymierza &rarr; **CYWILIZACJA ŻYDOWSKA**.
+   - *Wariant uniwersalistyczny:* Prawo religijne obowiązuje jednakowo każdego wyznawcę, teokracja &rarr; **Sakralna uniwersalistyczna** (wg Konecznego: arabska).
+   - *Wariant wspólnotowo-rodowy:* Prawo religijne obowiązuje przede wszystkim członków wspólnoty &rarr; **Sakralna wspólnotowo-rodowa** (wg Konecznego: żydowska).
+   - *Wariant kastowy:* Porządek oparty na podziale stanowo-kastowym i rytuale &rarr; **Sakralna kastowa** (wg Konecznego: bramińska).
+   - *Próg pewności:* przy braku danych o sumieniu/personalizmie albo gdy przesunięcie dowolnego wyniku o ±0.02 zmienia rozstrzygnięcie &rarr; **Sakralna (wariant nierozstrzygnięty)**. Klasyfikacja nie używa słów kluczowych z tekstu.
+   - Nazwy cywilizacji są terminami teorii Konecznego i opisują typ ustroju prawnego, nie współczesne narody ani wyznawców religii.
 
 ```mermaid
 flowchart TD
@@ -90,19 +93,21 @@ flowchart TD
     B1 -- "Wysoka (>= 0.40)\nŚcieżka Sakralna" --> B6{6. Moralność Publiczna\nPUBLIC_MORALITY_TOTALITY}
     B1 -- "Niska (< 0.40)\nŚcieżka Świecko-Rozumowa" --> B2{2. Dualizm Prawny\nLEGAL_DUALISM_INDEX}
     
-    B2 -- "Dualizm Prawny\nPrymat Etyki nad Prawem" --> CivLatin["🏛️ CYWILIZACJA ŁACIŃSKA\n(Autonomia prawa prywatnego, wolność, sumienie)"]
+    B2 -- "Dualizm Prawny\nPrymat Etyki nad Prawem" --> CivLatin["CYWILIZACJA ŁACIŃSKA\n(Autonomia prawa prywatnego, wolność, sumienie)"]
     B2 -- "Monizm Prawny\nWładza pochłania prawo prywatne" --> B3{3. Relacja Władza-Religia-Duch\nCHURCH_INDEPENDENCE}
     
     B3 -- "Cezaropapizm / Etatyzm\nBiurokracja Państwowa" --> B4{4. Status Sumienia\nCONSCIENCE_STATUS}
     B3 -- "Monizm Siły / Wodza\nWładca właścicielem wszystkiego" --> B5{5. Podmiotowość Jednostki\nPERSONALISM_INDEX}
-    B3 -- "Areligijność / Kult Przodków\nUstrój Rodowy i Konfucjanizm" --> CivChina["☯️ CYWILIZACJA CHIŃSKA\n(Monizm Etykietalno-Rodowy / Rytuał Li)"]
+    B3 -- "Areligijność / Kult Przodków\nUstrój Rodowy i Konfucjanizm" --> CivChina["CYWILIZACJA CHIŃSKA\n(Monizm Etykietalno-Rodowy / Rytuał Li)"]
     
-    B4 -- "Dwoistość Sumienia\n(Etyka prywatna vs racja stanu)" --> CivByz["👑 CYWILIZACJA BIZANTYŃSKA\n(Monizm Prawa Publicznego / Etatyzm)"]
+    B4 -- "Dwoistość Sumienia\n(Etyka prywatna vs racja stanu)" --> CivByz["CYWILIZACJA BIZANTYŃSKA\n(Monizm Prawa Publicznego / Etatyzm)"]
     
-    B5 -- "Ustrój Obozowy / Brak Własności\nCzłowiek narzędziem wodza" --> CivTur["🏹 CYWILIZACJA TURAŃSKA\n(Monizm Prawa Prywatnego Władcy)"]
+    B5 -- "Ustrój Obozowy / Brak Własności\nWładza wodza jako źródło prawa" --> CivTur["CYWILIZACJA TURAŃSKA\n(Monizm Prawa Prywatnego Władcy)"]
     
-    B6 -- "Monizm Prawa Sakralnego (Umma)\nTeokracja powszechna" --> CivArab["🌙 CYWILIZACJA ARABSKA\n(Monizm Szariatu / Poligamia)"]
-    B6 -- "Etyka Rodowo-Wspólnotowa\nPrawo sakralne wspólnoty" --> CivJew["📜 CYWILIZACJA ŻYDOWSKA\n(Monizm Rodowo-Sakralny / Monogamia)"]
+    B6 -- "Monizm Prawa Sakralnego (Umma)\nTeokracja powszechna" --> CivArab["SAKRALNA UNIWERSALISTYCZNA\n(wg Konecznego: arabska)"]
+    B6 -- "Prawo sakralne wspólnoty" --> CivJew["SAKRALNA WSPÓLNOTOWO-RODOWA\n(wg Konecznego: żydowska)"]
+    B6 -- "Podział kastowy" --> CivBra["SAKRALNA KASTOWA\n(wg Konecznego: bramińska)"]
+    B6 -- "Brak danych / blisko progu" --> CivUnd["SAKRALNA\n(wariant nierozstrzygnięty)"]
 ```
 
 ---
@@ -147,7 +152,7 @@ flowchart LR
      - **Totalność Moralności Publicznej** (`PUBLIC_MORALITY_TOTALITY_INDEX`)
      - **Odpowiedzialność Urzędnicza** (`ADMINISTRATIVE_RESPONSIBILITY_INDEX`)
 3. **Krok 3: Szereg Personalistyczny (Generalia Etyki — 7 Niewiadomych)**:
-   - Wylicza wskaźnik spójności etycznej (`ethical_coherence_score` 0.0 - 7.0) oraz diagnozuje **Szereg Personalistyczny** (Cywilizacja Łacińska) vs **Szereg Gromadnościowy** vs **Mieszankę Trującą** (stan acywilizacyjny).
+   - Wylicza wskaźnik spójności etycznej (`ethical_coherence_score` 0.0 - 7.0) oraz diagnozuje **Szereg Personalistyczny** (Cywilizacja Łacińska) vs **Szereg Gromadnościowy** vs **niespójność norm** (wg Konecznego: mieszanka cywilizacyjna).
    - Obejmuje 7 pod-indeksów etycznych:
      - **Personalistyczne Źródło Obowiązku** (`duty_source` - 13 wskaźników)
      - **Motywacja i Bezinteresowność** (`motivation` - 14 wskaźników)
@@ -200,7 +205,7 @@ graph TD
         R1 --> M4["Poziom 04: Emancypacja Rodziny - 82%"]
         R1 --> M3["Poziom 03: Pętla Monizmu - 73%"]
         R1 --> M2["Poziom 02: Ród Imienny - 64%"]
-        R1 --> M1["Poziom 01: Gromadztwo Bezimienne - 55%"]
+        R1 --> M1["Poziom 01: Etap przedrodowy - 55%"]
         R1 --> SDetail["Interaktywny Panel Szczegółów Szczebla"]
     end
 ```
@@ -209,17 +214,18 @@ graph TD
 
 ## 5. Matryca Klasyfikacji Cywilizacji i Ustrojów
 
-Poniższa tabela przedstawia zasady indukcyjnej kategoryzacji tekstu przez algorytm:
+Poniższa tabela przedstawia, jak algorytm odwzorowuje typy ustroju z teorii Konecznego. Kolumny opisują strukturę prawną i społeczną w ujęciu tej teorii; nie są ocenami wartościującymi ani opisem współczesnych narodów czy wyznawców religii. Wynik niski na skali „zgodności z modelem łacińskim” oznacza inny model, a nie gorszy.
 
-| Cywilizacja | Supremacja Ducha | Sakralność | Prawo | Religia | Rodzina i Majątek | Czas i Praca |
+| Typ (wg Konecznego) | Supremacja Ducha | Sakralność | Prawo | Religia a państwo | Rodzina i majątek | Czas |
 | :--- | :---: | :---: | :--- | :--- | :--- | :--- |
-| **Łacińska** | **Wysoka (>50%)** | **Niska (<30%)** | **Dualizm Prawny** (prywatne + publiczne) | Uniwersalna etyczna (autonomia sumienia) | Monogamia dożywotnia, pełna emancypacja, własność prywatna | Czas linearny, praca wolna i celowa |
-| **Bizantyńska** | Niska (<45%) | Niska | **Monizm Prawa Publicznego** (państwowy) | Państwowa / Podporządkowana | Rodzina zdominowana przez biurokrację i etatyzm | Czas mechaniczny, praca regulowana ustawą |
-| **Turańska** | Bardzo niska (<30%) | Niska | **Monizm Prawa Prywatnego** (władcy) | Areligijność / Formalizm | Rodzina w ustroju obozowym, brak stabilnej własności | Czas doraźny, praca przymusowa / wojenny podbój |
-| **Arabska** | Średnia/Niska | **Bardzo wysoka (>60%)** | **Monizm Sakralny** (Szariat/Teokracja) | Państwowa / Sakralna | Poligamia dopuszczalna, brak pełnej emancypacji majątkowej | Fatalizm dziejowy, rytuał ponad pragmatykę |
-| **Żydowska** | Specyficzna | **Wysoka (>50%)** | **Monizm Prawno-Sakralny** | Narodowa / Prawotwórcza | Silna tradycja rodowa, kazuistyka prawna | Czas mesjanistyczny, ścisły legalizm |
-| **Bramińska** | Niska | Wysoka | **Monizm Kastowo-Rytualny** | Monolatria / Kastowa | Podział kastowy, ustrój rodowo-wielorodzinny | Reinkarnacja, bierność dziejowa |
-| **Chińska** | Niska | Niska | **Monizm Etykietowo-Rodowy** | Areligijna (kult przodków) | Ustrój rodowy (klanowy), brak niezależności syna za życia ojca | Czas cykliczny, brak dogmatów |
+| **Łacińska** | Wysoka (>50%) | Niska (<30%) | **Dualizm prawny** (prywatne + publiczne) | Religia niezależna od państwa | Monogamia, własność indywidualna | Historyzm, era liniowa |
+| **Bizantyńska** | Niska (<45%) | Niska | **Monizm prawa publicznego** | Religia powiązana z państwem | Rodzina regulowana przez administrację | Era, prawo stanowione |
+| **Turańska** | Bardzo niska (<30%) | Niska | **Monizm prawa prywatnego władcy** | Religia poza porządkiem prawnym | Ustrój obozowy | Czas bieżący |
+| **Sakralna uniwersalistyczna** (arabska) | Średnia/Niska | Bardzo wysoka (>60%) | **Monizm sakralny**, zasięg powszechny | Prawo religijne = prawo państwowe | Prawo rodzinne wynika z prawa religijnego | Era religijna |
+| **Sakralna wspólnotowo-rodowa** (żydowska) | — | Wysoka (>50%) | **Monizm prawno-sakralny**, zasięg wspólnotowy | Prawo religijne wspólnoty | Tradycja rodowa | Kalendarz religijny |
+| **Sakralna kastowa** (bramińska) | Niska | Wysoka | **Monizm kastowo-rytualny** | Porządek kastowy | Ustrój rodowo-wielorodzinny | Czas cykliczny |
+| **Chińska** | Niska | Niska | **Monizm etykietalno-rodowy** | Kult przodków, rytuał | Ustrój rodowy | Czas cykliczny |
+
 
 ---
 
@@ -329,10 +335,10 @@ Dane zawarte w obiekcie eksportu zasilają poszczególne panele wizualne nakład
 1. **Główny Banner Wyniku i Kwalifikacji**:
    - `cywilizacja_główna` oraz `diagnoza_cywilizacyjna` determinują motyw kolorystyczny, ikonę zrzeszenia oraz główny nagłówek raportu.
 2. **Pasek Spektrum Cywilizacyjnego**:
-   - Wylicza procentowy udział wpływów 7 cywilizacji w badanym tekście (np. 88% Łacińska, 8% Bizantyńska, 4% Żydowska) na podstawie wag pod-indeksów.
+   - Wylicza procentowy udział wpływów 7 cywilizacji w badanym tekście (np. 88% Łacińska, 8% Bizantyńska, 4% Turańska) na podstawie wag pod-indeksów.
 3. **Drabina Zaawansowania Cywilizacyjnego Zrzeszenia (Poziomy 01–06)**:
-   - Wizualizuje ewolucję społeczną od bezimiennej gromady po personalizm i naród:
-     - **Poziom 01: Gromadztwo** – brak nazwisk, brak prawa do dziedziczenia, kolektyw bezimienny.
+   - Wizualizuje etapy rozwoju zrzeszenia w modelu Konecznego, od etapu przedrodowego po personalizm i naród:
+     - **Poziom 01: Etap przedrodowy** – brak nazwisk dziedzicznych i utrwalonej genealogii.
      - **Poziom 02: Ród Imienny** – ukształtowanie tożsamości rodowej, kult przodków.
      - **Poziom 03: Pętla Monizmu / Cezaryzmu** – próba wchłonięcia rodu przez machinę państwową / władcę.
      - **Poziom 04: Emancypacja Rodziny** – indywidualna własność majątkowa, monogamia dożywotnia.
@@ -340,14 +346,14 @@ Dane zawarte w obiekcie eksportu zasilają poszczególne panele wizualne nakład
      - **Poziom 06: Naród** – dobrowolne zrzeszenie nadrzędne złączone wspólnym etosem i kulturą duchową.
 4. **Matryca Czwórmianu Ustrojowego i Klasyfikacji Cywilizacyjnej (Interaktywne Przyciski Info ℹ️)**:
    - Każda z 5 sekcji dashboardu posiada dedykowany przycisk `ℹ Info` na aktywnym chipie wyniku oraz w nagłówku sekcji (`ℹ Dlaczego ten wynik?`):
-     - **Sekcja 1: Cywilizacja** (`civ`): Łacińska, Bizantyńska, Turańska, Arabska, Żydowska, Bramińska, Chińska, Acywilizacyjna.
+     - **Sekcja 1: Cywilizacja** (`civ`): Łacińska, Bizantyńska, Turańska, Chińska, Sakralna uniwersalistyczna / wspólnotowo-rodowa / kastowa / nierozstrzygnięta (wg Konecznego: arabska, żydowska, bramińska), Mieszanka cywilizacyjna.
      - **Sekcja 2: Prawo** (`legal`): `Dualizm Prawny` vs `Monizm Prawa Publicznego` (państwowy) vs `Monizm Prawa Prywatnego` (władcy) vs `Monizm Sakralny`.
      - **Sekcja 3: Religia** (`rel`): `Uniwersalna (Etyczna)` vs `Plemienna / Narodowa` vs `Państwowa / Sakralna` vs `Kastowa` vs `Areligijność / Świeckość`.
      - **Sekcja 4: Cele Społeczeństwa** (`goal`): `Spoza Walki o Byt (Naród & Osoba)` vs `Walka o Byt (Ustrój Obozowy)` vs `Machina Państwowa (Biurokracja)` vs `Formalizm / Rytuał` vs `Kultywowanie Rodu`.
      - **Sekcja 5: Emancypacja Rodziny** (`fam`): `Pełna Emancypacja (Monogamia i Własność Indywidualna)` vs `Klany Rodowe` vs `Poligamia / Brak Emancypacji` vs `Statolatria / Kolektywizm`.
    - **Interaktywny Popover Analityczny (Hover / Click Pinning)**:
      - Wyświetla pełne historiozoficzne uzasadnienie wg prof. Feliksa Konecznego.
-     - **Kryterium Rozróżniające (Kontrastowe):** jednoznacznie wyjaśnia, dlaczego przypisano badaną cywilizację, a nie inną konkurującą (np. dlaczego Żydowska, a nie Arabska – uniwersalny teokratyczny monizm islamu vs. rodowo-narodowy ekskluzywizm i podwójna etyka; dlaczego Łacińska, a nie Bizantyńska – nienaruszalny dualizm prawa prywatnego i personalizm vs. omnipotencja państwa i etatyzm; dlaczego nie sakralna itd.).
+     - **Kryterium Rozróżniające (Kontrastowe):** jednoznacznie wyjaśnia, dlaczego przypisano badaną cywilizację, a nie inną konkurującą (np. dlaczego wariant wspólnotowo-rodowy, a nie uniwersalistyczny – zasięg prawa sakralnego ograniczony do wspólnoty vs. powszechny; dlaczego Łacińska, a nie Bizantyńska – nienaruszalny dualizm prawa prywatnego i personalizm vs. omnipotencja państwa i etatyzm; dlaczego nie sakralna itd.).
      - Wskazuje **najbardziej dominujący wskaźnik** w analizowanym tekście wraz z jego wynikiem (%) oraz uzasadnieniem LLM.
      - Podaje **dokładnie 2 faktyczne, dosłowne cytaty źródłowe (verbatim) z badanego tekstu w estetyce NotebookLM**: długie, wielozdaniowe fragmenty tekstu z kontekstem źródłowym, plakietkami dowodowymi i historiozoficznym uzasadnieniem korelacji.
 5. **Karty Kroku 1 do 5 (Wskaźniki Szczegółowe)**:

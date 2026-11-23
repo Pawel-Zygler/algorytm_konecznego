@@ -7,9 +7,12 @@ Covers all 7 civilizational outcomes across the 6 sequential gates of Mantis AI:
 2. Bizantyńska (Byzantine)
 3. Turańska (Turanian)
 4. Chińska (Chinese)
-5. Arabska / Sakralna (Arab / Islamic)
-6. Żydowska (Jewish)
-7. Bramińska (Brahminic)
+5. Sakralna uniwersalistyczna (wg Konecznego: arabska)
+6. Sakralna wspólnotowo-rodowa (wg Konecznego: żydowska)
+7. Sakralna kastowa (wg Konecznego: bramińska)
+8. Sakralna, wariant nierozstrzygnięty (wynik blisko progu albo brak danych)
+
+Wariant sakralny wynika wyłącznie z profilu indeksów; tekst próbki nie wpływa na wynik.
 """
 
 import pytest
@@ -63,25 +66,39 @@ DECISION_TABLE_MANTIS = [
         "Konfucjanizm"
     ),
     (
-        "R5_ARAB_ISLAMIC",
-        "Kalifat Abbasydów, prawo szariatu, koraniczny monizm prawny, teokracja",
+        "R5_SACRAL_UNIVERSAL",
+        "Kalifat Abbasydów, prawo szariatu, teokracja",
         0.90, 0.05, 0.05, 0.10, 0.30,
-        "Arabska / Sakralna",
+        "Sakralna uniwersalistyczna (wg Konecznego: arabska)",
         "Teokracja, Szariat"
     ),
     (
-        "R6_JEWISH",
-        "Tradycja talmudyczna Izraela, Tora, halacha, kazuistyka rodowa, prawo Mojżeszowe",
+        "R6_SACRAL_COMMUNAL",
+        "Prawo religijne wspólnoty, Tora, halacha",
         0.85, 0.10, 0.10, 0.40, 0.50,
-        "Żydowska",
-        "kazuistyka talmudyczna"
+        "Sakralna wspólnotowo-rodowa (wg Konecznego: żydowska)",
+        "życie codzienne wspólnoty"
     ),
     (
-        "R7_BRAHMINIC",
-        "Cywilizacja indyjska, kasty, braminizm, prawo Manu, sanskryt, karma i reinkarnacja",
-        0.92, 0.10, 0.10, 0.20, 0.20,
-        "Bramińska",
+        "R7_SACRAL_CASTE",
+        "Prawo Manu, podział stanowo-kastowy",
+        0.95, 0.10, 0.10, 0.25, 0.225,
+        "Sakralna kastowa (wg Konecznego: bramińska)",
         "Kastowo-Rytualny"
+    ),
+    (
+        "R8_SACRAL_NEAR_THRESHOLD",
+        "Kodeks prawa kanonicznego",
+        0.80, 0.10, 0.10, 0.36, 0.50,
+        "Sakralna (wariant nierozstrzygnięty)",
+        "blisko progów"
+    ),
+    (
+        "R9_SACRAL_MISSING_DATA",
+        "Tekst o prawie religijnym bez danych o sumieniu",
+        0.80, 0.10, 0.10, -1.0, 0.50,
+        "Sakralna (wariant nierozstrzygnięty)",
+        "brak danych"
     ),
 ]
 

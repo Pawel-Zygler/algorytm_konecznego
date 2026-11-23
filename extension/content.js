@@ -1452,7 +1452,7 @@
   }
 
   function initKonecznyTankDom(arena, konecznyImgSrc) {
-    const negativeWords = ["GROMADNOŚĆ", "MECHANIZM", "STATOLATRIA", "APRIORYZM", "CEZAROPAPIZM", "KOLEKTYWIZM", "TURAŃSZCZYZNA", "BIZANTYNIZM", "FISKALIZM", "MAKIAWELIZM"];
+    const negativeWords = ["GROMADNOŚĆ", "MECHANIZM", "STATOLATRIA", "APRIORYZM", "CEZAROPAPIZM", "KOLEKTYWIZM", "MONIZM PRAWNY", "ETATYZM", "FISKALIZM", "MAKIAWELIZM"];
     const positiveWords = ["PERSONALIZM", "DUALIZM PRAWNY", "ETYKA", "WOLNOŚĆ", "APOSTERIORYZM", "AUTONOMIA RODZINY", "PRAWDA OBIEKTYWNA", "HISTORYZM"];
 
     const svg = arena.querySelector('.tank-laser-svg');
@@ -2326,7 +2326,7 @@
       equity_over_letter: { name: 'Słuszność Etyczna vs Litera', question: 'Czy etyczne poczucie słuszności stoi ponad martwą literą prawa?', isDev: true },
       judge_conscience_role: { name: 'Rola Sędziego i Sumienia', question: 'Czy sędzia orzeka według sumienia i poczucia słuszności?', isDev: true },
       law_from_ethics: { name: 'Wyznaczenie Prawa z Etyki', question: 'Czy prawo wywodzi się z etyki jako jej pieczęć?', isDev: true },
-      no_shylock_formalism: { name: 'Odrzucenie Ślepego Formalizmu', question: 'Czy odrzuca się formalizm prawny (strictum ius) używany do krzywdzenia?', isDev: true },
+      equity_over_strict_formalism: { name: 'Odrzucenie Ślepego Formalizmu', question: 'Czy odrzuca się formalizm prawny (strictum ius) używany do krzywdzenia?', isDev: true },
       state_under_decalogue: { name: 'Podległość Państwa Etyce', question: 'Czy ustawy państwa podlegają bezwzględnie Dekalogowi i normom moralnym?', isDev: true },
       justice_needs_mercy: { name: 'Miłosierdzie jako Korekta', question: 'Czy miłosierdzie uznaje się za niezbędną korektę sprawiedliwości?', isDev: true },
       no_legislative_elephantiasis: { name: 'Brak Elephantiasis Ustawodawczej', question: 'Czy odrzuca się skodyfikowanie wszystkiego pożerające sumienie?', isDev: true },
@@ -2335,9 +2335,9 @@
       legal_dualism: { name: 'Ścisły Dualizm Prawny', question: 'Czy istnieje ścisły rozdział prawa prywatnego od publicznego?', isDev: true },
       judicial_independence: { name: 'Niezawisłość Sędziowska', question: 'Czy sądy mają prawo oceny zgodności ustawy ze słusznością?', isDev: true },
       ethics_above_law: { name: 'Prymat Etyki nad Litera Prawa', question: 'Czy odrzuca się sytuację pożerania sumienia przez przepis?', isDev: true },
-      no_jewish_casuistry: { name: 'Prymat Słuszności nad Kazuistyką', question: 'Czy odrzuca się nadmierną kazuistykę prawną zamiast sprawiedliwej myśli?', isDev: true },
-      no_byzantine_statolatry: { name: 'Brak Bizantynizmu i Statolatrii', question: 'Czy odrzuca się przedkładanie "dobra państwa" nad etykę?', isDev: true },
-      no_camp_turanian_law: { name: 'Brak Prawa Obozowego', question: 'Czy odrzuca się turański kaprys i siłę fizyczną jako prawo?', isDev: true },
+      principle_over_casuistry: { name: 'Prymat Słuszności nad Kazuistyką', question: 'Czy odrzuca się nadmierną kazuistykę prawną zamiast sprawiedliwej myśli?', isDev: true },
+      no_state_above_ethics: { name: 'Brak Statolatrii', question: 'Czy odrzuca się przedkładanie "dobra państwa" nad etykę?', isDev: true },
+      no_camp_rule_law: { name: 'Brak Prawa Obozowego', question: 'Czy odrzuca się kaprys wodza i siłę fizyczną jako prawo?', isDev: true },
       no_socialist_collectivism: { name: 'Brak Socjalistycznego Kolektywizmu', question: 'Czy odrzuca się zastępowanie sumienia wolą gromady?', isDev: true }
     };
 
@@ -2347,16 +2347,16 @@
       no_legislative_elephantiasis: { name: 'Brak Elephantiasis Ustawodawczej', question: 'Czy odrzuca się skodyfikowanie wszystkiego krępujące sumienie?', isDev: true },
       refusal_of_immoral_orders: { name: 'Odmowa Zbrodniczego Rozkazu', question: 'Czy istnieje obowiązek odmowy wykonania rozkazu sprzecznego z sumieniem?', isDev: true },
       personal_accountability_god: { name: 'Osobisty Rachunek Sumienia', question: 'Czy istnieje instytucja osobistej odpowiedzialności przed Bogiem i sumieniem?', isDev: true },
-      no_shylock_formalism: { name: 'Odrzucenie Ślepego Formalizmu (Strictum Ius)', question: 'Czy odrzuca się naciąganie litery kodeksu wbrew słuszności?', isDev: true },
+      equity_over_strict_formalism: { name: 'Odrzucenie Ślepego Formalizmu (Strictum Ius)', question: 'Czy odrzuca się naciąganie litery kodeksu wbrew słuszności?', isDev: true },
       ethics_above_law: { name: 'Etyka Przodowniczką Prawa', question: 'Czy prawo wywodzi się z etyki (zamiast etyki jako działu administracji)?', isDev: true },
       personalism_sovereignty: { name: 'Suwerenność Personalistyczna', question: 'Czy jednostka uznawana jest za suwerenny podmiot z wolną wolą?', isDev: true },
       good_hegemony_over_law: { name: 'Prymat Dobra nad Prawem', question: 'Czy państwo i prawo podlegają tej samej etyce co życie prywatne?', isDev: true },
       legal_dualism_privacy: { name: 'Ścisły Dualizm Prawny', question: 'Czy rozdział sfer gwarantuje obszar wolności sumienia?', isDev: true },
       aposteriori_experience: { name: 'Prawo Aposterioryczne', question: 'Czy prawo wyrasta z doświadczenia i etyki społecznej?', isDev: true },
       no_casuistry_expropriation: { name: 'Brak Wywłaszczenia Kazuistyką', question: 'Czy odrzuca się zastępowanie osobistego sumienia kazuistyką?', isDev: true },
-      no_byzantine_statolatry: { name: 'Brak Bizantynizmu i Statolatrii', question: 'Czy odrzuca się mrok prawny biurokracji zwalniający z myślenia?', isDev: true },
+      no_state_above_ethics: { name: 'Brak Statolatrii', question: 'Czy odrzuca się mrok prawny biurokracji zwalniający z myślenia?', isDev: true },
       no_socialist_gregarious_fear: { name: 'Brak Lęku Przed Gromadą', question: 'Czy odrzuca się zastępowanie sumienia bojaźnią przed gromadą?', isDev: true },
-      no_camp_turanian_coercion: { name: 'Brak Turańskiego Przymusu', question: 'Czy odrzuca się wolę wodza i przymus znoszący odpowiedzialność?', isDev: true }
+      no_camp_rule_coercion: { name: 'Brak Przymusu Obozowego', question: 'Czy odrzuca się wolę wodza i przymus znoszący odpowiedzialność?', isDev: true }
     };
 
     const TIME_MASTERY_META = {
@@ -2374,7 +2374,7 @@
       family_emancipation_workshop: { name: 'Rodzina Warsztatem Historyzmu', question: 'Czy wyodrębniona rodzina stanowi warsztat trwałego historyzmu prywatnego?', isDev: true },
       truth_and_goodness_cult: { name: 'Kult Prawdy i Dobra', question: 'Czy przeszłość bada się krytycznie nie bojąc się wytykać błędów przodków?', isDev: true },
       no_sacral_passive_stagnation: { name: 'Brak Sakralnego Zastoju', question: 'Czy odrzuca się bierną tradycję sakralną w której nic się nie zmienia?', isDev: true },
-      no_turanian_camp_presentism: { name: 'Brak Uwięzienia w Teraźniejszości', question: 'Czy odrzuca się obozową teraźniejszość i niszczenie ciągłości moralnej?', isDev: true }
+      no_camp_presentism: { name: 'Brak Uwięzienia w Teraźniejszości', question: 'Czy odrzuca się obozową teraźniejszość i niszczenie ciągłości moralnej?', isDev: true }
     };
 
     const WORK_ETHOS_META = {
@@ -2861,7 +2861,7 @@
     }
 
     const generaliaDiagnosis = ethicalCoherenceScore >= 0
-      ? (data.generalia_diagnosis || (ethicalCoherenceScore >= 6.0 ? 'Dominacja Szeregu Personalistycznego (Cywilizacja Łacińska)' : (ethicalCoherenceScore <= 2.0) ? 'Dominacja Szeregu Gromadnościowego' : '⚠️ MIESZANKA TRUJĄCA (Stan acywilizacyjny / Kołobłęd etyczny)'))
+      ? (data.generalia_diagnosis || (ethicalCoherenceScore >= 6.0 ? 'Dominacja Szeregu Personalistycznego (Cywilizacja Łacińska)' : (ethicalCoherenceScore <= 2.0) ? 'Dominacja Szeregu Gromadnościowego' : 'Niespójność norm etycznych (wg Konecznego: mieszanka cywilizacyjna)'))
       : 'Brak danych w tekście (niezaznaczony indeks generaliów)';
 
     const generaliaHero = buildDarkHero(
@@ -2874,11 +2874,11 @@
 
     const mixtureAlert = data.mixture_alert !== undefined ? data.mixture_alert : (ethicalCoherenceScore >= 2.5 && ethicalCoherenceScore <= 5.5);
     const mixtureAlertHtml = mixtureAlert ? `
-      <div style="background: rgba(239, 68, 68, 0.15); border: 2px solid #ef4444; border-radius: 10px; padding: 14px; margin: 15px 20px; text-align: center;">
-        <div style="color: #ef4444; font-weight: 800; font-size: 15px; margin-bottom: 6px;">ALERT MIESZANKI TRUJĄCEJ (ACYWILIZACYJNY KOŁOBŁĘD)</div>
-        <div style="color: #f87171; font-size: 12px; line-height: 1.5;">
+      <div style="background: rgba(245, 158, 11, 0.12); border: 2px solid #f59e0b; border-radius: 10px; padding: 14px; margin: 15px 20px; text-align: center;">
+        <div style="color: #f59e0b; font-weight: 800; font-size: 15px; margin-bottom: 6px;">NIESPÓJNOŚĆ NORM (WG KONECZNEGO: MIESZANKA CYWILIZACYJNA)</div>
+        <div style="color: #fbbf24; font-size: 12px; line-height: 1.5;">
           Według metody Konecznego zrzeszenie połączyło sprzeczne generalia etyczne (${ethicalCoherenceScore} / 7.0). 
-          Synkretyzm etyczny paraliżuje kulturę czynu – norma prawna pozostaje w sprzeczności z normą moralną.
+          Koneczny uważał, że taki synkretyzm osłabia spójność norm prawnych i moralnych; to teza jego teorii.
         </div>
       </div>` : '';
 
@@ -2999,7 +2999,7 @@
     const timeMasteryHero = buildDarkHero(
       'OPANOWANIE CZASU I HISTORYZM',
       timeMasteryScore,
-      timeMasteryScore >= 65 ? 'Czynne Opanowanie Czasu (Historyzm / Łacina)' : timeMasteryScore >= 35 ? 'Mieszanka' : 'Bierne Czasomiernictwo / Wegetacja'
+      timeMasteryScore >= 65 ? 'Czynne Opanowanie Czasu (Historyzm / Łacina)' : timeMasteryScore >= 35 ? 'Mieszanka' : 'Niski historyzm'
     );
 
     const workEthosScores = data.raw_ratings?.work_ethos_scores || {};
@@ -3350,7 +3350,7 @@
     const chyznoscDiagnosis = data.time_mastery_efficiency_diagnosis || (
       chyznoscScore >= 65 ? 'Wysoka Chyżość Historyczna (Akumulacja Dorobku / Łacina)' :
         chyznoscScore >= 35 ? 'Umiarkowana Wydajność Cywilizacyjna' :
-          'Niska Chyżość Historyczna (Wegetacja Ab Ovo / Zastój)'
+          'Niska Chyżość Historyczna (niski wskaźnik historyzmu)'
     );
 
     const chyznoscHero = buildDarkHero(
@@ -3382,7 +3382,7 @@
     const quincunxDiagnosis = data.quincunx_diagnosis || (
       quincunxScore >= 65 ? 'DOMINACJA NORMY ŁACIŃSKIEJ (Współmierność sfer bytu)' :
         quincunxScore >= 35 ? 'Umiarkowana Współmierność Bytu' :
-          'CYWILIZACJA DEFEKTOWNA / UŁOMNA (Defekt sfery bytu)'
+          'Bardzo niski wynik w jednej ze sfer Pięciomianu'
     );
 
     const historyStats = data.history_stats || {};
@@ -3434,23 +3434,19 @@
     if (data.primary_civilization) {
       const pCiv = data.primary_civilization.toLowerCase();
       if (pCiv.includes('łaciń')) activeCivKey = 'latin';
-      else if (pCiv.includes('bizant')) activeCivKey = 'byzantine';
-      else if (pCiv.includes('turań')) activeCivKey = 'turanian';
-      else if (pCiv.includes('arab') || pCiv.includes('sakral')) activeCivKey = 'arab';
+      else if (pCiv.includes('nierozstrzyg')) activeCivKey = 'sacral';
       else if (pCiv.includes('żydow')) activeCivKey = 'jewish';
       else if (pCiv.includes('bramiń') || pCiv.includes('bramin')) activeCivKey = 'brahmin';
+      else if (pCiv.includes('arab')) activeCivKey = 'arab';
+      else if (pCiv.includes('sakral')) activeCivKey = 'sacral';
+      else if (pCiv.includes('bizant')) activeCivKey = 'byzantine';
+      else if (pCiv.includes('turań')) activeCivKey = 'turanian';
       else if (pCiv.includes('chiń')) activeCivKey = 'chinese';
       else if (pCiv.includes('mieszanka') || pCiv.includes('acywil')) activeCivKey = 'syncretic';
     } else {
-      // Fallback: Score-driven determination
+      // Fallback: wyłącznie na podstawie wyników (bez słów kluczowych w tekście)
       if (calcSacralScore >= 0.45) {
-        if (rawTextUpper.includes('TORA') || rawTextUpper.includes('TALMUD') || rawTextUpper.includes('HALACHA')) {
-          activeCivKey = 'jewish';
-        } else if (rawTextUpper.includes('BRAMIN') || rawTextUpper.includes('KASTY') || rawTextUpper.includes('WEDY')) {
-          activeCivKey = 'brahmin';
-        } else {
-          activeCivKey = 'arab';
-        }
+        activeCivKey = 'sacral';
       } else {
         // Non-sacral
         if (calcDualScore >= 0.48 || (calcSpiritScore >= 0.48 && calcEthicScore >= 4.0)) {
@@ -3466,19 +3462,20 @@
     }
 
     const civOptions = [
-      { key: 'latin', label: t('Cywilizacja Łacińska', 'Latin Civilization'), color: '#8b5cf6' },
-      { key: 'byzantine', label: t('Bizantyńska', 'Byzantine'), color: '#ef4444' },
-      { key: 'turanian', label: t('Turańska', 'Turanian'), color: '#dc2626' },
-      { key: 'arab', label: t('Arabska', 'Arab'), color: '#059669' },
-      { key: 'jewish', label: t('Żydowska', 'Jewish'), color: '#0284c7' },
-      { key: 'brahmin', label: t('Bramińska', 'Brahmin'), color: '#d97706' },
+      { key: 'latin', label: t('Łacińska', 'Latin'), color: '#6366f1' },
+      { key: 'byzantine', label: t('Bizantyńska', 'Byzantine'), color: '#0ea5e9' },
+      { key: 'turanian', label: t('Turańska', 'Turanian'), color: '#14b8a6' },
+      { key: 'arab', label: t('Sakralna uniwersalistyczna (wg Konecznego: arabska)', 'Universalist sacral (Koneczny: Arab)'), color: '#22c55e' },
+      { key: 'jewish', label: t('Sakralna wspólnotowo-rodowa (wg Konecznego: żydowska)', 'Communal-lineage sacral (Koneczny: Jewish)'), color: '#a855f7' },
+      { key: 'brahmin', label: t('Sakralna kastowa (wg Konecznego: bramińska)', 'Caste sacral (Koneczny: Brahmin)'), color: '#f59e0b' },
+      { key: 'sacral', label: t('Sakralna (wariant nierozstrzygnięty)', 'Sacral (variant undetermined)'), color: '#64748b' },
       { key: 'chinese', label: t('Chińska', 'Chinese'), color: '#eab308' },
-      { key: 'syncretic', label: t('Acywilizacyjna', 'A-civilizational'), color: '#f43f5e' }
+      { key: 'syncretic', label: t('Mieszanka cywilizacyjna', 'Civilizational mixture'), color: '#94a3b8' }
     ];
 
     // --- STEP B: LEGAL STRUCTURE ASSIGNMENT (DUALIZM VS MONIZM) ---
     let activeLegalKey = 'dualism';
-    if (calcSacralScore >= 0.45 || activeCivKey === 'arab' || activeCivKey === 'jewish' || activeCivKey === 'brahmin') {
+    if (calcSacralScore >= 0.45 || activeCivKey === 'arab' || activeCivKey === 'jewish' || activeCivKey === 'brahmin' || activeCivKey === 'sacral') {
       activeLegalKey = 'monism_sacral';
     } else if (calcDualScore >= 0.48 || activeCivKey === 'latin') {
       activeLegalKey = 'dualism';
@@ -3489,9 +3486,9 @@
     }
 
     const legalOptions = [
-      { key: 'dualism', label: t('Dualizm Prawny', 'Legal Dualism'), color: '#10b981' },
-      { key: 'monism_public', label: t('Monizm Prawa Publicznego (Państwowy)', 'Public Law Monism (State)'), color: '#ef4444' },
-      { key: 'monism_private', label: t('Monizm Prawa Prywatnego (Władcy)', 'Private Law Monism (Ruler)'), color: '#dc2626' },
+      { key: 'dualism', label: t('Dualizm Prawny', 'Legal Dualism'), color: '#6366f1' },
+      { key: 'monism_public', label: t('Monizm Prawa Publicznego (Państwowy)', 'Public Law Monism (State)'), color: '#0ea5e9' },
+      { key: 'monism_private', label: t('Monizm Prawa Prywatnego (Władcy)', 'Private Law Monism (Ruler)'), color: '#14b8a6' },
       { key: 'monism_sacral', label: t('Monizm Sakralny (Religijny)', 'Sacral Law Monism (Religious)'), color: '#f59e0b' }
     ];
 
@@ -3514,16 +3511,16 @@
     }
 
     const relOptions = [
-      { key: 'rel_universal', label: t('Uniwersalna (Etyczna)', 'Universal (Ethical)'), color: '#8b5cf6' },
-      { key: 'rel_tribal', label: t('Plemienna / Narodowa', 'Tribal / National'), color: '#0284c7' },
-      { key: 'rel_state', label: t('Państwowa / Sakralna', 'State Church / Sacral'), color: '#059669' },
-      { key: 'rel_caste', label: t('Kastowa / Monolatria', 'Caste / Monolatry'), color: '#d97706' },
+      { key: 'rel_universal', label: t('Uniwersalna (Etyczna)', 'Universal (Ethical)'), color: '#6366f1' },
+      { key: 'rel_tribal', label: t('Plemienna / Narodowa', 'Tribal / National'), color: '#a855f7' },
+      { key: 'rel_state', label: t('Państwowa / Sakralna', 'State Church / Sacral'), color: '#0ea5e9' },
+      { key: 'rel_caste', label: t('Kastowa / Monolatria', 'Caste / Monolatry'), color: '#f59e0b' },
       { key: 'rel_areligious', label: t('Areligijność / Świeckość', 'Secular / Areligious'), color: '#eab308' }
     ];
 
     // --- STEP D: SOCIETY GOALS CATEGORY (ROW 4) ---
     let activeGoalKey = 'goal_beyond_exist';
-    if (calcSacralScore >= 0.45 || activeCivKey === 'arab' || activeCivKey === 'jewish' || activeCivKey === 'brahmin') {
+    if (calcSacralScore >= 0.45 || activeCivKey === 'arab' || activeCivKey === 'jewish' || activeCivKey === 'brahmin' || activeCivKey === 'sacral') {
       activeGoalKey = 'goal_religious_formalism';
     } else if (activeCivKey === 'latin') {
       activeGoalKey = 'goal_beyond_exist';
@@ -3536,9 +3533,9 @@
     }
 
     const goalOptions = [
-      { key: 'goal_beyond_exist', label: t('Spoza Walki o Byt (Osoba & Naród)', 'Beyond Survival (Person & Nation)'), color: '#8b5cf6' },
-      { key: 'goal_exist_struggle', label: t('Walka o Byt (Ustrój Obozowy)', 'Survival Struggle (Camp Order)'), color: '#dc2626' },
-      { key: 'goal_state_machine', label: t('Machina Państwowa (Biurokracja)', 'State Machine (Bureaucracy)'), color: '#ef4444' },
+      { key: 'goal_beyond_exist', label: t('Spoza Walki o Byt (Osoba & Naród)', 'Beyond Survival (Person & Nation)'), color: '#6366f1' },
+      { key: 'goal_exist_struggle', label: t('Walka o Byt (Ustrój Obozowy)', 'Survival Struggle (Camp Order)'), color: '#14b8a6' },
+      { key: 'goal_state_machine', label: t('Machina Państwowa (Biurokracja)', 'State Machine (Bureaucracy)'), color: '#0ea5e9' },
       { key: 'goal_religious_formalism', label: t('Formalizm / Rytuał', 'Formalism / Ritual'), color: '#f59e0b' },
       { key: 'goal_clan_tradition', label: t('Kultywowanie Rodu', 'Lineage & Clan Tradition'), color: '#eab308' }
     ];
@@ -3560,10 +3557,10 @@
     }
 
     const famOptions = [
-      { key: 'fam_full_emanc', label: t('Pełna Emancypacja (Monogamia & Własność)', 'Full Emancipation (Monogamy & Property)'), color: '#10b981' },
+      { key: 'fam_full_emanc', label: t('Pełna Emancypacja (Monogamia & Własność)', 'Full Emancipation (Monogamy & Property)'), color: '#6366f1' },
       { key: 'fam_clan_system', label: t('Ustrój Rodowy / Klany', 'Clan System / Lineage'), color: '#eab308' },
-      { key: 'fam_polygamy', label: t('Poligamia / Brak Emancypacji', 'Polygamy / No Emancipation'), color: '#dc2626' },
-      { key: 'fam_state_collectivism', label: t('Statolatria / Kolektywizm', 'Statolatry / Collectivism'), color: '#ef4444' }
+      { key: 'fam_polygamy', label: t('Poligamia / Brak Emancypacji', 'Polygamy / No Emancipation'), color: '#22c55e' },
+      { key: 'fam_state_collectivism', label: t('Statolatria / Kolektywizm', 'Statolatry / Collectivism'), color: '#0ea5e9' }
     ];
 
     function escapeHtml(str) {
@@ -3612,8 +3609,8 @@
       personalism_sovereignty: 'Godność i Suwerenność Osoby Ludzkiej',
       ethics_above_law: 'Prymat Etyki nad Prawem Stanowionym',
       conscience_as_supreme_judge: 'Sumienie jako Najwyższa Instancja',
-      no_byzantine_statolatry: 'Brak Bizantyńskiej Statolatrii',
-      no_camp_turanian_coercion: 'Brak Turańskiego Przymusu Obozowego',
+      no_state_above_ethics: 'Brak Statolatrii',
+      no_camp_rule_coercion: 'Brak Przymusu Obozowego',
       // Organism vs mechanism
       society_as_organism: 'Społeczeństwo jako Żywy Organizm',
       mechanism_absence: 'Odrzucenie Mechanistycznego Traktowania Ludzi',
@@ -3760,11 +3757,14 @@
         rel_tribal: ['plemienna', 'narodowa', 'ród', 'klan', 'zamknięta', 'tribal', 'national', 'clan', 'ethnic religion', 'stammesreligion'],
 
         // Jewish
-        jewish: ['naród', 'narodow', 'rodow', 'pochodzen', 'prawo', 'religi', 'tora', 'talmud', 'gmin', 'wspólnot', 'tradycj', 'obyczaj', 'święt', 'etyk', 'swoi', 'obcy', 'izrael', 'judaizm', 'rabin', 'torah', 'talmud', 'halakha', 'judaism', 'jewish', 'israel', 'rabbi', 'halacha', 'judentum'],
+        jewish: ['rodow', 'prawo', 'religi', 'tora', 'talmud', 'gmin', 'wspólnot', 'tradycj', 'obyczaj', 'święt', 'etyk', 'judaizm', 'rabin', 'torah', 'talmud', 'halakha', 'judaism', 'jewish', 'israel', 'rabbi', 'halacha', 'judentum'],
 
         // Chinese
         chinese: ['ród', 'rodow', 'rytuał', 'tradycj', 'porządek', 'posłuszeństwo', 'senior', 'przodk', 'państwo', 'etykiet', 'konfucj', 'clan', 'ancestor', 'ritual', 'confucian', 'lineage', 'dynasty', 'klan', 'ahnen', 'konfuzius'],
         fam_clan_system: ['ród', 'klan', 'rada rodu', 'senior', 'przodkowie', 'patriarchalny', 'clan', 'lineage', 'patriarchal', 'ancestors', 'klan', 'sippe'],
+
+        // Sacral (variant undetermined)
+        sacral: ['prawo sakralne', 'religijne', 'dogmat', 'święte', 'boskie', 'sacred law', 'divine law', 'religious law', 'dogma'],
 
         // Brahmin
         brahmin: ['kast', 'stan', 'hierarchi', 'urodzen', 'sakraln', 'przeznaczen', 'nierówn', 'rytuał', 'bramin', 'wedy', 'caste', 'hierarchy', 'brahmin', 'vedas', 'manu', 'karma', 'kaste']
@@ -3855,41 +3855,49 @@
       if (sectionKey === 'civ') {
         switch (activeKey) {
           case 'jewish':
-            return `<strong>Dlaczego Żydowska, a nie Arabska czy Łacińska?</strong><br>
-• <em>Wobec Arabskiej:</em> Obie są cywilizacjami sakralnymi (monizm prawa religijnego), lecz cywilizacja arabska jest <strong>uniwersalistyczna</strong> (prawo Koranu dla każdego wyznawcy), podczas gdy cywilizacja żydowska opiera się na <strong>tradycji rodowo-sakralnej</strong> i <strong>etyce wspólnotowej</strong> (normy prawne i moralne zorientowane na spójność wspólnoty rodowej i prawa przymierza).<br>
-• <em>Wobec Łacińskiej:</em> W łacińskiej panuje nienaruszalny dualizm prawa świeckiego i jedna etyka uniwersalna dla wszystkich; w cywilizacji żydowskiej całe życie reguluje kazuistyczne prawo sakralne, eliminując autonomiczne prawo świeckie.`;
+            return `<strong>Dlaczego wariant wspólnotowo-rodowy (wg Konecznego: żydowska), a nie inny?</strong><br>
+• <em>Wobec wariantu uniwersalistycznego:</em> W obu prawo religijne obejmuje życie codzienne. W modelu Konecznego wariant uniwersalistyczny kieruje prawo sakralne do każdego wyznawcy, a wspólnotowo-rodowy wiąże je przede wszystkim z członkami wspólnoty i ciągłością rodu.<br>
+• <em>Wobec Łacińskiej:</em> Model łaciński rozdziela prawo świeckie od religijnego (dualizm), a w tym wariancie prawo religijne obejmuje także sprawy świeckie.<br>
+• <em>Uwaga:</em> To kategoria teorii z lat 30. XX w., opisująca typ ustroju prawnego. Nie opisuje cech Żydów ani wyznawców judaizmu.`;
 
           case 'arab':
-            return `<strong>Dlaczego Arabska, a nie Żydowska czy Łacińska?</strong><br>
-• <em>Wobec Żydowskiej:</em> Obie są cywilizacjami sakralnymi, ale islam ma charakter <strong>uniwersalnej teokracji</strong> otwartej na wszystkie ludy bez względu na pochodzenie rodowe, w przeciwieństwie do etyki rodowo-wspólnotowej cywilizacji żydowskiej.<br>
-• <em>Wobec Łacińskiej:</em> Cywilizacja łacińska rozdziela państwo od Kościoła i chroni autonomię prawa prywatnego; cywilizacja arabska nie dopuszcza rozdziału sacrum od profanum – prawo państwowe to bezpośrednio dogmat religijny (szariat).`;
-
-          case 'latin':
-            return `<strong>Dlaczego Łacińska, a nie Bizantyńska, Arabska czy Żydowska?</strong><br>
-• <em>Wobec Bizantyńskiej:</em> Obie są świeckie pod względem źródeł prawa, lecz cywilizacja łacińska broni <strong>autonomii prawa prywatnego i wolności osoby (personalizm)</strong>, podczas gdy Bizancjum podporządkowuje jednostkę, własność i religię omnipotencji państwa (monizm prawa publicznego).<br>
-• <em>Wobec Arabskiej i Żydowskiej:</em> Cywilizacja łacińska <strong>nie jest sakralna</strong> – normy prawne nie pochodzą z ksiąg objawionych, lecz z prawa rzymskiego i uniwersalnej moralności chrześcijańskiej równej dla każdego człowieka.`;
-
-          case 'byzantine':
-            return `<strong>Dlaczego Bizantyńska, a nie Łacińska czy Turańska?</strong><br>
-• <em>Wobec Łacińskiej:</em> W łacińskiej prawo prywatne i sumienie są nienaruszalne; w bizantyńskiej dominuje <strong>monizm prawa publicznego, etatyzm i cezaropapizm</strong> – państwo i jego aparat stoją ponad prawami osoby i rodziny.<br>
-• <em>Wobec Turańskiej:</em> Bizancjum opiera się na sformalizowanym aparacie urzędniczym, skomplikowanym prawie stanowionym i hierarchii państwowej, a nie na doraźnym, wojskowym rozkazie wodza w obozie.`;
-
-          case 'turanian':
-            return `<strong>Dlaczego Turańska, a nie Bizantyńska czy Arabska?</strong><br>
-• <em>Wobec Bizantyńskiej:</em> Turańszczyzna nie buduje skomplikowanej biurokracji ani trwałego systemu prawnego; to <strong>ustrój obozowy</strong>, gdzie jedynym prawem jest bezwzględna wola wodza i przymus siłowy.<br>
-• <em>Wobec Arabskiej:</em> Brak tu jakiejkolwiek motywacji teologicznej czy prawa sakralnego – zrzeszenie służy wyłącznie walce o byt, podbojowi i panowaniu silniejszego.`;
-
-          case 'chinese':
-            return `<strong>Dlaczego Chińska, a nie Łacińska czy Bizantyńska?</strong><br>
-• Fundamentem jest skrajny ustrój rodowy złączony z rytualizmem (Li) oraz kultem przodków, gdzie jednostka nie ma osobowości prawnej ani sumienia niezależnego od klanu.`;
+            return `<strong>Dlaczego wariant uniwersalistyczny (wg Konecznego: arabska), a nie inny?</strong><br>
+• <em>Wobec wariantu wspólnotowo-rodowego:</em> Prawo sakralne ma tu zasięg powszechny: obowiązuje każdego wyznawcę niezależnie od pochodzenia.<br>
+• <em>Wobec Łacińskiej:</em> Model łaciński rozdziela sacrum i profanum w prawie; tu prawo państwowe wynika bezpośrednio z prawa religijnego.<br>
+• <em>Uwaga:</em> Nazwa pochodzi z terminologii Konecznego i opisuje typ ustroju prawnego, nie Arabów ani muzułmanów.`;
 
           case 'brahmin':
-            return `<strong>Dlaczego Bramińska, a nie Arabska czy Łacińska?</strong><br>
-• Sakralny podział kastowy wyklucza uniwersalizm etyczny oraz równość bytu ludzkiego. Los człowieka jest z góry określony hierarchią karmy i rytuałów.`;
+            return `<strong>Dlaczego wariant kastowy (wg Konecznego: bramińska)?</strong><br>
+• W modelu Konecznego porządek społeczny i prawny wynika tu z sakralnego podziału stanowo-kastowego i rytuału, a nie ze wspólnego dla wszystkich prawa świeckiego.<br>
+• <em>Uwaga:</em> Nazwa pochodzi z terminologii Konecznego i opisuje typ ustroju prawnego, nie hinduizm ani mieszkańców Indii.`;
+
+          case 'sacral':
+            return `<strong>Ustrój sakralny, wariant nierozstrzygnięty</strong><br>
+• Tekst wskazuje na oparcie prawa na normach religijnych, ale brakuje danych albo wyniki są zbyt blisko progów, by wskazać jeden wariant.`;
+
+          case 'latin':
+            return `<strong>Dlaczego Łacińska, a nie inna?</strong><br>
+• <em>Wobec Bizantyńskiej:</em> Obie mają świeckie źródła prawa. W modelu łacińskim prawo prywatne jest autonomiczne wobec państwa (dualizm); w bizantyńskim prawo publiczne obejmuje także sferę prywatną.<br>
+• <em>Wobec wariantów sakralnych:</em> Normy prawne nie wynikają bezpośrednio z ksiąg religijnych, lecz z prawa rzymskiego i etyki traktowanej jako wspólna dla wszystkich.`;
+
+          case 'byzantine':
+            return `<strong>Dlaczego Bizantyńska, a nie inna?</strong><br>
+• <em>Wobec Łacińskiej:</em> Dominuje prawo publiczne: państwo i jego administracja regulują sfery, które w modelu łacińskim należą do prawa prywatnego; religia jest powiązana z państwem.<br>
+• <em>Wobec Turańskiej:</em> Ustrój opiera się na rozbudowanym aparacie urzędniczym i prawie stanowionym, a nie na woli wodza.`;
+
+          case 'turanian':
+            return `<strong>Dlaczego Turańska, a nie inna?</strong><br>
+• <em>Wobec Bizantyńskiej:</em> W modelu Konecznego ustrój opiera się na woli wodza (ustrój obozowy), a nie na rozbudowanym prawie stanowionym i biurokracji.<br>
+• <em>Wobec wariantów sakralnych:</em> Źródłem prawa nie jest prawo religijne, lecz władza wodza.<br>
+• <em>Uwaga:</em> Nazwa pochodzi z terminologii Konecznego i opisuje typ ustroju, nie narody tureckie, ugrofińskie czy mongolskie.`;
+
+          case 'chinese':
+            return `<strong>Dlaczego Chińska?</strong><br>
+• W modelu Konecznego fundamentem jest ustrój rodowy, rytuał (li) i kult przodków; prawo i obowiązki jednostki wynikają przede wszystkim z miejsca w rodzie.`;
 
           case 'syncretic':
-            return `<strong>Mieszanka cywilizacyjna (synkretyzm):</strong><br>
-• Tekst wykazuje równoczesne, sprzeczne naleciałości różnych cywilizacji (np. łacińskie deklaracje prawne zderzone z bizantyńskim etatyzmem lub turańskim przymusem), co wg Konecznego prowadzi do niespójności systemowej.`;
+            return `<strong>Mieszanka cywilizacyjna:</strong><br>
+• Tekst łączy elementy różnych modeli (np. dualizm prawny obok silnego prawa publicznego). Koneczny uważał takie połączenia za niespójne; to jego teza, nie ustalenie empiryczne.`;
 
           default:
             return '';
@@ -4089,14 +4097,15 @@
       if (sectionKey === 'civ') {
         const activeOpt = civOptions.find(o => o.key === activeCivKey) || civOptions[0];
         const civExplanations = {
-          latin: "Cywilizacja Łacińska opiera się na personalizmie (prymat osoby ludzkiej), nienaruszalnym dualizmie prawnym (niezależność prawa prywatnego od publicznego), autonomii rodziny, niezależności Kościoła oraz nadrzędności norm etycznych w życiu publicznym nad wolą państwa.",
-          byzantine: "Cywilizacja Bizantyńska charakteryzuje się omnipotencją państwa, rozrostem biurokracji i monizmem prawa publicznego (wchłanianie sfery prywatnej przez państwo). Wszelkie dziedziny życia oraz instytucje religijne zostają podporządkowane racji stanu (cezaryzm).",
-          turanian: "Cywilizacja Turańska opiera się na ustroju obozowym, w którym wola wodza lub aparatu siłowego stanowi jedyne źródło prawa. Brak tu autonomicznego społeczeństwa obywatelskiego i niezależności jednostki – relacje opierają się na bezwzględnym przymusie.",
-          arab: "Cywilizacja Arabska posiada charakter sakralny: prawo, państwo i moralność są z góry zdeterminowane przez objawienie religijne. Wyklucza to autonomiczne prawo świeckie i wolność sumienia jednostki wobec religijnych dogmatów prawnych.",
-          jewish: "Cywilizacja Żydowska opiera się na monizmie prawa sakralnego (Tora/Halacha), ustroju rodowo-prawnym oraz etyce rodowo-wspólnotowej (skoncentrowanej na prawie wewnętrznym wspólnoty).",
-          brahmin: "Cywilizacja Bramińska opiera się na sakralnym podziale kastowym, sankcjonowaniu nierówności bytu oraz dominacji bierności społecznej i rytualizmu nad rozwojem osoby ludzkiej.",
-          chinese: "Cywilizacja Chińska opiera się na wszechwładzy ustroju rodowego połączonej z etatyzmem i sztywnym rytuałem (li), eliminując pojęcie autonomicznej osoby ludzkiej i sumienia.",
-          syncretic: "Stan acywilizacyjny (mieszanka cywilizacyjna) powstaje w wyniku zderzenia sprzecznych metod życia zbiorowego, co wg Konecznego prowadzi do rozkładu ładu prawnego i chaosu instytucjonalnego."
+          latin: "W ujęciu Konecznego model łaciński opiera się na personalizmie, dualizmie prawnym (autonomia prawa prywatnego wobec publicznego), autonomii rodziny, niezależności Kościoła od państwa oraz nadrzędności etyki nad wolą państwa.",
+          byzantine: "W ujęciu Konecznego model bizantyński opiera się na prymacie prawa publicznego i rozbudowanej administracji państwowej, która reguluje wiele dziedzin życia; instytucje religijne są ściśle powiązane z państwem.",
+          turanian: "W ujęciu Konecznego model turański to ustrój obozowy, w którym podstawowym źródłem prawa jest wola wodza. Nazwa jest terminem teorii, nie opisem współczesnych narodów.",
+          arab: "W ujęciu Konecznego wariant sakralny uniwersalistyczny opiera prawo, państwo i moralność na objawieniu religijnym o zasięgu powszechnym. Nazwa jest terminem teorii, nie opisem Arabów ani muzułmanów.",
+          jewish: "W ujęciu Konecznego wariant sakralny wspólnotowo-rodowy opiera prawo na normach religijnych obowiązujących członków wspólnoty i na ciągłości rodu. Nazwa jest terminem teorii z lat 30. XX w., nie opisem Żydów ani judaizmu.",
+          brahmin: "W ujęciu Konecznego wariant sakralny kastowy opiera porządek społeczny na podziale stanowo-kastowym i rytuale. Nazwa jest terminem teorii, nie opisem hinduizmu ani mieszkańców Indii.",
+          sacral: "Tekst wskazuje na ustrój sakralny (prawo oparte na normach religijnych), ale dane nie pozwalają wskazać jednego wariantu.",
+          chinese: "W ujęciu Konecznego model chiński opiera się na ustroju rodowym, rytuale (li) i kulcie przodków, połączonych z silną rolą państwa.",
+          syncretic: "Mieszanka cywilizacyjna: tekst łączy elementy różnych modeli. Koneczny uważał takie połączenia za niespójne; to jego teza, nie ustalenie empiryczne."
         };
 
         let whyText = civExplanations[activeCivKey] || civExplanations.latin;
@@ -4185,7 +4194,7 @@
           rel_universal: "Religia uniwersalna (ponadpaństwowa) w ujęciu Konecznego jest niezależna od aparatu państwowego. Wyznacza obiektywne i uniwersalne normy etyczne, stanowiąc dla jednostki suwerenne źródło sumienia oraz barierę chroniącą przed tyranią władzy.",
           rel_state: "Religia państwowa / cezaropapizm to podporządkowanie sfery religijnej celom aparatu państwowego. Duchowni stają się urzędnikami państwowymi, a religia narzędziem dyscyplinowania społeczeństwa (wzorzec bizantyński).",
           rel_tribal: "Religia plemienna lub narodowa wiąże sacrum wyłącznie z określoną wspólnotą etniczno-rodową, co uniemożliwia wytworzenie etyki uniwersalnej obejmującej wszystkich ludzi.",
-          rel_caste: "Religia kastowa (monolatria) uświęca wrodzone nierówności społeczne, dzieląc ludzi na wyższe i niższe kasty bytu i odbierając im wspólną godność osobową.",
+          rel_caste: "W ujęciu Konecznego religia kastowa wiąże porządek religijny z podziałem stanowo-kastowym, w którym pozycja społeczna wynika z urodzenia.",
           rel_areligious: "Areligijność i laicyzm materialistyczny eliminują transcendencję z życia zbiorowego, co wg Konecznego prowadzi do wyparcia prawa moralnego przez czysty utylitaryzm lub omnipotencję państwa."
         };
 
@@ -4424,12 +4433,12 @@
       const chinW = (dual < 0.48 && ethic >= 0.35) ? Math.round((1.0 - dual) * 55) : 0;
       const tot = latW + bizW + turW + chinW + arabW + jewW || 100;
       const spec = [
-        { key: 'latin', label: 'Łacińska', color: '#10b981', pct: Math.round((latW / tot) * 100) },
-        { key: 'byzantine', label: 'Bizantyńska', color: '#ef4444', pct: Math.round((bizW / tot) * 100) },
-        { key: 'turanian', label: 'Turańska', color: '#dc2626', pct: Math.round((turW / tot) * 100) },
+        { key: 'latin', label: 'Łacińska', color: '#6366f1', pct: Math.round((latW / tot) * 100) },
+        { key: 'byzantine', label: 'Bizantyńska', color: '#0ea5e9', pct: Math.round((bizW / tot) * 100) },
+        { key: 'turanian', label: 'Turańska', color: '#14b8a6', pct: Math.round((turW / tot) * 100) },
         { key: 'chinese', label: 'Chińska', color: '#eab308', pct: Math.round((chinW / tot) * 100) },
-        { key: 'arab', label: 'Arabska', color: '#059669', pct: Math.round((arabW / tot) * 100) },
-        { key: 'jewish', label: 'Żydowska', color: '#0284c7', pct: Math.round((jewW / tot) * 100) }
+        { key: 'arab', label: 'Sakralna uniwersalistyczna (wg K.: arabska)', color: '#22c55e', pct: Math.round((arabW / tot) * 100) },
+        { key: 'jewish', label: 'Sakralna wspólnotowo-rodowa (wg K.: żydowska)', color: '#a855f7', pct: Math.round((jewW / tot) * 100) }
       ].filter(x => x.pct > 0);
 
       const currentSum = spec.reduce((acc, curr) => acc + curr.pct, 0);
@@ -4473,14 +4482,14 @@
     const civStagesData = [
       {
         num: "01",
-        name: t("Gromadztwo", "Nameless Horde"),
-        title: t("01. Gromadztwo Bezimienne (Pierwotne)", "01. Nameless Horde (Primitive)"),
-        quote: t("Brak nazwisk, pierwotny kolektywizm stada", "No surnames, primitive herd collectivism"),
-        desc: t("Brak nazwisk dziedzicznych, brak świadomości genealogicznej. Człowiek nie istnieje jako jednostka ani rodzina – jest tylko bezimiennym ogniwem stada/gromady.", "No hereditary surnames, no genealogical awareness. Man does not exist as an individual or family - only as a nameless link in the herd/horde."),
+        name: t("Przedrodowy", "Pre-clan"),
+        title: t("01. Etap przedrodowy (bez nazwisk dziedzicznych)", "01. Pre-clan stage (no hereditary surnames)"),
+        quote: t("Brak nazwisk dziedzicznych, wspólnota bez wyodrębnionych rodów", "No hereditary surnames, community without distinct lineages"),
+        desc: t("W modelu Konecznego: brak nazwisk dziedzicznych i utrwalonej genealogii; tożsamość prawna opiera się na wspólnocie, a nie na rodzie czy rodzinie.", "In Koneczny's model: no hereditary surnames or recorded genealogy; legal identity rests on the community rather than on lineage or family."),
         achievement: t("Brak dziedziczenia i brak pamiątek przeszłości", "Absence of inheritance and historical memory"),
         roleHeader: t("Rola Nazwiska Dziedzicznego:", "Role of the Hereditary Surname:"),
         roleDesc: t("Koneczny podkreślał, że dopóki ludność nie posiada dziedzicznych nazwisk rodowych, dopóty nie istnieje prawo majątkowe ani świadomość dziejowa.", "Koneczny stressed that until people possess hereditary family surnames, property law and historical consciousness cannot exist."),
-        roleExample: t("Przykład: W cywilizacji turańskiej lub starożytnych gromadach ludzie posiadali tylko imiona przydomkowe, co uniemożliwiało trwały samorząd.", "Example: In Turanian civilization or ancient hordes, people had only nicknames, preventing lasting self-government.")
+        roleExample: t("Przykład: W wielu społecznościach starożytnych używano jedynie imion i przydomków zmiennych w każdym pokoleniu.", "Example: Many ancient communities used only given names and bynames that changed with each generation.")
       },
       {
         num: "02",
@@ -4715,11 +4724,12 @@
       let civText = t("Łacińska (88%)", "Latin (88%)");
       if (activeCivKey === 'byzantine') civText = t("Bizantyńska (85%)", "Byzantine (85%)");
       else if (activeCivKey === 'turanian') civText = t("Turańska (92%)", "Turanian (92%)");
-      else if (activeCivKey === 'arab') civText = t("Arabska (95%)", "Arab (95%)");
-      else if (activeCivKey === 'jewish') civText = t("Żydowska (89%)", "Jewish (89%)");
-      else if (activeCivKey === 'brahmin') civText = t("Bramińska (87%)", "Brahmin (87%)");
+      else if (activeCivKey === 'arab') civText = t("Sakralna uniwersalistyczna (95%)", "Universalist sacral (95%)");
+      else if (activeCivKey === 'jewish') civText = t("Sakralna wspólnotowo-rodowa (89%)", "Communal-lineage sacral (89%)");
+      else if (activeCivKey === 'brahmin') civText = t("Sakralna kastowa (87%)", "Caste sacral (87%)");
+      else if (activeCivKey === 'sacral') civText = t("Sakralna, wariant nierozstrzygnięty", "Sacral, variant undetermined");
       else if (activeCivKey === 'chinese') civText = t("Chińska (90%)", "Chinese (90%)");
-      else if (activeCivKey === 'syncretic') civText = t("Acywilizacyjna (75%)", "A-civilizational (75%)");
+      else if (activeCivKey === 'syncretic') civText = t("Mieszanka cywilizacyjna (75%)", "Civilizational mixture (75%)");
       else if (data.primary_civilization) civText = `${data.primary_civilization}`;
 
       let lawText = t("Dualizm (Prawo Prywatne / Publiczne)", "Dualism (Private / Public Law)");
@@ -6063,7 +6073,7 @@
           id: 'arabska',
           name: 'ARABSKA',
           isPillar: false,
-          icon: '🌙',
+          icon: '◆',
           badge: 'Monizm Koranu & Despotyzm',
           color: '#0284c7',
           rodzina: 'Ustrój rodowy, dochodząca do emancypacji rodziny w kulturze kordowańskiej, poligamiczna',
@@ -6078,7 +6088,7 @@
           id: 'chinska',
           name: 'CHIŃSKA',
           isPillar: false,
-          icon: '☯️',
+          icon: '◇',
           badge: 'Kult Rodu & Rytuał Li',
           color: '#f43f5e',
           rodzina: 'Ustrój rodowy, rozluźniający się po miastach, poligamizująca',
@@ -6093,7 +6103,7 @@
           id: 'turanska',
           name: 'TURAŃSKA',
           isPillar: false,
-          icon: '🏹',
+          icon: '▲',
           badge: 'Ustrój Obozowy & Władza Wodza',
           color: '#f59e0b',
           rodzina: 'Ustrój rodowy, poligamiczna',
@@ -6108,7 +6118,7 @@
           id: 'braminska',
           name: 'BRAMIŃSKA',
           isPillar: false,
-          icon: '🕉️',
+          icon: '●',
           badge: 'Sakralizm Kastowy & Despotyzm',
           color: '#8b5cf6',
           rodzina: 'Ustrój rodowy, kastowy, poligamizująca',
@@ -6123,7 +6133,7 @@
           id: 'zydowska',
           name: 'ŻYDOWSKA',
           isPillar: false,
-          icon: '📜',
+          icon: '■',
           badge: 'Monizm Rodowo-Sakralny (Zmienna)',
           color: '#38bdf8',
           rodzina: 'Ustrój rodowo-sakralny, monogamia pod jurysdykcją prawa sakralnego',
@@ -6621,7 +6631,7 @@
         ${quincunxHero}
         <div class="view-intro-desc" style="font-size: 13px; color: #9ca3af; padding: 0 20px; margin-bottom: 15px; line-height: 1.5; text-align: center;">
            Pięciomian Bytu (Quincunx): Dobro, Prawda, Zdrowie, Dobrobyt i Piękno.
-           Tylko Cywilizacja Łacińska rozwija harmonijnie wszystkie 5 sfer pod hegemonią Etyki. Brak jakiejkolwiek sfery czyni cywilizację defektowną.
+           Według Konecznego tylko Cywilizacja Łacińska rozwija harmonijnie wszystkie 5 sfer pod hegemonią Etyki. Brak jakiejkolwiek sfery czyni cywilizację defektowną.
         </div>
         <div class="section-title">11 Wskaźników Pięciomianu Bytu (Quincunx)</div>
         ${quincunxCards}

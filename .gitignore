@@ -30,3 +30,6 @@ playwright-report/
 blob-report/
 playwright/.cache/
 .tmp-playwright-user-data/
+
+# Korpus PDF (m.in. prace objęte prawem autorskim, np. L. Gawor) — nigdy nie publikować w repozytorium
+*.pdf

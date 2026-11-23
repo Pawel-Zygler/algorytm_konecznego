@@ -122,10 +122,10 @@ export function calculateKonecznyMetrics(llmData) {
       result.generalia_diagnosis = 'Dominacja Szeregu Personalistycznego (Cywilizacja Łacińska)';
       result.mixture_alert = false;
     } else if (coherenceSum <= 2.0) {
-      result.generalia_diagnosis = 'Dominacja Szeregu Gromadnościowego (Pozostałe cywilizacje)';
+      result.generalia_diagnosis = 'Dominacja Szeregu Gromadnościowego (cywilizacje niełacińskie w modelu Konecznego)';
       result.mixture_alert = false;
     } else {
-      result.generalia_diagnosis = '⚠️ MIESZANKA TRUJĄCA (Stan acywilizacyjny / Kołobłęd etyczny)';
+      result.generalia_diagnosis = 'Niespójność norm etycznych (wg Konecznego: mieszanka cywilizacyjna)';
       result.mixture_alert = true;
     }
   } else {
@@ -168,7 +168,7 @@ export function calculateKonecznyMetrics(llmData) {
       return 'Umiarkowana Wydajność Cywilizacyjna (Stan Synkretyczny / Mieszanka)';
     }
     if (score >= 0) {
-      return 'Niska Chyżość Historyczna (Brak Historyzmu / Wegetacja Ab Ovo / Zastój)';
+      return 'Niska Chyżość Historyczna (niski wskaźnik historyzmu)';
     }
     return 'Brak danych dla Kroku 4';
   };
@@ -266,9 +266,9 @@ export function calculateKonecznyMetrics(llmData) {
     const sphereNote = numCats < 5 ? ` (ocena z ${numCats}/5 sfer)` : '';
 
     if (validQCats.some((c) => c <= 0.1)) {
-      result.quincunx_diagnosis = `CYWILIZACJA DEFEKTOWNA / UŁOMNA (Defekt sfery bytu)${sphereNote}`;
+      result.quincunx_diagnosis = `Bardzo niski wynik w jednej ze sfer Pięciomianu${sphereNote}`;
     } else if (hegemonyPenalty < 0.90) {
-      result.quincunx_diagnosis = `⚠️ ZWICHNIĘCIE PIĘCIOMIANU (Zaniedbanie Etyki na rzecz Materializmu/Państwa)${sphereNote}`;
+      result.quincunx_diagnosis = `Przewaga innych sfer nad Etyką (wg Konecznego: zwichnięcie Pięciomianu)${sphereNote}`;
     } else if (qFinal >= 0.65 && consistencyFactor >= 0.75) {
       if (numCats === 5) {
         result.quincunx_diagnosis = 'PEŁNIA CYWILIZACJI ŁACIŃSKIEJ (Harmonia 5/5 sfer Pięciomianu pod przodownictwem Etyki)';
@@ -276,7 +276,7 @@ export function calculateKonecznyMetrics(llmData) {
         result.quincunx_diagnosis = `DOMINACJA NORMY ŁACIŃSKIEJ (Niepełny Pięciomian: ${numCats}/5 sfer w tekście)`;
       }
     } else if (consistencyFactor < 0.60 && numCats > 1) {
-      result.quincunx_diagnosis = `⚠️ ACYWILIZACYJNA NIEWSPÓŁMIERNOŚĆ (Mieszanka Metod Niszcząca Siły Społeczne)${sphereNote}`;
+      result.quincunx_diagnosis = `Niewspółmierność sfer (wg Konecznego: mieszanka metod)${sphereNote}`;
     } else {
       result.quincunx_diagnosis = `Umiarkowana Współmierność Bytu${sphereNote}`;
     }
@@ -286,6 +286,32 @@ export function calculateKonecznyMetrics(llmData) {
   }
 
   return result;
+}
+
+export const SACRAL_MARGIN = 0.02;
+
+function rawSacralSubtype(sac, conscience, pers) {
+  if (conscience >= 0.35 && pers >= 0.40) return 'communal';
+  if (sac >= 0.91 && pers >= 0.20 && pers <= 0.25 && conscience >= 0.20) return 'caste';
+  return 'universal';
+}
+
+/**
+ * Returns 'communal' | 'caste' | 'universal' | 'undetermined'.
+ * 'undetermined' when conscience/personalism data is missing or when shifting any score by ±SACRAL_MARGIN changes the outcome.
+ */
+export function classifySacralSubtype(sac, conscience, pers) {
+  if (conscience < 0 || pers < 0 || sac < 0) return 'undetermined';
+  const base = rawSacralSubtype(sac, conscience, pers);
+  const deltas = [-SACRAL_MARGIN, 0, SACRAL_MARGIN];
+  for (const ds of deltas) {
+    for (const dc of deltas) {
+      for (const dp of deltas) {
+        if (rawSacralSubtype(sac + ds, conscience + dc, pers + dp) !== base) return 'undetermined';
+      }
+    }
+  }
+  return base;
 }
 
 /**
@@ -325,32 +351,39 @@ export function applyMantisGates(text, metrics) {
   let diag = '';
 
   if (isSacral) {
-    // Klasyfikacja podtypów sakralnych wyłącznie na podstawie profilu indeksów (bez słów kluczowych)
-    const isJewishSacral = conscienceScore >= 0.35 && persScore >= 0.40;
-    const isBrahminSacral = !isJewishSacral && sacScore >= 0.91 && persScore >= 0.20 && persScore <= 0.25 && conscienceScore >= 0.20;
+    // Klasyfikacja wariantów sakralnych wyłącznie na podstawie profilu indeksów (bez słów kluczowych).
+    // Wynik opisuje typ ustroju; nazwa Konecznego podawana jest jedynie jako odniesienie terminologiczne.
+    // Próg pewności: przy braku danych albo gdy wynik zmienia się w obrębie ±SACRAL_MARGIN, wariant jest nierozstrzygnięty.
+    const subtype = classifySacralSubtype(sacScore, conscienceScore, persScore);
 
     let subTypeDecision;
     let scopeDecision;
     let famDecision;
 
-    if (isJewishSacral) {
-      primaryCiv = 'Żydowska';
-      diag = 'Monizm Prawno-Sakralny (Etyka rodowo-wspólnotowa, kazuistyka talmudyczna)';
-      subTypeDecision = 'Etyka Rodowo-Wspólnotowa (Cywilizacja Żydowska)';
-      scopeDecision = 'Etyka Rodowo-Wspólnotowa';
+    if (subtype === 'communal') {
+      primaryCiv = 'Sakralna wspólnotowo-rodowa (wg Konecznego: żydowska)';
+      diag = 'Monizm Prawno-Sakralny (prawo religijne reguluje życie codzienne wspólnoty, etyka rodowo-wspólnotowa)';
+      subTypeDecision = 'Wariant wspólnotowo-rodowy (w terminologii Konecznego: cywilizacja żydowska)';
+      scopeDecision = 'Prawo religijne obowiązujące członków wspólnoty';
       famDecision = 'Monogamia Rodowa i Prawo Majątkowe Rodu';
-    } else if (isBrahminSacral) {
-      primaryCiv = 'Bramińska';
-      diag = 'Monizm Kastowo-Rytualny (Brak pojęcia osoby, podział kastowy)';
-      subTypeDecision = 'Ustrój Kastowo-Rytualny (Cywilizacja Bramińska)';
+    } else if (subtype === 'caste') {
+      primaryCiv = 'Sakralna kastowa (wg Konecznego: bramińska)';
+      diag = 'Monizm Kastowo-Rytualny (podział stanowo-kastowy, prymat rytuału)';
+      subTypeDecision = 'Wariant kastowo-rytualny (w terminologii Konecznego: cywilizacja bramińska)';
       scopeDecision = 'Hierarchia Kastowa / Karma i Reinkarnacja';
-      famDecision = 'Ustrój Wielorodzinny i Brak Indywidualizmu';
-    } else {
-      primaryCiv = 'Arabska / Sakralna';
+      famDecision = 'Ustrój Wielorodzinny';
+    } else if (subtype === 'universal') {
+      primaryCiv = 'Sakralna uniwersalistyczna (wg Konecznego: arabska)';
       diag = 'Monizm Prawno-Religijny (Teokracja, Szariat, ustrój obozowo-religijny)';
-      subTypeDecision = 'Państwowy Monizm Szariatu i Władza Teokratyczna (Cywilizacja Arabska)';
+      subTypeDecision = 'Wariant uniwersalistyczny, teokratyczny (w terminologii Konecznego: cywilizacja arabska)';
       scopeDecision = 'Powszechny Zasięg Prawa Sakralnego / Umma';
       famDecision = 'Poligamia i Ustrój Obozowo-Religijny';
+    } else {
+      primaryCiv = 'Sakralna (wariant nierozstrzygnięty)';
+      diag = 'Monizm Prawno-Religijny: brak danych albo wyniki zbyt blisko progów, by wskazać wariant ustroju sakralnego.';
+      subTypeDecision = 'Wariant nierozstrzygnięty (brak danych lub wynik w pobliżu progu)';
+      scopeDecision = 'Nierozstrzygnięte';
+      famDecision = 'Nierozstrzygnięte';
     }
 
     gateSteps.push(
