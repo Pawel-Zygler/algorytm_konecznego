@@ -4451,6 +4451,72 @@
 
     const spectrumItems = calculateCivSpectrum(data, rawTextUpper);
 
+    // --- NATĘŻENIE CECH CYWILIZACJI (gradient karty w sekcji 1) ---
+    // Opisuje, jak wyraźnie tekst wykazuje cechy przypisanej cywilizacji.
+    // To miara natężenia, NIE ocena wartości. Progi (skala 0–100 pkt):
+    //   słabe < 45  ·  umiarkowane 45–69  ·  silne ≥ 70
+    // Dolny próg 45 odpowiada progowi rozstrzygnięcia sakralności (0.45) w silniku.
+    const CIV_INTENSITY_TIERS = [
+      { key: 'low', min: 0, max: 44, label: t('słabe', 'low'), alpha: 0.10, fill: 0.22 },
+      { key: 'medium', min: 45, max: 69, label: t('umiarkowane', 'medium'), alpha: 0.18, fill: 0.42 },
+      { key: 'strong', min: 70, max: 100, label: t('silne', 'strong'), alpha: 0.28, fill: 0.70 }
+    ];
+
+    function hexToRgba(hex, a) {
+      const h = String(hex || '#94a3b8').replace('#', '');
+      const n = parseInt(h.length === 3 ? h.split('').map(c => c + c).join('') : h, 16);
+      return `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}, ${a})`;
+    }
+
+    function computeCivIntensity(civKey) {
+      const valid = v => typeof v === 'number' && v >= 0;
+      const inv = v => (valid(v) ? 1 - Math.min(1, v) : -1);
+      // Wskaźnik przewodni dla każdej cywilizacji (zgodny z regułami przypisania powyżej)
+      const leading = {
+        latin: { value: calcDualScore, name: t('dualizm prawny', 'legal dualism') },
+        byzantine: { value: inv(calcDualScore), name: t('monizm prawny (100 − dualizm)', 'legal monism (100 − dualism)') },
+        chinese: { value: inv(calcDualScore), name: t('monizm prawny (100 − dualizm)', 'legal monism (100 − dualism)') },
+        turanian: { value: inv(calcPersScore), name: t('szereg gromadnościowy (100 − personalizm)', 'collectivist series (100 − personalism)') },
+        arab: { value: calcSacralScore, name: t('sakralność', 'sacrality') },
+        jewish: { value: calcSacralScore, name: t('sakralność', 'sacrality') },
+        brahmin: { value: calcSacralScore, name: t('sakralność', 'sacrality') },
+        sacral: { value: calcSacralScore, name: t('sakralność', 'sacrality') }
+      }[civKey];
+
+      let score = null;
+      let source = null;
+      if (leading && valid(leading.value)) {
+        score = Math.round(Math.min(1, leading.value) * 100);
+        source = leading.name;
+      } else {
+        // Brak wskaźnika przewodniego → udział cywilizacji w spektrum wpływów
+        const spec = (spectrumItems || []).find(s => s.key === civKey);
+        if (spec && typeof spec.pct === 'number') {
+          score = Math.max(0, Math.min(100, Math.round(spec.pct)));
+          source = t('udział w spektrum wpływów', 'share in influence spectrum');
+        }
+      }
+      if (score === null) return null;
+      const tier = CIV_INTENSITY_TIERS.find(tr => score >= tr.min && score <= tr.max) || CIV_INTENSITY_TIERS[0];
+      return { score, source, tier };
+    }
+
+    const civIntensity = computeCivIntensity(activeCivKey);
+    const activeCivColor = (civOptions.find(o => o.key === activeCivKey) || {}).color || '#94a3b8';
+
+    const civIntensityLegendHtml = civIntensity ? `
+      <div class="civ-intensity-legend" style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 6px; font-size: 10px; color: #94a3b8; opacity: 0.85;">
+        <span style="font-weight: 700; letter-spacing: 0.03em;">${t('Natężenie cech:', 'Trait intensity:')}</span>
+        ${CIV_INTENSITY_TIERS.map(tr => `
+          <span class="civ-intensity-legend-item" data-tier="${tr.key}" style="display: inline-flex; align-items: center; gap: 4px; ${tr.key === civIntensity.tier.key ? 'color: #e2e8f0; font-weight: 700;' : ''}">
+            <span style="width: 18px; height: 8px; border-radius: 3px; background: ${hexToRgba(activeCivColor, tr.fill)}; border: 1px solid ${hexToRgba(activeCivColor, 0.5)}; display: inline-block;"></span>
+            <span>${tr.label} ${tr.min}–${tr.max}</span>
+          </span>
+        `).join('')}
+        <span style="font-style: italic; opacity: 0.8;" title="${t('Natężenie mówi, jak wyraźnie tekst wykazuje cechy danej cywilizacji. Nie jest oceną wartości.', 'Intensity shows how clearly the text exhibits the traits of a civilization. It is not a value judgement.')}">· ${t('wskaźnik', 'measure')}: ${civIntensity.source} · ${t('to miara natężenia, nie ocena', 'a measure of intensity, not a judgement')}</span>
+      </div>
+    ` : '';
+
     const spectrumBarHtml = `
       <div style="margin-top: 10px; margin-bottom: 6px; padding: 10px 14px; background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px;">
@@ -4659,13 +4725,20 @@
       </div>
     `;
 
-    function renderChips(options, activeKey, sectionKey) {
+    function renderChips(options, activeKey, sectionKey, intensity) {
       return options.map(opt => {
         const isActive = opt.key === activeKey;
         if (isActive) {
+          // Gradient natężenia: wypełnienie kolorem cywilizacji do poziomu wyniku, odcień wg progu
+          const bg = intensity
+            ? `linear-gradient(90deg, ${hexToRgba(opt.color, intensity.tier.fill)} 0%, ${hexToRgba(opt.color, intensity.tier.fill)} ${intensity.score}%, ${hexToRgba(opt.color, 0.06)} ${intensity.score}%)`
+            : `${opt.color}28`;
+          const glow = intensity ? hexToRgba(opt.color, intensity.tier.alpha * 1.6) : `${opt.color}44`;
+          const tierBadge = intensity ? `
+              <span class="civ-intensity-badge" data-tier="${intensity.tier.key}" style="font-size: 9.5px; background: rgba(15, 23, 42, 0.55); color: #e2e8f0; padding: 1px 6px; border-radius: 8px; font-weight: 700; border: 1px solid ${hexToRgba(opt.color, 0.6)};" title="${t('Natężenie cech', 'Trait intensity')}: ${intensity.tier.label} · ${intensity.score} ${t('pkt', 'pts')} (${intensity.source})">${intensity.tier.label} · ${intensity.score} ${t('pkt', 'pts')}</span>` : '';
           return `
-            <div style="background: ${opt.color}28; border: 1.5px solid ${opt.color}; color: #f8fafc; padding: 4px 10px; border-radius: 18px; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 0 10px ${opt.color}44; white-space: nowrap; flex-shrink: 0;" title="${opt.label}">
-              <span>${opt.label}</span>
+            <div ${intensity ? `data-intensity="${intensity.tier.key}" data-intensity-score="${intensity.score}"` : ''} style="background: ${bg}; border: 1.5px solid ${opt.color}; color: #f8fafc; padding: 4px 10px; border-radius: 18px; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 0 10px ${glow}; white-space: nowrap; flex-shrink: 0;" title="${opt.label}">
+              <span>${opt.label}</span>${tierBadge}
               <span style="font-size: 9px; background: ${opt.color}; color: #0f172a; padding: 1px 4px; border-radius: 8px; font-weight: 800; margin-left: 2px;">✓</span>
               <button class="section-info-trigger chip-info-trigger" data-section="${sectionKey || 'civ'}" title="Wyjaśnienie wyniku: dlaczego ${opt.label} i 2 przykłady z tekstu" aria-label="Informacje o wyniku: ${opt.label}">
                 <span class="trigger-icon">ℹ</span>
@@ -6505,8 +6578,9 @@
             </button>
           </div>
           <div style="display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: 5px; align-items: center; padding-bottom: 2px;">
-            ${renderChips(civOptions, activeCivKey, 'civ')}
+            ${renderChips(civOptions, activeCivKey, 'civ', civIntensity)}
           </div>
+          ${civIntensityLegendHtml}
           ${(data.civilization_diagnosis || (data.klasyfikacja_dashboard && data.klasyfikacja_dashboard.diagnoza_cywilizacyjna)) ? `
             <div style="margin: 8px 0 6px 0; padding: 7px 11px; background: rgba(56, 189, 248, 0.12); border-left: 3px solid #38bdf8; border-radius: 6px; font-size: 11.5px; color: #f1f5f9; line-height: 1.45; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
               <span style="font-weight: 800; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.04em; margin-right: 5px;">${t('⚡ Diagnoza:', '⚡ Diagnosis:')}</span> ${data.civilization_diagnosis || data.klasyfikacja_dashboard.diagnoza_cywilizacyjna}
