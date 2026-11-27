@@ -49,6 +49,14 @@ test.describe('Smoke Suite: Inicjalizacja Wtyczki i Dashboardu na Wikipedii', ()
     await expect(dashboard.locator('text=Sakralność Niska (<0.40)').first()).toBeVisible();
     await expect(dashboard).not.toContainText('Sakralizm (Religia ponad etyką)');
 
+    // Gradient natężenia karty cywilizacji (sekcja 1): dualizm prawny 0.704 → 70 pkt → „silne”
+    const civIntensityChip = dashboard.locator('[data-intensity]').first();
+    await expect(civIntensityChip).toHaveAttribute('data-intensity', 'strong');
+    await expect(civIntensityChip).toHaveAttribute('data-intensity-score', '70');
+    await expect(dashboard.locator('.civ-intensity-badge')).toContainText('silne · 70 pkt');
+    await expect(dashboard.locator('.civ-intensity-legend')).toContainText('umiarkowane 45–69');
+    await expect(dashboard.locator('.civ-intensity-legend')).toContainText('wskaźnik: dualizm prawny');
+
     // Asercja 1: ZAAWANSOWANIE CYWILIZACYJNE ZRZESZENIA dla Polski
     const timelineBox = dashboard.locator('.civ-timeline-box');
     await expect(timelineBox).toBeVisible();

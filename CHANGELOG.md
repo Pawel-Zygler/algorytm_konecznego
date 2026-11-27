@@ -6,6 +6,9 @@ Format opiera się na zasadach [Keep a Changelog](https://keepachangelog.com/pl/
 
 ## [Unreleased]
 
+### Dodano (Added)
+- **Gradient natężenia na karcie cywilizacji (dashboard, sekcja 1)**: aktywna karta jest wypełniona kolorem cywilizacji do poziomu wyniku wskaźnika przewodniego i opisana poziomem natężenia (np. „umiarkowane · 68 pkt”); pod kartą delikatna legenda. Progi (0–100 pkt): **słabe < 45**, **umiarkowane 45–69**, **silne ≥ 70** (dolny próg zgodny z progiem rozstrzygnięcia sakralności 0.45). Wskaźnik przewodni: łacińska → dualizm prawny; bizantyńska i chińska → monizm prawny (100 − dualizm); turańska → szereg gromadnościowy (100 − personalizm); warianty sakralne (uniwersalistyczny, wspólnotowo-rodowy, kastowy, nierozstrzygnięty) → sakralność; gdy wskaźnika brak (np. mieszanka) → udział cywilizacji w spektrum wpływów. Natężenie opisuje, jak wyraźnie tekst wykazuje cechy modelu, a nie jego wartość.
+
 ### Zmieniono (Changed)
 - **Usunięcie stereotypów z kluczy wskaźników**: `no_shylock_formalism` → `equity_over_strict_formalism`, `no_jewish_casuistry` → `principle_over_casuistry`, `no_byzantine_statolatry` → `no_state_above_ethics`, `no_camp_turanian_law` / `no_camp_turanian_coercion` / `no_turanian_camp_presentism` → `no_camp_rule_law` / `no_camp_rule_coercion` / `no_camp_presentism`. Usunięto diagnozę „kazuistyka talmudyczna”. Wcześniejsze wersje zawierały też inne niestosowne sformułowania o grupach (m.in. w tekstach loadera); zostały usunięte jako niestosowne.
 - **Definicje indeksów (`indices/`)**: usunięto frazę „zażydzenie myśli społecznej” i przykłady przypisujące cechy „cywilizacji żydowskiej”; pytania opisują mechanizm, nie grupę.
